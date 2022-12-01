@@ -184,10 +184,11 @@ event ObjectUpdate
 	end if
 
 	// FG Signs
-	temp0 += 486
 	temp0 = object.signTileFrame
-	temp0 >>= 2
+	temp0 >>= 4
+	temp0 <<= 2
 	temp0 <<= 1
+	temp0 += 486
 	Copy16x16Tile(477, temp0)
 	temp0++
 	Copy16x16Tile(478, temp0)
@@ -204,8 +205,8 @@ event ObjectUpdate
 	temp0++
 	Copy16x16Tile(484, temp0)
 	temp0++
-	object.signTileFrame += 2
-	object.signTileFrame &= 0x3F
+	object.signTileFrame++
+	object.signTileFrame %= 0x30
 
 end event
 
