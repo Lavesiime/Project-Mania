@@ -3696,7 +3696,9 @@ public function Player_State_GlideLeft
 			if player.timer == 256
 				if player.speed < 0x180000
 					player.speed += 0x400
-					player.frame = 20
+					if player.frame < 20
+						player.frame = 20
+					end if
 				end if
 			else
 				if player.speed < 0x40000
@@ -3808,7 +3810,9 @@ public function Player_State_GlideRight
 			if player.timer == 0
 				if player.speed < 0x180000
 					player.speed += 0x400
-					player.animation = ANI_GLIDING
+					if player.frame < 20
+						player.frame = 20
+					end if
 				end if
 			else
 				if player.speed < 0x40000
@@ -3988,8 +3992,9 @@ end function
 
 public function Player_State_Climb
 	if player.gravity == GRAVITY_AIR
-		player.animation = ANI_CLIMBING
+		player.animation = ANI_CLIMB_IDLE
 		if player.up == true
+			player.animation = ANI_CLIMBING
 			if Player_superState == SUPERSTATE_SUPER
 				player.yvel = -0x20000
 			else
@@ -4001,28 +4006,13 @@ public function Player_State_Climb
 			if player.ypos < temp0
 				player.ypos = temp0
 			end if
-
-			player.timer++
-			if player.timer == 4
-				player.timer = 0
-				player.frame++
-				player.frame %= 6
-			end if
 		else
 			if player.down == true
+				player.animation = ANI_CLIMB_DOWN
 				if Player_superState == SUPERSTATE_SUPER
 					player.yvel = 0x20000
 				else
 					player.yvel = 0x10000
-				end if
-
-				player.timer++
-				if player.timer == 4
-					player.timer = 0
-					if player.frame < 1
-						player.frame += 6
-					end if
-					player.frame--
 				end if
 			else
 				player.yvel = 0
@@ -4083,13 +4073,13 @@ public function Player_State_Climb
 				player.state = Player_State_LedgePullUp
 				player.tileCollisions = false
 				if player.direction == FACING_RIGHT
-					player.xpos += 0x10000
+					player.xpos += 0xF0000
+					player.ypos -= 0x200000
 				end if
 			else
 				if temp1 == false
 					player.animation = ANI_GLIDING_DROP
 					player.prevAnimation = ANI_GLIDING_DROP
-					player.frame = 2
 					player.timer = 0
 					player.state = Player_State_GlideDrop
 				end if
@@ -4109,8 +4099,9 @@ public function Player_State_Climb_Mission
 	// The Type ID of [Mission Block] should be set in player[0].missionBlockID
 	
 	if player.gravity == GRAVITY_AIR
-		player.animation = ANI_CLIMBING
+		player.animation = ANI_CLIMB_IDLE
 		if player.up == true
+			player.animation = ANI_CLIMBING
 			if Player_superState == SUPERSTATE_SUPER
 				player.yvel = -0x20000
 			else
@@ -4122,28 +4113,13 @@ public function Player_State_Climb_Mission
 			if player.ypos < temp0
 				player.ypos = temp0
 			end if
-
-			player.timer++
-			if player.timer == 4
-				player.timer = 0
-				player.frame++
-				player.frame %= 6
-			end if
 		else
 			if player.down == true
+				player.animation = ANI_CLIMB_DOWN
 				if Player_superState == SUPERSTATE_SUPER
 					player.yvel = 0x20000
 				else
 					player.yvel = 0x10000
-				end if
-
-				player.timer++
-				if player.timer == 4
-					player.timer = 0
-					if player.frame < 1
-						player.frame += 6
-					end if
-					player.frame--
 				end if
 			else
 				player.yvel = 0
