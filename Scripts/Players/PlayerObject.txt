@@ -2881,27 +2881,39 @@ public function Player_State_Ground
 		else
 			player.timer = 0
 			if player.speed > 0
-				if player.speed < 0x5F5C2
+				if player.speed < 0x2FE5B
 					player.animation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
 					if player.speed > 0x9FFFF
 						player.animation = ANI_PEELOUT
 					else
-						player.animation = ANI_RUNNING
+						if player.speed > 0x5F5C2
+							player.animation = ANI_RUNNING
+						else
+							if player.speed > 0x2FE5B
+								player.animation = ANI_JOGGING
+							end if
+						end if
 					end if
 
 					CallFunction(Player_HandleRunAnimSpeed)
 				end if
 			else
-				if player.speed > -0x5F5C2
+				if player.speed > -0x2FE5B
 					player.animation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
 					if player.speed < -0x9FFFF
 						player.animation = ANI_PEELOUT
 					else
-						player.animation = ANI_RUNNING
+						if player.speed < -0x5F5C2
+							player.animation = ANI_RUNNING
+						else
+							if player.speed < -0x2FE5B
+								player.animation = ANI_JOGGING
+							end if
+						end if
 					end if
 
 					CallFunction(Player_HandleRunAnimSpeed)
@@ -4073,8 +4085,8 @@ public function Player_State_Climb
 				player.state = Player_State_LedgePullUp
 				player.tileCollisions = false
 				if player.direction == FACING_RIGHT
-					player.xpos += 0xF0000
-					player.ypos -= 0x200000
+					player.xpos += 0x140000
+					player.ypos -= 0x1D0000
 				end if
 			else
 				if temp1 == false
