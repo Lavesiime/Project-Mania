@@ -81,10 +81,14 @@ private alias 30 : SLOT_ACTFINISH
 // Mode Aliases
 private alias 2 : MODE_TIMEATTACK
 
+// Mission Number Aliases
 private alias 8 : MISSIONNO_MERCY
 
 // Draw Order Aliases
 private alias -1 : DRAWORDER_PLAYER
+
+// Tile Info ID Aliases
+private alias 8 : TILEINFO_ANGLEB
 
 // Player List Pos Aliases
 public alias 0 : PLAYER_SONIC_ALONE
@@ -1791,7 +1795,7 @@ public function Player_HandleGroundMovement
 			if player.speed > -0x20000
 				if player.speed < 0x20000
 					player.gravity = GRAVITY_AIR
-					player.angle = 1
+					player.angle = 0
 					player.collisionMode = CMODE_FLOOR
 					player.speed = player.xvel
 				end if
@@ -1803,7 +1807,7 @@ public function Player_HandleGroundMovement
 		if player.speed > -0x20000
 			if player.speed < 0x20000
 				player.gravity = GRAVITY_AIR
-				player.angle = 1
+				player.angle = 0
 				player.collisionMode = CMODE_FLOOR
 				player.speed = player.xvel
 			end if
@@ -1815,7 +1819,7 @@ public function Player_HandleGroundMovement
 			if player.speed > -0x20000
 				if player.speed < 0x20000
 					player.gravity = GRAVITY_AIR
-					player.angle = 1
+					player.angle = 0
 					player.collisionMode = CMODE_FLOOR
 					player.speed = player.xvel
 				end if
@@ -3252,7 +3256,6 @@ end function
 
 // Also handles moving the camera down
 public function Player_State_Crouch
-
 	if player.down == false
 		player.state = Player_State_Ground
 		player.timer = 0
@@ -3271,7 +3274,7 @@ public function Player_State_Crouch
 
 		player.animation = ANI_LOOKINGDOWN
 
-		if player.gravityStrength == 1
+		if player.gravity == GRAVITY_AIR
 #platform: USE_STANDALONE
 			player.state = Player_State_Air
 #endplatform
@@ -3727,11 +3730,9 @@ public function Player_State_GlideLeft
 			if player.timer < 256
 				player.timer += 4
 			end if
-
 			temp7 = player.xpos
 			if player.timer < 128
 				player.direction = FACING_RIGHT
-
 				temp0 = 0
 				temp1 = 0
 			else
@@ -3756,6 +3757,7 @@ public function Player_State_GlideLeft
 			player.xvel >>= 9
 			if player.right == true
 				player.state = Player_State_GlideRight
+
 			end if
 			
 			player.xpos = temp7
@@ -4085,13 +4087,13 @@ public function Player_State_Climb
 				player.state = Player_State_LedgePullUp
 				player.tileCollisions = false
 				if player.direction == FACING_RIGHT
-					player.xpos += 0x140000
-					player.ypos -= 0x1D0000
+					player.xpos += 0x10000
 				end if
 			else
 				if temp1 == false
 					player.animation = ANI_GLIDING_DROP
 					player.prevAnimation = ANI_GLIDING_DROP
+					player.frame = 2
 					player.timer = 0
 					player.state = Player_State_GlideDrop
 				end if
@@ -4111,9 +4113,8 @@ public function Player_State_Climb_Mission
 	// The Type ID of [Mission Block] should be set in player[0].missionBlockID
 	
 	if player.gravity == GRAVITY_AIR
-		player.animation = ANI_CLIMB_IDLE
+		player.animation = ANI_CLIMBING
 		if player.up == true
-			player.animation = ANI_CLIMBING
 			if Player_superState == SUPERSTATE_SUPER
 				player.yvel = -0x20000
 			else
@@ -4125,13 +4126,28 @@ public function Player_State_Climb_Mission
 			if player.ypos < temp0
 				player.ypos = temp0
 			end if
+
+			player.timer++
+			if player.timer == 4
+				player.timer = 0
+				player.frame++
+				player.frame %= 6
+			end if
 		else
 			if player.down == true
-				player.animation = ANI_CLIMB_DOWN
 				if Player_superState == SUPERSTATE_SUPER
 					player.yvel = 0x20000
 				else
 					player.yvel = 0x10000
+				end if
+
+				player.timer++
+				if player.timer == 4
+					player.timer = 0
+					if player.frame < 1
+						player.frame += 6
+					end if
+					player.frame--
 				end if
 			else
 				player.yvel = 0
@@ -4747,7 +4763,7 @@ public function Player_State_HangBar
 	temp2 >>= 16
 	temp2 += player.collisionTop
 
-	Get16x16TileInfo(temp0, temp1, temp2, 8)
+	Get16x16TileInfo(temp0, temp1, temp2, TILEINFO_ANGLEB)
 
 	if temp0 != 3 // this is the bar tile flag value
 		// and even if this function isn't used in Origins they still updated it there lol
@@ -5208,6 +5224,19 @@ end event
 
 
 event ObjectDraw
+	if player.gravity == 0
+		temp0 = object.angle
+		temp0 -= 128
+		Abs(temp0)
+		player.score = temp0
+		if temp0 >= 112
+			object.rotation = 0
+		else
+			object.rotation = object.angle
+			object.rotation *= 2
+		end if
+	end if
+	
 	if player.animation != player.prevAnimation
 		player.prevAnimation = player.animation
 		player.frame = 0
@@ -5337,7 +5366,6 @@ event ObjectStartup
 			player[0].character = PLAYER_KNUX_ALONE
 			player[0].jumpOffset = -5 // Offset by 5 pixels when rolling
 			player[0].jumpAbility = Player_Action_DblJumpKnux
-			ANI_PEELOUT = ANI_PEELOUT // Disable the Peelout animation from showing up
 
 			// Force 2P Tails to be off if not on no-save
 			// Note this is actually bugged as this only checks for the last three save slots, ignoring the first one
