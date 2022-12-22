@@ -2867,27 +2867,39 @@ public function Player_State_Ground
 		else
 			player.timer = 0
 			if player.speed > 0
-				if player.speed < 0x5F5C2
+				if player.speed < 0x2FE5B
 					player.animation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
 					if player.speed > 0x9FFFF
 						player.animation = ANI_PEELOUT
 					else
-						player.animation = ANI_RUNNING
+						if player.speed > 0x5F5C2
+							player.animation = ANI_RUNNING
+						else
+							if player.speed > 0x2FE5B
+								player.animation = ANI_JOGGING
+							end if
+						end if
 					end if
 
 					CallFunction(Player_HandleRunAnimSpeed)
 				end if
 			else
-				if player.speed > -0x5F5C2
+				if player.speed > -0x2FE5B
 					player.animation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
 					if player.speed < -0x9FFFF
 						player.animation = ANI_PEELOUT
 					else
-						player.animation = ANI_RUNNING
+						if player.speed < -0x5F5C2
+							player.animation = ANI_RUNNING
+						else
+							if player.speed < -0x2FE5B
+								player.animation = ANI_JOGGING
+							end if
+						end if
 					end if
 
 					CallFunction(Player_HandleRunAnimSpeed)
@@ -3681,6 +3693,9 @@ public function Player_State_GlideLeft
 			if player.timer == 256
 				if player.speed < 0x180000
 					player.speed += 0x400
+					if player.frame < 20
+						player.frame = 20
+					end if
 				end if
 			else
 				if player.speed < 0x40000
@@ -3697,25 +3712,6 @@ public function Player_State_GlideLeft
 			if player.timer < 256
 				player.timer += 4
 			end if
-
-			if player.timer < 170
-				if player.timer > 86
-					player.frame = 0
-				else
-					if player.timer > 44
-						player.frame = 1
-					else
-						player.frame = 2
-					end if
-				end if
-			else
-				if player.timer < 212
-					player.frame = 1
-				else
-					player.frame = 2
-				end if
-			end if
-
 			temp7 = player.xpos
 			if player.timer < 128
 				player.direction = FACING_RIGHT
@@ -3810,6 +3806,9 @@ public function Player_State_GlideRight
 			if player.timer == 0
 				if player.speed < 0x180000
 					player.speed += 0x400
+					if player.frame < 20
+						player.frame = 20
+					end if
 				end if
 			else
 				if player.speed < 0x40000
@@ -3823,23 +3822,6 @@ public function Player_State_GlideRight
 			end if
 			if player.timer > 0
 				player.timer -= 4
-			end if
-			if player.timer < 170
-				if player.timer > 86
-					player.frame = 0
-				else
-					if player.timer > 44
-						player.frame = 1
-					else
-						player.frame = 2
-					end if
-				end if
-			else
-				if player.timer < 212
-					player.frame = 1
-				else
-					player.frame = 2
-				end if
 			end if
 			temp7 = player.xpos
 			if player.timer < 128
@@ -4006,8 +3988,9 @@ end function
 
 public function Player_State_Climb
 	if player.gravity == GRAVITY_AIR
-		player.animation = ANI_CLIMBING
+		player.animation = ANI_CLIMB_IDLE
 		if player.up == true
+			player.animation = ANI_CLIMBING
 			if Player_superState == SUPERSTATE_SUPER
 				player.yvel = -0x20000
 			else
@@ -4019,28 +4002,13 @@ public function Player_State_Climb
 			if player.ypos < temp0
 				player.ypos = temp0
 			end if
-
-			player.timer++
-			if player.timer == 4
-				player.timer = 0
-				player.frame++
-				player.frame %= 6
-			end if
 		else
 			if player.down == true
+				player.animation = ANI_CLIMB_DOWN
 				if Player_superState == SUPERSTATE_SUPER
 					player.yvel = 0x20000
 				else
 					player.yvel = 0x10000
-				end if
-
-				player.timer++
-				if player.timer == 4
-					player.timer = 0
-					if player.frame < 1
-						player.frame += 6
-					end if
-					player.frame--
 				end if
 			else
 				player.yvel = 0
@@ -5348,7 +5316,6 @@ event ObjectStartup
 			player[0].character = PLAYER_SONIC_ALONE
 			player[0].jumpOffset = -5 // Offset of 5 pixels when rolling
 			player[0].jumpAbility = Player_Action_DblJumpSonic
-			ANI_PEELOUT = ANI_RUNNING // Disable the Peelout animation from showing up
 			break
 
 		case PLAYER_TAILS_ALONE
@@ -5381,7 +5348,6 @@ event ObjectStartup
 			player[0].character = PLAYER_KNUX_ALONE
 			player[0].jumpOffset = -5 // Offset by 5 pixels when rolling
 			player[0].jumpAbility = Player_Action_DblJumpKnux
-			ANI_PEELOUT = ANI_RUNNING // Disable the Peelout animation from showing up
 
 			// Force 2P Tails to be off if not on no-save
 			// Note this is actually bugged as this only checks for the last three save slots, ignoring the first one
