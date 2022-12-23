@@ -230,6 +230,8 @@ private alias object.value41 : player.hitboxRight
 private alias object.value39 : player.hitboxBottom
 private alias object.value42 : player.prevGravity
 
+private alias object.value43 :	player.hyperRingActive
+
 // Values used in Origins
 private alias object.value16 : player.releasingDropDash
 private alias object.value44 : player.missionBlockID
@@ -2130,12 +2132,13 @@ public function Player_Action_Jump
 		// Set initial animation speed
 		CallFunction(Player_HandleRollAnimSpeed)
 
+		// GFX: no roll lock!!
 		// Set the player's state to one depending if they were previously rolling or not
-		if player.state == Player_State_Roll
-			player.state = Player_State_RollJump
-		else
+		//if player.state == Player_State_Roll
+			//player.state = Player_State_RollJump
+		//else
 			player.state = Player_State_Air
-		end if
+		//end if
 
 #platform: USE_ORIGINS
 		currentPlayer = player.entityPos
@@ -4428,68 +4431,137 @@ public function Player_State_GotHit
 			player.speed >>= 1
 			player.yvel >>= 1
 		end if
-
 		temp0 = player[0].rings
-		if temp0 > 16
-			temp1 = temp0
-			temp1 -= 16
-			temp0 = 16
+		if player.hyperRingActive == 0
+			if temp0 > 16
+				temp1 = temp0
+				temp1 -= 16
+				temp0 = 16
+			else
+				temp1 = 0
+			end if
+			if temp1 > 16
+				temp1 = 16
+			end if
+			temp3 = temp1
+			temp3 >>= 1
+			temp3 <<= 5
+			temp2 = 384
+			temp2 -= temp3
+			temp3 >>= 4
+			if temp3 == temp1
+				temp2 += 16
+			else
+				temp2 -= 16
+			end if
+			temp3 = 0
+			while temp3 < temp1
+				CreateTempObject(TypeName[Lose Ring], player.collisionPlane, player.xpos, player.ypos)
+				Cos(object[tempObjectPos].xvel, temp2)
+				Sin(object[tempObjectPos].yvel, temp2)
+				object[tempObjectPos].xvel <<= 8
+				object[tempObjectPos].yvel <<= 8
+				object[tempObjectPos].animationSpeed = 256
+				object[tempObjectPos].inkEffect = INK_ALPHA
+				object[tempObjectPos].alpha = 256
+				temp3++
+				temp2 += 32
+			loop
+			temp3 = temp0
+			temp3 >>= 1
+			temp3 <<= 5
+			temp2 = 384
+			temp2 -= temp3
+			temp3 >>= 4
+			if temp3 == temp0
+				temp2 += 16
+			else
+				temp2 -= 16
+			end if
+			temp3 = 0
+			while temp3 < temp0
+				CreateTempObject(TypeName[Lose Ring], player.collisionPlane, player.xpos, player.ypos)
+				Cos(object[tempObjectPos].xvel, temp2)
+				Sin(object[tempObjectPos].yvel, temp2)
+				object[tempObjectPos].xvel <<= 9
+				object[tempObjectPos].yvel <<= 9
+				object[tempObjectPos].animationSpeed = 256
+				object[tempObjectPos].inkEffect = INK_ALPHA
+				object[tempObjectPos].alpha = 256
+				temp3++
+				temp2 += 32
+			loop
 		else
+			temp4 = player[0].rings
+			if player[0].rings < 9
+				temp0 = 1
+			else
+				if player[0].rings < 17
+					temp4 /= 2
+					temp0 = 2
+				else
+					if player[0].rings < 25
+						temp4 /= 4
+						temp0 = 4
+					else
+						temp0 = 8
+						temp4 /= 8
+					endif
+				endif
+			endif
 			temp1 = 0
-		end if
-		if temp1 > 16
-			temp1 = 16
-		end if
-		temp3 = temp1
-		temp3 >>= 1
-		temp3 <<= 5
-		temp2 = 384
-		temp2 -= temp3
-		temp3 >>= 4
-		if temp3 == temp1
-			temp2 += 16
-		else
-			temp2 -= 16
-		end if
-
-		temp3 = 0
-		while temp3 < temp1
-			CreateTempObject(TypeName[Lose Ring], player.collisionPlane, player.xpos, player.ypos)
-			Cos(object[tempObjectPos].xvel, temp2)
-			Sin(object[tempObjectPos].yvel, temp2)
-			object[tempObjectPos].xvel <<= 8
-			object[tempObjectPos].yvel <<= 8
-			object[tempObjectPos].animationSpeed = 256
-			object[tempObjectPos].inkEffect = INK_ALPHA
-			object[tempObjectPos].alpha = 256
-			temp3++
-			temp2 += 32
-		loop
-		temp3 = temp0
-		temp3 >>= 1
-		temp3 <<= 5
-		temp2 = 384
-		temp2 -= temp3
-		temp3 >>= 4
-		if temp3 == temp0
-			temp2 += 16
-		else
-			temp2 -= 16
-		end if
-
-		temp3 = 0
-		while temp3 < temp0
-			CreateTempObject(TypeName[Lose Ring], player.collisionPlane, player.xpos, player.ypos)
-			Cos(object[tempObjectPos].xvel, temp2)
-			Sin(object[tempObjectPos].yvel, temp2)
-			object[tempObjectPos].xvel <<= 9
-			object[tempObjectPos].yvel <<= 9
-			object[tempObjectPos].animationSpeed = 256
-			object[tempObjectPos].inkEffect = INK_ALPHA
-			object[tempObjectPos].alpha = 256
-			temp3++
-			temp2 += 32
-		loop
+			temp3 = temp1
+			temp3 >>= 1
+			temp3 <<= 5
+			temp2 = 384
+			temp2 -= temp3
+			temp3 >>= 4
+			if temp3 == temp1
+				temp2 += 16
+			else
+				temp2 -= 16
+			end if
+			temp3 = 0
+			while temp3 < temp1
+				CreateTempObject(TypeName[Lose Ring], player.collisionPlane, player.xpos, player.ypos)
+				Cos(object[tempObjectPos].xvel, temp2)
+				Sin(object[tempObjectPos].yvel, temp2)
+				object[tempObjectPos].xvel <<= 8
+				object[tempObjectPos].yvel <<= 8
+				object[tempObjectPos].animationSpeed = 48
+				object[tempObjectPos].inkEffect = INK_ALPHA
+				object[tempObjectPos].alpha = 256
+				object[tempObjectPos].value30 = temp4
+				temp3++
+				temp2 += 32
+			loop
+			temp3 = temp0
+			temp3 >>= 1
+			temp3 <<= 5
+			temp2 = 384
+			temp2 -= temp3
+			temp3 >>= 4
+			if temp3 == temp0
+				temp2 += 16
+			else
+				temp2 -= 16
+			end if
+			temp3 = 0
+			while temp3 < temp0
+				CreateTempObject(TypeName[Lose Ring], player.collisionPlane, player.xpos, player.ypos)
+				Cos(object[tempObjectPos].xvel, temp2)
+				Sin(object[tempObjectPos].yvel, temp2)
+				object[tempObjectPos].xvel <<= 8
+				object[tempObjectPos].yvel <<= 8
+				object[tempObjectPos].animationSpeed = 48
+				object[tempObjectPos].inkEffect = INK_ALPHA
+				object[tempObjectPos].alpha = 256
+				object[tempObjectPos].value30 = temp4
+				temp3++
+				temp2 += 32
+			loop
+			player.hyperRingActive = 0
+		endif
 		player[0].rings = 0
 		ringExtraLife = 100
 		break
@@ -5231,6 +5303,8 @@ end event
 
 
 event ObjectStartup
+	options.shieldType = 2
+
 	playerCount = 0
 
 	if options.attractMode == false
