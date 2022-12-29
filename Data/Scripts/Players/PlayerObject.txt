@@ -2825,13 +2825,29 @@ public function Player_State_Ground
 						if player.floorSensorR == false
 							player.timer = 0
 							player.animation = ANI_FLAILING1
-							player.direction = FACING_RIGHT
+							if player.direction == FACING_LEFT
+								player.animation = ANI_FLAILING2
+								player.timer = 0
+							end if
+
+							if player.direction == FACING_RIGHT
+								player.animation = ANI_FLAILING1
+								player.timer = 0
+							end if
 						end if
-						
+
 						if player.floorSensorL == false
 							player.timer = 0
 							player.animation = ANI_FLAILING1
-							player.direction = FACING_LEFT
+							if player.direction == FACING_RIGHT
+								player.animation = ANI_FLAILING2
+								player.timer = 0
+							end if
+
+							if player.direction == FACING_LEFT
+								player.animation = ANI_FLAILING1
+								player.timer = 0
+							end if
 						end if
 					end if
 					break
@@ -2842,26 +2858,28 @@ public function Player_State_Ground
 							player.timer = 0
 							player.animation = ANI_FLAILING1
 							if player.direction == FACING_LEFT
-								player.prevAnimation = ANI_FLAILING1
-								player.frame = 4
-								player.animationTimer = 0
-								player.animationSpeed = 0
+								player.animation = ANI_FLAILING2
+								player.timer = 0
 							end if
 
-							player.direction = FACING_RIGHT
+							if player.direction == FACING_RIGHT
+								player.animation = ANI_FLAILING1
+								player.timer = 0
+							end if
 						end if
 
 						if player.floorSensorL == false
 							player.timer = 0
 							player.animation = ANI_FLAILING1
 							if player.direction == FACING_RIGHT
-								player.prevAnimation = ANI_FLAILING1
-								player.frame = 4
-								player.animationTimer = 0
-								player.animationSpeed = 0
+								player.animation = ANI_FLAILING2
+								player.timer = 0
 							end if
 
-							player.direction = FACING_LEFT
+							if player.direction == FACING_LEFT
+								player.animation = ANI_FLAILING1
+								player.timer = 0
+							end if
 						end if
 					end if
 					break
