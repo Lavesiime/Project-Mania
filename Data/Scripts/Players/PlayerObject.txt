@@ -3069,6 +3069,15 @@ public function Player_State_Air
 			end if
 		end if
 
+		if player.animation == ANI_BOUNCING_TWIRL
+			if player.yvel >= 0
+				if player.animationReserve == ANI_STOPPED
+					player.animationReserve = ANI_WALKING
+				end if
+				player.animation = player.animationReserve
+			end if
+		end if
+
 		if player.animation == ANI_CORKSCREW_H
 			if player.animationSpeed == 40
 				if player.frame >= 24
