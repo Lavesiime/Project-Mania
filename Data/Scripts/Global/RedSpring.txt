@@ -106,6 +106,7 @@ event ObjectUpdate
 #platform: USE_STANDALONE
 	temp1 = object.propertyValue
 	temp1 &= 0x7F
+	temp1 &= 0x3F
 #endplatform
 	temp2 = 0
 
@@ -113,6 +114,7 @@ event ObjectUpdate
 #platform: USE_ORIGINS
 	temp1 = object.propertyValue
 	temp1 &= 0x7F
+	temp1 &= 0x3F
 #endplatform
 
 		switch temp1
@@ -158,9 +160,16 @@ event ObjectUpdate
 						player[currentPlayer].animation = ANI_CORKSCREW_H
 						player[currentPlayer].prevAnimation = ANI_CORKSCREW_H
 						player[currentPlayer].frame = 0
-						player[currentPlayer].animationSpeed = 40
+						player[currentPlayer].animationSpeed = 128
 					else
-						player[currentPlayer].animation = ANI_BOUNCING
+						if object.propertyValue >= 0x40
+							player[currentPlayer].animation = ANI_BOUNCING_TWIRL
+							player[currentPlayer].prevAnimation = ANI_WALKING
+							player[currentPlayer].frame = 0
+							player[currentPlayer].animationSpeed = 128
+						else
+							player[currentPlayer].animation = ANI_BOUNCING
+						end if
 					end if
 					player[currentPlayer].timer = 0
 					PlaySfx(SfxName[Spring], false)
@@ -190,9 +199,16 @@ event ObjectUpdate
 							player[currentPlayer].animation = ANI_CORKSCREW_H
 							player[currentPlayer].prevAnimation = ANI_CORKSCREW_H
 							player[currentPlayer].frame = 0
-							player[currentPlayer].animationSpeed = 40
+							player[currentPlayer].animationSpeed = 128
 						else
-							player[currentPlayer].animation = ANI_BOUNCING
+							if object.propertyValue >= 0x40
+								player[currentPlayer].animation = ANI_BOUNCING_TWIRL
+								player[currentPlayer].prevAnimation = ANI_WALKING
+								player[currentPlayer].frame = 0
+								player[currentPlayer].animationSpeed = 128
+							else
+								player[currentPlayer].animation = ANI_BOUNCING
+							end if
 						end if
 
 						player[currentPlayer].timer = 0
@@ -391,7 +407,11 @@ event ObjectUpdate
 					if object.propertyValue >= 0x80
 						player[currentPlayer].animation = ANI_CORKSCREW_H
 					else
-						player[currentPlayer].animation = ANI_BOUNCING
+						if object.propertyValue >= 0x40
+							player[currentPlayer].animation = ANI_BOUNCING_TWIRL
+						else
+							player[currentPlayer].animation = ANI_BOUNCING
+						end if
 					end if
 					PlaySfx(SfxName[Spring], false)
 
@@ -474,7 +494,11 @@ event ObjectUpdate
 					if object.propertyValue >= 0x80
 						player[currentPlayer].animation = ANI_CORKSCREW_H
 					else
-						player[currentPlayer].animation = ANI_BOUNCING
+						if object.propertyValue >= 0x40
+							player[currentPlayer].animation = ANI_BOUNCING_TWIRL
+						else
+							player[currentPlayer].animation = ANI_BOUNCING
+						end if
 					end if
 
 					PlaySfx(SfxName[Spring], false)
@@ -618,6 +642,7 @@ event ObjectUpdate
 
 	object.frame = object.propertyValue
 	object.frame &= 0x7F
+	object.frame &= 0x3F
 
 	if object.timer != 0
 		switch object.timer
@@ -656,11 +681,12 @@ end event
 
 event ObjectStartup
 
-	LoadSpriteSheet("Global/Items.gif")
+	LoadSpriteSheet("Global/Items4.gif")
 
 	foreach (TypeName[Red Spring], arrayPos0, ALL_ENTITIES)
 		temp0 = object[arrayPos0].propertyValue
 		temp0 &= 0x7F
+		temp0 &= 0x3F
 		if temp0 > 8
 			object[arrayPos0].propertyValue -= 8
 			object[arrayPos0].enabledInAir = true
