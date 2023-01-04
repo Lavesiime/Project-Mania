@@ -5326,7 +5326,6 @@ event ObjectDraw
 		temp0 = object.angle
 		temp0 -= 128
 		Abs(temp0)
-		player.score = temp0
 		if temp0 >= 112
 			object.rotation = 0
 		else
