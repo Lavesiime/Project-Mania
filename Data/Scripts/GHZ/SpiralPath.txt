@@ -140,7 +140,7 @@ event ObjectUpdate
 						player[currentPlayer].animation = ANI_CORKSCREW_H
 						player[currentPlayer].animationSpeed = 0
 						player[currentPlayer].direction = FACING_RIGHT
-						
+
 						temp1 = object.xpos
 						temp1 -= 0xC40000
 						temp0 = player[currentPlayer].xpos
@@ -154,6 +154,7 @@ event ObjectUpdate
 						else
 							GetTableValue(player[currentPlayer].frame, temp0, SpiralPath_spriteTable)
 							player[currentPlayer].rotation = 256 // flipY
+							player[currentPlayer].direction = FLIP_XY
 						end if
 					end if
 				end if
