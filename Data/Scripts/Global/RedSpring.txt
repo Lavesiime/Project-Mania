@@ -647,15 +647,14 @@ event ObjectUpdate
 	if object.timer != 0
 		switch object.timer
 		case 2
-		case 3
-			break
-
 		case 1
 			object.frame += 8
 			break
-
+		case 3
 		case 4
 		case 5
+			object.frame += 24
+			break
 		case 6
 		case 7
 		case 8
@@ -718,6 +717,15 @@ event ObjectStartup
 	SpriteFrame(-16, -26, 43, 42, 52, 100)
 	SpriteFrame(-16, -26, 43, 42, 52, 100)
 	SpriteFrame(-16, -26, 43, 42, 52, 100)
+	// Smears
+	SpriteFrame(-16, -24, 32, 32, 19, 34)
+	SpriteFrame(-8, -16, 32, 32, 19, 100)
+	SpriteFrame(-8, -16, 32, 32, 19, 100)
+	SpriteFrame(-16, -24, 32, 32, 19, 34)
+	SpriteFrame(-16, -26, 43, 42, 52, 143)
+	SpriteFrame(-16, -26, 43, 42, 52, 143)
+	SpriteFrame(-16, -26, 43, 42, 52, 143)
+	SpriteFrame(-16, -26, 43, 42, 52, 143)
 
 	temp0 = 0
 	RedSpring_startDebugID = DebugMode_ObjCount
