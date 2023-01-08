@@ -59,9 +59,6 @@ event ObjectUpdate
 			BoxCollisionTest(C_TOUCH, object.entityPos, -16, -16, 16, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 			if checkResult == true
 
-				if player[currentPlayer].yvel < 0
-					player[currentPlayer].yvel = 0
-				end if
 
 				switch object.propertyValue
 				case TUBESWITCH_R_ENTRY // Enter from the right, exit from the left
@@ -120,7 +117,7 @@ event ObjectUpdate
 
 				case 2 // Enter from above, exit from below
 					if player[currentPlayer].gravity == 1
-						if player[currentPlayer].yvel < 0
+						if player[currentPlayer].yvel > 0
 							player[currentPlayer].animation = ANI_JUMPING
 							player[currentPlayer].state = Player_State_TubeRoll
 							player[currentPlayer].gravity = GRAVITY_GROUND
@@ -139,28 +136,19 @@ event ObjectUpdate
 							player[currentPlayer].state = Player_State_TubeRoll
 							player[currentPlayer].gravity = GRAVITY_GROUND
 							player[currentPlayer].speed = player[currentPlayer].yvel
-							player[currentPlayer].collisionMode = CMODE_RWALL
+							player[currentPlayer].speed *= -1
+							player[currentPlayer].collisionMode = CMODE_LWALL
 							player[currentPlayer].angle = 0xC0
 							PlaySfx(SfxName[Rolling], false)
 						end if
-						if player[currentPlayer].gravity == 0
-							if player[currentPlayer].yvel > 0
-								player[currentPlayer].gravity = GRAVITY_AIR
-								player[currentPlayer].state = Player_State_TubeRoll
-								player[currentPlayer].animation = ANI_JUMPING
-								player[currentPlayer].collisionMode = CMODE_RWALL
-							else
-								player[currentPlayer].angle = 0xC0
-								player[currentPlayer].speed = 0xA0000
-								player[currentPlayer].yvel = 0
-							end if
-						end if
-						player[currentPlayer].state = Player_State_Roll
-						player[currentPlayer].animation = ANI_JUMPING
 					end if
 					break
 
 				end switch
+				
+				if player[currentPlayer].yvel < 0
+					player[currentPlayer].yvel = 0
+				end if
 				
 				object.inTube = true
 			else
