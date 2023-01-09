@@ -68,10 +68,11 @@ event ObjectUpdate
 		object.timer = 0
 	else
 		object.animationTimer += object.animationSpeed
+		object.animationTimer += object.animationSpeed
 		if object.animationTimer >= 0x100
 			object.animationTimer -= 0x100
 			object.frame++
-			if object.frame == 8
+			if object.frame == 16
 				object.frame = 0
 				if object.animationSpeed > 16
 					if object.value30 == 0
@@ -170,7 +171,7 @@ end event
 event ObjectDraw
 	temp0 = object.frame
 	if object.value30 != 0
-		temp0 += 8
+		temp0 += 16
 	endif
 	DrawSpriteFX(temp0, FX_INK, object.xpos, object.ypos)
 end event
@@ -180,23 +181,39 @@ event ObjectStartup
 	LoadSpriteSheet("Global/Items.gif")
 
 	// Ring Frames, they're the same as the standard Ring object sprites
-	SpriteFrame(-8, -8, 16, 16, 1, 1)
-	SpriteFrame(-8, -8, 16, 16, 1, 18)
-	SpriteFrame(-8, -8, 16, 16, 1, 35)
-	SpriteFrame(-8, -8, 16, 16, 1, 52)
-	SpriteFrame(-8, -8, 16, 16, 1, 69)
-	SpriteFrame(-8, -8, 16, 16, 1, 86)
-	SpriteFrame(-8, -8, 16, 16, 1, 103)
-	SpriteFrame(-8, -8, 16, 16, 1, 120)
+	SpriteFrame(-8, -8, 16, 16, 1, 265)
+	SpriteFrame(-8, -8, 16, 16, 18, 265)
+	SpriteFrame(-8, -8, 16, 16, 35, 265)
+	SpriteFrame(-8, -8, 16, 16, 52, 265)
+	SpriteFrame(-8, -8, 16, 16, 69, 265)
+	SpriteFrame(-8, -8, 16, 16, 86, 265)
+	SpriteFrame(-8, -8, 16, 16, 103, 265)
+	SpriteFrame(-8, -8, 16, 16, 120, 265)
+	SpriteFrame(-8, -8, 16, 16, 137, 265)
+	SpriteFrame(-8, -8, 16, 16, 154, 265)
+	SpriteFrame(-8, -8, 16, 16, 171, 265)
+	SpriteFrame(-8, -8, 16, 16, 188, 265)
+	SpriteFrame(-8, -8, 16, 16, 205, 265)
+	SpriteFrame(-8, -8, 16, 16, 222, 265)
+	SpriteFrame(-8, -8, 16, 16, 239, 265)
+	SpriteFrame(-8, -8, 16, 16, 256, 265)
 	
-	SpriteFrame(-16, -16, 32, 32, 257, 1)
-	SpriteFrame(-16, -16, 32, 32, 257, 34)
-	SpriteFrame(-16, -16, 32, 32, 257, 67)
-	SpriteFrame(-16, -16, 32, 32, 257, 100)
-	SpriteFrame(-16, -16, 32, 32, 257, 133)
-	SpriteFrame(-16, -16, 32, 32, 257, 166)
-	SpriteFrame(-16, -16, 32, 32, 257, 199)
-	SpriteFrame(-16, -16, 32, 32, 257, 232)
+	SpriteFrame(-16, -16, 32, 32, 1, 282)
+	SpriteFrame(-16, -16, 32, 32, 34, 282)
+	SpriteFrame(-16, -16, 32, 32, 67, 282)
+	SpriteFrame(-16, -16, 32, 32, 100, 282)
+	SpriteFrame(-16, -16, 32, 32, 133, 282)
+	SpriteFrame(-16, -16, 32, 32, 166, 282)
+	SpriteFrame(-16, -16, 32, 32, 199, 282)
+	SpriteFrame(-16, -16, 32, 32, 232, 282)
+	SpriteFrame(-16, -16, 32, 32, 265, 282)
+	SpriteFrame(-16, -16, 32, 32, 298, 282)
+	SpriteFrame(-16, -16, 32, 32, 331, 282)
+	SpriteFrame(-16, -16, 32, 32, 364, 282)
+	SpriteFrame(-16, -16, 32, 32, 397, 282)
+	SpriteFrame(-16, -16, 32, 32, 430, 282)
+	SpriteFrame(-16, -16, 32, 32, 463, 282)
+	SpriteFrame(-16, -16, 32, 32, 1, 315)
 end event
 
 // ========================

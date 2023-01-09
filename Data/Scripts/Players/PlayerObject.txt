@@ -2890,6 +2890,7 @@ public function Player_State_Ground
 			if player.speed > 0
 				if player.speed < 0x2FE5B
 					player.animation = ANI_WALKING
+					player.prevAnimation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
 					if player.speed > 0x9FFFF
@@ -2900,6 +2901,7 @@ public function Player_State_Ground
 						else
 							if player.speed > 0x2FE5B
 								player.animation = ANI_JOGGING
+								player.prevAnimation = ANI_JOGGING
 							end if
 						end if
 					end if
@@ -2909,6 +2911,7 @@ public function Player_State_Ground
 			else
 				if player.speed > -0x2FE5B
 					player.animation = ANI_WALKING
+					player.prevAnimation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
 					if player.speed < -0x9FFFF
@@ -2919,6 +2922,7 @@ public function Player_State_Ground
 						else
 							if player.speed < -0x2FE5B
 								player.animation = ANI_JOGGING
+								player.prevAnimation = ANI_JOGGING
 							end if
 						end if
 					end if
