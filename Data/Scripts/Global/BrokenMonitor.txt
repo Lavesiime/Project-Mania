@@ -364,7 +364,7 @@ event ObjectUpdate
 
 			case MONITOR_DEBUG_EMERALDS
 				PlaySfx(SfxName[Hyper Ring], 0)
-				player[currentPlayer].hyperRingActive = 1
+				player[0].hyperRingActive = 1
 				break
 
 			end switch
