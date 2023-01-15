@@ -182,7 +182,7 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("SLZ/Objects.gif")
+	LoadSpriteSheet("Global/Items.gif")
 
 	arrayPos0 = 32
 	while arrayPos0 < 0x420
@@ -194,8 +194,8 @@ event ObjectStartup
 		arrayPos0++
 	loop
 
-	SpriteFrame(-16, -32, 32, 64, 181, 59)
-	SpriteFrame(-8, -8, 16, 16, 181, 59)
+	SpriteFrame(-16, -32, 32, 64, 290, 1)
+	SpriteFrame(-8, -8, 16, 16, 290, 1)
 
 	SetTableValue(TypeName[Breakable Wall], DebugMode_ObjCount, DebugMode_TypesTable)
 	SetTableValue(BreakableWall_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)
