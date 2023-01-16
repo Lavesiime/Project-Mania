@@ -61,7 +61,7 @@ private table BeltPlatform_movementTable4
 end table
 
 private table BeltPlatform_movementTable5
-	1234, 266, 1630, 266, 1630, 446, 1234, 446
+	2770, 1546, 3166, 1546, 3166, 1726, 2770, 1726
 end table
 
 
