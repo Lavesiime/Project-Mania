@@ -153,7 +153,11 @@ event ObjectUpdate
 					player[currentPlayer].tileCollisions = true
 					player[currentPlayer].gravity = GRAVITY_AIR
 					player[currentPlayer].speed = player[currentPlayer].xvel
-					player[currentPlayer].yvel = -0x100000
+					if object.state == 0
+						player[currentPlayer].yvel = -0x100000
+					else
+						player[currentPlayer].yvel = -0x180000
+					end if
 					player[currentPlayer].yvel -= player[currentPlayer].gravityStrength
 
 					if object.propertyValue >= 0x80
@@ -194,7 +198,11 @@ event ObjectUpdate
 						player[currentPlayer].tileCollisions = true
 						player[currentPlayer].gravity = GRAVITY_AIR
 						player[currentPlayer].speed = player[currentPlayer].xvel
-						player[currentPlayer].yvel = -0x100000
+						if object.state == 0
+							player[currentPlayer].yvel = -0x100000
+						else
+							player[currentPlayer].yvel = -0x120000
+						end if
 						if object.propertyValue >= 0x80
 							player[currentPlayer].animation = ANI_CORKSCREW_H
 							player[currentPlayer].prevAnimation = ANI_CORKSCREW_H
