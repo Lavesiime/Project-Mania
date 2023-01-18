@@ -104,6 +104,11 @@ end function
 // ========================
 
 event ObjectUpdate
+	// air spring (used in LZ3)
+	if object.state == 1
+		object.enabledInAir = 1
+	end if
+
 	temp2 = 0
 
 	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
@@ -220,7 +225,14 @@ event ObjectUpdate
 				if checkResult == true
 					object.timer = 1
 					player[currentPlayer].tileCollisions = true
-					player[currentPlayer].speed = 0xA0000
+					
+					if object.state == 1
+						// slightly stronger spring (used in LZ3)
+						player[currentPlayer].speed = 0xC0000
+					else
+						player[currentPlayer].speed = 0xA0000
+					end if
+					
 					player[currentPlayer].collisionMode = CMODE_FLOOR
 					player[currentPlayer].pushing = 0
 					player[currentPlayer].direction = FACING_RIGHT
@@ -238,7 +250,14 @@ event ObjectUpdate
 					if checkResult == true
 						object.timer = 1
 						player[currentPlayer].tileCollisions = true
-						player[currentPlayer].speed = 0xA0000
+						
+						if object.state == 1
+							// slightly stronger spring (used in LZ3)
+							player[currentPlayer].speed = 0xC0000
+						else
+							player[currentPlayer].speed = 0xA0000
+						end if
+						
 						player[currentPlayer].yvel = 0
 						player[currentPlayer].collisionMode = CMODE_FLOOR
 						player[currentPlayer].pushing = false

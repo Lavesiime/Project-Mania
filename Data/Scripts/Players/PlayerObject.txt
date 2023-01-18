@@ -2893,7 +2893,8 @@ public function Player_State_Ground
 					player.prevAnimation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
-					if player.speed > 0x9FFFF
+					//if player.speed > 0x9FFFF
+					if player.speed > 0x10000000
 						player.animation = ANI_PEELOUT
 					else
 						if player.speed > 0x5F5C2
@@ -2914,7 +2915,8 @@ public function Player_State_Ground
 					player.prevAnimation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
-					if player.speed < -0x9FFFF
+					//if player.speed < -0x9FFFF
+					if player.speed < -0x10000000
 						player.animation = ANI_PEELOUT
 					else
 						if player.speed < -0x5F5C2
@@ -5099,7 +5101,8 @@ public function Player_State_ContinueRun
 			player.animation = ANI_WALKING
 			CallFunction(Player_HandleWalkAnimSpeed)
 		else
-			if player.speed > 0x9FFFF
+			//if player.speed > 0x9FFFF
+			if player.speed > 0x10000000
 				player.animation = ANI_PEELOUT
 			else
 				player.animation = ANI_RUNNING
