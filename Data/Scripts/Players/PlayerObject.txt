@@ -55,7 +55,7 @@ public alias 4 : INK_SUB
 public alias 0 : FLIP_NONE
 public alias 1 : FLIP_X
 public alias 2 : FLIP_Y
-public alias 3 : FACING_LEFTY
+public alias 3 : FLIP_XY
 
 // Collision Sides
 public alias 0 : CSIDE_FLOOR
@@ -136,49 +136,49 @@ private alias StageStatsUsabilityParam2 : stageStat.spindashDestroyCount
 private alias StageStatsUsabilityParam3 : stageStat.buzzerDestroyCount
 
 // Variables
-private alias object.type			 :	player.type
-private alias object.groupID		 :	player.groupID	 		// Normally GROUP_PLAYERS, unless in Debug Mode or some other strange scenario
-private alias object.entityPos		 :	player.entityPos 		// Where the player is on the object list - P1 should be 0, P2 should be 1
-private alias object.state			 :	player.state
-private alias object.visible		 :	player.visible
-private alias object.propertyValue	 :	player.character		// Individual character type of the object. See the "alone" Player List Pos aliases
-private alias object.xpos			 :	player.xpos				// Total world-space position (0x10000 == 1.0)
-private alias object.ypos			 :	player.ypos
-private alias object.ixpos			 :	player.ixpos			// Screen space position (1 == 1)
-private alias object.iypos			 :	player.iypos
-private alias object.lookPosX		 :	player.lookPosX			// Camera offset based on this player's position
-private alias object.lookPosY		 :	player.lookPosY
-private alias object.xvel			 :	player.xvel				// Based on world-space (see above)
-private alias object.yvel			 :	player.yvel
-private alias object.speed			 :	player.speed			// Based on world-space (see above)
-private alias object.rotation		 :	player.rotation			// 512-based, not 360 degrees
-private alias object.angle			 :	player.angle			// See above
-private alias object.direction		 :	player.direction
-private alias object.gravity		 :	player.gravity			// GRAVITY_GROUND or GRAVITY_AIR. Not to be confused with player.gravityStrength, see there for more info
-private alias object.frame			 :	player.frame
-private alias object.animation		 :	player.animation
-private alias object.prevAnimation	 :	player.prevAnimation
-private alias object.animationSpeed	 :	player.animationSpeed
-private alias object.animationTimer	 :	player.animationTimer
-private alias object.drawOrder		 :	player.drawOrder		// Should always be DRAWORDER_PLAYER, to change draw order use player.sortedDrawOrder instead
-private alias object.pushing		 :	player.pushing
-private alias object.controlLock	 :	player.controlLock		// Timer for how long control lock is active. Not to be confused with roll jump lock, see the Player_Action_Jump function for that
-private alias object.controlMode	 :	player.controlMode		// See CONTROLMODE_* aliases
-private alias object.interaction	 :	player.interaction		// Will the object interact with other objects?
-private alias object.scrollTracking	 :	player.scrollTracking	// Determines if the camera will track the player's position or just follow it
-private alias object.collisionMode	 :	player.collisionMode
-private alias object.collisionLeft	 :	player.collisionLeft
-private alias object.collisionTop	 :	player.collisionTop
-private alias object.collisionRight	 :	player.collisionRight
-private alias object.collisionBottom :	player.collisionBottom
-private alias object.collisionPlane	 :	player.collisionPlane
-private alias object.floorSensorC	 :	player.floorSensorC
-private alias object.floorSensorL	 :	player.floorSensorL
-private alias object.floorSensorR	 :	player.floorSensorR
-private alias object.floorSensorC	 :	player.floorSensorLC
-private alias object.floorSensorC	 :	player.floorSensorRC
-private alias object.tileCollisions	 :	player.tileCollisions
-private alias object.priority		 :	player.priority
+private alias object.type		 : player.type
+private alias object.groupID		 : player.groupID	 		// Normally GROUP_PLAYERS, unless in Debug Mode or some other strange scenario
+private alias object.entityPos		 : player.entityPos 		// Where the player is on the object list - P1 should be 0, P2 should be 1
+private alias object.state		 : player.state
+private alias object.visible		 : player.visible
+private alias object.propertyValue	 : player.character		// Individual character type of the object. See the "alone" Player List Pos aliases
+private alias object.xpos		 : player.xpos				// Total world-space position (0x10000 == 1.0)
+private alias object.ypos		 : player.ypos
+private alias object.ixpos		 : player.ixpos			// Screen space position (1 == 1)
+private alias object.iypos		 : player.iypos
+private alias object.lookPosX		 : player.lookPosX			// Camera offset based on this player's position
+private alias object.lookPosY		 : player.lookPosY
+private alias object.xvel		 : player.xvel				// Based on world-space (see above)
+private alias object.yvel		 : player.yvel
+private alias object.speed		 : player.speed			// Based on world-space (see above)
+private alias object.rotation		 : player.rotation			// 512-based, not 360 degrees
+private alias object.angle		 : player.angle			// See above
+private alias object.direction		 : player.direction
+private alias object.gravity		 : player.gravity			// GRAVITY_GROUND or GRAVITY_AIR. Not to be confused with player.gravityStrength, see there for more info
+private alias object.frame		 : player.frame
+private alias object.animation		 : player.animation
+private alias object.prevAnimation	 : player.prevAnimation
+private alias object.animationSpeed	 : player.animationSpeed
+private alias object.animationTimer	 : player.animationTimer
+private alias object.drawOrder		 : player.drawOrder		// Should always be DRAWORDER_PLAYER, to change draw order use player.sortedDrawOrder instead
+private alias object.pushing		 : player.pushing
+private alias object.controlLock	 : player.controlLock		// Timer for how long control lock is active. Not to be confused with roll jump lock, see the Player_Action_Jump function for that
+private alias object.controlMode	 : player.controlMode		// See CONTROLMODE_* aliases
+private alias object.interaction	 : player.interaction		// Will the object interact with other objects?
+private alias object.scrollTracking	 : player.scrollTracking	// Determines if the camera will track the player's position or just follow it
+private alias object.collisionMode	 : player.collisionMode
+private alias object.collisionLeft	 : player.collisionLeft
+private alias object.collisionTop	 : player.collisionTop
+private alias object.collisionRight	 : player.collisionRight
+private alias object.collisionBottom	 : player.collisionBottom
+private alias object.collisionPlane	 : player.collisionPlane
+private alias object.floorSensorC	 : player.floorSensorC
+private alias object.floorSensorL	 : player.floorSensorL
+private alias object.floorSensorR	 : player.floorSensorR
+private alias object.floorSensorC	 : player.floorSensorLC
+private alias object.floorSensorC	 : player.floorSensorRC
+private alias object.tileCollisions	 : player.tileCollisions
+private alias object.priority		 : player.priority
 
 // *Object-wise* input, not to be confused with keyPress[0].X and keyDown[0].X
 private alias object.jumpPress	:	player.jumpPress
@@ -1592,7 +1592,7 @@ public function Player_HandleWalkAnimSpeed
 		FlipSign(player.animationSpeed)
 	end if
 
-	player.animationSpeed *= 60
+	player.animationSpeed *= 100
 	player.animationSpeed /= 0x60000
 	player.animationSpeed += 20
 end function
@@ -1605,7 +1605,7 @@ public function Player_HandleRunAnimSpeed
 		FlipSign(player.animationSpeed)
 	end if
 
-	player.animationSpeed *= 80
+	player.animationSpeed *= 120
 	player.animationSpeed /= 0x60000
 end function
 
@@ -2530,14 +2530,17 @@ public function Player_Action_DblJumpKnux
 				player.state = Player_State_GlideRight
 				player.xvel = 0x40000
 				player.timer = 0
+
 			else
 				player.state = Player_State_GlideLeft
 				player.xvel = -0x40000
 				player.timer = 256
+
 			end if
 
 			player.animation = ANI_GLIDING
-			player.frame = 2
+			player.prevAnimation = ANI_GLIDING
+			player.frame = 20
 #platform: USE_STANDALONE
 		end if
 #endplatform
@@ -2759,19 +2762,16 @@ public function Player_State_Ground
 			if player.speed > 0
 				if player.speed < 0x2FE5B
 					player.animation = ANI_WALKING
-					player.prevAnimation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
-					//if player.speed > 0x9FFFF
-					if player.speed > 0x10000000
+					if player.speed > 0x9FFFF
 						player.animation = ANI_PEELOUT
 					else
 						if player.speed > 0x5F5C2
 							player.animation = ANI_RUNNING
 						else
-							if player.speed > 0x2FE5B
+							if player.speed > 0x4F7DA
 								player.animation = ANI_JOGGING
-								player.prevAnimation = ANI_JOGGING
 							end if
 						end if
 					end if
@@ -2781,19 +2781,16 @@ public function Player_State_Ground
 			else
 				if player.speed > -0x2FE5B
 					player.animation = ANI_WALKING
-					player.prevAnimation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
-					//if player.speed < -0x9FFFF
-					if player.speed < -0x10000000
+					if player.speed < -0x9FFFF
 						player.animation = ANI_PEELOUT
 					else
 						if player.speed < -0x5F5C2
 							player.animation = ANI_RUNNING
 						else
-							if player.speed < -0x2FE5B
+							if player.speed < -0x4F7DA
 								player.animation = ANI_JOGGING
-								player.prevAnimation = ANI_JOGGING
 							end if
 						end if
 					end if
@@ -3617,19 +3614,17 @@ public function Player_State_GlideLeft
 			temp7 = player.xpos
 			if player.timer < 128
 				player.direction = FACING_RIGHT
-
 				temp0 = 0
 				temp1 = 0
 			else
+				player.prevAnimation = ANI_GLIDING
 				player.direction = FACING_LEFT
-
 				player.xpos = temp7
 				player.xpos += player.xvel
 				player.ypos = player.ypos
 				ObjectTileCollision(2, -12, -2, player.collisionPlane)
 				temp0 = checkResult
 				temp2 = player.xpos
-
 				player.xpos = temp7
 				player.xpos += player.xvel
 				ObjectTileCollision(2, -12, 11, player.collisionPlane)
@@ -3641,9 +3636,11 @@ public function Player_State_GlideLeft
 			player.xvel *= player.speed
 			player.xvel >>= 9
 			if player.right == true
+				player.prevAnimation = ANI_GLIDING
+				player.animation = ANI_GLIDING
+				player.frame = 0
 				player.state = Player_State_GlideRight
 			end if
-			
 			player.xpos = temp7
 			checkResult = temp0
 			checkResult &= temp1
@@ -3723,10 +3720,11 @@ public function Player_State_GlideRight
 				player.yvel += 0x2000
 			end if
 			if player.timer > 0
-				player.timer -= 4
+				player.timer -= 3
 			end if
 			temp7 = player.xpos
 			if player.timer < 128
+				player.prevAnimation = ANI_GLIDING
 				player.direction = FACING_RIGHT
 				player.xpos = temp7
 				player.xpos += player.xvel
@@ -3748,7 +3746,11 @@ public function Player_State_GlideRight
 			player.xvel *= player.speed
 			player.xvel >>= 9
 			if player.left == true
+				player.prevAnimation = ANI_GLIDING
+				player.animation = ANI_GLIDING
+				player.frame = 0
 				player.state = Player_State_GlideLeft
+				player.direction = FACING_RIGHT
 			end if
 			player.xpos = temp7
 			checkResult = temp0
@@ -3821,11 +3823,14 @@ public function Player_State_GlideDrop
 		player.scrollTracking = false
 		player.speed = 0
 		player.xvel = 0
-		player.animation = ANI_LOOKINGDOWN
-		player.prevAnimation = ANI_LOOKINGDOWN
-		player.frame = 2
+		player.animation = ANI_CONTINUE_UP
 
 		if player.timer < 16
+			if player.timer > 12
+				player.animationTimer = 128
+			else
+				player.animationTimer = 0
+			end if
 			player.timer++
 		else
 			player.state = Player_State_Ground
@@ -3840,7 +3845,6 @@ public function Player_State_GlideSlide
 	if player.gravity == GRAVITY_GROUND
 		if player.speed == 0
 			player.scrollTracking = false
-			player.frame = 1
 			if player.timer < 16
 				player.timer++
 			else
@@ -3860,18 +3864,25 @@ public function Player_State_GlideSlide
 					player.timer = 0
 				end if
 			end if
-			player.frame = 0
 			if player.speed > 0
+				if player.frame == 8
+					player.animationTimer = 0
+				end if
 				player.speed -= 0x2000
 				if player.speed < 0
 					player.speed = 0
 					player.timer = 0
+					player.frame = 9
 				end if
 			else
+				if player.frame == 8
+					player.animationTimer = 0
+				end if
 				player.speed += 0x2000
 				if player.speed > 0
 					player.speed = 0
 					player.timer = 0
+					player.frame = 9
 				end if
 			end if
 			if player.jumpHold == false
@@ -3983,7 +3994,7 @@ public function Player_State_Climb
 				if temp1 == false
 					player.animation = ANI_GLIDING_DROP
 					player.prevAnimation = ANI_GLIDING_DROP
-					player.frame = 2
+					player.frame = 20
 					player.timer = 0
 					player.state = Player_State_GlideDrop
 				end if
@@ -4106,7 +4117,7 @@ public function Player_State_Climb_Mission
 			else
 				player.animation = ANI_GLIDING_DROP
 				player.prevAnimation = ANI_GLIDING_DROP
-				player.frame = 2
+				player.frame = 20
 				player.timer = 0
 				player.state = Player_State_GlideDrop
 			end if
