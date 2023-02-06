@@ -1592,9 +1592,9 @@ public function Player_HandleWalkAnimSpeed
 		FlipSign(player.animationSpeed)
 	end if
 
-	player.animationSpeed *= 100
+	player.animationSpeed *= 96
 	player.animationSpeed /= 0x60000
-	player.animationSpeed += 20
+	player.animationSpeed += 16
 end function
 
 
@@ -1605,7 +1605,7 @@ public function Player_HandleRunAnimSpeed
 		FlipSign(player.animationSpeed)
 	end if
 
-	player.animationSpeed *= 120
+	player.animationSpeed *= 128
 	player.animationSpeed /= 0x60000
 end function
 
