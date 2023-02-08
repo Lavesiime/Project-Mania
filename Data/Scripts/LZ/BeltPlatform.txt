@@ -35,10 +35,10 @@ reserve function BeltPlatform_UpdateMovement
 // ========================
 
 private table BeltPlatform_tableSizes
-	10, 8, 6, 6, 8, 6
+	10, 8, 6, 6, 8, 6, 10
 end table
 
-private table BeltPlatform_tablePtrs[6]
+private table BeltPlatform_tablePtrs[7]
 
 private table BeltPlatform_movementTable0
 	0x1078, 0x021A, 0x10BE, 0x0260, 0x10BE, 0x0393, 0x108C, 0x03C5, 0x1022, 0x0390, 0x1022, 0x0244
@@ -62,6 +62,10 @@ end table
 
 private table BeltPlatform_movementTable5
 	2770, 1546, 3166, 1546, 3166, 1726, 2770, 1726
+end table
+
+private table BeltPlatform_movementTable6
+	11854, 2558, 11780, 2638, 11698, 2556, 11698, 2384
 end table
 
 
@@ -192,6 +196,7 @@ event ObjectStartup
 	SetTableValue(BeltPlatform_movementTable3, 3, BeltPlatform_tablePtrs)
 	SetTableValue(BeltPlatform_movementTable4, 4, BeltPlatform_tablePtrs)
 	SetTableValue(BeltPlatform_movementTable5, 5, BeltPlatform_tablePtrs)
+	SetTableValue(BeltPlatform_movementTable6, 6, BeltPlatform_tablePtrs)
 
 	foreach (TypeName[Belt Platform], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].priority = PRIORITY_INACTIVE
