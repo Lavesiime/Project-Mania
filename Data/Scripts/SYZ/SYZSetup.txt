@@ -43,7 +43,15 @@ private alias 1 : MUSICEVENT_FADETOSTAGE
 private alias 2 : MUSICEVENT_TRANSITION
 
 // Tile Info ID Aliases
-private alias 8 : TILEINFO_ANGLEA
+private alias 0 : TILEINFO_INDEX
+private alias 1 : TILEINFO_DIRECTION
+private alias 2 : TILEINFO_VISUALPLANE
+private alias 3 : TILEINFO_SOLIDITYA
+private alias 4 : TILEINFO_SOLIDITYB
+private alias 5 : TILEINFO_FLAGSA
+private alias 6 : TILEINFO_ANGLEA
+private alias 7 : TILEINFO_FLAGSB
+private alias 8 : TILEINFO_ANGLEB
 
 private alias 0 : MUSICEVENT_FLAG_NOCHANGE
 private alias 1 : MUSICEVENT_FLAG_SPEEDUP
