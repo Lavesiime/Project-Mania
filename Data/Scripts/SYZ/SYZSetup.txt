@@ -570,19 +570,31 @@ event ObjectUpdate
 		Get16x16TileInfo(temp0, temp4, temp5, TILEINFO_ANGLEA)
 		switch temp0
 		case 1
-			temp7 = 1
+			temp0 = 1
 			break
 
 		case 3
-			temp7 = 3
+			temp0 = 3
 			Get16x16TileInfo(temp6, temp4, temp5, TILEINFO_DIRECTION)
 			break
 
 		case 5
-			temp7 = 2
+			temp0 = 2
 			break
-
+		default
+			temp0 = 0
+			break
 		end switch
+
+	if temp7 != temp0
+		if temp7 == 0
+			temp7 = temp0
+		else
+			if temp0 == 1
+				temp7 = 1
+			end if
+		end if
+	end if	
 
 		switch temp7
 		case 1
