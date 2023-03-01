@@ -510,6 +510,20 @@ end function
 // ========================
 
 event ObjectUpdate
+	if Object.TurnDirection == false
+		if Object.BumperOscillation < 0x300000
+			Object.BumperOscillation += 0x10000
+		else
+			Object.TurnDirection = true
+		end if
+	else
+		if Object.BumperOscillation > -0x300000
+			Object.BumperOscillation -= 0x10000
+		else
+			Object.TurnDirection = false
+		end if
+	end if
+
 	object.palRotateTimer++
 	if object.palRotateTimer == 6
 		object.palRotateTimer = 0

@@ -9,31 +9,41 @@
 // Aliases
 // ========================
 
-private alias object.value0 : object.timer
-private alias object.value1 : object.bumpCount
-private alias object.value2 : object.Oscillation
-private alias object.value3 : object.TurnDirection
-private alias object.value4 : object.startPos.x
-private alias object.value5 : object.startPos.y
-
-private alias 0 : BUMPER_IDLE
-private alias 1 : BUMPER_BUMPED
+private alias object.value0 : Object.Timer
+private alias object.value1 : Object.BumpCount 
+private alias object.value2 : Object.Oscillation
+private alias object.value3 : Object.TurnDirection
+private alias object.value4 : Object.XOriginPos
+private alias object.value5 : Object.YOriginPos
 
 //SYZSetup aliases
-private alias object[10].value3 : SYZSetup.BumperOscillation 
+private alias object[10].value3 : SYZSetup.BumperOscillation
 
-//Priority
-private alias 0	: PRIORITY_BOUNDS
-private alias 1	: PRIORITY_ACTIVE
+// States
+private alias 0 : BUMPER_IDLE
+private alias 1 : BUMPER_ACTIVE
 
-//Property Values
-private alias 0 : BUMPER_STILL
-private alias 1	: BUMPER_RIGHT_TO_LEFT_G
-private alias 2	: BUMPER_LEFT_TO_RIGHT_G
-private alias 3	: BUMPER_TOP_TO_BOTTOM
-private alias 4	: BUMPER_BOTTOM_TO_TOP
-private alias 5	: BUMPER_TOP_TO_BOTTOM_G
-private alias 6	: BUMPER_BOTTOM_TO_TOP_G
+// Gravity
+private alias 0 : GRAVITY_GROUND
+private alias 1 : GRAVITY_AIR
+
+// Stage SFX
+private alias 0 : SFX_S_BUMPER
+
+// Priority
+private alias 0 : PRIORITY_BOUNDS
+private alias 1 : PRIORITY_ACTIVE
+
+// Property Values
+// _G properties use SYZSetup oscillation
+private alias 0 : BUMPER_STATIC
+private alias 1 : BUMPER_RIGHT_TO_LEFT_G
+private alias 2 : BUMPER_LEFT_TO_RIGHT_G
+private alias 3 : BUMPER_TOP_TO_BOTTOM
+private alias 4 : BUMPER_BOTTOM_TO_TOP
+private alias 5 : BUMPER_TOP_TO_BOTTOM_G
+private alias 6 : BUMPER_BOTTOM_TO_TOP_G
+
 
 // Player Aliases
 private alias object.state : player.state
@@ -79,86 +89,87 @@ end function
 event ObjectUpdate
 	switch object.propertyValue
 	case BUMPER_RIGHT_TO_LEFT_G
-		object.xpos = object.startPos.x
+		object.xpos = Object.XOriginPos
 		object.xpos += SYZSetup.BumperOscillation
 		break
-		
+
 	case BUMPER_LEFT_TO_RIGHT_G
-		object.xpos = object.startPos.x
+		object.xpos = Object.XOriginPos
 		object.xpos -= SYZSetup.BumperOscillation
 		break
 
 	case BUMPER_TOP_TO_BOTTOM
-		if object.TurnDirection == false
+		if Object.TurnDirection == false
 
-			if object.Oscillation < 0x380000
-				object.Oscillation += 0x10000
+			if Object.Oscillation < 0x380000
+				Object.Oscillation += 0x10000
 			else
-				object.TurnDirection = true
+				Object.TurnDirection = true
 			end if
 
 		else
 
-			if object.Oscillation > -0x380000
-				object.Oscillation -= 0x10000
+			if Object.Oscillation > -0x380000
+				Object.Oscillation -= 0x10000
 			else
-				object.TurnDirection = false
+				Object.TurnDirection = false
 			end if
 
 		end if
-		object.ypos = object.startPos.y
-		object.ypos += object.Oscillation
+		object.ypos = Object.YOriginPos
+		object.ypos += Object.Oscillation
 		break
 
 	case BUMPER_BOTTOM_TO_TOP
-		if object.TurnDirection == false
+		if Object.TurnDirection == false
 
-			if object.Oscillation < 0x380000
-				object.Oscillation += 0x10000
+			if Object.Oscillation < 0x380000
+				Object.Oscillation += 0x10000
 			else
-				object.TurnDirection = true
+				Object.TurnDirection = true
 			end if
 
 		else
 
-			if object.Oscillation > -0x380000
-				object.Oscillation -= 0x10000
+			if Object.Oscillation > -0x380000
+				Object.Oscillation -= 0x10000
 			else
-				object.TurnDirection = false
+				Object.TurnDirection = false
 			end if
 
 		end if
-		object.ypos = object.startPos.y
-		object.ypos -= object.Oscillation
+		object.ypos = Object.YOriginPos
+		object.ypos -= Object.Oscillation
 		break
 
 	case BUMPER_TOP_TO_BOTTOM_G
-		object.ypos = object.startPos.y
+		object.ypos = Object.YOriginPos
 		object.ypos += SYZSetup.BumperOscillation
 		break
 
 	case BUMPER_BOTTOM_TO_TOP_G
-		object.ypos = object.startPos.y
+		object.ypos = Object.YOriginPos
 		object.ypos -= SYZSetup.BumperOscillation
 		break
 
 	end switch
 
-	if object.state > BUMPER_IDLE
-		object.frame = object.timer
+	if object.state > 0
+		object.frame = Object.Timer
 		object.frame /= 5
 		object.frame++
-		object.timer++
 
-		if object.timer > 22
-			object.timer = 0
+		Object.Timer++
+		if Object.Timer > 22
+			Object.Timer = 0
 			object.state = BUMPER_IDLE
 			object.frame = 0
 		end if
+
 	end if
 
 	if object.outOfBounds == true
-		object.bumpCount = 0
+		Object.BumpCount  = 0
 		object.priority = PRIORITY_BOUNDS
 	end if
 
@@ -168,18 +179,18 @@ event ObjectUpdate
 			if checkResult == true
 				if object.state == BUMPER_IDLE
 					PlaySfx(SfxName[Bumper], false)
-					if object.bumpCount < 5
+					if Object.BumpCount < 5
 						CreateTempObject(TypeName[Object Score], 16, object.xpos, object.ypos)
 						player.score += 10
 						object.bumpCount++
 					end if
 				end if
 
-				if object.timer > 5
+				if Object.Timer > 5
 					PlaySfx(SfxName[Bumper], false)
 				end if
 				
-				object.state = BUMPER_BUMPED
+				object.state = BUMPER_ACTIVE
 				object.priority = PRIORITY_ACTIVE
 
 				temp0 = player[currentPlayer].xpos
@@ -242,6 +253,8 @@ event ObjectStartup
 
 	foreach (TypeName[Bumper], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].drawOrder = 4
+		object[ArrayPos0].XOriginPos=Object[ArrayPos0].XPos
+		object[ArrayPos0].YOriginPos=Object[ArrayPos0].YPos
 	next
 
 	SetTableValue(TypeName[Bumper], DebugMode_ObjCount, DebugMode_TypesTable)
