@@ -38,21 +38,21 @@ private alias 0 : PRIORITY_BOUNDS
 private alias 1 : PRIORITY_ACTIVE
 
 // Player Aliases
-private alias object.state : player.state
-private alias object.xpos : player.xpos
-private alias object.ypos : player.ypos
-private alias object.xvel : player.xvel
-private alias object.yvel : player.yvel
-private alias object.speed : player.speed
-private alias object.gravity : player.gravity
-private alias object.animation : player.animation
-private alias object.tileCollisions : player.tileCollisions
-private alias object.value1  : player.timer
-private alias object.value36 : player.flyCarryTimer
-private alias object.value40 : player.hitboxLeft
-private alias object.value38 : player.hitboxTop
-private alias object.value41 : player.hitboxRight
-private alias object.value39 : player.hitboxBottom
+private alias object[0].state : player.state
+private alias object[0].xpos : player.xpos
+private alias object[0].ypos : player.ypos
+private alias object[0].xvel : player.xvel
+private alias object[0].yvel : player.yvel
+private alias object[0].speed : player.speed
+private alias object[0].gravity : player.gravity
+private alias object[0].animation : player.animation
+private alias object[0].tileCollisions : player.tileCollisions
+private alias object[0].value1  : player.timer
+private alias object[0].value36 : player.flyCarryTimer
+private alias object[0].value40 : player.hitboxLeft
+private alias object[0].value38 : player.hitboxTop
+private alias object[0].value41 : player.hitboxRight
+private alias object[0].value39 : player.hitboxBottom
 
 
 // ========================
@@ -128,7 +128,7 @@ end function
 // ========================
 
 event ObjectUpdate
-	temp2 = object.xpos
+	temp6 = object.xpos
 	temp3 = object.ypos
 	object.rotateAngle += object.rotateSpeed
 	object.rotateAngle &= 0x1FFFF
@@ -144,7 +144,7 @@ event ObjectUpdate
 	Cos256(object.collisionOffset.x, temp0)
 	object.collisionOffset.x *= temp1
 	object.collisionOffset.x <<= 8
-	object.collisionOffset.x += temp2
+	object.collisionOffset.x += temp6
 	object.collisionOffset.x &= 0xFFFF0000
 	object.drawPos.x = object.collisionOffset.x
 	object.collisionOffset.x -= object.xpos
@@ -237,7 +237,7 @@ event ObjectUpdate
 			end if
 		end if
 	next
-	object.xpos = temp2
+	object.xpos = temp6
 	object.ypos = temp3
 end event
 
