@@ -173,6 +173,16 @@ event ObjectUpdate
 	if object.outOfBounds == true
 		object.BumpCount  = 0
 		object.priority = PRIORITY_BOUNDS
+		temp5 = object[arrayPos0].propertyValue
+		temp5 >>= 2
+		temp5 &= 3
+		if temp5 == 1
+			object[arrayPos0].rotateAngle += 0x5500
+		end if
+
+		if temp5 == 2
+			object[arrayPos0].rotateAngle -= 0x5500
+		end if
 	end if
 
 	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
