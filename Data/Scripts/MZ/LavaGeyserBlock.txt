@@ -4,10 +4,6 @@
 // Script Author: Christian Whitehead/Simon Thomley
 // Unpacked by Rubberduckycooly's script unpacker
 // ----------------------------------
-// Aliases
-
-// Path ID Aliases
-private alias 0 : PATH_A
 
 // ========================
 // Function Declarations

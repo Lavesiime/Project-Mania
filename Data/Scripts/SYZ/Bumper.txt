@@ -9,12 +9,12 @@
 // Aliases
 // ========================
 
-private alias object.value0 : Object.Timer
-private alias object.value1 : Object.BumpCount 
-private alias object.value2 : Object.Oscillation
-private alias object.value3 : Object.TurnDirection
-private alias object.value4 : Object.XOriginPos
-private alias object.value5 : Object.YOriginPos
+private alias object.value0 : object.timer
+private alias object.value1 : object.bumpCount 
+private alias object.value2 : object.oscillation
+private alias object.value3 : object.turnDirection
+private alias object.value4 : object.XOriginPos
+private alias object.value5 : object.YOriginPos
 
 //SYZSetup aliases
 private alias object[10].value3 : SYZSetup.BumperOscillation
@@ -89,87 +89,86 @@ end function
 event ObjectUpdate
 	switch object.propertyValue
 	case BUMPER_RIGHT_TO_LEFT_G
-		object.xpos = Object.XOriginPos
+		object.xpos = object.XOriginPos
 		object.xpos += SYZSetup.BumperOscillation
 		break
 
 	case BUMPER_LEFT_TO_RIGHT_G
-		object.xpos = Object.XOriginPos
+		object.xpos = object.XOriginPos
 		object.xpos -= SYZSetup.BumperOscillation
 		break
 
 	case BUMPER_TOP_TO_BOTTOM
-		if Object.TurnDirection == false
+		if object.turnDirection == false
 
-			if Object.Oscillation < 0x380000
-				Object.Oscillation += 0x10000
+			if object.oscillation < 0x380000
+				object.oscillation += 0x10000
 			else
-				Object.TurnDirection = true
+				object.turnDirection = true
 			end if
 
 		else
 
 			if Object.Oscillation > -0x380000
-				Object.Oscillation -= 0x10000
+				object.oscillation -= 0x10000
 			else
-				Object.TurnDirection = false
+				object.turnDirection = false
 			end if
 
 		end if
-		object.ypos = Object.YOriginPos
-		object.ypos += Object.Oscillation
+		object.ypos = object.YOriginPos
+		object.ypos += object.oscillation
 		break
 
 	case BUMPER_BOTTOM_TO_TOP
-		if Object.TurnDirection == false
+		if object.turnDirection == false
 
-			if Object.Oscillation < 0x380000
-				Object.Oscillation += 0x10000
+			if object.oscillation < 0x380000
+				object.oscillation += 0x10000
 			else
-				Object.TurnDirection = true
+				object.turnDirection = true
 			end if
 
 		else
 
-			if Object.Oscillation > -0x380000
-				Object.Oscillation -= 0x10000
+			if object.oscillation > -0x380000
+				object.oscillation -= 0x10000
 			else
-				Object.TurnDirection = false
+				object.turnDirection = false
 			end if
 
 		end if
-		object.ypos = Object.YOriginPos
-		object.ypos -= Object.Oscillation
+		object.ypos = object.YOriginPos
+		object.ypos -= object.oscillation
 		break
 
 	case BUMPER_TOP_TO_BOTTOM_G
-		object.ypos = Object.YOriginPos
+		object.ypos = object.YOriginPos
 		object.ypos += SYZSetup.BumperOscillation
 		break
 
 	case BUMPER_BOTTOM_TO_TOP_G
-		object.ypos = Object.YOriginPos
+		object.ypos = object.YOriginPos
 		object.ypos -= SYZSetup.BumperOscillation
 		break
 
 	end switch
 
 	if object.state > 0
-		object.frame = Object.Timer
+		object.frame = object.timer
 		object.frame /= 5
 		object.frame++
 
-		Object.Timer++
-		if Object.Timer > 22
-			Object.Timer = 0
+		object.timer++
+		if object.timer > 22
+			object.timer = 0
 			object.state = BUMPER_IDLE
 			object.frame = 0
 		end if
-
 	end if
 
 	if object.outOfBounds == true
-		Object.BumpCount  = 0
+		object.bumpCount  = 0
 		object.priority = PRIORITY_BOUNDS
 	end if
 
@@ -179,14 +178,14 @@ event ObjectUpdate
 			if checkResult == true
 				if object.state == BUMPER_IDLE
 					PlaySfx(SfxName[Bumper], false)
-					if Object.BumpCount < 5
+					if object.bumpCount < 5
 						CreateTempObject(TypeName[Object Score], 16, object.xpos, object.ypos)
 						player.score += 10
 						object.bumpCount++
 					end if
 				end if
 
-				if Object.Timer > 5
+				if object.timer > 5
 					PlaySfx(SfxName[Bumper], false)
 				end if
 				

@@ -511,7 +511,19 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Global/Eggman.gif")
+	switch stage.playerListPos
+	case PLAYER_SONIC_ALONE
+		LoadSpriteSheet("Global/Eggman.gif")
+		break
+
+	case PLAYER_TAILS_ALONE
+		LoadSpriteSheet("Global/Eggman.gif")
+		break
+
+	case PLAYER_KNUX_ALONE
+		LoadSpriteSheet("Global/EggRobo.gif")
+		break
+	end switch
 	SpriteFrame(-28, -32, 64, 56, 1, 1)
 	SpriteFrame(-28, -32, 64, 56, 66, 1)
 	SpriteFrame(-28, -32, 64, 56, 131, 1)

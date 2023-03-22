@@ -201,7 +201,7 @@ event ObjectUpdate
 		if object.head.direction == 0
 			object.head.amplitude++
 			if object.head.amplitude == 384
-				object.frame = 0 // Close the Rexon's mouth
+				object.frame = 1 // Close the Rexon's mouth
 			end if
 
 			if object.head.amplitude >= 416
@@ -500,37 +500,21 @@ end event
 
 
 event ObjectStartup
-	CheckCurrentStageFolder("Zone05")
+	CheckCurrentStageFolder("Zone02")
 	if checkResult == true
-		LoadSpriteSheet("HTZ/Objects.gif")
+		LoadSpriteSheet("MZ/Objects.gif")
 		
 		// Head Frame, Mouth Closed
-		SpriteFrame(-19, -6, 23, 16, 143, 123)
+		SpriteFrame(-19, -6, 23, 16, 130, 321)
 		
 		// Head Frame, Mouth Open
-		SpriteFrame(-19, -6, 23, 16, 45, 55)
+		SpriteFrame(-19, -6, 23, 16, 156, 304)
 		
 		// Neck Frame
-		SpriteFrame(-8, -8, 16, 16, 52, 38)
+		SpriteFrame(-8, -8, 16, 16, 266, 355)
 		
 		// Body Frame
-		SpriteFrame(-16, -8, 32, 16, 91, 105)
-	else
-		LoadSpriteSheet("MBZ/Objects.gif")
-		
-		// Duplicate data of HTZ sheet data, appears broken in-game
-		
-		// Head Frame, Mouth Closed
-		SpriteFrame(-19, -6, 23, 16, 143, 123)
-		
-		// Head Frame, Mouth Open
-		SpriteFrame(-19, -6, 23, 16, 45, 55)
-		
-		// Neck Frame
-		SpriteFrame(-8, -8, 16, 16, 52, 38)
-		
-		// Body Frame
-		SpriteFrame(-16, -8, 32, 16, 91, 105)
+		SpriteFrame(-16, -8, 32, 16, 233, 355)
 	end if
 
 	foreach (TypeName[Rexon], arrayPos0, ALL_ENTITIES)
@@ -626,10 +610,13 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("MZ/Objects2.gif")
-	SpriteFrame(-19, -6, 23, 16, 143, 123)
-	SpriteFrame(-8, -8, 16, 16, 52, 38)
-	SpriteFrame(-16, -8, 32, 16, 91, 105)
+	CheckCurrentStageFolder("Zone02")
+	if checkResult == true
+		LoadSpriteSheet("MZ/Objects.gif")
+		SpriteFrame(-19, -6, 23, 16, 130, 321)
+		SpriteFrame(-8, -8, 16, 16, 266, 355)
+		SpriteFrame(-16, -8, 32, 16, 233, 355)
+	end if
 	
 	// Ported Rexons have it set, but new ones don't
 	// While it probably meant something in the original game, in this game it doesn't do anything

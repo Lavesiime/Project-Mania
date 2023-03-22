@@ -230,7 +230,7 @@ event ObjectUpdate
 			end if
 
 			if player[currentPlayer].state != Player_State_Static
-				BoxCollisionTest(C_SOLID, object.entityPos, -24, object.hitboxT, 24, object.hitboxB, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+				BoxCollisionTest(C_PLATFORM, object.entityPos, -32, -16, 32, 16, currentPlayer, C_BOX, C_PLATFORM, C_BOX, C_PLATFORM)
 				if checkResult == COL_BOTTOM
 					CheckEqual(player[currentPlayer].state, Player_State_Climb)
 					temp0 = checkResult
@@ -258,7 +258,7 @@ event ObjectUpdate
 			object.hitboxT -= temp0
 			object.hitboxB = object.hitboxT
 			object.hitboxB += 8
-			BoxCollisionTest(C_TOUCH, object.entityPos, -28, object.hitboxT, 28, object.hitboxB, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+			BoxCollisionTest(C_PLATFORM, object.entityPos, -32, -16, 32, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 			if checkResult == true
 				player[currentPlayer].ypos = object.hitboxT
 				player[currentPlayer].ypos += temp0
@@ -267,7 +267,7 @@ event ObjectUpdate
 				player[currentPlayer].ypos += object.ypos
 				if object.state == HFLIPPER_IDLE
 					if object.direction == 0
-						BoxCollisionTest(C_TOUCH, object.entityPos, -32, -12, 28, 12, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+						BoxCollisionTest(C_TOUCH, object.entityPos, -32, -16, 32, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 					else
 						BoxCollisionTest(C_TOUCH, object.entityPos, -32, -24, 32, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 					end if

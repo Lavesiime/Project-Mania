@@ -1,6 +1,6 @@
 // ----------------------------------
 // RSDK Project: Sonic 2
-// Script Description: Rotate Platform Object
+// Script Description: Rotate Bumper Object
 // Script Author: Christian Whitehead/Simon Thomley
 // Unpacked by Rubberduckycooly's script unpacker
 // ----------------------------------
@@ -172,7 +172,8 @@ event ObjectUpdate
 
 	if object.outOfBounds == true
 		object.BumpCount  = 0
-		object.priority = PRIORITY_BOUNDS
+		object.priority = PRIORITY_ACTIVE
+
 		temp5 = object[arrayPos0].propertyValue
 		temp5 >>= 2
 		temp5 &= 3

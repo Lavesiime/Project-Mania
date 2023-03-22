@@ -224,8 +224,13 @@ event ObjectUpdate
 				// See if this Monitor is upside-down
 				GetBit(temp0, object.direction, 1)
 				if temp0 == true
+					CheckEqual(player[currentPlayer].animation, ANI_JUMPING)
+					temp0 = checkResult
+					CheckEqual(player[currentPlayer].animation, ANI_GLIDING)
+					temp0 |= checkResult
+					CheckEqual(player[currentPlayer].animation, ANI_GLIDING_STOP)
+					temp0 |= checkResult
 					// This monitor is upside-down, see if it should be broken
-
 					if player[currentPlayer].isSidekick == false // Only P1 should be able to break monitors
 						// Start resetting this object
 						object.state = MONITOR_STATE_RISE

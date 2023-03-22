@@ -1007,7 +1007,17 @@ public function Player_BadnikBreak
 
 		if options.competition == false // Will always pass because guess what doesn't exist in S1?
 			temp0 = currentPlayer
-			currentPlayer = 0
+			currentPlayer = SLOT_PLAYER1
+			arrayPos0 = GLOBAL_PLAYERSCORE
+#platform: USE_DECOMP
+			arrayPos0 = VarName[player.score]
+#endplatform
+		else
+			arrayPos0 = GLOBAL_PLAYERSCORE
+#platform: USE_DECOMP
+			arrayPos0 = VarName[player.score]
+#endplatform
+			arrayPos0 += currentPlayer
 		end if
 
 		switch player[currentPlayer].badnikBonus
@@ -1268,24 +1278,24 @@ public function Player_Kill
 #platform: USE_ORIGINS
 	player[currentPlayer].sortedDrawOrder = 7
 #endplatform
-
-	// Is this the main character?
 	if currentPlayer == 0
+		// If P1 is the one who died, then freeze everything else
+
 		player[currentPlayer].priority = PRIORITY_ALWAYS
 		if player[1].type == TypeName[Player 2 Object]
 			player[1].priority = PRIORITY_ALWAYS
 		end if
 
-		// Stop the game flow
 		camera[0].enabled = false
 		stage.state = STAGE_FROZEN
 	end if
 
+	// Move to the shield object slot
 	arrayPos0 = currentPlayer
 	arrayPos0 += playerCount
 
 	if object[arrayPos0].type == invincibilityType
-		// Used for when exiting Debug Mode, in order to preserve invincibility
+		// This... doesn't actually seem to do anything
 		object[arrayPos0].propertyValue = 3
 	end if
 

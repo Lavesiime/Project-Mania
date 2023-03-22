@@ -13,6 +13,7 @@ private alias object.value0 : object.paletteTimer
 private alias object.value1 : object.paletteIndex
 private alias object.value2 : object.scrollPos
 private alias object.value3 : object.signTileFrame
+private alias object.value4 : object.cylinder1TileFrame
 
 // Tracks
 private alias 0 : TRACK_STAGE
@@ -208,6 +209,34 @@ event ObjectUpdate
 	object.signTileFrame++
 	object.signTileFrame %= 0x30
 
+	// Cylinder Animations (Interactable)
+	Copy16x16Tile(817, object.cylinder1TileFrame)
+	object.cylinder1TileFrame++
+
+	Copy16x16Tile(818, object.cylinder1TileFrame)
+	object.cylinder1TileFrame++
+
+	Copy16x16Tile(819, object.cylinder1TileFrame)
+	object.cylinder1TileFrame++
+
+	Copy16x16Tile(820, object.cylinder1TileFrame)
+	object.cylinder1TileFrame++
+
+	Copy16x16Tile(821, object.cylinder1TileFrame)
+	object.cylinder1TileFrame++
+
+	Copy16x16Tile(822, object.cylinder1TileFrame)
+	object.cylinder1TileFrame++
+
+	Copy16x16Tile(823, object.cylinder1TileFrame)
+	object.cylinder1TileFrame++
+
+	Copy16x16Tile(824, object.cylinder1TileFrame)
+	object.cylinder1TileFrame++
+
+	if object.cylinder1TileFrame == 889
+		object.cylinder1TileFrame = 825
+	end if
 end event
 
 
@@ -246,6 +275,7 @@ event ObjectStartup
 
 	object[SLOT_ZONESETUP].type = TypeName[SLZ Setup]
 	object[SLOT_ZONESETUP].priority = PRIORITY_ACTIVE
+	object[SLOT_ZONESETUP].cylinder1TileFrame 	= 825
 	object[SLOT_ZONESETUP].drawOrder = 5
 	object[SLOT_ZONESETUP].scrollPos = 496
 	
