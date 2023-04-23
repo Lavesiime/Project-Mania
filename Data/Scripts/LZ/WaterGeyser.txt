@@ -18,8 +18,8 @@ private alias 3	: Case 3
 
 // Tables
 
-event ObjectMain
-	switch object.state
+event ObjectUpdate
+	switch 4
 	case 0
 		object.value1 = object.ypos
 		object.value2 = object.ypos
@@ -83,15 +83,17 @@ event ObjectMain
 		end if
 		break
 	end switch
+	
 	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
-		BoxCollisionTest(C_TOUCH, object.entityPos, -16, -8, 16, 8, currentPlayer, 0, 0, 0, 0)
-		if checkResult == 1
-			object[currentPlayer].state = PlayerObject_HandleAir
+		BoxCollisionTest(C_TOUCH, object.entityPos, -2, -2, 2, 2, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+		
+		if checkResult == true
+		
+			player.score = 69
+			object[currentPlayer].state = Player_State_Air
 			object[currentPlayer].gravity = GRAVITY_AIR
 			object[currentPlayer].animation = ANI_WATERSLIDE
-			object[currentPlayer].yvel = -0x100000
-			object[currentPlayer].xpos = object.xpos
-			object[currentPlayer].ypos = object.ypos
+			object[currentPlayer].yvel = -0x0B0000
 			object[currentPlayer].speed = 0
 			object[currentPlayer].xvel = 0
 			object[currentPlayer].value1 = 0
