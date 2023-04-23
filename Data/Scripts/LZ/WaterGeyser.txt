@@ -85,6 +85,7 @@ event ObjectUpdate
 	end switch
 	
 	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+		BoxCollisionTest(C_PLATFORM, object.entityPos, -16, -66, 16, -32, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 		BoxCollisionTest(C_TOUCH, object.entityPos, -2, -2, 2, 2, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 		
 		if checkResult == true
