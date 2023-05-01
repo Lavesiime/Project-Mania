@@ -8,6 +8,12 @@
 // Aliases
 private alias 61 : TYPE_WATERGEYSER
 
+private alias object.value0 : object.timer
+private alias object.value1 : object.startPos.y
+private alias object.value2 : object.maxHeight
+private alias object.value3 : object.eggmanHeight
+private alias object.value4 : object.parent
+
 
 // Static Values
 
@@ -16,81 +22,54 @@ private alias 1	: Case 1
 private alias 2	: Case 2
 private alias 3	: Case 3
 
+// Platform
+private alias object.value0 : object.amplitude.x
+private alias object.value1 : object.amplitude.y
+
+// Player Aliases
+private alias object.state : player.state
+private alias object.xpos : player.xpos
+private alias object.ypos : player.ypos
+private alias object.xvel : player.xvel
+private alias object.yvel : player.yvel
+private alias object.speed : player.speed
+private alias object.gravity : player.gravity
+private alias object.animation : player.animation
+
+private alias object.value1 : player.timer
+
 // Tables
 
+// ========================
+// Function Declarations
+// ========================
+
+reserve function WaterGeyser_DebugDraw
+reserve function WaterGeyser_DebugSpawn
+
+private function WaterGeyser_DebugDraw
+	DrawSprite(2)
+	DrawSprite(0)
+end function
+
+
+private function PipeValve_DebugSpawn
+	CreateTempObject(TypeName[Water Geyser], 0, object.xpos, object.ypos)
+	object[tempObjectPos].drawOrder = 4
+end function
+
+
+// ========================
+// Events
+// ========================
+
+
 event ObjectUpdate
-	switch 4
-	case 0
-		object.value1 = object.ypos
-		object.value2 = object.ypos
-		object.value2 -= 0x1000000
-		object.value3 = object.ypos
-		object.value3 -= 0x900000
-		if object.propertyValue == 0
-			object.state++
-		else
-			object.value4 = 0xFFFFFF
-			object.state = 3
-		end if
-		object.yvel = -0x100000
-		break
-	case 1
-		object.yvel += 0x3800
-		object.ypos += object.yvel
-		if object.ypos <= object.value2
-			object.ypos = object.value2
-			object.state++
-		end if
-		break
-	case 2
-		object.yvel += 0x3800
-		if object.yvel > 0
-			object.ypos += object.yvel
-		end if
-		if object.ypos >= object.value1
-			object.type = TypeName[Blank Object]
-		end if
-		break
-	case 3
-		object.yvel += 0x3800
-		if object.yvel > 0
-			object.ypos += object.yvel
-			if object.value4 != 0xFFFFFF
-				arrayPos0 = object.value4
-				if object[arrayPos0].state != 13
-					object[arrayPos0].state = 11
-				end if
-				object[arrayPos0].yvel = 0
-				object[arrayPos0].value13 = 0
-				object.value4 = 0xFFFFFF
-			end if
-		else
-			if object.value4 != 0xFFFFFF
-				foreach (TypeName[B08 Eggman], arrayPos0, ACTIVE_ENTITIES)
-					BoxCollisionTest(C_TOUCH, object.entityPos, -14, -18, 14, 18, arrayPos0, -12, -24, 12, 24)
-					if checkResult == 1
-						object.value2 = object.value3
-						object.value4 = arrayPos0
-						if object[arrayPos0].state != 13
-							object[arrayPos0].state = 10
-						end if
-					end if
-				next
-			end if
-		end if
-		if object.ypos >= object.value1
-			object.type = TypeName[Blank Object]
-		end if
-		break
-	end switch
-	
 	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
-		BoxCollisionTest(C_PLATFORM, object.entityPos, -16, -66, 16, -32, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
-		BoxCollisionTest(C_TOUCH, object.entityPos, -2, -2, 2, 2, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
-		
+		BoxCollisionTest(C_TOUCH, object.entityPos, -2, -16, 2, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+	
 		if checkResult == true
-		
-			player.score = 69
+
 			object[currentPlayer].state = Player_State_Air
 			object[currentPlayer].gravity = GRAVITY_AIR
 			object[currentPlayer].animation = ANI_WATERSLIDE
@@ -103,33 +82,49 @@ event ObjectUpdate
 				CreateTempObject(TypeName[Water Geyser], 0, object.xpos, object.ypos)
 				PlaySfx(SfxName[Water Geyser], 0)
 			end if
+			if object.timer < 20
+				object.ypos -= 0x0B0000
+				object.ypos -= object.yvel
+			end if
+		else
+			if object.timer > 0
+				object.ypos += 0x020000
+				object.ypos += object.yvel
+				if object.timer > 35
+					object.type = TypeName[Blank Object]
+				end if
+			end if
 		end if
 	next
 	if object.state == 1
-		object.value0++
-		if object.value0 == 64
-			object.value0 = 0
-			object.state = 0
+		object.timer++
+		if object.timer == 64
+			object.timer = 0
 		end if
 		StopSfx(SfxName[Water Splash])
 	end if
 end event
 
-
 event ObjectDraw
-	temp0 = object.value1
-	temp0 -= object.ypos
-	temp0 >>= 16
-	EditFrame(0, -14, 0, 28, temp0, 484, 0)
 	DrawSprite(0)
 	DrawSprite(1)
 end event
 
-
 event ObjectStartup
 	LoadSpriteSheet("LZ/Objects3.gif")
-	SpriteFrame(-14, 0, 28, 256, 203, 256)
+	SpriteFrame(-14, 0, 28, 256, 203, 0)
 	SpriteFrame(-24, -20, 48, 24, 1, 231)
+
+	foreach (TypeName[Water Geyser], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].drawOrder = 4
+	next
+
+	SetTableValue(TypeName[Water Geyser], DebugMode_ObjCount, DebugMode_TypesTable)
+	SetTableValue(WaterGeyser_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)
+	SetTableValue(WaterGeyser_DebugSpawn, DebugMode_ObjCount, DebugMode_SpawnTable)
+	DebugMode_ObjCount++
+end event
+
 end event
 
 event RSDKDraw
