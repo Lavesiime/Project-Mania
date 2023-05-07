@@ -1,0 +1,55 @@
+//----------------Sonic CD Burst Splash Script----------------//
+//--------Scripted by Christian Whitehead 'The Taxman'--------//
+//-------Unpacked By Rubberduckycooly's Script Unpacker-------//
+
+// Aliases
+private alias object.value0	:	object.timer
+private alias object.value1	:	object.xvel
+private alias object.value2	:	object.yvel
+
+
+event ObjectUpdate
+	object.xpos += object.xvel
+	object.ypos += object.yvel
+	object.yvel += 0x1000
+
+	if object.OutOfBounds == true
+		object.type = TypeName[Blank Object]
+	end if
+
+	object.timer++
+	if object.timer == 60
+		object.type = TypeName[Blank Object]
+	end if
+end event
+
+
+event ObjectDraw
+	DrawSpriteFX(0, FX_FLIP, object.xpos, object.ypos)
+	object.direction++
+	object.direction &= 3
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("LZ/Objects3.gif")
+
+	SpriteFrame(-16, -16, 32, 32, 1, 1)	// #0 - Burst Splash
+end event
+
+
+// ========================
+// Editor Subs
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+sevent RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 1)		// #0 - "Script" Icon
+
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event
