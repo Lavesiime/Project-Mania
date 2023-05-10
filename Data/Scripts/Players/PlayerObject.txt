@@ -4141,60 +4141,49 @@ public function Player_State_Climb_Mission
 end function
 
 public function Player_State_LedgePullUp
-	switch player.frame
-	case 0
+	if player.frame == 2
 		if player.timer < 5
 			ObjectTileGrip(0, 12, -9, player.collisionPlane)
 			player.timer++
 		else
-			player.timer = 0
-			player.frame = 0
-
 			if player.direction == 0
 				player.xpos += 0x90000
 			else
 				player.xpos -= 0x90000
 			end if
 
-			player.ypos -= 0x1D0000
+			player.ypos -= 0x80000
 		end if
-		break
-
-	case 1
+	end if
+	if player.frame == 6
 		if player.timer < 5
 			player.timer++
 		else
-			player.timer = 0
-			player.frame = 0
-
 			if player.direction == 0
 				player.xpos += 0x50000
 			else
 				player.xpos -= 0x50000
 			end if
 
-			player.ypos -= 0xF0000
+			player.ypos -= 0x100000
 		end if
-		break
-
-	case 2
+	end if
+	if player.frame == 9
 		if player.timer < 5
 			player.timer++
 		else
-			player.timer = 5
 			player.animation = ANI_STOPPED
+
 #platform: USE_STANDALONE
 			player.state = Player_State_Air
 #endplatform
 #platform: USE_ORIGINS
 			player.state = Player_State_Air_NoDropDash
 #endplatform
-			player.ypos -= 0xA0000
+			player.ypos -= 0x40000
 			player.tileCollisions = true
 		end if
-		break
-		
-	end switch
+	end if	
 end function
 
 public function Player_State_LPullUp_Mission
@@ -4927,7 +4916,6 @@ public function Player_State_Clinging
 		player.xvel = 0
 		player.speed = 0
 	end if
-
 	if player.up == true
 		player.ypos -= 0x10000
 	else
