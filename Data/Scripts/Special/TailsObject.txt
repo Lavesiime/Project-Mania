@@ -40,123 +40,82 @@ event ObjectDraw
 	object.yvel = player[0].yvel
 	object.yvel += player[0].moveVelocity.y
 
+	object.frame++
+	object.frame %= 12
 	temp0 = object.frame
-	temp0 >>= 2
+	temp0 >>= 1
 	CheckEqual(object.xvel, 0)
 	temp1 = checkResult
 	CheckEqual(object.yvel, 0)
 	temp1 &= checkResult
+	temp2 = object.rotation
 	if temp1 == false
 		ATan2(object.rotation, object.xvel, object.yvel)
-		object.rotation += 16
+		object.rotation += 0x10
 		temp2 = 512
 		temp2 -= Player_stageRotation
 		temp2 >>= 1
 		object.rotation += temp2
-		object.rotation &= 255
-		object.rotation >>= 5
+		object.rotation &= 0xFF
 
-		switch object.rotation
-		case 0
-		case 8
-			temp0 += 5
-			object.rotation = 0
-			break
-
-		case 1
-			temp0 += 8
-			if object.direction == FACING_RIGHT
-				object.rotation = 64
-			else
-				object.rotation = 0
-			end if
-			break
-
-		case 2
-			temp0 += 5
-			object.rotation = 64
-			break
-
-		case 3
-			temp0 += 8
-			if object.direction == FACING_RIGHT
-				object.rotation = 128
-			else
-				object.rotation = 64
-			end if
-			break
-
-		case 4
-			temp0 += 5
-			object.rotation = 128
-			break
-
-		case 5
-			temp0 += 8
-			if object.direction == FACING_RIGHT
-				object.rotation = 192
-			else
-				object.rotation = 128
-			end if
-			break
-
-		case 6
-			temp0 += 5
-			object.rotation = 192
-			break
-
-		case 7
-			temp0 += 8
-			if object.direction == FACING_RIGHT
-				object.rotation = 0
-			else
-				object.rotation = 192
-			end if
-			break
-			
-		end switch
-
-		if object.direction == FACING_LEFT
-			object.rotation += 128
+		temp0 += 10
+		if object.direction == 1
+			object.direction += 0x80
 		end if
 	else
-		temp0 += 5
-		object.rotation = 0
+		temp0 += 10
+		object.rotation = 0x00
 	end if
 
 	object.rotation <<= 1
 	if player[0].visible == true
 		DrawSpriteFX(temp0, FX_ROTATE, player[0].xpos, player[0].ypos)
 	end if
-
-	object.frame++
-	object.frame %= 12
+	object.rotation = temp2
 end event
 
 
 event ObjectStartup
 	if stage.playerListPos == PLAYER_TAILS_ALONE
-		LoadSpriteSheet("Players/Tails1.gif")
+		LoadSpriteSheet("Players/Tails5.gif")
 		
 		// Place the Tails Object into the scene
 		object[1].type = TypeName[Tails Object]
 		object[1].drawOrder = 8 // In the official scripts this would be 7, but we're setting it to 8 as a workaround for an Origins bug
 		object[1].priority = PRIORITY_ACTIVE
 		
-		SpriteFrame(-22, -8, 16, 24, 82, 199)
-		SpriteFrame(-26, -8, 20, 24, 99, 199)
-		SpriteFrame(-26, -8, 20, 24, 120, 199)
-		SpriteFrame(-26, -8, 20, 24, 141, 199)
-		SpriteFrame(-26, -8, 20, 24, 162, 199)
-		SpriteFrame(-35, -8, 24, 16, 231, 166)
-		SpriteFrame(-35, -8, 24, 16, 231, 183)
-		SpriteFrame(-35, -8, 24, 16, 231, 200)
+		// Idle Tail Sprites - #0-9
+		SpriteFrame(-22, -8, 16, 24, 112, 178)
+		SpriteFrame(-22, -9, 17, 24, 129, 178)
+		SpriteFrame(-26, -8, 20, 24, 147, 178)
+		SpriteFrame(-26, -8, 20, 24, 168, 178)
+		SpriteFrame(-26, -8, 20, 24, 189, 178)
+		SpriteFrame(-26, -9, 21, 24, 210, 178)
+		SpriteFrame(-26, -8, 20, 24, 232, 178)
+		SpriteFrame(-26, -9, 21, 24, 112, 203)
+		SpriteFrame(-26, -8, 20, 24, 134, 203)
+		SpriteFrame(-26, -8, 20, 24, 155, 203)
+
+		// Jumping Tail Sprites - #10-15
+		SpriteFrame(-35, -8, 24, 16, 182, 1)
+		SpriteFrame(-35, -8, 24, 16, 207, 1)
+		SpriteFrame(-35, -8, 24, 16, 232, 1)
+		SpriteFrame(-35, -8, 24, 16, 182, 18)
+		SpriteFrame(-35, -8, 24, 16, 207, 18)
+		SpriteFrame(-35, -8, 24, 16, 232, 18)
+
+		// Jumping Tail Sprites (45 Degrees) - #16-18
 		SpriteFrame(-25, 9, 20, 16, 235, 217)
 		SpriteFrame(-25, 9, 18, 16, 237, 234)
 		SpriteFrame(-25, 9, 20, 16, 216, 234)
-		SpriteFrame(-30, -6, 24, 16, 231, 166)
-		SpriteFrame(-30, -6, 24, 16, 231, 183)
-		SpriteFrame(-30, -6, 24, 16, 231, 200)
+
+		// Pushing Tail Sprites - #19-24
+		SpriteFrame(-30, -2, 24, 16, 182, 1)
+		SpriteFrame(-30, -2, 24, 16, 207, 1)
+		SpriteFrame(-30, -2, 24, 16, 232, 1)
+		SpriteFrame(-30, -2, 24, 16, 182, 18)
+		SpriteFrame(-30, -2, 24, 16, 207, 18)
+		SpriteFrame(-30, -2, 24, 16, 232, 18)
 	end if
 end event
 

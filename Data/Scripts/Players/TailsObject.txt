@@ -221,11 +221,11 @@ event ObjectDraw
 	end if
 	
 	if player.tailAnim != object.animation
-		if object.animation > 4
+		if object.animation > 9
 			player.tailFrame = 0
 		end if
 
-		if player.tailAnim > 4
+		if player.tailAnim > 9
 			player.tailFrame = 0
 		end if
 
@@ -237,7 +237,7 @@ event ObjectDraw
 	case 0 // ANI_STOPPED
 		if object.frame == 0
 			temp0 = player.tailFrame
-			temp0 >>= 3
+			temp0 >>= 2
 			if object.visible == true
 				DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
 			end if
@@ -249,7 +249,7 @@ event ObjectDraw
 	case 4 // ANI_LOOKINGDOWN
 	case 37 // ANI_CONTINUE_UP
 		temp0 = player.tailFrame
-		temp0 >>= 3
+		temp0 >>= 2
 		if object.visible == true
 			DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
 		end if
@@ -259,7 +259,7 @@ event ObjectDraw
 	case 9 // ANI_SPINDASH
 		temp0 = player.tailFrame
 		temp0 >>= 2
-		temp0 += 11
+		temp0 += 19
 		if object.visible == true
 			DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
 		end if
@@ -268,7 +268,7 @@ event ObjectDraw
 	case 10 // ANI_JUMPING
 	case 43 // Unknown, this was probably "SSRoll" before it got moved to its own ani file
 		temp0 = player.tailFrame
-		temp0 >>= 2
+		temp0 >>= 1
 		CheckEqual(object.xvel, 0)
 		temp1 = checkResult
 		CheckEqual(object.yvel, 0)
@@ -276,73 +276,14 @@ event ObjectDraw
 		temp2 = object.rotation
 		if temp1 == 0
 			ATan2(object.rotation, object.xvel, object.yvel)
-			object.rotation += 0x10
+			object.rotation += 0x00
 			object.rotation &= 0xFF
-			object.rotation >>= 5
-			switch object.rotation
-			case 0
-			case 8
-				temp0 += 5
-				object.rotation = 0x00
-				break
-
-			case 1
-				temp0 += 8
-				if object.direction == 0
-					object.rotation = 0x40
-				else
-					object.rotation = 0x00
-				end if
-				break
-
-			case 2
-				temp0 += 5
-				object.rotation = 0x40
-				break
-
-			case 3
-				temp0 += 8
-				if object.direction == 0
-					object.rotation = 0x80
-				else
-					object.rotation = 0x40
-				end if
-				break
-
-			case 4
-				temp0 += 5
-				object.rotation = 0x80
-				break
-
-			case 5
-				temp0 += 8
-				if object.direction == 0
-					object.rotation = 0xC0
-				else
-					object.rotation = 0x80
-				end if
-				break
-
-			case 6
-				temp0 += 5
-				object.rotation = 0xC0
-				break
-
-			case 7
-				temp0 += 8
-				if object.direction == 0
-					object.rotation = 0x00
-				else
-					object.rotation = 0xC0
-				end if
-				break
-			end switch
-
+			temp0 += 10
 			if object.direction == 1
 				object.rotation += 0x80
 			end if
 		else
-			temp0 += 5
+			temp0 += 10
 			object.rotation = 0x00
 		end if
 
@@ -355,8 +296,8 @@ event ObjectDraw
 		
 	case 17 // ANI_PUSHING
 		temp0 = player.tailFrame
-		temp0 /= 10
-		temp0 += 11
+		temp0 /= 5
+		temp0 += 19
 		if object.visible == true
 			DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
 		end if
@@ -372,31 +313,42 @@ end event
 
 event ObjectStartup
 	if stage.playerListPos == true
-		LoadSpriteSheet("Players/Tails1.gif")
+		LoadSpriteSheet("Players/Tails5.gif")
 		
 		LoadAnimation("Tails.ani")
 		
-		// Idle Tail Sprites - #0-4
-		SpriteFrame(-22, -8, 16, 24, 82, 199)
-		SpriteFrame(-26, -8, 20, 24, 99, 199)
-		SpriteFrame(-26, -8, 20, 24, 120, 199)
-		SpriteFrame(-26, -8, 20, 24, 141, 199)
-		SpriteFrame(-26, -8, 20, 24, 162, 199)
+		// Idle Tail Sprites - #0-9
+		SpriteFrame(-22, -8, 16, 24, 112, 178)
+		SpriteFrame(-22, -9, 17, 24, 129, 178)
+		SpriteFrame(-26, -8, 20, 24, 147, 178)
+		SpriteFrame(-26, -8, 20, 24, 168, 178)
+		SpriteFrame(-26, -8, 20, 24, 189, 178)
+		SpriteFrame(-26, -9, 21, 24, 210, 178)
+		SpriteFrame(-26, -8, 20, 24, 232, 178)
+		SpriteFrame(-26, -9, 21, 24, 112, 203)
+		SpriteFrame(-26, -8, 20, 24, 134, 203)
+		SpriteFrame(-26, -8, 20, 24, 155, 203)
 
-		// Jumping Tail Sprites - #5-7
-		SpriteFrame(-35, -8, 24, 16, 231, 166)
-		SpriteFrame(-35, -8, 24, 16, 231, 183)
-		SpriteFrame(-35, -8, 24, 16, 231, 200)
+		// Jumping Tail Sprites - #10-15
+		SpriteFrame(-35, -8, 24, 16, 182, 1)
+		SpriteFrame(-35, -8, 24, 16, 207, 1)
+		SpriteFrame(-35, -8, 24, 16, 232, 1)
+		SpriteFrame(-35, -8, 24, 16, 182, 18)
+		SpriteFrame(-35, -8, 24, 16, 207, 18)
+		SpriteFrame(-35, -8, 24, 16, 232, 18)
 
-		// Jumping Tail Sprites (45 Degrees) - #8-10
+		// Jumping Tail Sprites (45 Degrees) - #16-18
 		SpriteFrame(-25, 9, 20, 16, 235, 217)
 		SpriteFrame(-25, 9, 18, 16, 237, 234)
 		SpriteFrame(-25, 9, 20, 16, 216, 234)
 
-		// Pushing Tail Sprites - #11-13
-		SpriteFrame(-30, -6, 24, 16, 231, 166)
-		SpriteFrame(-30, -6, 24, 16, 231, 183)
-		SpriteFrame(-30, -6, 24, 16, 231, 200)
+		// Pushing Tail Sprites - #19-24
+		SpriteFrame(-30, -2, 24, 16, 182, 1)
+		SpriteFrame(-30, -2, 24, 16, 207, 1)
+		SpriteFrame(-30, -2, 24, 16, 232, 1)
+		SpriteFrame(-30, -2, 24, 16, 182, 18)
+		SpriteFrame(-30, -2, 24, 16, 207, 18)
+		SpriteFrame(-30, -2, 24, 16, 232, 18)
 	end if
 end event
 
