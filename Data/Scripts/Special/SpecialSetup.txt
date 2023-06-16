@@ -675,10 +675,10 @@ event ObjectUpdate
 	end switch
 
 	ringTimer++
-	if ringTimer == 4
+	if ringTimer == 2
 		ringTimer = 0
 		ringFrame++
-		ringFrame &= 7
+		ringFrame %= 16
 	end if
 	
 #platform: USE_ORIGINS

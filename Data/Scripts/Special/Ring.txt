@@ -131,6 +131,14 @@ event ObjectStartup
 	SpriteFrame(-8, -8, 16, 16, 257, 376)
 	SpriteFrame(-8, -8, 16, 16, 274, 376)
 	SpriteFrame(-8, -8, 16, 16, 291, 376)
+	SpriteFrame(-8, -8, 16, 16, 318, 401)
+	SpriteFrame(-8, -8, 16, 16, 335, 401)
+	SpriteFrame(-8, -8, 16, 16, 352, 401)
+	SpriteFrame(-8, -8, 16, 16, 380, 418)
+	SpriteFrame(-8, -8, 16, 16, 397, 418)
+	SpriteFrame(-8, -8, 16, 16, 414, 418)
+	SpriteFrame(-8, -8, 16, 16, 431, 418)
+	SpriteFrame(-8, -8, 16, 16, 448, 418)
 
 	// Add this object to the stage's debug mode list
 	SetTableValue(TypeName[Ring], DebugMode_ObjCount, DebugMode_TypeTable)
