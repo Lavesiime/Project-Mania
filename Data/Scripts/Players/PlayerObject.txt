@@ -381,91 +381,91 @@ private value Player_unusedValue7 = 0
 // ========================
 
 public table Player_SonicSuperPal
-	0x202080, 0x4040A0, 0x6060C0, 0x8080E0
-	0x404060, 0x6060A0, 0x8080E0, 0xA0A0E0
-	0x606040, 0x8080A0, 0xA0A0E0, 0xC0C0E0
-	0x808040, 0xA0A0A0, 0xC0C0E0, 0xE0E0E0
-	0xA0A040, 0xC0C0A0, 0xE0E0E0, 0xE0E0E0
-	0xC0C040, 0xE0E0A0, 0xE0E0E0, 0xE0E0E0
-	0xE0E040, 0xE0E0A0, 0xE0E0E0, 0xE0E0E0
-	0xE0E060, 0xE0E0E0, 0xE0E0E0, 0xE0E0E0
-	0xE0E080, 0xE0E0E0, 0xE0E0E0, 0xE0E0E0
-	0xE0E060, 0xE0E0C0, 0xE0E0E0, 0xE0E0E0
-	0xE0E040, 0xE0E0A0, 0xE0E0E0, 0xE0E0E0
-	0xE0E020, 0xE0E080, 0xE0E0C0, 0xE0E0E0
-	0xE0E000, 0xE0E060, 0xE0E0A0, 0xE0E0E0
-	0xE0E000, 0xE0E040, 0xE0E080, 0xE0E0C0
-	0xE0E000, 0xE0E060, 0xE0E0A0, 0xE0E0E0
-	0xE0E000, 0xE0E080, 0xE0E0C0, 0xE0E0E0
+	0x181868, 0x202080, 0x4040A0, 0x5454B0, 0x6060C0, 0x8080E0
+	0x383850, 0x404060, 0x6060A0, 0x7060C0, 0x8080E0, 0xA0A0E0 
+	0x484830, 0x606040, 0x8080A0, 0x9090C0, 0xA0A0E0, 0xC0C0E0
+	0x606040, 0x808040, 0xA0A0A0, 0xB8B8D0, 0xC0C0E0, 0xE0E0E0
+	0x808040, 0xA0A040, 0xC0C0A0, 0xD0D0C0, 0xE0E0E0, 0xE0E0E0
+	0xA0A040, 0xC0C040, 0xE0E0A0, 0xE0E0C0, 0xE0E0E0, 0xE0E0E0
+	0xC0C040, 0xE0E040, 0xE0E0A0, 0xE0E0C0, 0xE0E0E0, 0xE0E0E0
+	0xD0D040, 0xE0E060, 0xE0E0C0, 0xE0E0D0, 0xE0E0E0, 0xE0E0E0
+	0xE0E060, 0xE0E080, 0xE0E0E0, 0xE0E0E0, 0xE0E0E0, 0xE0E0E0
+	0xD0D040, 0xE0E060, 0xE0E0C0, 0xE0E0D0, 0xE0E0E0, 0xE0E0E0
+	0xC0C040, 0xE0E040, 0xE0E0A0, 0xE0E0C0, 0xE0E0E0, 0xE0E0E0
+	0xB0B040, 0xE0E020, 0xE0E080, 0xE0E0A0, 0xE0E0C0, 0xE0E0E0
+	0xB0B000, 0xE0E000, 0xE0E060, 0xE0E080, 0xE0E0A0, 0xE0E0E0
+	0xB0B000, 0xE0E000, 0xE0E040, 0xE0E060, 0xE0E080, 0xE0E0C0
+	0xB0B000, 0xE0E000, 0xE0E060, 0xE0E080, 0xE0E0A0, 0xE0E0E0
+	0xB0B000, 0xE0E000, 0xE0E080, 0xE0E0A0, 0xE0E0C0, 0xE0E0E0
 end table
 
 // Alt underwater palette
 // Normally only used by LZ in S1, the actual UW colors are set in LZSetup
 public table Player_SonicSuperAltPal
-	0x202080, 0x4040A0, 0x6060C0, 0x8080E0
-	0x404060, 0x6060A0, 0x8080E0, 0xA0A0E0
-	0x606040, 0x8080A0, 0xA0A0E0, 0xC0C0E0
-	0x808040, 0xA0A0A0, 0xC0C0E0, 0xE0E0E0
-	0xA0A040, 0xC0C0A0, 0xE0E0E0, 0xE0E0E0
-	0xC0C040, 0xE0E0A0, 0xE0E0E0, 0xE0E0E0
-	0xE0E040, 0xE0E0A0, 0xE0E0E0, 0xE0E0E0
-	0xE0E060, 0xE0E0E0, 0xE0E0E0, 0xE0E0E0
-	0xE0E080, 0xE0E0E0, 0xE0E0E0, 0xE0E0E0
-	0xE0E060, 0xE0E0C0, 0xE0E0E0, 0xE0E0E0
-	0xE0E040, 0xE0E0A0, 0xE0E0E0, 0xE0E0E0
-	0xE0E020, 0xE0E080, 0xE0E0C0, 0xE0E0E0
-	0xE0E000, 0xE0E060, 0xE0E0A0, 0xE0E0E0
-	0xE0E000, 0xE0E040, 0xE0E080, 0xE0E0C0
-	0xE0E000, 0xE0E060, 0xE0E0A0, 0xE0E0E0
-	0xE0E000, 0xE0E080, 0xE0E0C0, 0xE0E0E0
+	0x181868, 0x202080, 0x4040A0, 0x5454B0, 0x6060C0, 0x8080E0
+	0x383850, 0x404060, 0x6060A0, 0x7060C0, 0x8080E0, 0xA0A0E0 
+	0x484830, 0x606040, 0x8080A0, 0x9090C0, 0xA0A0E0, 0xC0C0E0
+	0x606040, 0x808040, 0xA0A0A0, 0xB8B8D0, 0xC0C0E0, 0xE0E0E0
+	0x808040, 0xA0A040, 0xC0C0A0, 0xD0D0C0, 0xE0E0E0, 0xE0E0E0
+	0xA0A040, 0xC0C040, 0xE0E0A0, 0xE0E0C0, 0xE0E0E0, 0xE0E0E0
+	0xC0C040, 0xE0E040, 0xE0E0A0, 0xE0E0C0, 0xE0E0E0, 0xE0E0E0
+	0xD0D040, 0xE0E060, 0xE0E0C0, 0xE0E0D0, 0xE0E0E0, 0xE0E0E0
+	0xE0E060, 0xE0E080, 0xE0E0E0, 0xE0E0E0, 0xE0E0E0, 0xE0E0E0
+	0xD0D040, 0xE0E060, 0xE0E0C0, 0xE0E0D0, 0xE0E0E0, 0xE0E0E0
+	0xC0C040, 0xE0E040, 0xE0E0A0, 0xE0E0C0, 0xE0E0E0, 0xE0E0E0
+	0xB0B040, 0xE0E020, 0xE0E080, 0xE0E0A0, 0xE0E0C0, 0xE0E0E0
+	0xB0B000, 0xE0E000, 0xE0E060, 0xE0E080, 0xE0E0A0, 0xE0E0E0
+	0xB0B000, 0xE0E000, 0xE0E040, 0xE0E060, 0xE0E080, 0xE0E0C0
+	0xB0B000, 0xE0E000, 0xE0E060, 0xE0E080, 0xE0E0A0, 0xE0E0E0
+	0xB0B000, 0xE0E000, 0xE0E080, 0xE0E0A0, 0xE0E0C0, 0xE0E0E0
 end table
 
 public table Player_TailsSuperPal
-	0x800000, 0xE08000, 0xE0A000, 0xA06040
-	0x800000, 0xE0A020, 0xE0C040, 0xA06040
-	0xA06040, 0xE0C040, 0xE0C080, 0xC06040
-	0xC06040, 0xE0C080, 0xE0E0A0, 0xE08040
-	0xA06040, 0xE0C040, 0xE0C080, 0xC06040
-	0x800000, 0xE0A020, 0xE0C040, 0xA06040
+	0x800000, 0x883020, 0xD07810, 0xE08000, 0xE0A000, 0xA06040
+	0x883020, 0x944830, 0xC08030, 0xE0A020, 0xE0C040, 0xAA6430
+	0xA06040, 0xB06040, 0xD09040, 0xE0C040, 0xE0C080, 0xC06040
+	0xC06040, 0xD07040, 0xE0A060, 0xE0C080, 0xE0E0A0, 0xE08040
+	0xA06040, 0xB06040, 0xD09040, 0xE0C040, 0xE0C080, 0xC06040
+	0x883020, 0x944830, 0xC08030, 0xE0A020, 0xE0C040, 0xAA6430
 end table
 
 // Alt underwater palette
 // Normally only used by LZ in S1, the actual UW colors are set in LZSetup
 public table Player_TailsSuperAltPal
-	0x800000, 0xE08000, 0xE0A000, 0xA06040
-	0x800000, 0xE0A020, 0xE0C040, 0xA06040
-	0xA06040, 0xE0C040, 0xE0C080, 0xC06040
-	0xC06040, 0xE0C080, 0xE0E0A0, 0xE08040
-	0xA06040, 0xE0C040, 0xE0C080, 0xC06040
-	0x800000, 0xE0A020, 0xE0C040, 0xA06040
+	0x800000, 0x883020, 0xD07810, 0xE08000, 0xE0A000, 0xA06040
+	0x883020, 0x944830, 0xC08030, 0xE0A020, 0xE0C040, 0xAA6430
+	0xA06040, 0xB06040, 0xD09040, 0xE0C040, 0xE0C080, 0xC06040
+	0xC06040, 0xD07040, 0xE0A060, 0xE0C080, 0xE0E0A0, 0xE08040
+	0xA06040, 0xB06040, 0xD09040, 0xE0C040, 0xE0C080, 0xC06040
+	0x883020, 0x944830, 0xC08030, 0xE0A020, 0xE0C040, 0xAA6430
 end table
 
 public table Player_KnuxSuperPal
-	0x600020, 0xC00020, 0xE04060
-	0x802040, 0xE04060, 0xE060A0
-	0xA04060, 0xE06080, 0xE080C0
-	0xC06080, 0xE080A0, 0xE0A0E0
-	0xE080A0, 0xE0A0C0, 0xE0C0E0
-	0xE0A0C0, 0xE0C0E0, 0xE0E0E0
-	0xE080A0, 0xE0A0C0, 0xE0C0E0
-	0xC06080, 0xE080A0, 0xE0A0E0
-	0xA04060, 0xE06080, 0xE080C0
-	0x802040, 0xE04060, 0xE060A0
+	0x600020, 0x980030, 0xC00040, 0xE02048, 0xE04060, 0xF08088
+	0x802040, 0xB03050, 0xE04060, 0xE05080, 0xE060A0, 0xF08890
+	0xA04060, 0xC05070, 0xE06080, 0xE070A0, 0xE080C0, 0xEC90A8
+	0xC06080, 0xD07090, 0xE080A0, 0xE090C0, 0xE098D0, 0xE098D0
+	0xE080A0, 0xE090B0, 0xE0A0C0, 0xE4A4BC, 0xE8A8B8, 0xE8A8B8
+	0xE0A0C0, 0xE0A8C4, 0xE4B0C8, 0xE4B4BC, 0xE8B4AC, 0xE8B4AC
+	0xE080A0, 0xE090B0, 0xE0A0C0, 0xE4A4BC, 0xE8A8B8, 0xE8A8B8
+	0xC06080, 0xD07090, 0xE080A0, 0xE090C0, 0xE098D0, 0xE098D0
+	0xA04060, 0xC05070, 0xE06080, 0xE070A0, 0xE080C0, 0xEC90A8
+	0x802040, 0xB03050, 0xE04060, 0xE05080, 0xE060A0, 0xF08890
 end table
 
 // Alt underwater palette
 // Normally only used by LZ in S1, the actual UW colors are set in LZSetup
 public table Player_KnuxSuperAltPal
-	0x600020, 0xC00040, 0xE04080
-	0x802040, 0xE04060, 0xE060A0
-	0xA04060, 0xE06080, 0xE080C0
-	0xC06080, 0xE080A0, 0xE0A0E0
-	0xE080A0, 0xE0A0C0, 0xE0C0E0
-	0xE0A0C0, 0xE0C0E0, 0xE0E0E0
-	0xE080A0, 0xE0A0C0, 0xE0C0E0
-	0xC06080, 0xE080A0, 0xE0A0E0
-	0xA04060, 0xE06080, 0xE080C0
-	0x802040, 0xE04060, 0xE060A0
+	0x600020, 0x980030, 0xC00040, 0xE02048, 0xE04060, 0xF08088
+	0x802040, 0xB03050, 0xE04060, 0xE05080, 0xE060A0, 0xF08890
+	0xA04060, 0xC05070, 0xE06080, 0xE070A0, 0xE080C0, 0xEC90A8
+	0xC06080, 0xD07090, 0xE080A0, 0xE090C0, 0xE098D0, 0xE098D0
+	0xE080A0, 0xE090B0, 0xE0A0C0, 0xE4A4BC, 0xE8A8B8, 0xE8A8B8
+	0xE0A0C0, 0xE0A8C4, 0xE4B0C8, 0xE4B4BC, 0xE8B4AC, 0xE8B4AC
+	0xE080A0, 0xE090B0, 0xE0A0C0, 0xE4A4BC, 0xE8A8B8, 0xE8A8B8
+	0xC06080, 0xD07090, 0xE080A0, 0xE090C0, 0xE098D0, 0xE098D0
+	0xA04060, 0xC05070, 0xE06080, 0xE070A0, 0xE080C0, 0xEC90A8
+	0x802040, 0xB03050, 0xE04060, 0xE05080, 0xE060A0, 0xF08890
 end table
 
 // Each line of these physics tables store the values in this order:
@@ -575,10 +575,10 @@ end function
 public function Player_HandleSuperPalette_Sonic
 	if Player_superState == SUPERSTATE_SUPER
 		Player_superBlendTimer++
-		if Player_superBlendTimer >= 4
+		if Player_superBlendTimer >= 6
 			Player_superBlendTimer = 0
 
-			Player_superBlendClr += 4
+			Player_superBlendClr += 6
 			if Player_superBlendClr >= 64
 				Player_superBlendClr = 24
 			end if
@@ -588,7 +588,7 @@ public function Player_HandleSuperPalette_Sonic
 		if Player_superBlendTimer >= 8
 			Player_superBlendTimer = 0
 
-			Player_superBlendClr -= 4
+			Player_superBlendClr -= 6
 			if Player_superBlendClr <= 0
 				Player_superBlendClr = 0
 				Player_superState = SUPERSTATE_NONE
@@ -601,6 +601,12 @@ public function Player_HandleSuperPalette_Sonic
 	end if
 
 	temp1 = Player_superBlendClr
+
+	GetTableValue(temp0, temp1, Player_SonicSuperPal)
+	SetPaletteEntry(0, 68, temp0)
+	GetTableValue(temp0, temp1, Player_SonicSuperAltPal)
+	SetPaletteEntry(1, 68, temp0)
+	temp1++
 
 	GetTableValue(temp0, temp1, Player_SonicSuperPal)
 	SetPaletteEntry(0, 2, temp0)
@@ -615,6 +621,12 @@ public function Player_HandleSuperPalette_Sonic
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_SonicSuperPal)
+	SetPaletteEntry(0, 69, temp0)
+	GetTableValue(temp0, temp1, Player_SonicSuperAltPal)
+	SetPaletteEntry(1, 69, temp0)
+	temp1++
+
+	GetTableValue(temp0, temp1, Player_SonicSuperPal)
 	SetPaletteEntry(0, 4, temp0)
 	GetTableValue(temp0, temp1, Player_SonicSuperAltPal)
 	SetPaletteEntry(1, 4, temp0)
@@ -624,6 +636,8 @@ public function Player_HandleSuperPalette_Sonic
 	SetPaletteEntry(0, 5, temp0)
 	GetTableValue(temp0, temp1, Player_SonicSuperAltPal)
 	SetPaletteEntry(1, 5, temp0)
+	temp1++
+
 end function
 
 
@@ -633,22 +647,22 @@ public function Player_HandleSuperPalette_Tails
 		if Player_superBlendTimer >= 12
 			Player_superBlendTimer = 0
 
-			Player_superBlendClr += 4
-			if Player_superBlendClr >= 24
+			Player_superBlendClr += 6
+			if Player_superBlendClr >= 30
 				Player_superBlendClr = 0
 			end if
 		end if
 	else
 		if Player_superBlendClr > 12
 			FlipSign(Player_superBlendClr)
-			Player_superBlendClr += 24
+			Player_superBlendClr += 30
 		end if
 
 		Player_superBlendTimer++
 		if Player_superBlendTimer >= 12
 			Player_superBlendTimer = 0
 
-			Player_superBlendClr -= 4
+			Player_superBlendClr -= 6
 			if Player_superBlendClr <= 0
 				Player_superBlendClr = 0
 				Player_superState = SUPERSTATE_NONE
@@ -659,9 +673,21 @@ public function Player_HandleSuperPalette_Tails
 	temp1 = Player_superBlendClr
 
 	GetTableValue(temp0, temp1, Player_TailsSuperPal)
+	SetPaletteEntry(0, 70, temp0)
+	GetTableValue(temp0, temp1, Player_TailsSuperAltPal)
+	SetPaletteEntry(1, 70, temp0)
+	temp1++
+
+	GetTableValue(temp0, temp1, Player_TailsSuperPal)
 	SetPaletteEntry(0, 13, temp0)
 	GetTableValue(temp0, temp1, Player_TailsSuperAltPal)
 	SetPaletteEntry(1, 13, temp0)
+	temp1++
+
+	GetTableValue(temp0, temp1, Player_TailsSuperPal)
+	SetPaletteEntry(0, 19, temp0)
+	GetTableValue(temp0, temp1, Player_TailsSuperAltPal)
+	SetPaletteEntry(1, 19, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_TailsSuperPal)
@@ -687,10 +713,10 @@ public function Player_HandleSuperPalette_Knux
 	if Player_superState == SUPERSTATE_SUPER
 		Player_superBlendTimer++
 		if Player_superBlendTimer >= 12
-			Player_superBlendTimer = 9
+			Player_superBlendTimer = 6
 
-			Player_superBlendClr += 3
-			if Player_superBlendClr >= 30
+			Player_superBlendClr += 6
+			if Player_superBlendClr >= 60
 				Player_superBlendTimer = 0
 				Player_superBlendClr = 0
 			end if
@@ -698,14 +724,14 @@ public function Player_HandleSuperPalette_Knux
 	else
 		if Player_superBlendClr > 15
 			FlipSign(Player_superBlendClr)
-			Player_superBlendClr += 30
+			Player_superBlendClr += 60
 		end if
 
 		Player_superBlendTimer++
 		if Player_superBlendTimer >= 12
 			Player_superBlendTimer = 0
 
-			Player_superBlendClr -= 3
+			Player_superBlendClr -= 6
 			if Player_superBlendClr <= 0
 				Player_superBlendClr = 0
 				Player_superState = SUPERSTATE_NONE
@@ -722,15 +748,33 @@ public function Player_HandleSuperPalette_Knux
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_KnuxSuperPal)
+	SetPaletteEntry(0, 71, temp0)
+	GetTableValue(temp0, temp1, Player_KnuxSuperAltPal)
+	SetPaletteEntry(1, 71, temp0)
+	temp1++
+
+	GetTableValue(temp0, temp1, Player_KnuxSuperPal)
 	SetPaletteEntry(0, 27, temp0)
 	GetTableValue(temp0, temp1, Player_KnuxSuperAltPal)
 	SetPaletteEntry(1, 27, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_KnuxSuperPal)
+	SetPaletteEntry(0, 72, temp0)
+	GetTableValue(temp0, temp1, Player_KnuxSuperAltPal)
+	SetPaletteEntry(1, 72, temp0)
+	temp1++
+
+	GetTableValue(temp0, temp1, Player_KnuxSuperPal)
 	SetPaletteEntry(0, 28, temp0)
 	GetTableValue(temp0, temp1, Player_KnuxSuperAltPal)
 	SetPaletteEntry(1, 28, temp0)
+	temp1++
+
+	GetTableValue(temp0, temp1, Player_KnuxSuperPal)
+	SetPaletteEntry(0, 29, temp0)
+	GetTableValue(temp0, temp1, Player_KnuxSuperAltPal)
+	SetPaletteEntry(1, 29, temp0)
 end function
 
 
@@ -3623,7 +3667,8 @@ public function Player_State_GlideLeft
 			end if
 			temp7 = player.xpos
 			if player.timer < 128
-				player.direction = FACING_RIGHT
+				player.direction = FACING_LEFT
+				player.animationSpeed = 85
 				temp0 = 0
 				temp1 = 0
 			else
@@ -3650,6 +3695,7 @@ public function Player_State_GlideLeft
 				player.animation = ANI_GLIDING
 				player.frame = 0
 				player.state = Player_State_GlideRight
+				player.direction = FACING_RIGHT
 			end if
 			player.xpos = temp7
 			checkResult = temp0
@@ -3748,7 +3794,8 @@ public function Player_State_GlideRight
 				temp1 = checkResult
 				temp3 = player.xpos
 			else
-				player.direction = FACING_LEFT
+				player.direction = FACING_RIGHT
+				player.animationSpeed = 85
 				temp0 = 0
 				temp1 = 0
 			end if
@@ -3760,7 +3807,7 @@ public function Player_State_GlideRight
 				player.animation = ANI_GLIDING
 				player.frame = 0
 				player.state = Player_State_GlideLeft
-				player.direction = FACING_RIGHT
+				player.direction = FACING_LEFT
 			end if
 			player.xpos = temp7
 			checkResult = temp0
@@ -3858,8 +3905,9 @@ public function Player_State_GlideSlide
 			if player.timer < 16
 				player.timer++
 			else
+				player.ypos -= 0x80000
 				player.state = Player_State_Ground
-				CallFunction(Player_HandleOnGround)
+
 				player.skidding = 0
 			end if
 		else
@@ -3875,24 +3923,18 @@ public function Player_State_GlideSlide
 				end if
 			end if
 			if player.speed > 0
-				if player.frame == 8
-					player.animationTimer = 0
-				end if
 				player.speed -= 0x2000
 				if player.speed < 0
 					player.speed = 0
 					player.timer = 0
-					player.frame = 9
+
 				end if
 			else
-				if player.frame == 8
-					player.animationTimer = 0
-				end if
 				player.speed += 0x2000
 				if player.speed > 0
 					player.speed = 0
 					player.timer = 0
-					player.frame = 9
+
 				end if
 			end if
 			if player.jumpHold == false
@@ -4152,6 +4194,91 @@ public function Player_State_LedgePullUp
 				player.xpos -= 0x90000
 			end if
 
+			player.ypos -= 0x30000
+		end if
+	end if
+	if player.frame == 4
+		if player.timer < 5
+			player.timer++
+		else
+			player.ypos -= 0x50000
+		end if
+	end if
+	if player.frame == 6
+		if player.timer < 5
+			player.timer++
+		else
+			player.ypos -= 0x80000
+		end if
+	end if
+	if player.frame == 9
+		if player.timer < 5
+			player.timer++
+		else
+			if player.direction == 0
+				player.xpos += 0x50000
+			else
+				player.xpos -= 0x50000
+			end if
+			player.ypos -= 0x60000
+		end if
+	end if
+	if player.frame == 13
+		if player.timer < 5
+			player.timer++
+		else
+			player.ypos -= 0x40000
+
+		end if
+	end if
+	if player.frame == 18
+		if player.timer < 5
+			player.timer++
+		else
+			player.ypos -= 0x30000
+
+		end if
+	end if
+	if player.frame == 23
+		if player.timer < 5
+			player.timer++
+		else
+			player.ypos -= 0x00000
+		end if
+	end if
+	if player.frame == 28
+		if player.timer < 5
+			player.timer++
+		else
+			player.animation = ANI_STOPPED
+
+#platform: USE_STANDALONE
+			player.state = Player_State_Air
+#endplatform
+#platform: USE_ORIGINS
+			player.state = Player_State_Air_NoDropDash
+#endplatform
+			player.ypos -= 0x00000
+			player.tileCollisions = true
+		end if
+	end if	
+end function
+
+public function Player_State_LPullUp_Mission
+#platform: USE_ORIGINS
+	// This is a modified version of Player_State_LedgePullUp, to be paired with Player_State_Climb_Mission
+	// It's similarly made for pulling Knuckles up on Mission Blocks
+	
+	if player.frame == 2
+		if player.timer < 5
+			player.timer++
+		else
+			if player.direction == 0
+				player.xpos += 0x90000
+			else
+				player.xpos -= 0x90000
+			end if
+
 			player.ypos -= 0x80000
 		end if
 	end if
@@ -4172,68 +4299,13 @@ public function Player_State_LedgePullUp
 		if player.timer < 5
 			player.timer++
 		else
+			player.timer = 0
 			player.animation = ANI_STOPPED
-
-#platform: USE_STANDALONE
-			player.state = Player_State_Air
-#endplatform
-#platform: USE_ORIGINS
 			player.state = Player_State_Air_NoDropDash
-#endplatform
 			player.ypos -= 0x40000
 			player.tileCollisions = true
 		end if
-	end if	
-end function
-
-public function Player_State_LPullUp_Mission
-#platform: USE_ORIGINS
-	// This is a modified version of Player_State_LedgePullUp, to be paired with Player_State_Climb_Mission
-	// It's similarly made for pulling Knuckles up on Mission Blocks
-	
-	switch player.frame
-	case 0
-		if player.timer < 5
-			player.timer++
-		else
-			player.timer = 0
-			player.frame++
-			if player.direction == FACING_RIGHT
-				player.xpos += 0x90000
-			else
-				player.xpos -= 0x90000
-			end if
-			player.ypos -= 0xA0000
-		end if
-		break
-
-	case 1
-		if player.timer < 5
-			player.timer++
-		else
-			player.timer = 0
-			player.frame++
-			if player.direction == FACING_RIGHT
-				player.xpos += 0x50000
-			else
-				player.xpos -= 0x50000
-			end if
-			player.ypos -= 0x20000
-		end if
-		break
-
-	case 2
-		if player.timer < 5
-			player.timer++
-		else
-			player.timer = 0
-			player.animation = ANI_STOPPED
-			player.state = Player_State_Air_NoDropDash
-			player.ypos -= 0xA0000
-			player.tileCollisions = true
-		end if
-		break
-	end switch
+	end if
 #endplatform
 end function
 
