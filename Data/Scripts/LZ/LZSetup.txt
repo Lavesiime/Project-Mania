@@ -1055,7 +1055,7 @@ event ObjectStartup
 		LoadPalette("LZ_WaterPal.act", 1, 0, 0, 256)
 	else
 		// SBZ3: Load not only the water palette, but also the main stage palette
-		LoadPalette("SBZ3_Pal.act", 0, 128, 128, 192)
+		LoadPalette("SBZ3_Pal.act", 0, 128, 128, 228)
 		LoadPalette("SBZ3_WaterPal.act", 1, 0, 0, 256)
 	end if
 	
