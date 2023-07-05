@@ -836,9 +836,9 @@ event ObjectStartup
 		SpriteFrame(-35, -8, 24, 16, 182, 1)
 		SpriteFrame(-35, -8, 24, 16, 207, 1)
 		SpriteFrame(-35, -8, 24, 16, 232, 1)
-		SpriteFrame(-35, -8, 24, 16, 182, 18)
-		SpriteFrame(-35, -8, 24, 16, 207, 18)
-		SpriteFrame(-35, -8, 24, 16, 232, 18)
+		SpriteFrame(-35, -8, 24, 16, 182, 17)
+		SpriteFrame(-35, -8, 24, 16, 207, 17)
+		SpriteFrame(-35, -8, 24, 16, 232, 17
 
 		// Jumping Tail Sprites (45 Degrees) - #16-18
 		SpriteFrame(-25, 9, 20, 16, 235, 217)
@@ -849,9 +849,9 @@ event ObjectStartup
 		SpriteFrame(-30, -2, 24, 16, 182, 1)
 		SpriteFrame(-30, -2, 24, 16, 207, 1)
 		SpriteFrame(-30, -2, 24, 16, 232, 1)
-		SpriteFrame(-30, -2, 24, 16, 182, 18)
-		SpriteFrame(-30, -2, 24, 16, 207, 18)
-		SpriteFrame(-30, -2, 24, 16, 232, 18)
+		SpriteFrame(-30, -2, 24, 16, 182, 17)
+		SpriteFrame(-30, -2, 24, 16, 207, 17)
+		SpriteFrame(-30, -2, 24, 16, 232, 17)
 		
 		player[1].groupID = GROUP_PLAYERS
 		player[1].character = CHARACTER_TAILS
