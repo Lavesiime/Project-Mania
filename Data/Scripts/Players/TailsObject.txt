@@ -213,6 +213,19 @@ end event
 
 
 event ObjectDraw
+
+	if object.gravity == 0
+		temp0 = object.angle
+		temp0 -= 128
+		Abs(temp0)
+		if temp0 >= 112
+			object.rotation = 0
+		else
+			object.rotation = object.angle
+			object.rotation *= 2
+		end if
+	end if
+	
 	if object.animation != object.prevAnimation
 		object.prevAnimation = object.animation
 		object.frame = 0
