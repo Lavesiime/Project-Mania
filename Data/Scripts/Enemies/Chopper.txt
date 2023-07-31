@@ -15,7 +15,7 @@ private alias 0 : CHOPPER_ANI_JUMP
 private alias 1 : CHOPPER_ANI_BITE
 private alias 2 : CHOPPER_ANI_FALL
 
-// Player Aliases
+// Player aliases
 private alias object.value40 : player.hitboxLeft
 private alias object.value38 : player.hitboxTop
 private alias object.value41 : player.hitboxRight
@@ -29,11 +29,6 @@ private alias object.value39 : player.hitboxBottom
 reserve function Chopper_DebugDraw
 reserve function Chopper_DebugSpawn
 
-
-// ========================
-// Function Definitions
-// ========================
-
 private function Chopper_DebugDraw
 	DrawSpriteFX(0, FX_FLIP, object.xpos, object.ypos)
 end function
@@ -41,12 +36,8 @@ end function
 
 private function Chopper_DebugSpawn
 	CreateTempObject(TypeName[Chopper], 0, object.xpos, object.ypos)
-	
-	// Choppers don't normally have the capability to be turned around in the scene (aside from the actual dir attr), but they made it so that they can be turned around in Debug Mode
-	// Neat
 	GetBit(temp0, object.direction, 0)
 	object[tempObjectPos].direction = temp0
-	
 	object[tempObjectPos].startPos.y = object.ypos
 	object[tempObjectPos].yvel = -0x70000
 end function
@@ -85,15 +76,15 @@ event ObjectUpdate
 	switch object.animation
 	case CHOPPER_ANI_JUMP
 		object.frame = object.animationTimer
-		object.frame >>= 3
+		object.frame >>= 2
 		object.animationTimer++
 		object.animationTimer &= 15
 		break
 
 	case CHOPPER_ANI_BITE
 		object.frame = object.animationTimer
-		object.frame >>= 3
-		object.animationTimer += 2
+		object.frame >>= 2
+		object.animationTimer += 1
 		object.animationTimer &= 15
 		break
 
@@ -113,9 +104,12 @@ end event
 event ObjectStartup
 	CheckCurrentStageFolder("Zone01")
 	if checkResult == true
-		LoadSpriteSheet("GHZ/Objects.gif")
-		SpriteFrame(-14, -15, 30, 32, 98, 94)
-		SpriteFrame(-14, -15, 30, 32, 129, 94)
+		LoadSpriteSheet("GHZ/Objects2.gif")
+		SpriteFrame(-14, -15, 30, 32, 27, 224)
+		SpriteFrame(-14, -15, 30, 32, 58, 224)
+		SpriteFrame(-14, -15, 30, 31, 89, 224)
+		SpriteFrame(-14, -15, 30, 31, 115, 41)
+		SpriteFrame(-14, -15, 30, 31, 145, 41)
 	end if
 
 	CheckCurrentStageFolder("Zone07")
@@ -147,13 +141,16 @@ end event
 
 
 event RSDKLoad
+	CheckCurrentStageFolder("Zone01")
+	if checkResult == true
+		LoadSpriteSheet("GHZ/Objects.gif")
+		SpriteFrame(-14, -15, 30, 32, 98, 94)
+	end if
+
 	CheckCurrentStageFolder("Zone07")
 	if checkResult == true
 		LoadSpriteSheet("MBZ/Objects.gif")
 		SpriteFrame(-14, -15, 30, 32, 106, 81)
-	else
-		LoadSpriteSheet("GHZ/Objects.gif")
-		SpriteFrame(-14, -15, 30, 32, 98, 94)
 	end if
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")

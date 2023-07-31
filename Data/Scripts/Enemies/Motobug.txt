@@ -14,17 +14,17 @@ private alias object.value1 : object.startPos.x
 private alias object.value2 : object.startPos.y
 private alias object.value3 : object.exhaustTimer
 
+// Player aliases
+private alias object.value40 : player.hitboxLeft
+private alias object.value38 : player.hitboxTop
+private alias object.value41 : player.hitboxRight
+private alias object.value39 : player.hitboxBottom
+
 private alias 0 : MOTOBUG_MOVING
 private alias 1 : MOTOBUG_PAUSED
 
 private alias 0 : MOTOBUG_ANI_MOVING
 private alias 1 : MOTOBUG_ANI_IDLE
-
-// Player Aliases
-private alias object.value40 : player.hitboxLeft
-private alias object.value38 : player.hitboxTop
-private alias object.value41 : player.hitboxRight
-private alias object.value39 : player.hitboxBottom
 
 // Path ID Aliases
 private alias 0 : PATH_A
@@ -49,12 +49,14 @@ end function
 
 private function Motobug_DebugSpawn
 	CreateTempObject(TypeName[Motobug], 0, object.xpos, object.ypos)
+
 	GetBit(temp0, object.direction, 0)
-	if temp0 == FLIP_NONE
-		object[tempObjectPos].direction = FLIP_NONE
+
+	if temp0 == false
+		object[tempObjectPos].direction = FACING_RIGHT
 		object[tempObjectPos].xvel = -0x10000
 	else
-		object[tempObjectPos].direction = FLIP_X
+		object[tempObjectPos].direction = FACING_LEFT
 		object[tempObjectPos].xvel = 0x10000
 	end if
 end function
@@ -84,20 +86,22 @@ event ObjectUpdate
 		if object.exhaustTimer < 20
 			object.exhaustTimer++
 		else
+
 			object.exhaustTimer = 0
 
 			// Create the exhaust object
 			CreateTempObject(TypeName[Motobug Exhaust], 0, object.xpos, object.ypos)
 			
 			// Offset the exhaust based on the Motobug's direction
-			if object.direction == FLIP_NONE
+			if object.direction == 0
 				object[tempObjectPos].xpos += 0x160000
 			else
 				object[tempObjectPos].xpos -= 0x160000
 			end if
 
-			// Set the exhaust to match the Motobug's direction
+			// Set the object to match the Motobug's direction
 			object[tempObjectPos].direction = object.direction
+
 		end if
 		break
 
@@ -113,7 +117,7 @@ event ObjectUpdate
 			object.animation = MOTOBUG_ANI_MOVING
 
 			// Flip the Motobug
-			object.direction ^= FLIP_X
+			object.direction ^= 1
 			FlipSign(object.xvel)
 		end if
 		break
@@ -121,6 +125,7 @@ event ObjectUpdate
 	end switch
 
 	if object.outOfBounds == true
+
 		temp0 = object.xpos
 		temp1 = object.ypos
 
@@ -128,21 +133,24 @@ event ObjectUpdate
 		object.ypos = object.startPos.y
 
 		if object.outOfBounds == true
+
 			if object.propertyValue == 0
-				object.direction = FLIP_NONE
+				object.direction = FACING_RIGHT
 				object.xvel = -0x10000
 			else
-				object.direction = FLIP_X
+				object.direction = FACING_LEFT
 				object.xvel = 0x10000
 			end if
 
 			object.animation = MOTOBUG_ANI_MOVING
 			object.priority = PRIORITY_BOUNDS
 			object.state = MOTOBUG_MOVING
+
 		else
 			object.xpos = temp0
 			object.ypos = temp1
 		end if
+
 	end if
 
 	// Check collision with players
@@ -155,7 +163,7 @@ event ObjectUpdate
 
 	if object.animation == MOTOBUG_ANI_MOVING
 		object.frame = object.animationTimer
-		object.frame >>= 3
+		object.frame >>= 2
 		object.animationTimer++
 		object.animationTimer &= 31
 	end if
@@ -178,17 +186,24 @@ event ObjectStartup
 #endplatform
 	if checkResult == true
 		// Motobug in GHZ (or a mission) - load GHZ frames
-		LoadSpriteSheet("GHZ/Objects.gif")
-		SpriteFrame(-21, -13, 40, 28, 98, 127)
-		SpriteFrame(-20, -14, 39, 29, 139, 127)
-		SpriteFrame(-20, -13, 39, 28, 98, 156)
-		SpriteFrame(-20, -14, 39, 29, 139, 127)
+		LoadSpriteSheet("GHZ/Objects3.gif")
+		SpriteFrame(-20, -13, 39, 28, 1, 66)
+		SpriteFrame(-20, -13, 39, 28, 41, 66)
+		SpriteFrame(-20, -14, 39, 29, 81, 65)
+		SpriteFrame(-20, -14, 39, 29, 121, 65)
+		SpriteFrame(-22, -14, 41, 29, 161, 65)
+		SpriteFrame(-21, -13, 40, 28, 203, 66)
+		SpriteFrame(-21, -13, 40, 28, 1, 96)
+		SpriteFrame(-20, -14, 39, 29, 42, 95)
+		SpriteFrame(-20, -13, 39, 28, 82, 96)
+		SpriteFrame(-20, -13, 39, 28, 122, 96)
 	end if
 
 	CheckCurrentStageFolder("Zone07")
 	if checkResult == true
 		// Motobug in MBZ - load MBZ frames
 		LoadSpriteSheet("MBZ/Objects.gif")
+
 		SpriteFrame(-21, -13, 40, 28, 170, 145)
 		SpriteFrame(-20, -14, 39, 29, 171, 174)
 		SpriteFrame(-20, -13, 39, 28, 171, 204)
@@ -197,15 +212,17 @@ event ObjectStartup
 
 	// Setup all Motobugs
 	foreach (TypeName[Motobug], arrayPos0, ALL_ENTITIES)
+
+		// Set their base positions
 		object[arrayPos0].startPos.x = object[arrayPos0].xpos
 		object[arrayPos0].startPos.y = object[arrayPos0].ypos
 
 		// Set their direction based on their propertyValue
 		if object[arrayPos0].propertyValue == 0
-			object[arrayPos0].direction = FLIP_NONE
+			object[arrayPos0].direction = FACING_RIGHT
 			object[arrayPos0].xvel = -0x10000
 		else
-			object[arrayPos0].direction = FLIP_X
+			object[arrayPos0].direction = FACING_LEFT
 			object[arrayPos0].xvel = 0x10000
 		end if
 	next
@@ -254,7 +271,12 @@ end event
 
 
 event RSDKDraw
-	GetBit(object.direction, object.propertyValue, 0)
+	if object.propertyValue == 0
+		object.direction = FACING_RIGHT
+	else
+		object.direction = FACING_LEFT
+	end if
+
 	DrawSpriteFX(0, FX_FLIP, object.xpos, object.ypos)
 end event
 

@@ -23,7 +23,7 @@ private alias 0 : NEWTRONFLY_ANI_IDLE
 private alias 1 : NEWTRONFLY_ANI_APPEAR
 private alias 2 : NEWTRONFLY_ANI_MOVING
 
-// Player Aliases
+// Player aliases
 private alias object.xpos    : player.xpos
 private alias object.value40 : player.hitboxLeft
 private alias object.value38 : player.hitboxTop
@@ -79,7 +79,7 @@ event ObjectUpdate
 		object.priority = PRIORITY_ACTIVE
 		if object.alpha < 0xF8
 			object.alpha += 4
-			if player[0].xpos > object.xpos
+			if object[0].xpos > object.xpos
 				object.appearFrame = FLIP_NONE
 			else
 				object.appearFrame = FLIP_X
@@ -88,7 +88,7 @@ event ObjectUpdate
 			object.alpha = 0xFF
 			object.animation = NEWTRONFLY_ANI_APPEAR
 			if object.appearFrame == FLIP_NONE
-				object.xvel =  0x20000
+				object.xvel = 0x20000
 			else
 				object.xvel = -0x20000
 			end if
@@ -159,18 +159,23 @@ event ObjectUpdate
 		break
 
 	case NEWTRONFLY_ANI_APPEAR
-		if object.animationTimer < 41
+		if object.animationTimer < 26
 			object.frame = object.animationTimer
-			object.frame /= 20
+			object.frame /= 5
 			object.animationTimer++
+			object.frame += 2
+		else
+			if object.frame == 8
+				object.animationTimer = 0
+				object.frame = 8
+			end if
 		end if
-		object.frame += 2
 		break
 
 	case NEWTRONFLY_ANI_MOVING
 		object.frame = object.animationTimer
 		object.frame /= 3
-		object.frame += 5
+		object.frame += 8
 		object.animationTimer++
 		object.animationTimer %= 6
 		break
@@ -191,7 +196,7 @@ event ObjectDraw
 
 	case NEWTRONFLY_ANI_MOVING
 		DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
-		DrawSpriteFX(4, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(7, FX_FLIP, object.xpos, object.ypos)
 		break
 		
 	end switch
@@ -204,8 +209,11 @@ event ObjectStartup
 		LoadSpriteSheet("GHZ/Objects2.gif")
 		SpriteFrame(-20, -20, 39, 39, 161, 1)
 		SpriteFrame(-19, -20, 39, 39, 201, 1)
+		SpriteFrame(-18, -20, 37, 38, 218, 126)
 		SpriteFrame(-18, -20, 37, 35, 218, 41)
+		SpriteFrame(-18, -20, 37, 27, 176, 41)
 		SpriteFrame(-15, -18, 36, 22, 1, 41)
+		SpriteFrame(-20, -18, 40, 19, 74, 57)
 		SpriteFrame(-20, -16, 40, 16, 38, 41)
 		SpriteFrame(-28, -9, 8, 8, 79, 41)
 		SpriteFrame(-34, -10, 14, 8, 88, 41)
@@ -247,13 +255,16 @@ end event
 
 
 event RSDKLoad
+	CheckCurrentStageFolder("Zone01")
+	if checkResult == true
+		LoadSpriteSheet("GHZ/Objects2.gif")
+		SpriteFrame(-20, -20, 39, 39, 161, 1)
+	end if
+
 	CheckCurrentStageFolder("Zone07")
 	if checkResult == true
 		LoadSpriteSheet("MBZ/Objects.gif")
 		SpriteFrame(-20, -20, 39, 39, 1, 124)
-	else
-		LoadSpriteSheet("GHZ/Objects2.gif")
-		SpriteFrame(-20, -20, 39, 39, 161, 1)
 	end if
 	
 	// Not to be set from the editor
@@ -262,5 +273,5 @@ event RSDKLoad
 	
 	// TODO: double check that val1 isn't used by this object;
 	// it's set in the editor in m006
-	// also prop val goes up to two there (y-flip), is that normal?
+	// also prop val goes up to two there, is that normal?
 end event

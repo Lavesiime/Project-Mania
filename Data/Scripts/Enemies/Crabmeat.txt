@@ -23,7 +23,7 @@ private alias 0 : CRABMEAT_ANI_MOVING
 private alias 1 : CRABMEAT_ANI_SHOOT
 private alias 2 : CRABMEAT_ANI_IDLE
 
-// Player Aliases
+// Player aliases
 private alias object.value40 : player.hitboxLeft
 private alias object.value38 : player.hitboxTop
 private alias object.value41 : player.hitboxRight
@@ -56,11 +56,11 @@ private function Crabmeat_DebugSpawn
 	object[tempObjectPos].startPos.y = object.ypos
 
 	GetBit(temp0, object.direction, 0)
-	if temp0 == FLIP_NONE
-		object[tempObjectPos].direction = FLIP_X
-		object[tempObjectPos].xvel =  0x8000
+	if temp0 == 0
+		object[tempObjectPos].direction = FACING_LEFT
+		object[tempObjectPos].xvel = 0x8000
 	else
-		object[tempObjectPos].direction = FLIP_X
+		object[tempObjectPos].direction = FACING_LEFT
 		object[tempObjectPos].xvel = -0x8000
 	end if
 
@@ -163,10 +163,10 @@ event ObjectUpdate
 		object.ypos = object.startPos.y
 		if object.outOfBounds == true
 			if object.propertyValue == 1
-				object.direction = FLIP_X
+				object.direction = FACING_LEFT
 				object.xvel = 0x8000
 			else
-				object.direction = FLIP_X
+				object.direction = FACING_LEFT
 				object.xvel = -0x8000
 			end if
 
@@ -192,7 +192,7 @@ event ObjectUpdate
 	switch object.animation
 	case CRABMEAT_ANI_MOVING
 		object.frame = object.animationTimer
-		object.frame >>= 4
+		object.frame >>= 3
 		object.animationTimer++
 		object.animationTimer %= 48
 		break
@@ -202,7 +202,9 @@ event ObjectUpdate
 		break
 
 	case CRABMEAT_ANI_IDLE
-		object.frame = 3
+		object.frame >>= 2
+		object.frame += 7
+		object.animationTimer++
 		break
 		
 	end switch
@@ -217,20 +219,32 @@ end event
 event ObjectStartup
 	CheckCurrentStageFolder("Zone01")
 	if checkResult == true
-		LoadSpriteSheet("GHZ/Objects.gif")
-		SpriteFrame(-21, -16, 42, 31, 138, 157)
-		SpriteFrame(-22, -16, 44, 31, 98, 189)
-		SpriteFrame(-22, -16, 44, 31, 98, 221)
-		SpriteFrame(-24, -15, 48, 30, 143, 189)
+		LoadSpriteSheet("GHZ/Objects3.gif")
+		SpriteFrame(-21, -16, 42, 31, 1, 1)
+		SpriteFrame(-22, -16, 44, 31, 44, 1)
+		SpriteFrame(-22, -16, 44, 31, 89, 1)
+		SpriteFrame(-22, -16, 44, 31, 134, 1)
+		SpriteFrame(-22, -16, 44, 31, 180, 1)
+		SpriteFrame(-22, -16, 44, 31, 1, 33)
+		SpriteFrame(-22, -16, 44, 31, 46, 33)
+		SpriteFrame(-24, -15, 48, 30, 91, 34)
+		SpriteFrame(-24, -15, 48, 30, 140, 34)
+		SpriteFrame(-24, -14, 48, 29, 189, 35)
 	end if
 
 	CheckCurrentStageFolder("Zone03")
 	if checkResult == true
-		LoadSpriteSheet("SYZ/Objects.gif")
-		SpriteFrame(-21, -16, 42, 31, 184, 1)
-		SpriteFrame(-22, -16, 44, 31, 184, 34)
-		SpriteFrame(-22, -16, 44, 31, 184, 66)
-		SpriteFrame(-24, -15, 48, 30, 184, 173)
+		LoadSpriteSheet("SYZ/Objects2.gif")
+		SpriteFrame(-21, -16, 42, 31, 157, 1)
+		SpriteFrame(-22, -16, 44, 31, 200, 1)
+		SpriteFrame(-22, -16, 44, 31, 157, 33)
+		SpriteFrame(-22, -16, 44, 31, 202, 33)
+		SpriteFrame(-22, -16, 44, 31, 122, 74)
+		SpriteFrame(-22, -16, 44, 31, 167, 74)
+		SpriteFrame(-22, -16, 44, 31, 212, 74)
+		SpriteFrame(-24, -15, 48, 30, 110, 106)
+		SpriteFrame(-24, -15, 48, 30, 159, 106)
+		SpriteFrame(-24, -14, 48, 29, 208, 107)
 	end if
 
 	CheckCurrentStageFolder("Zone07")
@@ -246,13 +260,12 @@ event ObjectStartup
 		object[arrayPos0].startPos.x = object[arrayPos0].xpos
 		object[arrayPos0].startPos.y = object[arrayPos0].ypos
 		if object[arrayPos0].propertyValue == 1
-			object[arrayPos0].direction = FLIP_X
+			object[arrayPos0].direction = FACING_LEFT
 			object[arrayPos0].xvel = 0x8000
 		else
-			object[arrayPos0].direction = FLIP_X
+			object[arrayPos0].direction = FACING_LEFT
 			object[arrayPos0].xvel = -0x8000
 		end if
-		
 		object[arrayPos0].canShoot = false
 	next
 
@@ -300,29 +313,24 @@ end event
 
 
 event RSDKLoad
-	// Make sure we have a fall-back, in case the current folder isn't actually a valid one
-	temp0 = false
-	
+	CheckCurrentStageFolder("Zone01")
+	if checkResult == true
+		LoadSpriteSheet("GHZ/Objects.gif")
+		SpriteFrame(-21, -16, 42, 31, 138, 157)
+	end if
+
 	CheckCurrentStageFolder("Zone03")
-	temp0 |= checkResult
 	if checkResult == true
 		LoadSpriteSheet("SYZ/Objects.gif")
 		SpriteFrame(-21, -16, 42, 31, 184, 1)
 	end if
 
 	CheckCurrentStageFolder("Zone07")
-	temp0 |= checkResult
 	if checkResult == true
 		LoadSpriteSheet("MBZ/Objects.gif")
 		SpriteFrame(-21, -16, 42, 31, 168, 81)
 	end if
-	
-	if temp0 == false
-		// We use GHZ's sprites as the fallback, "Zone01" (GHZ's folder) will come here too
-		LoadSpriteSheet("GHZ/Objects.gif")
-		SpriteFrame(-21, -16, 42, 31, 138, 157)
-	end if
-	
+
 	AddEditorVariable("direction")
 	SetActiveVariable("direction")
 	AddEnumVariable("Left", 0)

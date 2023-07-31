@@ -92,35 +92,42 @@ end event
 event ObjectDraw
 	temp0 = 16
 	temp0 -= GHZSetup_spikeLogsCounter
-	temp0 >>= 1
+	temp0 <<= 1
 	temp1 = object.xpos
 	DrawSpriteXY(temp0, temp1, object.ypos)
 
 	temp0++
+	temp0 += 3
 	temp1 += 0x100000
 	DrawSpriteXY(temp0, temp1, object.ypos)
 
 	temp0++
+	temp0 += 3
 	temp1 += 0x100000
 	DrawSpriteXY(temp0, temp1, object.ypos)
 
 	temp0++
+	temp0 += 3
 	temp1 += 0x100000
 	DrawSpriteXY(temp0, temp1, object.ypos)
 
 	temp0++
+	temp0 += 3
 	temp1 += 0x100000
 	DrawSpriteXY(temp0, temp1, object.ypos)
 
 	temp0++
+	temp0 += 3
 	temp1 += 0x100000
 	DrawSpriteXY(temp0, temp1, object.ypos)
 
 	temp0++
+	temp0 += 3
 	temp1 += 0x100000
 	DrawSpriteXY(temp0, temp1, object.ypos)
 
 	temp0++
+	temp0 += 3
 	temp1 += 0x100000
 	DrawSpriteXY(temp0, temp1, object.ypos)
 end event
@@ -131,22 +138,85 @@ event ObjectStartup
 	
 	// Log Frames, with the latter half a duplicate of the first half for ease in drawing the Logs
 	SpriteFrame(-8, -8, 16, 16, 167, 1)
+	SpriteFrame(-8, -8, 16, 15, 149, 216)
+	SpriteFrame(-8, -8, 16, 16, 132, 216)
+	SpriteFrame(-8, -8, 16, 18, 115, 216)
+
 	SpriteFrame(-8, -8, 16, 19, 115, 18)
+	SpriteFrame(-8, -8, 16, 21, 98, 213)
+	SpriteFrame(-8, -8, 16, 22, 166, 192)
+	SpriteFrame(-8, -8, 16, 23, 149, 192)
+
 	SpriteFrame(-8, -8, 16, 24, 132, 18)
+	SpriteFrame(-8, -8, 16, 23, 132, 191)
+	SpriteFrame(-8, -8, 16, 22, 115, 191)
+	SpriteFrame(-8, -8, 16, 21, 98, 191)
+
 	SpriteFrame(-8, -8, 16, 20, 149, 18)
+	SpriteFrame(-8, -8, 16, 18, 149, 173)
+	SpriteFrame(-8, -8, 16, 17, 132, 173)
+	SpriteFrame(-8, -8, 16, 15, 115, 173)
+
 	SpriteFrame(-8, -8, 0, 0, 149, 18)
+	SpriteFrame(-8, -24, 16, 30, 132, 142)
+	SpriteFrame(-8, -24, 16, 30, 115, 142)
+	SpriteFrame(-8, -24, 16, 30, 98, 142)
+
 	SpriteFrame(-8, -24, 16, 30, 166, 18)
+	SpriteFrame(-8, -24, 16, 30, 149, 124)
+	SpriteFrame(-8, -24, 16, 30, 132, 111)
+	SpriteFrame(-8, -24, 16, 30, 115, 111)
+
 	SpriteFrame(-8, -24, 16, 30, 115, 38)
+	SpriteFrame(-8, -24, 16, 30, 98, 105)
+	SpriteFrame(-8, -24, 16, 30, 132, 74)
+	SpriteFrame(-8, -24, 16, 30, 115, 74)
+
 	SpriteFrame(-8, -24, 16, 30, 132, 43)
+	SpriteFrame(-8, -24, 16, 30, 98, 74)
+	SpriteFrame(-8, -24, 16, 30, 166, 48)
+	SpriteFrame(-8, -24, 16, 30, 149, 48)
+
 	
 	SpriteFrame(-8, -8, 16, 16, 167, 1)
+	SpriteFrame(-8, -8, 16, 15, 149, 216)
+	SpriteFrame(-8, -8, 16, 16, 132, 216)
+	SpriteFrame(-8, -8, 16, 18, 115, 216)
+
 	SpriteFrame(-8, -8, 16, 19, 115, 18)
+	SpriteFrame(-8, -8, 16, 21, 98, 213)
+	SpriteFrame(-8, -8, 16, 22, 166, 192)
+	SpriteFrame(-8, -8, 16, 23, 149, 192)
+
 	SpriteFrame(-8, -8, 16, 24, 132, 18)
+	SpriteFrame(-8, -8, 16, 23, 132, 191)
+	SpriteFrame(-8, -8, 16, 22, 115, 191)
+	SpriteFrame(-8, -8, 16, 21, 98, 191)
+
 	SpriteFrame(-8, -8, 16, 20, 149, 18)
+	SpriteFrame(-8, -8, 16, 18, 149, 173)
+	SpriteFrame(-8, -8, 16, 17, 132, 173)
+	SpriteFrame(-8, -8, 16, 15, 115, 173)
+
 	SpriteFrame(-8, -8, 0, 0, 149, 18)
+	SpriteFrame(-8, -24, 16, 30, 132, 142)
+	SpriteFrame(-8, -24, 16, 30, 115, 142)
+	SpriteFrame(-8, -24, 16, 30, 98, 142)
+
 	SpriteFrame(-8, -24, 16, 30, 166, 18)
+	SpriteFrame(-8, -24, 16, 30, 149, 124)
+	SpriteFrame(-8, -24, 16, 30, 132, 111)
+	SpriteFrame(-8, -24, 16, 30, 115, 111)
+
 	SpriteFrame(-8, -24, 16, 30, 115, 38)
+	SpriteFrame(-8, -24, 16, 30, 98, 105)
+	SpriteFrame(-8, -24, 16, 30, 132, 74)
+	SpriteFrame(-8, -24, 16, 30, 115, 74)
+
 	SpriteFrame(-8, -24, 16, 30, 132, 43)
+	SpriteFrame(-8, -24, 16, 30, 98, 74)
+	SpriteFrame(-8, -24, 16, 30, 166, 48)
+	SpriteFrame(-8, -24, 16, 30, 149, 48)
 
 	SetTableValue(TypeName[Spike Logs], DebugMode_ObjCount, DebugMode_TypesTable)
 	SetTableValue(SpikeLogs_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)

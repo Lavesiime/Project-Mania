@@ -50,11 +50,11 @@ private function Yadrin_DebugSpawn
 	CreateTempObject(TypeName[Yadrin], 0, object.xpos, object.ypos)
 
 	GetBit(temp0, object.direction, 0)
-	if temp0 == FLIP_NONE
-		object[tempObjectPos].direction = FLIP_NONE
+	if temp0 == false
+		object[tempObjectPos].direction = FACING_RIGHT
 		object[tempObjectPos].xvel = -0x10000
 	else
-		object[tempObjectPos].direction = FLIP_X
+		object[tempObjectPos].direction = FACING_LEFT
 		object[tempObjectPos].xvel = 0x10000
 	end if
 
@@ -96,7 +96,7 @@ event ObjectUpdate
 			object.timer = 0
 			object.state = YADRIN_MOVING
 			object.animation = YADRIN_ANI_MOVING
-			object.direction ^= FLIP_X
+			object.direction ^= 1
 			FlipSign(object.xvel)
 		end if
 		break
@@ -113,10 +113,10 @@ event ObjectUpdate
 			object.ypos = object.startPos.y
 
 			if object.propertyValue == 0
-				object.direction = FLIP_NONE
+				object.direction = FACING_RIGHT
 				object.xvel = -0x10000
 			else
-				object.direction = FLIP_X
+				object.direction = FACING_LEFT
 				object.xvel = 0x10000
 			end if
 
@@ -138,7 +138,7 @@ event ObjectUpdate
 		end if
 
 		if temp0 == false
-			if object.direction == FLIP_NONE
+			if object.direction == 0
 				BoxCollisionTest(C_TOUCH, object.entityPos, -8, -18, 18, -10, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 			else
 				BoxCollisionTest(C_TOUCH, object.entityPos, -18, -18, 8, -10, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
@@ -152,7 +152,7 @@ event ObjectUpdate
 
 	if object.animation == YADRIN_ANI_MOVING
 		object.frame = object.animationTimer
-		object.frame >>= 3
+		object.frame >>= 1
 		object.animationTimer++
 		object.animationTimer &= 63
 	end if
@@ -167,28 +167,106 @@ end event
 event ObjectStartup
 	CheckCurrentStageFolder("Zone02")
 	if checkResult == true
-		LoadSpriteSheet("MZ/Objects.gif")
-		SpriteFrame(-20, -20, 40, 38, 1, 2)
-		SpriteFrame(-20, -20, 40, 38, 1, 42)
-		SpriteFrame(-20, -20, 40, 39, 42, 1)
-		SpriteFrame(-20, -20, 40, 39, 42, 41)
-		SpriteFrame(-20, -20, 40, 38, 1, 2)
-		SpriteFrame(-20, -20, 40, 38, 1, 42)
-		SpriteFrame(-15, -20, 35, 39, 83, 1)
-		SpriteFrame(-15, -20, 35, 39, 83, 41)
+		LoadSpriteSheet("MZ/Objects2.gif")
+		SpriteFrame(-20, -20, 40, 38, 97, 1) // Frame Set 1
+		SpriteFrame(-20, -20, 40, 38, 97, 120)
+
+		SpriteFrame(-21, -20, 41, 38, 138, 1) // Frame Set 2
+		SpriteFrame(-21, -20, 41, 38, 138, 120)
+
+		SpriteFrame(-22, -20, 42, 38, 180, 1) // Frame Set 3
+		SpriteFrame(-22, -20, 42, 38, 180, 120)
+
+		SpriteFrame(-22, -20, 42, 38, 100, 40) // Frame Set 4
+		SpriteFrame(-22, -20, 42, 38, 100, 159)
+
+		SpriteFrame(-20, -20, 40, 39, 143, 40) // Frame Set 5
+		SpriteFrame(-20, -20, 40, 39, 143, 159)
+
+		SpriteFrame(-22, -20, 42, 38, 100, 40) // Frame Set 4
+		SpriteFrame(-22, -20, 42, 38, 100, 159)
+
+		SpriteFrame(-22, -20, 42, 38, 180, 1) // Frame Set 3
+		SpriteFrame(-22, -20, 42, 38, 180, 120)
+
+		SpriteFrame(-21, -20, 41, 38, 138, 1) // Frame Set 2
+		SpriteFrame(-21, -20, 41, 38, 138, 120)
+
+		SpriteFrame(-20, -20, 40, 38, 97, 1) // Frame Set 1
+		SpriteFrame(-20, -20, 40, 38, 97, 120)
+
+		SpriteFrame(-19, -20, 39, 38, 184, 40) // Frame Set 6
+		SpriteFrame(-19, -20, 39, 38, 184, 159)
+
+		SpriteFrame(-17, -20, 37, 38, 97, 80) // Frame Set 7
+		SpriteFrame(-17, -20, 37, 38, 97, 199)
+
+		SpriteFrame(-15, -20, 35, 38, 135, 80) // Frame Set 8
+		SpriteFrame(-15, -20, 35, 38, 135, 199)
+
+		SpriteFrame(-15, -20, 35, 38, 171, 80) // Frame Set 9
+		SpriteFrame(-15, -20, 35, 38, 171, 199)
+
+		SpriteFrame(-15, -20, 35, 38, 135, 80) // Frame Set 8
+		SpriteFrame(-15, -20, 35, 38, 135, 199)
+
+		SpriteFrame(-17, -20, 37, 38, 97, 80) // Frame Set 7
+		SpriteFrame(-17, -20, 37, 38, 97, 199)
+
+		SpriteFrame(-19, -20, 39, 38, 184, 40) // Frame Set 6
+		SpriteFrame(-19, -20, 39, 38, 184, 159)
 	end if
 
 	CheckCurrentStageFolder("Zone03")
 	if checkResult == true
-		LoadSpriteSheet("SYZ/Objects.gif")
-		SpriteFrame(-20, -20, 40, 38, 1, 2)
-		SpriteFrame(-20, -20, 40, 38, 1, 42)
-		SpriteFrame(-20, -20, 40, 39, 42, 1)
-		SpriteFrame(-20, -20, 40, 39, 42, 41)
-		SpriteFrame(-20, -20, 40, 38, 1, 2)
-		SpriteFrame(-20, -20, 40, 38, 1, 42)
-		SpriteFrame(-15, -20, 35, 39, 83, 1)
-		SpriteFrame(-15, -20, 35, 39, 83, 41)
+		LoadSpriteSheet("SYZ/Objects2.gif")
+		SpriteFrame(-20, -20, 40, 38, 7, 139) // Frame Set 1
+		SpriteFrame(-20, -20, 40, 38, 130, 178)
+
+		SpriteFrame(-21, -20, 41, 38, 48, 139) // Frame Set 2
+		SpriteFrame(-21, -20, 41, 38, 171, 178)
+
+		SpriteFrame(-22, -20, 42, 38, 90, 139) // Frame Set 3
+		SpriteFrame(-22, -20, 42, 38, 213, 178)
+
+		SpriteFrame(-22, -20, 42, 38, 133, 139) // Frame Set 4
+		SpriteFrame(-22, -20, 42, 38, 1, 217)
+
+		SpriteFrame(-20, -20, 40, 39, 176, 138) // Frame Set 5
+		SpriteFrame(-20, -20, 40, 39, 44, 217)
+
+		SpriteFrame(-22, -20, 42, 38, 133, 139) // Frame Set 4
+		SpriteFrame(-22, -20, 42, 38, 1, 217)
+
+		SpriteFrame(-22, -20, 42, 38, 90, 139) // Frame Set 3
+		SpriteFrame(-22, -20, 42, 38, 213, 178)
+
+		SpriteFrame(-21, -20, 41, 38, 48, 139) // Frame Set 2
+		SpriteFrame(-21, -20, 41, 38, 171, 178)
+
+		SpriteFrame(-20, -20, 40, 38, 7, 139) // Frame Set 1
+		SpriteFrame(-20, -20, 40, 38, 130, 178)
+
+		SpriteFrame(-19, -20, 39, 38, 217, 139) // Frame Set 6
+		SpriteFrame(-19, -20, 39, 38, 85, 218)
+
+		SpriteFrame(-17, -20, 37, 38, 10, 178) // Frame Set 7
+		SpriteFrame(-17, -20, 37, 38, 125, 217)
+
+		SpriteFrame(-15, -20, 35, 38, 48, 178) // Frame Set 8
+		SpriteFrame(-15, -20, 35, 38, 163, 217)
+
+		SpriteFrame(-15, -20, 35, 38, 84, 178) // Frame Set 9
+		SpriteFrame(-15, -20, 35, 38, 199, 217)
+
+		SpriteFrame(-15, -20, 35, 38, 48, 178) // Frame Set 8
+		SpriteFrame(-15, -20, 35, 38, 163, 217)
+
+		SpriteFrame(-17, -20, 37, 38, 10, 178) // Frame Set 7
+		SpriteFrame(-17, -20, 37, 38, 125, 217)
+
+		SpriteFrame(-19, -20, 39, 38, 217, 139) // Frame Set 6
+		SpriteFrame(-19, -20, 39, 38, 85, 218)
 	end if
 
 	CheckCurrentStageFolder("Zone07")
@@ -208,10 +286,10 @@ event ObjectStartup
 		object[arrayPos0].startPos.x = object[arrayPos0].xpos
 		object[arrayPos0].startPos.y = object[arrayPos0].ypos
 		if object[arrayPos0].propertyValue == 0
-			object[arrayPos0].direction = FLIP_NONE
+			object[arrayPos0].direction = FACING_RIGHT
 			object[arrayPos0].xvel = -0x10000
 		else
-			object[arrayPos0].direction = FLIP_X
+			object[arrayPos0].direction = FACING_LEFT
 			object[arrayPos0].xvel = 0x10000
 		end if
 	next
@@ -259,35 +337,35 @@ end event
 
 
 event RSDKDraw
-	GetBit(object.direction, object.propertyValue, 0)
+	if object.propertyValue == 0
+		object.direction = FACING_RIGHT
+	else
+		object.direction = FACING_LEFT
+	end if
+
 	DrawSpriteFX(0, FX_FLIP, object.xpos, object.ypos)
 end event
 
 
 event RSDKLoad
-	// Make sure we have a fall-back, in case the current folder isn't actually a valid one
-	temp0 = false
-	
+	CheckCurrentStageFolder("Zone02")
+	if checkResult == true
+		LoadSpriteSheet("MZ/Objects.gif")
+		SpriteFrame(-20, -20, 40, 38, 1, 2)
+	end if
+
 	CheckCurrentStageFolder("Zone03")
-	temp0 |= checkResult
 	if checkResult == true
 		LoadSpriteSheet("SYZ/Objects.gif")
 		SpriteFrame(-20, -20, 40, 38, 1, 2)
 	end if
 
 	CheckCurrentStageFolder("Zone07")
-	temp0 |= checkResult
 	if checkResult == true
 		LoadSpriteSheet("MBZ/Objects.gif")
 		SpriteFrame(-20, -20, 40, 38, 138, 2)
 	end if
-	
-	if temp0 == false
-		// We use MZ's sprites as the fallback, "Zone02" (MZ's folder) will come here too
-		LoadSpriteSheet("MZ/Objects.gif")
-		SpriteFrame(-20, -20, 40, 38, 1, 2)
-	end if
-	
+
 	AddEditorVariable("direction")
 	SetActiveVariable("direction")
 	AddEnumVariable("Left", 0)

@@ -9,6 +9,7 @@
 // Aliases
 // ========================
 
+// 
 private alias object.propertyValue : object.fireDirection
 
 private alias object.value0 : object.timer
@@ -23,7 +24,7 @@ private alias 4 : NEWTRONSHOOT_DISAPPEAR
 private alias 0 : NEWTRONSHOOT_ANI_IDLE
 private alias 1 : NEWTRONSHOOT_ANI_SHOOT
 
-// Player Aliases
+// Player aliases
 private alias object.xpos    : player.xpos
 private alias object.value40 : player.hitboxLeft
 private alias object.value38 : player.hitboxTop
@@ -37,11 +38,6 @@ private alias object.value39 : player.hitboxBottom
 
 reserve function NewtronShoot_DebugDraw
 reserve function NewtronShoot_DebugSpawn
-
-
-// ========================
-// Function Definitions
-// ========================
 
 private function NewtronShoot_DebugDraw
 	DrawSprite(object.direction)
@@ -71,21 +67,21 @@ event ObjectUpdate
 					object.state = NEWTRONSHOOT_APPEAR
 					if player[currentPlayer].xpos < object.xpos
 						// Firing to the left
-						object.fireDirection = FLIP_X
+						object.fireDirection = 1
 					else
 						// Firing to the right
-						object.fireDirection = FLIP_NONE
+						object.fireDirection = 0
 					end if
 #platform: USE_ORIGINS
 				else
 					// fireInDir is set from the editor, in Missions where the Newtrons should only fire in a specific direction (M006)
 					if object.fireInDir != false
 						// woah that's actually like, a really cool way of doing it, especially when compared to how Origins does a bunch of other stuff
-						CheckLower(player[currentPlayer].xpos, object.xpos)
+						CheckLower(object[currentPlayer].xpos, object.xpos)
 						CheckEqual(object.fireDirection, checkResult)
 						object.state = checkResult
 					else
-						CheckLower(player[currentPlayer].xpos, object.xpos)
+						CheckLower(object[currentPlayer].xpos, object.xpos)
 						object.fireDirection = checkResult
 						object.state = NEWTRONSHOOT_APPEAR
 					end if
@@ -110,7 +106,7 @@ event ObjectUpdate
 		else
 			object.timer = 0
 			CreateTempObject(TypeName[Newtron Shot], 0, object.xpos, object.ypos)
-			if object.fireDirection == FLIP_X
+			if object.fireDirection == 1
 				// Shooting left
 				
 				object[tempObjectPos].xpos -= 0x140000
@@ -182,10 +178,31 @@ event ObjectDraw
 	case NEWTRONSHOOT_ANI_SHOOT
 		// Same from above applies here too about Fire Direction, yup
 		temp0 = object.fireDirection
-		temp0 += 2
 		DrawSprite(temp0)
+		if object.animationTimer >= 3
+			object.fireDirection++
+			object.animationTimer = 0
+		end if
+		object.animationTimer++
+		if temp0 == 0
+			object.fireDirection = 2
+			if object.fireDirection == 2
+				if object.animationTimer >= 5
+					object.fireDirection++
+					object.animationTimer = 0
+				end if
+			end if
+		end if
+		if temp0 == 1
+			object.fireDirection = 8
+			if object.fireDirection == 8
+				if object.animationTimer >= 5
+					object.fireDirection++
+					 object.animationTimer = 0
+				end if
+			end if
+		end if
 		break
-		
 	end switch
 end event
 
@@ -194,10 +211,20 @@ event ObjectStartup
 	CheckCurrentStageFolder("Zone01")
 	if checkResult == true
 		LoadSpriteSheet("GHZ/Objects2.gif")
-		SpriteFrame(-20, -20, 39, 39, 1, 1)   // 0 - Idle facing right frame
-		SpriteFrame(-19, -20, 39, 39, 81, 1)  // 1 - Idle facing left frame
-		SpriteFrame(-20, -20, 39, 39, 41, 1)  // 2 - Shooting facing left
-		SpriteFrame(-19, -20, 39, 39, 121, 1) // 3 - Shoting facing right frame
+		SpriteFrame(-20, -20, 39, 39, 1, 1) // 0 - Idle facing right frame
+		SpriteFrame(-19, -20, 39, 39, 81, 1) // 1 - Idle facing left frame
+		SpriteFrame(-20, -20, 39, 39, 160, 204) // 2 - Shooting facing right frame
+		SpriteFrame(-20, -20, 39, 39, 41, 1) // 3 - Shooting facing right frame
+		SpriteFrame(-20, -20, 39, 39, 120, 204) // 4 - Shoting facing right frame
+		SpriteFrame(-20, -20, 39, 39, 41, 1) // 3 - Shooting facing right frame
+		SpriteFrame(-20, -20, 39, 39, 160, 204) // 2 - Shooting facing right frame
+		SpriteFrame(-20, -20, 39, 39, 1, 1) // 0 - Idle facing right frame
+		SpriteFrame(-19, -20, 39, 39, 216, 205) // 5 - Shooting facing left frame
+		SpriteFrame(-19, -20, 39, 39, 121, 1) // 6 - Shooting facing left frame
+		SpriteFrame(-19, -20, 39, 39, 216, 165) // 7 - Shooting facing left frame
+		SpriteFrame(-19, -20, 39, 39, 121, 1) // 6 - Shooting facing left frame
+		SpriteFrame(-19, -20, 39, 39, 216, 205) // 5 - Shooting facing left frame
+		SpriteFrame(-19, -20, 39, 39, 81, 1) // 1 - Idle facing left frame
 	end if
 	
 	CheckCurrentStageFolder("Zone07")
@@ -233,7 +260,7 @@ event RSDKEdit
 			break
 			
 		case 0 // fireInDir
-			GetBit(checkResult, object.fireInDir, 0)
+			GetBit(checkResult, object.value1, 0)
 			break
 			
 		case 1 // fireDirection
@@ -249,7 +276,7 @@ event RSDKEdit
 			
 		case 0 // fireInDir
 			CheckNotEqual(editor.variableValue, false)
-			SetBit(object.fireInDir, 0, checkResult)
+			SetBit(object.value1, 0, checkResult)
 			break
 			
 		case 1 // fireDirection
@@ -269,15 +296,18 @@ end event
 
 
 event RSDKLoad
+	CheckCurrentStageFolder("Zone01")
+	if checkResult == true
+		LoadSpriteSheet("GHZ/Objects2.gif")
+		SpriteFrame(-20, -20, 39, 39, 1, 1)
+		SpriteFrame(-19, -20, 39, 39, 81, 1)
+	end if
+	
 	CheckCurrentStageFolder("Zone07")
 	if checkResult == true
 		LoadSpriteSheet("MBZ/Objects.gif")
 		SpriteFrame(-20, -20, 39, 39, 1, 164)
 		SpriteFrame(-19, -20, 39, 39, 81, 164)
-	else
-		LoadSpriteSheet("GHZ/Objects2.gif")
-		SpriteFrame(-20, -20, 39, 39, 1, 1)
-		SpriteFrame(-19, -20, 39, 39, 81, 1)
 	end if
 	
 	// If the Newtron should only Shoot when the player is in a specific direction
