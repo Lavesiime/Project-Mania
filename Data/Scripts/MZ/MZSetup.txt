@@ -589,8 +589,10 @@ event ObjectDraw
 		temp0 -= 458
 		temp0 *= 0xC000
 		tileLayer[1].scrollPos = temp0
+		tileLayer[2].scrollPos = temp0
 	else
 		tileLayer[1].scrollPos = 0
+		tileLayer[2].scrollPos = 0
 	end if
 end event
 
@@ -609,31 +611,6 @@ event ObjectStartup
 	object[SLOT_ZONESETUP].type = TypeName[MZ Setup]
 	object[SLOT_ZONESETUP].priority = PRIORITY_ACTIVE
 	object[SLOT_ZONESETUP].drawOrder = 0
-
-	// Different parallax between the different acts
-	// (Act 1 parallax info is built into the normal MZ BG file)
-	switch stage.actNum
-	case 2
-		hParallax[0].scrollPos = 0x1000000
-		hParallax[1].scrollPos = 0x2000000
-		hParallax[2].scrollPos = 0x2000000
-		hParallax[3].scrollPos = 0x2000000
-		hParallax[4].scrollPos = 0x2000000
-		hParallax[5].scrollPos = 0x2000000
-		hParallax[6].scrollPos = 0x2000000
-		break
-	
-	case 3
-		hParallax[0].scrollPos = 0x4000000
-		hParallax[1].scrollPos = 0x1000000
-		hParallax[2].scrollPos = 0x1000000
-		hParallax[3].scrollPos = 0x1000000
-		hParallax[4].scrollPos = 0x1000000
-		hParallax[5].scrollPos = 0x1000000
-		hParallax[6].scrollPos = 0x1000000
-		break
-		
-	end switch
 
 	if options.attractMode == true
 		switch stage.playerListPos
