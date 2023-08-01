@@ -112,7 +112,15 @@ private function HUD_Draw_Standard
 			DrawNumbers(0, 56, 29, temp1, 1, 8, true)
 #endplatform
 
-			DrawNumbers(0, 80, 45, player[0].rings, 3, 8, false)
+			if object[0].value43 == 1						// Hyper Ring state
+				LoadSpriteSheet("Global/Display2.gif")
+				DrawNumbers(0, 80, 45, player[0].rings, 3, 8, false)
+
+				DrawSpriteScreenXY(40, 88, 42)
+				LoadSpriteSheet("Global/Display.gif")
+			else
+				DrawNumbers(0, 80, 45, player[0].rings, 3, 8, false)
+			end if
 
 			if stage.debugMode == true
 				// If the player is in debug mode, draw X and Y positions
@@ -331,10 +339,10 @@ event ObjectStartup
 	SpriteFrame(0, 0, 8, 8, 145, 64) 	// 36 - Red "X" debug icon
 	SpriteFrame(0, 0, 8, 8, 154, 64) 	// 37 - Red "Y" debug icon
 
-#platform: USE_ORIGINS
 	SpriteFrame(0, 0, 16, 16, 199, 141) // 38 - Coins life icon
 	SpriteFrame(0, 0, 39, 7, 182, 158)  // 39 - Coins name tag
-#endplatform
+
+	SpriteFrame(0, 0, 16, 16, 182, 158) // 40 - Hyper Ring
 
 	foreach (TypeName[HUD], arrayPos0, ALL_ENTITIES)
 		if engine.deviceType == STANDARD

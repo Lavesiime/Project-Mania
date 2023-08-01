@@ -195,6 +195,9 @@ event ObjectUpdate
 						object.contentsPos.y = object.ypos
 						object.timer = -0x30000
 
+						object.yvel = -0x30000
+						object.value10 = 1
+
 						PlaySfx(SfxName[Destroy], false)
 					end if
 				else
