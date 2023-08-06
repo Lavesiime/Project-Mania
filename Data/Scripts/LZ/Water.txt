@@ -692,9 +692,13 @@ event ObjectUpdate
 	loop
 
 	object.animationTimer++
-	object.animationTimer %= 24
-	object.frame = object.animationTimer
-	object.frame >>= 3
+	if object.animationTimer >= 6
+		object.frame++
+		object.animationTimer = 0
+	end if
+	if object.frame >= 10
+		object.frame = 0
+	end if
 end event
 
 
@@ -716,7 +720,7 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("LZ/Objects2.gif")
+	LoadSpriteSheet("LZ/Objects4.gif")
 
 	SetTableValue(Water_ProcessLZAct1, 1, Water_processActTable)
 	SetTableValue(Water_ProcessLZAct2, 2, Water_processActTable)
@@ -785,9 +789,16 @@ event ObjectStartup
 		end if
 	next
 	
-	SpriteFrame(0, -8, 256, 16, 0, 129)
-	SpriteFrame(0, -8, 256, 16, 0, 146)
-	SpriteFrame(0, -8, 256, 16, 0, 163)
+	SpriteFrame(0, -8, 256, 16, 0, 0)
+	SpriteFrame(0, -8, 256, 16, 0, 16)
+	SpriteFrame(0, -8, 256, 16, 0, 32)
+	SpriteFrame(0, -8, 256, 16, 0, 48)
+	SpriteFrame(0, -8, 256, 16, 0, 64)
+	SpriteFrame(0, -8, 256, 16, 0, 80)
+	SpriteFrame(0, -8, 256, 16, 0, 96)
+	SpriteFrame(0, -8, 256, 16, 0, 112)
+	SpriteFrame(0, -8, 256, 16, 0, 128)
+	SpriteFrame(0, -8, 256, 16, 0, 144)
 
 	BrokenMonitor_ResetDrownMusic = Water_ResetDrownMusic
 end event
