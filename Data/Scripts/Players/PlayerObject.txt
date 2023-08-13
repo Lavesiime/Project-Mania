@@ -545,7 +545,7 @@ public function Player_ApplyShield
 		ResetObjectEntity(arrayPos0, blueShieldType, 0, 0, 0)
 		object[arrayPos0].priority = PRIORITY_ACTIVE
 		object[arrayPos0].inkEffect = INK_ALPHA
-		object[arrayPos0].alpha = 0xA0
+		object[arrayPos0].alpha = 0x70
 		break
 
 	case SHIELD_BUBBLE

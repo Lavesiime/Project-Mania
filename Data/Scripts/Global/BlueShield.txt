@@ -40,13 +40,15 @@ event ObjectUpdate
 	end if
 
 	// Update the object's animation
-	object.timer++
-	if object.timer == 2
-		object.timer = 0
+	object.animationTimer++
+	temp0 = 225
+	temp0 /= 96
+	if object.animationTimer >= temp0
 		object.frame++
-		if object.frame > 5
-			object.frame = 0
-		end if
+		object.animationTimer = 0
+	end if
+	if object.frame > 7
+		object.frame = 0
 	end if
 end event
 
@@ -61,15 +63,18 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Global/Items2.gif")
+	LoadSpriteSheet("Global/Items.gif")
 
 	// Shield frames
-	SpriteFrame(-24, -24, 48, 48, 109, 196)
-	SpriteFrame(0, 0, 0, 0, 109, 196)
-	SpriteFrame(-24, -24, 48, 48, 158, 196)
-	SpriteFrame(0, 0, 0, 0, 109, 196)
-	SpriteFrame(-24, -24, 48, 48, 207, 196)
-	SpriteFrame(0, 0, 0, 0, 109, 196)
+	SpriteFrame(-24, -24, 48, 48, 262, 315)
+	SpriteFrame(-24, -24, 48, 48, 311, 315)
+	SpriteFrame(-24, -24, 48, 48, 360, 315)
+	SpriteFrame(-24, -24, 48, 48, 409, 315)
+	SpriteFrame(-24, -24, 48, 48, 458, 315)
+	// Reverse
+	SpriteFrame(-24, -24, 48, 48, 1, 363)
+	SpriteFrame(-24, -24, 48, 48, 50, 363)
+	SpriteFrame(-24, -24, 48, 48, 99, 363)
 end event
 
 

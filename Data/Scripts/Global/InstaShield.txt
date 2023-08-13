@@ -42,7 +42,7 @@ event ObjectUpdate
 	object.drawOrder = DRAWORDER_PLAYER
 
 	object.frame++
-	if object.frame >= 7
+	if object.frame >= 8
 		object.frame = 0
 		object.type = TypeName[Blank Object]
 	else
@@ -65,21 +65,25 @@ end event
 
 event ObjectDraw
 	if Player_superState != SUPERSTATE_SUPER
-		DrawSpriteXY(object.frame, object[-playerCount].xpos, object[-playerCount].ypos)
+		DrawSpriteFX(object.frame, FX_INK, object[-playerCount].xpos, object[-playerCount].ypos)
+		object.inkeffect = INK_ADD
+		object.alpha = 0xE0
 	end if
 end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Global/Items3.gif")
-	
-	SpriteFrame(0, 0, 1, 1, 1, 1)
-	SpriteFrame(-12, -19, 19, 19, 148, 155)
-	SpriteFrame(0, -16, 18, 21, 94, 231)
-	SpriteFrame(-3, 2, 27, 24, 113, 228)
-	SpriteFrame(-24, -16, 31, 38, 141, 214)
-	SpriteFrame(-16, -24, 40, 40, 173, 214)
-	SpriteFrame(-24, -16, 41, 40, 214, 214)
+	LoadSpriteSheet("Global/Items.gif")
+	SpriteFrame(0, 0, 0, 0, 34, 315)
+	SpriteFrame(-15, -15, 30, 30, 34, 315)
+	SpriteFrame(-9, -20, 19, 19, 65, 315)
+	SpriteFrame(-9, -20, 29, 27, 65, 335)
+	SpriteFrame(-1, -15, 27, 37, 108, 315)
+	SpriteFrame(-21, -16, 47, 40, 136, 315)
+	SpriteFrame(-23, -25, 49, 48, 184, 315)
+	SpriteFrame(-1, -24, 27, 46, 234, 315)
+	SpriteFrame(-6, 4, 22, 18, 85, 315)
+	SpriteFrame(0, 0, 0, 0, 85, 315)
 end event
 
 

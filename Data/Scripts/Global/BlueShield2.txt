@@ -10,13 +10,13 @@
 // ========================
 
 private alias object.value0 : object.timer
+private alias object.value1 : object.outerFrame
 
-// Player Aliases
+private alias -1 : DRAWORDER_PLAYER
+
 private alias object.state : player.state
 private alias object.xpos : player.xpos
 private alias object.ypos : player.ypos
-
-private alias -1 : DRAWORDER_PLAYER
 
 // Super States
 private alias 1 : SUPERSTATE_SUPER
@@ -29,7 +29,7 @@ private alias 1 : SUPERSTATE_SUPER
 event ObjectUpdate
 	object.drawOrder = DRAWORDER_PLAYER
 
-	// Dead players shouldn't have any shields
+	// Dead player shouldn't have any shields
 	if player[-playerCount].state == Player_State_Death
 		object.type = TypeName[Blank Object]
 	end if
@@ -40,11 +40,23 @@ event ObjectUpdate
 	end if
 
 	// Update the object's animation
-	object.frame = object.timer
-	object.frame >>= 1
-	
-	object.timer++
-	object.timer %= 10
+	object.animationTimer++
+	temp0 = 225
+	temp0 /= 96
+	if object.animationTimer >= temp0
+		object.frame++
+		object.outerFrame++
+		object.animationTimer = 0
+	end if
+	if object.frame > 7
+		object.frame = 0
+	end if
+	if object.outerFrame < 8
+		object.outerFrame = 8
+	end if
+	if object.outerFrame > 17
+		object.outerFrame = 8
+	end if
 end event
 
 
@@ -52,7 +64,7 @@ event ObjectDraw
 	// Super characters shouldn't have shields
 	if Player_superState != SUPERSTATE_SUPER
 		DrawSpriteFX(object.frame, FX_INK, player[-playerCount].xpos, player[-playerCount].ypos)
-		DrawSpriteFX(5,            FX_INK, player[-playerCount].xpos, player[-playerCount].ypos)
+		DrawSpriteFX(object.outerFrame, FX_INK, player[-playerCount].xpos, player[-playerCount].ypos)
 	end if
 end event
 
@@ -63,10 +75,22 @@ event ObjectStartup
 	// Shield frames
 	SpriteFrame(-16, -16, 32, 32, 18, 34)  // 0
 	SpriteFrame(-16, -16, 32, 32, 18, 67)  // 1
-	SpriteFrame(-16, -16, 32, 32, 85, 27)  // 2
-	SpriteFrame(-16, -16, 32, 32, 85, 60)  // 3
-	SpriteFrame(-16, -16, 32, 32, 85, 93)  // 4
+	SpriteFrame(-16, -16, 32, 32, 150, 1)  // 2
+	SpriteFrame(-16, -16, 32, 32, 85, 27)  // 3
+	SpriteFrame(-16, -16, 32, 32, 85, 60)  // 4
+	SpriteFrame(-16, -16, 32, 32, 85, 93)  // 5
+	SpriteFrame(-16, -16, 32, 32, 150, 34)  // 6
+	SpriteFrame(-16, -16, 32, 32, 150, 67)  // 7
 	SpriteFrame(-24, -24, 48, 48, 35, 117) // Center circle thing that always gets drawn
+	SpriteFrame(-24, -24, 48, 48, 35, 117)
+	SpriteFrame(-24, -24, 48, 48, 35, 117)
+	SpriteFrame(-24, -24, 48, 48, 148, 363)
+	SpriteFrame(-24, -24, 48, 48, 148, 363)
+	SpriteFrame(-24, -24, 48, 48, 197, 363)
+	SpriteFrame(-24, -24, 48, 48, 197, 363)
+	SpriteFrame(-24, -24, 48, 48, 197, 363)
+	SpriteFrame(-24, -24, 48, 48, 148, 363)
+	SpriteFrame(-24, -24, 48, 48, 148, 363)
 end event
 
 
