@@ -14,11 +14,11 @@ private alias object.value0 : object.timer
 event ObjectUpdate
 	object.timer++
 
-	if object.timer > 7
+	if object.timer > 1
 		object.timer = 0
 		object.frame++
 
-		if object.frame > 4
+		if object.frame > 12
 			object.type = TypeName[Blank Object]
 			object.frame = 0
 		end if
@@ -35,11 +35,19 @@ event ObjectStartup
 	LoadSpriteSheet("Global/Items2.gif")
 
 	// Puff frames
+	SpriteFrame(-16, -8, 32, 16, 108, 228)
 	SpriteFrame(-16, -8, 32, 16, 1, 1)
 	SpriteFrame(-16, -16, 32, 32, 1, 18)
+	SpriteFrame(-16, -16, 32, 32, 108, 195)
+	SpriteFrame(-16, -16, 32, 32, 141, 195)
+	SpriteFrame(-16, -16, 32, 32, 174, 195)
 	SpriteFrame(-16, -16, 32, 32, 1, 51)
+	SpriteFrame(-16, -16, 32, 32, 207, 195)
+	SpriteFrame(-20, -20, 40, 40, 75, 1)
 	SpriteFrame(-20, -20, 40, 40, 34, 1)
 	SpriteFrame(-20, -20, 40, 40, 34, 42)
+	SpriteFrame(-20, -20, 40, 40, 116, 1)
+	SpriteFrame(-20, -20, 40, 40, 116, 154)
 
 end event
 
