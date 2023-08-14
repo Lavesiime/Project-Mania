@@ -89,20 +89,19 @@ event ObjectUpdate
 		object.state++
 		// [FallThrough]
 	case BUBBLESHIELD_BOUNCE
+
+		object.sheenFrame++
+		if object.sheenFrame > 133
+			object.timer++
+			object.sheenFrame = 104
+		end if
+	
 		if object.timer == 0
 			object.animationTimer++
 			if object.frame < 82
 				object.frame = 82
 			end if
 			object.frame++
-			if object.frame > 91
-				object.sheenFrame = 104
-				object.sheenFrame++
-				if object.sheenFrame > 133
-					object.timer++
-					object.sheenFrame = 104
-				end if
-			end if
 			if object.frame > 103
 				object.timer++
 				object.frame = 92
