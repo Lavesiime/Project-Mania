@@ -36,11 +36,11 @@ reserve function BallHog_DebugSpawn
 // ========================
 
 private table BallHog_frameTable
-	0,  2,  3,  2,  0,  2,  3,  2,  0,  2,  3,  2,  0,  1, 0
+	0,8 ,9,10,11,14,11,10,9,8 ,0,1,2,3,4,3,2,0
 end table
 
 private table BallHog_frameDelayTable
-	20, 20, 10, 10, 20, 20, 10, 10, 20, 20, 10, 10, 20, 10
+	5,10,5,5 ,5 ,5 ,5 ,5 ,5,10,5,5,3,3,3,3,3,5
 end table
 
 
@@ -65,6 +65,7 @@ end function
 // ========================
 
 event ObjectUpdate
+
 	// Check collision with players
 	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
 		BoxCollisionTest(C_TOUCH, object.entityPos, -12, -18, 12, 18, currentPlayer, player[currentPlayer].hitboxLeft, player[currentPlayer].hitboxTop, player[currentPlayer].hitboxRight, player[currentPlayer].hitboxBottom)
@@ -74,7 +75,7 @@ event ObjectUpdate
 	next
 
 	// Sidestep a little
-	if object.frame == 13
+	if object.frame == 14
 		object.ypos += object.yvel
 		object.yvel += 0x95C0
 		ObjectTileCollision(CSIDE_FLOOR, 0, 20, PATH_A)
@@ -91,10 +92,7 @@ event ObjectUpdate
 		GetTableValue(object.frame, object.timer, BallHog_frameTable)
 
 		object.timer++
-		if object.frame == 0
-			object.frame = 8
-		end if
-		if object.timer >= 7
+		if object.timer >= 20
 			object.timer = 0
 		end if
 
@@ -104,7 +102,7 @@ event ObjectUpdate
 			object.yvel += 0x95C0
 		end if
 
-		if object.frame == 7
+		if object.frame == 4
 			// Drop a bomb ball
 
 			CreateTempObject(TypeName[Ball Hog Bomb], 0, object.xpos, object.ypos)
