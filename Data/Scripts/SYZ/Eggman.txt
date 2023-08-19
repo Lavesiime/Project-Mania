@@ -463,6 +463,7 @@ event ObjectUpdate
 					if object.animation != SYZEGGANI_LAUGH
 						object.animation = SYZEGGANI_LAUGH
 						object.animationTimer = 0
+						object.eggmanFrame = 12
 					end if
 				end if
 
@@ -557,6 +558,7 @@ end event
 
 
 event ObjectDraw
+
 	temp0 = object.ypos
 	temp0 += object.stingerPos
 	DrawSpriteFX(212, FX_FLIP, object.xpos, temp0)
