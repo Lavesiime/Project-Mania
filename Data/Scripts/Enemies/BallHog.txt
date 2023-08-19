@@ -36,11 +36,11 @@ reserve function BallHog_DebugSpawn
 // ========================
 
 private table BallHog_frameTable
-	0,8 ,9,10,11,14,11,10,9,8 ,0,1,2,3,4,3,2,0
+	0,8,9,10,11,11,11,14,11,10,9,8,0,8,9,10,11,11,11,14,11,10,9,8,0,8,9,10,11,11,11,14,11,10,9,8,0,1,2,3,4,3,2,0
 end table
 
 private table BallHog_frameDelayTable
-	5,10,5,5 ,5 ,5 ,5 ,5 ,5,10,5,5,3,3,3,3,3,5
+	4,10,4,4,4,5,5,5,4,4,4,10,4,4,4,5,5,5,4,4,4,10,4,4,4,5,5,5,4,4,4,10,4,3,3,4,4,3,3,4,5
 end table
 
 
@@ -75,12 +75,14 @@ event ObjectUpdate
 	next
 
 	// Sidestep a little
-	if object.frame == 14
-		object.ypos += object.yvel
-		object.yvel += 0x95C0
-		ObjectTileCollision(CSIDE_FLOOR, 0, 20, PATH_A)
-		if checkResult == false
-			object.animationTimer = 2
+	if object.frame > 11
+		if object.frame < 15
+			object.ypos += object.yvel
+			object.yvel += 0x95C0
+			ObjectTileCollision(CSIDE_FLOOR, 0, 20, PATH_A)
+			if checkResult == false
+				object.animationTimer = 2
+			end if
 		end if
 	end if
 
@@ -92,7 +94,7 @@ event ObjectUpdate
 		GetTableValue(object.frame, object.timer, BallHog_frameTable)
 
 		object.timer++
-		if object.timer >= 20
+		if object.timer >= 50
 			object.timer = 0
 		end if
 

@@ -9,7 +9,7 @@
 // Aliases
 // ========================
 
-private alias object.value0 : object.bombTime // Set on spawn by master Ball Hog object
+private alias object.value0 : object.bombTime
 
 // Path ID Aliases
 private alias 0 : PATH_A
@@ -59,9 +59,12 @@ event ObjectUpdate
 
 	// Animate the object
 	object.animationTimer++
-	if object.animationTimer >= 6
-		object.frame ^= 1
+	if object.animationTimer >= 3
+		object.frame++
 		object.animationTimer = 0
+	end if
+	if object.frame > 2
+		object.frame = 0
 	end if
 
 	// Update the bomb's countdown timer
@@ -86,8 +89,9 @@ event ObjectStartup
 	CheckCurrentStageFolder("Zone06")
 	if checkResult == true
 		LoadSpriteSheet("SBZ/Objects.gif")
-		SpriteFrame(-7, -7, 14, 14, 82, 126)
 		SpriteFrame(-7, -7, 14, 14, 82, 143)
+		SpriteFrame(-7, -7, 14, 14, 82, 126)
+		SpriteFrame(-7, -7, 14, 14, 82, 109)
 	end if
 
 	CheckCurrentStageFolder("Zone07")
@@ -109,13 +113,16 @@ end event
 
 
 event RSDKLoad
+	CheckCurrentStageFolder("Zone06")
+	if checkResult == true
+		LoadSpriteSheet("SBZ/Objects.gif")
+		SpriteFrame(-7, -7, 14, 14, 82, 126)
+	end if
+	
 	CheckCurrentStageFolder("Zone07")
 	if checkResult == true
 		LoadSpriteSheet("MBZ/Objects.gif")
 		SpriteFrame(-7, -7, 14, 14, 165, 248)
-	else
-		LoadSpriteSheet("SBZ/Objects.gif")
-		SpriteFrame(-7, -7, 14, 14, 82, 126)
 	end if
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
