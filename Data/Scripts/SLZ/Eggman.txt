@@ -28,7 +28,8 @@ private alias object.value14 : object.eggmanFrame
 private alias object.value15 : object.mobileAnimTimer
 private alias object.value16 : object.flameFrame
 private alias object.value17 : object.equipmentFrame
-
+private alias object.value18 : object.equipmentAnimTimer
+private alias object.value19 : object.mobileFrame
 
 // SeeSaw Aliases
 private alias object.value0  : object.orbTimer
@@ -460,18 +461,22 @@ event ObjectDraw
 	case SLZEGGANI_HIT
 		object.animationTimer++
 		object.eggmanFrame++
-		object.equipmentFrame++
 		object.mobileAnimTimer++
+		object.equipmentAnimTimer++
 		object.flameAnim = FLAME_ACTIVE
+		if object.equipmentAnimTimer > 1
+			object.equipmentFrame++
+			object.equipmentAnimTimer = 0
+		end if
 		if object.mobileAnimTimer > 1
-			object.frame++
+			object.mobileFrame++
 			object.mobileAnimTimer = 0
 		end if
-		if object.frame < 0
-			object.frame = 0
+		if object.mobileFrame < 0
+			object.mobileFrame = 0
 		end if
-		if object.frame > 1
-			object.frame = 0
+		if object.mobileFrame > 1
+			object.mobileFrame = 0
 		end if
 		if object.equipmentFrame < 212
 			object.equipmentFrame = 212
@@ -491,7 +496,7 @@ event ObjectDraw
 		end if
 		DrawSpriteFX(2, FX_FLIP, object.xpos, object.ypos)
 		DrawSpriteFX(object.eggmanFrame, FX_FLIP, object.xpos, object.ypos)
-		DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(object.mobileFrame, FX_FLIP, object.xpos, object.ypos)
 		DrawSpriteFX(object.equipmentFrame, FX_FLIP, object.xpos, object.ypos)
 		break
 

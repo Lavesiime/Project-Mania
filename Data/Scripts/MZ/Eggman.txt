@@ -28,6 +28,8 @@ private alias object.value13 : object.eggmanFrame
 private alias object.value14 : object.mobileAnimTimer
 private alias object.value15 : object.flameFrame
 private alias object.value16 : object.equipmentFrame
+private alias object.value17 : object.equipmentAnimTimer
+private alias object.value18 : object.mobileFrame
 
 // Eggman States
 private alias 0  : MZEGGMAN_AWAITPLAYER
@@ -299,7 +301,7 @@ event ObjectUpdate
 			FlipSign(object.xvel)
 			object.yvel = 0x10000
 			object.animation = MZEGGANI_IDLE
-			object.flameAnim = FLAME_INACTIVE
+			object.flameAnim = FLAME_ACTIVE
 			object.state = MZEGGMAN_MOVE_L
 		end if
 
@@ -536,18 +538,22 @@ event ObjectDraw
 	case MZEGGANI_HIT
 		object.animationTimer++
 		object.eggmanFrame++
-		object.equipmentFrame++
 		object.mobileAnimTimer++
+		object.equipmentAnimTimer++
 		object.flameAnim = FLAME_ACTIVE
+		if object.equipmentAnimTimer > 1
+			object.equipmentFrame++
+			object.equipmentAnimTimer = 0
+		end if
 		if object.mobileAnimTimer > 1
-			object.frame++
+			object.mobileFrame++
 			object.mobileAnimTimer = 0
 		end if
-		if object.frame < 0
-			object.frame = 0
+		if object.mobileFrame < 0
+			object.mobileFrame = 0
 		end if
-		if object.frame > 1
-			object.frame = 0
+		if object.mobileFrame > 1
+			object.mobileFrame = 0
 		end if
 		if object.equipmentFrame < 212
 			object.equipmentFrame = 212
@@ -567,7 +573,7 @@ event ObjectDraw
 		end if
 		DrawSpriteFX(2, FX_FLIP, object.xpos, object.ypos)
 		DrawSpriteFX(object.eggmanFrame, FX_FLIP, object.xpos, object.ypos)
-		DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(object.mobileFrame, FX_FLIP, object.xpos, object.ypos)
 		DrawSpriteFX(object.equipmentFrame, FX_FLIP, object.xpos, object.ypos)
 		break
 
