@@ -16,6 +16,8 @@ private alias object.value3 : object.collisionOffset.y
 private alias object.value4 : object.tablePtr
 private alias object.value5 : object.tablePos
 private alias object.value6 : object.tableSize
+private alias object.value10 : object.smoothRotation
+private alias object.value11 : object.spriteRotation
 
 // Player Aliases
 private alias object.xpos : player.xpos
@@ -136,12 +138,30 @@ event ObjectUpdate
 		end if
 	end if
 
-	if object.rotation != 0
-		object.rotation++
-		object.rotation &= 15
-	else
-		if object.tablePos > 2
+	if object.smoothRotation == true
+		if object.rotation != 0
+			object.spriteRotation += 0x18
 			object.rotation++
+			object.rotation &= 15
+		else
+			if object.tablePos > 2
+				object.rotation++
+			else
+				object.spriteRotation += 0x18
+				object.spriteRotation %= 512
+				if object.spriteRotation < 0x19
+					object.spriteRotation = 0
+				end if
+			end if
+		end if
+	else
+		if object.rotation != 0
+			object.rotation++
+			object.rotation &= 15
+		else
+			if object.tablePos > 2
+				object.rotation++
+			end if
 		end if
 	end if
 
@@ -181,7 +201,15 @@ end event
 
 
 event ObjectDraw
-	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	if object.smoothRotation == true
+		temp0 = object.rotation
+		object.rotation = object.spriteRotation
+		DrawSpriteFX(5, FX_ROTATE, object.xpos, object.ypos)
+		DrawSprite(6)
+		object.rotation = temp0
+	else
+		DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	end if
 end event
 
 
@@ -193,6 +221,9 @@ event ObjectStartup
 	SpriteFrame(-13, -16, 25, 32, 449, 198)
 	SpriteFrame(-7, -16, 14, 32, 480, 198)
 
+	SpriteFrame(-16, -8, 32, 14, 466, 50) // Smooth rotation sprites
+	SpriteFrame(-3, -3, 6, 6, 466, 67)
+
 	SetTableValue(BeltPlatform_movementTable0, 0, BeltPlatform_tablePtrs)
 	SetTableValue(BeltPlatform_movementTable1, 1, BeltPlatform_tablePtrs)
 	SetTableValue(BeltPlatform_movementTable2, 2, BeltPlatform_tablePtrs)
@@ -201,6 +232,8 @@ event ObjectStartup
 	SetTableValue(BeltPlatform_movementTable5, 5, BeltPlatform_tablePtrs)
 
 	foreach (TypeName[Belt Platform], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].smoothRotation = true
+		
 		object[arrayPos0].priority = PRIORITY_INACTIVE
 
 		temp0 = object[arrayPos0].propertyValue

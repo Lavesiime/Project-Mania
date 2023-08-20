@@ -12,6 +12,7 @@
 private alias object.value0 : object.timer
 private alias object.value1 : object.duration
 private alias object.value2 : object.interval
+private alias object.value10 : object.smoothRotation
 
 // Player Aliases
 private alias object.value17 : debugMode.currentSelection
@@ -90,20 +91,35 @@ event ObjectUpdate
 		end if
 	end if
 
-	if object.rotation != 0
-		object.rotation++
-		object.rotation &= 31
-	else
-		if temp0 != false
-			object.rotation++
+	if object.smoothRotation == true
+		if object.rotation != 0
+			object.value4++
+			object.rotation += 0x11
+			if object.value4 == 31 // Duration of spinning state, original does not use a timer
+				object.rotation = 0
+				object.value4 = 0
+			end if
+		else
+			if temp0 != false
+				object.rotation++
+			end if
 		end if
+	else
+		if object.rotation != 0
+			object.rotation++
+			object.rotation &= 31
+		else
+			if temp0 != false
+				object.rotation++
+			end if
+		end if
+		
+		temp0 = object.rotation
+		temp0 >>= 1
+		GetTableValue(object.direction, temp0, SpinPlatform_directionTable)
+		temp0 &= 7
+		GetTableValue(object.frame, temp0, SpinPlatform_frameTable)
 	end if
-
-	temp0 = object.rotation
-	temp0 >>= 1
-	GetTableValue(object.direction, temp0, SpinPlatform_directionTable)
-	temp0 &= 7
-	GetTableValue(object.frame, temp0, SpinPlatform_frameTable)
 
 	if object.rotation == 0
 		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
@@ -114,7 +130,12 @@ end event
 
 
 event ObjectDraw
-	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	if object.smoothRotation == true	
+		DrawSpriteFX(5, FX_ROTATE, object.xpos, object.ypos)
+		DrawSprite(6)
+	else
+		DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	end if
 end event
 
 
@@ -125,7 +146,13 @@ event ObjectStartup
 	SpriteFrame(-15, -15, 30, 30, 480, 166)
 	SpriteFrame(-13, -16, 25, 32, 449, 198)
 	SpriteFrame(-7, -16, 14, 32, 480, 198)
+	
+	SpriteFrame(-16, -8, 32, 14, 466, 50) // Smooth rotation sprites
+	SpriteFrame(-3, -3, 6, 6, 466, 67)
+	
 	foreach (TypeName[Spin Platform], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].smoothRotation = true
+	
 		object[arrayPos0].priority = PRIORITY_XBOUNDS
 		object[arrayPos0].drawOrder = 4
 
