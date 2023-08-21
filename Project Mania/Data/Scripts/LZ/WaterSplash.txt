@@ -1,0 +1,75 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: Water Splash Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+	// Hover above the water surface
+	object.iypos = stage.waterLevel
+	
+	object.timer++
+	if object.timer > 1
+		object.timer = 0
+		object.frame++
+		if object.frame > 15
+			object.type = TypeName[Blank Object]
+		end if
+	end if
+end event
+
+
+event ObjectDraw
+	DrawSprite(object.frame)
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("LZ/Objects5.gif")
+	
+	SpriteFrame(-14, -13, 24, 13, 0, 0)
+	SpriteFrame(-20, -20, 38, 20, 24, 0)
+	SpriteFrame(-24, -31, 52, 31, 62, 0)
+	SpriteFrame(-31, -56, 70, 56, 114, 0)
+	SpriteFrame(-32, -61, 72, 61, 184, 0)
+	SpriteFrame(-38, -62, 78, 62, 0, 31)
+	SpriteFrame(-40, -63, 83, 63, 78, 60)
+	SpriteFrame(-43, -62, 87, 62, 162, 61)
+	SpriteFrame(-31, -64, 64, 64, 0, 123)
+	SpriteFrame(-36, -62, 72, 62, 65, 124)
+	SpriteFrame(-40, -50, 79, 50, 138, 136)
+	SpriteFrame(-42, -47, 74, 47, 0, 187)
+	SpriteFrame(-42, -32, 76, 32, 75, 186)
+	SpriteFrame(-36, -40, 72, 40, 152, 193)
+	SpriteFrame(-36, -37, 76, 37, 75, 219)
+	SpriteFrame(-9, -35, 20, 22, 152, 234)
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("LZ/Objects.gif")
+	SpriteFrame(-10, -12, 20, 12, 202, 76)
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

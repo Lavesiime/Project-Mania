@@ -1,0 +1,133 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: MissionBlock Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.isClimbable // TODO: idk
+// it determines if knuckles is able to pull himself up onto a block - not if he can grab onto its side or not - so i don't think this name is too good
+
+// Player Aliases
+private alias object.state : player.state
+private alias object.speed : player.speed
+private alias object.xvel  : player.xvel
+private alias object.yvel  : player.yvel
+
+private alias object.value1  : player.timer
+private alias object.value44 : player.missionBlockID
+
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+	CheckNotEqual(player[0].state, Player_State_Drown)
+	temp0 = checkResult
+	CheckNotEqual(player[0].state, Player_State_LPullUp_Mission)
+	checkResult &= temp0
+	if checkResult == true
+		BoxCollisionTest(C_SOLID, object.entityPos, -16, -16, 16, 16, 0, C_BOX, C_BOX, C_BOX, C_BOX)
+		if checkResult == COL_BOTTOM
+			if object.propertyValue == 0
+				if object[currentPlayer].gravity == 0
+					// This object's angle is never set???
+					if object.angle > 384
+						CallFunction(Player_Kill)
+					end if
+					
+					if object.angle < 128
+						// This object's angle is 0, so this p much always returns true
+						CallFunction(Player_Kill)
+					end if
+				end if
+			end if
+		end if
+		
+		// Store what collision type the Block got
+		temp0 = checkResult
+		
+		// See if the Player hit the left side of a Block, while gliding right
+		CheckEqual(temp0, COL_LEFT)
+		temp1 = checkResult
+		CheckEqual(player[0].state, Player_State_GlideRight)
+		temp1 &= checkResult
+		
+		// And then see if the Player hit the Right side of a block, while gliding left
+		CheckEqual(temp0, COL_RIGHT)
+		temp2 = checkResult
+		CheckEqual(player[0].state, Player_State_GlideLeft)
+		temp2 &= checkResult
+		
+		temp1 |= temp2
+		
+		if temp1 != false
+			// TODO: this is some sort of flag, from editor
+			// find out what it does
+			CheckEqual(object.value0, false)
+			temp0 = checkResult
+			
+			temp1 = object.ypos
+			temp1 -= 0x100000
+			CheckLower(temp1, object[0].ypos)
+			checkResult |= temp0
+			
+			if checkResult != false
+				// Allow Knuckles to pull himself up this block
+				
+				player[0].missionBlockID = TypeName[MissionBlock]
+				
+				player[0].state = Player_State_Climb_Mission
+				
+				player[0].speed = 0
+				player[0].xvel = 0
+				player[0].yvel = 0
+				player[0].timer = 0
+				
+				PlaySfx(SfxName[Catch], false)
+			end if
+		end if
+	end if
+end event
+
+
+event ObjectDraw
+	DrawSprite(0)
+end event
+
+
+event ObjectStartup
+	// Load what's essentially the Labyrinth Zone sheet...
+	LoadSpriteSheet("Mission/Objects.gif")
+	
+	// And of course, only use a tiny portion of it
+	SpriteFrame(-16, -16, 32, 32, 1, 18)
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("Mission/Objects.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 18)
+	
+	// TODO: val0 is used, ie SLZ gliding mission
+	// it's if knuckles can pull himself up onto a wall or not, MZ expert mission uses it too
+	
+	// prop val is used in this script too, but i can't find where it's used in any of the levels?
+	// once in the slz gliding mission, never anywhere else?
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event
