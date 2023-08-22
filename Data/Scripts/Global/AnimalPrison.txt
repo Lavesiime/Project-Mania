@@ -148,6 +148,29 @@ event ObjectUpdate
 			object.drawOrder = 4
 			object.timer = 4
 			object.state++
+			
+			// Spawn parts
+			temp0 = object.xpos
+			temp1 = object.ypos
+			temp0 -= 0x100000
+			temp1 -= 0x0c0000
+			CreateTempObject(TypeName[Animal Prison Part], 0, temp0, temp1)
+			object[tempObjectPos].xvel = -0x18000
+			object[tempObjectPos].yvel = -0x10000
+			temp0 += 0x200000
+			CreateTempObject(TypeName[Animal Prison Part], 0, temp0, temp1)
+			object[tempObjectPos].xvel = 0x18000
+			object[tempObjectPos].yvel = -0x10000
+			object[tempObjectPos].frame = 1
+			CreateTempObject(TypeName[Animal Prison Part], 0, object.xpos, object.ypos)
+			object[tempObjectPos].xvel = 0x10000
+			object[tempObjectPos].yvel = -0x16000
+			object[tempObjectPos].frame = 2
+			//CreateTempObject(TypeName[Animal Prison Part], 0, object.xpos, object.ypos)
+			//object[tempObjectPos].xvel = -0x10000
+			//object[tempObjectPos].yvel = -0x16000
+			//object[tempObjectPos].frame = 3
+			
 		end if
 		object.frame = object.animationTimer
 		object.frame /= 3
