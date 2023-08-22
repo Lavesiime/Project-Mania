@@ -57,6 +57,8 @@ event ObjectDraw
 	// Super characters shouldn't have shields
 	// Object isn't just erased in case the player untransforms
 	if Player_superState != SUPERSTATE_SUPER
+		object.inkEffect = INK_ADD
+		object.alpha = 150
 		DrawSpriteFX(object.frame, FX_INK, player[-playerCount].xpos, player[-playerCount].ypos)
 	end if
 end event

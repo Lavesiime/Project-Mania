@@ -12,6 +12,7 @@
 private alias object.value0 : object.timer
 private alias object.value1 : object.hitboxL
 private alias object.value2 : object.hitboxR
+private alias object.value10 : object.smoothMovement
 
 // ========================
 // Function Declarations
@@ -26,7 +27,7 @@ reserve function HarpoonH_DebugSpawn
 // ========================
 
 private table HarpoonH_delayTable
-	66, 4, 66, 4
+	64, 6, 64, 6
 end table
 
 private table HarpoonH_frameTable
@@ -66,14 +67,19 @@ event ObjectUpdate
 		GetTableValue(object.animationTimer, object.timer, HarpoonH_delayTable)
 		GetTableValue(object.frame, object.timer, HarpoonH_frameTable)
 	else
-		object.animationTimer--
+		if object.value6 == 0
+			object.animationTimer--
+			object.value6 = 0
+		else
+			object.value6--
+		end if
 	end if
 
 	object.hitboxL = -8
 	GetTableValue(object.hitboxR, object.timer, HarpoonH_sizeTable)
 	GetBit(temp0, object.direction, 0)
 
-	if temp0 == FLIP_X
+	if temp0 == true
 		FlipSign(object.hitboxL)
 		FlipSign(object.hitboxR)
 		temp0 = object.hitboxR
@@ -92,17 +98,65 @@ end event
 
 
 event ObjectDraw
-	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	object.smoothMovement = true
+	
+	if object.smoothMovement == true
+		temp0 = object.xpos
+		if object.timer == 0
+			GetBit(temp2, object.direction, 0)
+			if temp2 == true // Is FLIP_Y set?
+				temp0 += 0x180000
+			else
+				temp0 -= 0x180000
+			end if
+		end if
+		if object.timer == 1
+			temp1 = 0x040000
+			temp3 = object.animationTimer
+			temp3 += 1
+			temp1 *= temp3
+			GetBit(temp2, object.direction, 0)
+			if temp2 == false // Is FLIP_Y set?
+				temp0 -= temp1
+				temp0 += 0x040000
+			else
+				temp0 += temp1
+				temp0 -= 0x040000
+			end if
+		end if
+		if object.timer == 3
+			temp1 = 0x040000
+			temp3 = object.animationTimer
+			temp3 += 1
+			temp1 *= temp3
+			GetBit(temp2, object.direction, 0)
+			if temp2 == false // Is FLIP_Y set?
+				temp0 -= 0x1C0000
+				temp0 += temp1
+			else
+				temp0 += 0x1C0000
+				temp0 -= temp1
+			end if
+		end if
+		
+		DrawSpriteFX(3, FX_FLIP, temp0, object.ypos)
+		DrawSpriteFX(4, FX_FLIP, object.xpos, object.ypos)
+	else
+		DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	end if
 end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("LZ/Objects.gif")
+	LoadSpriteSheet("LZ/Objects3.gif")
 	
 	// Harpoon frames
 	SpriteFrame(-8, -4, 16, 8, 196, 129)
 	SpriteFrame(-8, -4, 32, 8, 158, 163)
 	SpriteFrame(-8, -4, 48, 8, 94, 115)
+
+	SpriteFrame(-5, -4, 42, 8, 50, 1) // Smooth movement frames
+	SpriteFrame(-8, -4, 6, 8, 43, 1)
 
 	// Add this object to the debug item list
 	SetTableValue(TypeName[Harpoon H], DebugMode_ObjCount, DebugMode_TypesTable)
