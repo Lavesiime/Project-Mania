@@ -13,7 +13,6 @@ private alias object.value0 : object.paletteTimer
 private alias object.value1 : object.paletteIndex
 private alias object.value2 : object.scrollPos
 private alias object.value3 : object.signTileFrame
-private alias object.value4 : object.cylinder1TileFrame
 
 // Tracks
 private alias 0 : TRACK_STAGE
@@ -64,16 +63,73 @@ private table SLZSetup_palTable1
 	0x00E0E0, 0x00A0A0, 0x006060, 0x002020, 0x006060, 0x00A0A0
 end table
 
-
 private table SLZSetup_palTable2
 	0x600000, 0xA00000, 0xE00000, 0xA00000, 0x600000, 0x200000
 end table
-
 
 private table SLZSetup_palTable3
 	0x606000, 0x202000, 0x606000, 0xA0A000, 0xE0E000, 0xA0A000
 end table
 
+private table SLZSetup_palTable4
+	0x380800, 0x780000, 0xBC0000, 0x780000, 0x380800, 0x100000
+end table
+
+private table SLZSetup_palTable5
+	0x940000, 0xBC0000, 0xF44000, 0xBC0000, 0x940000, 0x380800
+end table
+
+private table SLZSetup_palTable6
+	0xC80000, 0xF01800, 0xF86C00, 0xF01800, 0xC80000, 0x600000
+end table
+
+private table SLZSetup_palTable7
+	0xD46A00, 0xF86C00, 0xFCB400, 0xF86C00, 0xD46A00, 0x940000
+end table
+
+private table SLZSetup_palTable8
+	0xD8A400, 0xE0D400, 0xE0E080, 0xE0D400, 0xD8A400, 0xD46400
+end table
+
+private table SLZSetup_palTable9
+	0x00A4A4, 0x007878, 0x004040, 0x001010, 0x004040, 0x007878
+end table
+
+private table SLZSetup_palTable10
+	0x00E0E0, 0x00C0C0, 0x009090, 0x006060, 0x009090, 0x00C0C0
+end table
+
+private table SLZSetup_palTable11
+	0x00E8E8, 0x00E0E0, 0x00A4A4, 0x009090, 0x00A4A4, 0x00E0E0
+end table
+
+private table SLZSetup_palTable12
+	0x80E8E8, 0x00E8E8, 0x00C0C0, 0x00A4A4, 0x00C0C0, 0x00E8E8
+end table
+
+private table SLZSetup_palTable13
+	0xB4E8E8, 0x80E8E8, 0x00E8E8, 0x00C0C0, 0x00E8E8, 0x80E8E8
+end table
+
+private table SLZSetup_palTable14
+	0x484800, 0x101000, 0x484800, 0x78780C, 0xC0C000, 0x78780C
+end table
+
+private table SLZSetup_palTable15
+	0x78780C, 0x484800, 0x78780C, 0xB4B440, 0xF0F040, 0xB4B440
+end table
+
+private table SLZSetup_palTable16
+	0x909018, 0x606000, 0x909018, 0xC4C448, 0xFCFC40, 0xC4C448
+end table
+
+private table SLZSetup_palTable17
+	0xA4A430, 0x78780C, 0xA4A430, 0xD4D448, 0xFCFCA4, 0xD4D448
+end table
+
+private table SLZSetup_palTable18
+	0xB4B440, 0xA4A430, 0xB4B440, 0xE0E048, 0xFCFCC8, 0xE0E048
+end table
 
 private table SLZSetup_replay_credits_STK
 	0xBB00000, 0x4C0000
@@ -182,6 +238,36 @@ event ObjectUpdate
 		SetPaletteEntry(0, 173, temp0)
 		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable3)
 		SetPaletteEntry(0, 174, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable4)
+		SetPaletteEntry(0, 234, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable5)
+		SetPaletteEntry(0, 235, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable6)
+		SetPaletteEntry(0, 236, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable7)
+		SetPaletteEntry(0, 237, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable8)
+		SetPaletteEntry(0, 238, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable9)
+		SetPaletteEntry(0, 239, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable10)
+		SetPaletteEntry(0, 240, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable11)
+		SetPaletteEntry(0, 241, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable12)
+		SetPaletteEntry(0, 242, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable13)
+		SetPaletteEntry(0, 243, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable14)
+		SetPaletteEntry(0, 244, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable15)
+		SetPaletteEntry(0, 245, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable16)
+		SetPaletteEntry(0, 246, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable17)
+		SetPaletteEntry(0, 247, temp0)
+		GetTableValue(temp0, object.paletteIndex, SLZSetup_palTable18)
+		SetPaletteEntry(0, 248, temp0)
 	end if
 
 	// FG Signs
@@ -209,34 +295,6 @@ event ObjectUpdate
 	object.signTileFrame++
 	object.signTileFrame %= 0x30
 
-	// Cylinder Animations (Interactable)
-	Copy16x16Tile(817, object.cylinder1TileFrame)
-	object.cylinder1TileFrame++
-
-	Copy16x16Tile(818, object.cylinder1TileFrame)
-	object.cylinder1TileFrame++
-
-	Copy16x16Tile(819, object.cylinder1TileFrame)
-	object.cylinder1TileFrame++
-
-	Copy16x16Tile(820, object.cylinder1TileFrame)
-	object.cylinder1TileFrame++
-
-	Copy16x16Tile(821, object.cylinder1TileFrame)
-	object.cylinder1TileFrame++
-
-	Copy16x16Tile(822, object.cylinder1TileFrame)
-	object.cylinder1TileFrame++
-
-	Copy16x16Tile(823, object.cylinder1TileFrame)
-	object.cylinder1TileFrame++
-
-	Copy16x16Tile(824, object.cylinder1TileFrame)
-	object.cylinder1TileFrame++
-
-	if object.cylinder1TileFrame == 889
-		object.cylinder1TileFrame = 825
-	end if
 end event
 
 
@@ -275,7 +333,6 @@ event ObjectStartup
 
 	object[SLOT_ZONESETUP].type = TypeName[SLZ Setup]
 	object[SLOT_ZONESETUP].priority = PRIORITY_ACTIVE
-	object[SLOT_ZONESETUP].cylinder1TileFrame 	= 825
 	object[SLOT_ZONESETUP].drawOrder = 5
 	object[SLOT_ZONESETUP].scrollPos = 496
 	
