@@ -108,9 +108,9 @@ event ObjectUpdate
 		if object.yvel >= 0
 			GetBit(temp0, object.direction, 1)
 			if temp0 == true
-				ObjectTileCollision(CSIDE_FLOOR, 0, 14, PATH_A)
+				ObjectTileCollision(CSIDE_FLOOR, 0, 14, 0)
 			else
-				ObjectTileCollision(CSIDE_FLOOR, 0, 16, PATH_A)
+				ObjectTileCollision(CSIDE_FLOOR, 0, 16, 0)
 			end if
 			if checkResult == true
 				object.yvel = 0
