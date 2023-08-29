@@ -40,6 +40,9 @@ private alias 5 : CATERKILLER_SPLITBODYPART
 private alias 6 : CATERKILLER_DESTROYEDBODYPART
 
 // Player aliases
+private alias object.animation : player.animation
+private alias object.ypos	 : player.ypos
+private alias object.value7  : player.invincibleTimer
 private alias object.value40 : player.hitboxLeft
 private alias object.value38 : player.hitboxTop
 private alias object.value41 : player.hitboxRight
@@ -143,49 +146,78 @@ private function Caterkiller_CheckPlayerCollisions
 		BoxCollisionTest(C_TOUCH, object.entityPos, -8, -8, 8, 8, currentPlayer, player[currentPlayer].hitboxLeft, player[currentPlayer].hitboxTop, player[currentPlayer].hitboxRight, player[currentPlayer].hitboxBottom)
 		if checkResult == true
 			
-			// Create the destroyed body parts
-			CreateTempObject(TypeName[Caterkiller], 0, object.bodyPosition1.x, object.bodyPosition1.y)
-			if object.bodyDirection1 == 0
-				object[tempObjectPos].xvel = -0x09000
-			else
-				object[tempObjectPos].xvel = 0x09000
+			CheckEqual(player[currentPlayer].animation, ANI_JUMPING)
+			temp0 = checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_SPINDASH)
+			temp0 |= checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_GLIDING)
+			temp0 |= checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_GLIDING_STOP)
+			temp0 |= checkResult
+			CheckNotEqual(player[currentPlayer].invincibleTimer, 0)
+			temp0 |= checkResult
+			
+			// Tails can also break badniks that are hit his tails while flying, check for that
+			CheckEqual(player[currentPlayer].animation, ANI_FLYING)
+			temp1 = checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_FLYINGTIRED)
+			temp1 |= checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_FLY_LIFT_UP)
+			temp1 |= checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_FLY_LIFT_DOWN)
+			temp1 |= checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_FLY_LIFT_TIRED)
+			temp1 |= checkResult
+			if temp1 == true
+				CheckGreater(player[currentPlayer].ypos, object.ypos)
+				temp0 |= checkResult
 			end if
-			object[tempObjectPos].yvel 		= -0x20000
-			object[tempObjectPos].direction = object.bodyDirection1
-			object[tempObjectPos].frame 	= 32
-			object[tempObjectPos].state 	= CATERKILLER_DESTROYEDBODYPART
-			object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
-			object[tempObjectPos].drawOrder = 5
-			temp0 = object.bodyFrame2
-			temp0 <<= 15
-			object.bodyPosition2.y -= temp0
-			object.frame -= temp0
 
-			CreateTempObject(TypeName[Caterkiller], 0, object.bodyPosition2.x, object.bodyPosition2.y)
-			if object.bodyDirection2 == 0
-				object[tempObjectPos].xvel = 0x09000
-			else
-				object[tempObjectPos].xvel = -0x09000
-			end if
-			object[tempObjectPos].yvel 		= -0x20000
-			object[tempObjectPos].direction = object.bodyDirection2
-			object[tempObjectPos].frame 	= 32
-			object[tempObjectPos].state 	= CATERKILLER_DESTROYEDBODYPART
-			object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
-			object[tempObjectPos].drawOrder = 5
+			if temp0 == true
+				// Create the destroyed body parts
+				CreateTempObject(TypeName[Caterkiller], 0, object.bodyPosition1.x, object.bodyPosition1.y)
+				if object.bodyDirection1 == 0
+					object[tempObjectPos].xvel = -0x09000
+				else
+					object[tempObjectPos].xvel = 0x09000
+				end if
+				object[tempObjectPos].yvel 		= -0x20000
+				object[tempObjectPos].direction = object.bodyDirection1
+				object[tempObjectPos].frame 	= 32
+				object[tempObjectPos].state 	= CATERKILLER_DESTROYEDBODYPART
+				object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
+				object[tempObjectPos].drawOrder = 5
+				temp0 = object.bodyFrame2
+				temp0 <<= 15
+				object.bodyPosition2.y -= temp0
+				object.frame -= temp0
 
-			CreateTempObject(TypeName[Caterkiller], 0, object.bodyPosition3.x, object.bodyPosition3.y)
-			if object.bodyDirection3 == 0
-				object[tempObjectPos].xvel = 0x20000
-			else
-				object[tempObjectPos].xvel = -0x20000
+				CreateTempObject(TypeName[Caterkiller], 0, object.bodyPosition2.x, object.bodyPosition2.y)
+				if object.bodyDirection2 == 0
+					object[tempObjectPos].xvel = 0x09000
+				else
+					object[tempObjectPos].xvel = -0x09000
+				end if
+				object[tempObjectPos].yvel 		= -0x20000
+				object[tempObjectPos].direction = object.bodyDirection2
+				object[tempObjectPos].frame 	= 32
+				object[tempObjectPos].state 	= CATERKILLER_DESTROYEDBODYPART
+				object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
+				object[tempObjectPos].drawOrder = 5
+
+				CreateTempObject(TypeName[Caterkiller], 0, object.bodyPosition3.x, object.bodyPosition3.y)
+				if object.bodyDirection3 == 0
+					object[tempObjectPos].xvel = 0x20000
+				else
+					object[tempObjectPos].xvel = -0x20000
+				end if
+				object[tempObjectPos].yvel 		= -0x20000
+				object[tempObjectPos].direction = object.bodyDirection3
+				object[tempObjectPos].frame 	= 32
+				object[tempObjectPos].state 	= CATERKILLER_DESTROYEDBODYPART
+				object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
+				object[tempObjectPos].drawOrder = 5
 			end if
-			object[tempObjectPos].yvel 		= -0x20000
-			object[tempObjectPos].direction = object.bodyDirection3
-			object[tempObjectPos].frame 	= 32
-			object[tempObjectPos].state 	= CATERKILLER_DESTROYEDBODYPART
-			object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
-			object[tempObjectPos].drawOrder = 5
 			
 			CallFunction(Player_BadnikBreak)
 		else
