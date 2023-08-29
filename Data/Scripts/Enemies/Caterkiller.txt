@@ -40,8 +40,9 @@ private alias 5 : CATERKILLER_SPLITBODYPART
 private alias 6 : CATERKILLER_DESTROYEDBODYPART
 
 // Player aliases
-private alias object.animation : player.animation
 private alias object.ypos	 : player.ypos
+private alias object.animation : player.animation
+
 private alias object.value7  : player.invincibleTimer
 private alias object.value40 : player.hitboxLeft
 private alias object.value38 : player.hitboxTop

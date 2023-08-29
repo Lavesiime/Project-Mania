@@ -2046,7 +2046,13 @@ public function Player_HandleAirMovement
 
 	player.collisionMode = CMODE_FLOOR
 	if player.animation == ANI_JUMPING
-		player.animationSpeed = player.rollAnimationSpeed
+		// The dropdash anim is just the jumping anim in disguise, so check for that
+		CallFunction(Player_GetDropDashCharge)
+		if temp7 < 20
+			player.animationSpeed = player.rollAnimationSpeed
+		else
+			player.animationSpeed = 255
+		end if
 	end if
 end function
 
@@ -2581,37 +2587,48 @@ end function
 
 // Handles activating the Drop Dash (Check Player_State_Air or Player_State_RollJump for releasing it)
 public function Player_HandleDropDash
-	if player.releasingDropDash == false
-		CallFunction(Player_GetDropDashCharge)
-		if temp7 == 0
-			if player.jumpPress == true
-				CheckEqual(player.character, PLAYER_SONIC_ALONE)
-				temp0 = checkResult
-				// You can't use the Drop Dash with elemental shields
-				CheckNotEqual(player.shield, SHIELD_BUBBLE)
-				temp0 &= checkResult
-				CheckNotEqual(player.shield, SHIELD_FIRE)
-				temp0 &= checkResult
-				CheckNotEqual(player.shield, SHIELD_LIGHTNING)
-				temp0 &= checkResult
-				
-				if temp0 == true
-					temp7 = 1
-				else
-					temp7 = -1
+	if player.animation == ANI_JUMPING
+		if player.releasingDropDash == false
+			CallFunction(Player_GetDropDashCharge)
+			if temp7 == 0
+				if player.jumpPress == true
+					CheckEqual(player.character, PLAYER_SONIC_ALONE)
+					temp0 = checkResult
+					// You can't use the Drop Dash with elemental shields
+					CheckNotEqual(player.shield, SHIELD_BUBBLE)
+					temp1 = checkResult
+					CheckNotEqual(player.shield, SHIELD_FIRE)
+					temp1 &= checkResult
+					CheckNotEqual(player.shield, SHIELD_LIGHTNING)
+					temp1 &= checkResult
+					CheckNotEqual(player.invincibleTimer, 0)
+					temp1 |= checkResult
+					
+					temp0 &= temp1
+					
+					if temp0 == true
+						temp7 = 1
+					else
+						temp7 = -1
+					end if
 				end if
-			end if
-		else
-			if player.jumpHold == false
-				temp7 = -1
 			else
-				temp7++
-				if temp7 == 20
-					PlaySfx(SfxName[DropDash], false)
+				if player.jumpHold == false
+					player.animation = ANI_JUMPING
+					temp7 = -1
+				else
+					temp7++
+					if temp7 == 20
+						PlaySfx(SfxName[DropDash], false)
+					end if
+					
 				end if
 			end if
+			
+			CallFunction(Player_SetDropDashCharge)
 		end if
-		
+	else
+		temp7 = -1
 		CallFunction(Player_SetDropDashCharge)
 	end if
 end function
@@ -3067,8 +3084,13 @@ public function Player_State_Air
 				FlipSign(player.speed)
 			end if
 
-			StopSfx(SfxName[Charge])
 			PlaySfx(SfxName[Release], false)
+			
+			CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos)
+			object[tempObjectPos].state = 1
+			object[tempObjectPos].frame = 11
+			object[tempObjectPos].direction = player.direction
+			
 			CallFunction(Player_HandleOnGround)
 			if Player_superState == SUPERSTATE_SUPER
 				screen.shakeY = 6
@@ -5058,8 +5080,6 @@ event ObjectUpdate
 
 			CallFunction(player.state)
 			
-			// They didn't put the Drop Dash "animation" code seen later here...
-			
 			currentPlayer = player.entityPos
 			
 			ProcessAnimation()
@@ -5119,21 +5139,6 @@ event ObjectUpdate
 		CallFunction(player.state)
 		
 		currentPlayer = player.entityPos
-
-		// Set Sonic to always use the full ball sprite while drop dashing
-		CallFunction(Player_GetDropDashCharge)
-		
-		if temp7 >= 20
-			if object.animation == ANI_JUMPING
-				if Player_superState == SUPERSTATE_SUPER
-					object.frame = 0
-				else
-					object.frame = 4
-				end if
-				object.animationTimer = 0
-				object.animationSpeed = 1
-			end if
-		end if
 		
 		ProcessAnimation()
 
@@ -5166,12 +5171,15 @@ event ObjectUpdate
 							if player.state != Player_State_BubbleBounce
 								if player.state != Player_State_Roll
 									if player.state != Player_State_TubeRoll
-										//player.animation = ANI_WALKING
-										if player.entityPos == camera[0].target
-											camera[0].adjustY = 0
+										CallFunction(Player_GetDropDashCharge)
+										if temp7 < 20
+											player.animation = ANI_WALKING
+											if player.entityPos == camera[0].target
+												camera[0].adjustY = 0
+											end if
+											
+											player.iypos += player.jumpOffset
 										end if
-										
-										player.iypos += player.jumpOffset
 									end if
 								end if
 							end if
@@ -5313,7 +5321,19 @@ event ObjectDraw
 		player.animationSpeed = 0
 	end if
 
+	// This implementation certainly is not ideal but I do not want to sift through every script to find ANI_JUMPING checks.
+	CallFunction(Player_GetDropDashCharge)
+	if temp7 > 19
+		if player.animation == ANI_JUMPING
+			player.animation = ANI_DROPDASH
+		end if
+	end if
+
 	DrawObjectAnimation()
+	
+	if player.animation == ANI_DROPDASH
+		player.animation = ANI_JUMPING
+	end if
 end event
 
 event ObjectStartup

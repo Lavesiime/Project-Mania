@@ -331,7 +331,7 @@ event ObjectStartup
 		temp0 >>= 3
 		CallFunction(LargePlatform_SetupTypes)
 
-		object[arrayPos0].drawOrder = 5
+		//object[arrayPos0].drawOrder = 5
 	next
 
 	temp0 = 0
