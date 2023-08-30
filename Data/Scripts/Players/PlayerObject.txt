@@ -4442,6 +4442,43 @@ public function Player_State_GotHit
 				temp3++
 				temp2 += 32
 			loop
+			if player[0].rings >= 48
+				temp3 = 0
+				temp2 = 0
+				while temp3 < 16
+					CreateTempObject(TypeName[Lose Ring], player.collisionPlane, player.xpos, player.ypos)
+					Cos(object[tempObjectPos].xvel, temp2)
+					Sin(object[tempObjectPos].yvel, temp2)
+					object[tempObjectPos].xvel <<= 10
+					object[tempObjectPos].yvel <<= 10
+					object[tempObjectPos].animationSpeed = 256
+					object[tempObjectPos].drawOrder = 5
+					object[tempObjectPos].state = 1
+					object[tempObjectPos].priority = PRIORITY_ACTIVE_SMALL
+					object[tempObjectPos].priority = PRIORITY_ACTIVE_SMALL
+					temp3++
+					temp2 += 32
+				loop
+			else
+				if player[0].rings >= 40
+					temp3 = 0
+					temp2 = 253
+					while temp3 < 8
+						CreateTempObject(TypeName[Lose Ring], player.collisionPlane, player.xpos, player.ypos)
+						Cos(object[tempObjectPos].xvel, temp2)
+						Sin(object[tempObjectPos].yvel, temp2)
+						object[tempObjectPos].xvel <<= 10
+						object[tempObjectPos].yvel <<= 10
+						object[tempObjectPos].animationSpeed = 256
+						object[tempObjectPos].drawOrder = 5
+						object[tempObjectPos].state = 1
+						object[tempObjectPos].priority = PRIORITY_ACTIVE_SMALL
+						object[tempObjectPos].priority = PRIORITY_ACTIVE_SMALL
+						temp3++
+						temp2 += 37
+					loop
+				end if
+			end if
 		else
 			temp4 = player[0].rings
 			if player[0].rings < 9
