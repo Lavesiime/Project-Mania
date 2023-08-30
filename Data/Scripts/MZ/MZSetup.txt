@@ -13,6 +13,8 @@ private alias object.value1 : object.lavaTileFrame
 private alias object.value2 : object.lavaAniTileID
 private alias object.value3 : object.lavaAnimTimer
 private alias object.value4 : object.candleAnimTimer
+private alias object.value5 : object.paletteTimer
+private alias object.value6 : object.paletteIndex
 
 private alias 1 : TILE_LAVA
 
@@ -56,10 +58,38 @@ private alias 30436 : MUSIC_LOOP_INV_F
 reserve function MZSetup_SpeedUpMusic
 reserve function MZSetup_SlowDownMusic
 
+// ========================
+// Static Values
+// ========================
+
+public value MZSetup_rotateTimer = 0
 
 // ========================
 // Tables
 // ========================
+private table MZSetup_palTable1
+	0xE07000, 0xF09000, 0xE07000, 0xB01800, 0x740C00, 0xB01800
+end table
+
+private table MZSetup_palTable2
+	0xD44C00, 0xE07000, 0xD44C00, 0x901000, 0x600800, 0x901000
+end table
+
+private table MZSetup_palTable3
+	0xB01800, 0xD44C00, 0xB01800, 0x700800, 0x4C0400, 0x700800
+end table
+
+private table MZSetup_palTable4
+	0x7C1000, 0xB01800, 0x7C1000, 0x4C0400, 0x300800, 0x4C0400
+end table
+
+private table MZSetup_palTable5
+	0x540800, 0x7C1000, 0x540800, 0x300800, 0x240000, 0x300800
+end table
+
+private table MZSetup_palTable6
+	0x380000, 0x540800, 0x380000, 0x240000, 0x140000, 0x240000
+end table
 
 private table MZSetup_replay_attract_S
 	0x0300000, 0x2640000
@@ -488,6 +518,32 @@ end function
 // ========================
 
 event ObjectUpdate
+	GetTableValue(temp0, 21, StageSetup_oscillationTable)
+	if temp0 == 0
+		MZSetup_rotateTimer++
+		MZSetup_rotateTimer &= 3
+	end if
+
+	object.paletteTimer++
+	if object.paletteTimer == 10
+		object.paletteTimer = 0
+		object.paletteIndex++
+		object.paletteIndex %= 6
+
+		GetTableValue(temp0, object.paletteIndex, MZSetup_palTable1)
+		SetPaletteEntry(0, 236, temp0)
+		GetTableValue(temp0, object.paletteIndex, MZSetup_palTable2)
+		SetPaletteEntry(0, 237, temp0)
+		GetTableValue(temp0, object.paletteIndex, MZSetup_palTable3)
+		SetPaletteEntry(0, 238, temp0)
+		GetTableValue(temp0, object.paletteIndex, MZSetup_palTable4)
+		SetPaletteEntry(0, 239, temp0)
+		GetTableValue(temp0, object.paletteIndex, MZSetup_palTable5)
+		SetPaletteEntry(0, 240, temp0)
+		GetTableValue(temp0, object.paletteIndex, MZSetup_palTable6)
+		SetPaletteEntry(0, 241, temp0)
+	end if
+
 	object.frame = object.animationTimer
 	object.frame /= 20
 	object.animationTimer++
