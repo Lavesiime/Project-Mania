@@ -1,0 +1,30 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: Deformation Helper Sprite
+// ----------------------------------
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+	
+end event
+
+
+event ObjectDraw
+	DrawSprite(object.propertyValue)
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("SYZ/Objects3.gif")
+	SpriteFrame(-128, -16, 256, 16, 0, 0)
+	SpriteFrame(-128, -16, 256, 16, 0, 16)
+	SpriteFrame(-128, -16, 256, 16, 0, 32)
+	SpriteFrame(-128, -16, 256, 16, 0, 48)
+	
+	foreach (TypeName[Deformation Sprite], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].drawOrder = 5
+	next
+end event

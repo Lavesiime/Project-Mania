@@ -6,11 +6,24 @@
 // ----------------------------------
 
 // ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+
+// ========================
 // Events
 // ========================
 
+event ObjectUpdate
+	object.timer++
+	object.ypos += object.yvel
+	object.xpos += object.xvel
+	object.yvel += 0x03000
+end event
+
+
 event ObjectDraw
-	// Movement is handled by parent boss object, so all this object needs to do is just draw
 	DrawSprite(0)
 end event
 

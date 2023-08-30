@@ -10,6 +10,7 @@
 // ========================
 
 private alias object.value0 : object.timer
+private alias object.value10 : object.collided
 
 // States
 private alias 0 : WRECKINGBALL_INACTIVE
@@ -23,25 +24,36 @@ private alias 2 : WRECKINGBALL_EXPLODE
 
 event ObjectUpdate
 	if object.state == WRECKINGBALL_EXPLODE
-		object.rotation *= 248
-		object.rotation >>= 8
-		object.timer++
-		temp0 = object.timer
-		temp0 &= 7
-		if temp0 == 4
-			Rand(temp0, 32)
-			temp0 -= 16
-			temp0 <<= 16
-			temp0 += object.xpos
-			Rand(temp1, 32)
-			temp1 -= 16
-			temp1 <<= 16
-			temp1 += object.ypos
-			CreateTempObject(TypeName[Explosion], 0, temp0, temp1)
+		if object.timer < 180
+			object.rotation *= 248
+			object.rotation >>= 8
+			object.timer++
+			temp0 = object.timer
+			temp0 &= 7
+			if temp0 == 4
+				Rand(temp0, 32)
+				temp0 -= 16
+				temp0 <<= 16
+				temp0 += object.xpos
+				Rand(temp1, 32)
+				temp1 -= 16
+				temp1 <<= 16
+				temp1 += object.ypos
+				CreateTempObject(TypeName[Explosion], 0, temp0, temp1)
+			end if
 		end if
 
-		if object.timer == 180
-			object.type = TypeName[Blank Object]
+		if object.timer >= 180
+			object.timer++
+			object.ypos += object.yvel
+			object.yvel += 0x03000
+			if object.collided == false
+				ObjectTileCollision(CSIDE_FLOOR, 0, 32, PATH_A)
+				if checkResult == true
+					object.yvel = -0x30000
+					object.collided = true
+				end if
+			end if
 		end if
 	end if
 
@@ -57,18 +69,29 @@ end event
 
 
 event ObjectDraw
-	// Draw Wrecking ball
-	temp0 = object.rotation
-	temp0 += 8
-	temp0 >>= 4
-	temp0 &= 7
-	temp0++
-	DrawSprite(temp0)
+	temp0 = object.timer
+	temp0 %= 2
+	if temp0 == 0
+		temp1 = 1
+	else
+		temp1 = 0
+	end if
+	CheckGreater(180, object.timer)
+	temp1 |= checkResult
+	if temp1 == true
+		// Draw Wrecking ball
+		temp0 = object.rotation
+		temp0 += 8
+		temp0 >>= 4
+		temp0 &= 7
+		temp0++
+		DrawSprite(temp0)
 
-	// Draw Shine Overlay
-	object.inkEffect = INK_ADD
-	object.alpha = 160
-	DrawSpriteFX(0, FX_INK, object.xpos, object.ypos)
+		// Draw Shine Overlay
+		object.inkEffect = INK_ADD
+		object.alpha = 160
+		DrawSpriteFX(0, FX_INK, object.xpos, object.ypos)
+	end if
 end event
 
 

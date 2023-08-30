@@ -12,9 +12,8 @@
 private alias object.value0 : object.palRotateTimer
 private alias object.value1 : object.palRotateIndex
 private alias object.value2 : object.rLightTimer
-private alias object.value3 : object.BumperOscillation
-private alias object.value4 : object.TurnDirection
-private alias object.value5  : object.paletteTimer1
+private alias object.value3 : object.timer
+
 // Tracks
 private alias 0 : TRACK_STAGE
 private alias 2 : TRACK_INVINCIBLE
@@ -24,42 +23,14 @@ private alias 3 : TRACK_BOSS
 private alias 10 : SLOT_ZONESETUP
 private alias 25 : SLOT_MUSICEVENT_CHANGE
 
-//Gravity
-private alias 1 : GRAVITY_AIR
-
-// Player Aliases
-private alias object.speed : player.speed	
-private alias object.state : player.state
-private alias object.xpos : player.xpos
-private alias object.ypos : player.ypos
-private alias object.xvel : player.xvel
-private alias object.yvel : player.yvel
-private alias object.gravity : player.gravity
-private alias object.collisionTop : player.collisionTop
-private alias object.collisionBottom : player.collisionBottom
-
 // Music Events
 private alias 0 : MUSICEVENT_FADETOBOSS
 private alias 1 : MUSICEVENT_FADETOSTAGE
 private alias 2 : MUSICEVENT_TRANSITION
 
-// Tile Info ID Aliases
-private alias 0 : TILEINFO_INDEX
-private alias 1 : TILEINFO_DIRECTION
-private alias 2 : TILEINFO_VISUALPLANE
-private alias 3 : TILEINFO_SOLIDITYA
-private alias 4 : TILEINFO_SOLIDITYB
-private alias 5 : TILEINFO_FLAGSA
-private alias 6 : TILEINFO_ANGLEA
-private alias 7 : TILEINFO_FLAGSB
-private alias 8 : TILEINFO_ANGLEB
-
 private alias 0 : MUSICEVENT_FLAG_NOCHANGE
 private alias 1 : MUSICEVENT_FLAG_SPEEDUP
 private alias 2 : MUSICEVENT_FLAG_SLOWDOWN
-
-//Object Values
-private alias object.value1 : player.timer
 
 // Music Loops
 private alias 101364 : MUSIC_LOOP_SYZ // This is 100712 on the level select...
@@ -75,6 +46,7 @@ private alias 30436  : MUSIC_LOOP_INV_F
 
 reserve function SYZSetup_SpeedUpMusic
 reserve function SYZSetup_SlowDownMusic
+
 
 // ========================
 // Static Values
@@ -511,27 +483,6 @@ end function
 // ========================
 
 event ObjectUpdate
-	if Object.TurnDirection == false
-		if Object.BumperOscillation < 0x300000
-			Object.BumperOscillation += 0x10000
-		else
-			Object.TurnDirection = true
-		end if
-	else
-		if Object.BumperOscillation > -0x300000
-			Object.BumperOscillation -= 0x10000
-		else
-			Object.TurnDirection = false
-		end if
-	end if
-
-	object.paletteTimer1++
-	if object.paletteTimer1 == 6
-		object.paletteTimer1 = 0
-		RotatePalette(0, 218, 221, false)
-		RotatePalette(1, 218, 221, false)
-	end if
-
 	object.palRotateTimer++
 	if object.palRotateTimer == 6
 		object.palRotateTimer = 0
@@ -549,257 +500,39 @@ event ObjectUpdate
 
 	SYZSetup_oscillation++
 	SYZSetup_oscillation %= 356
-
-	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
-
-		temp2   = player[currentPlayer].xpos
-		temp2 >>= 16
 	
-		temp4  = temp2
-		temp2 -= 8
-		temp4 += 8
-
-		temp3   = player[currentPlayer].ypos
-		temp3 >>= 16
-
-		if player[currentPlayer].yvel >= 0
-			temp3 += player[currentPlayer].collisionBottom
-			temp3 -= 2
-		else
-			temp3 += player[currentPlayer].collisionTop
-			temp3 += 2
-		end if
-
-		temp5 = temp3
-		temp7 = 0
-		Get16x16TileInfo(temp0, temp2, temp3, TILEINFO_ANGLEA)
-		switch temp0
-		case 1
-			temp7 = 1
-			break
-
-		case 3
-			temp7 = 3
-			Get16x16TileInfo(temp6, temp2, temp3, TILEINFO_DIRECTION)
-			break
-
-		case 5
-			temp7 = 2
-			break
-
-		end switch
-
-		Get16x16TileInfo(temp0, temp4, temp5, TILEINFO_ANGLEA)
-		switch temp0
-		case 1
-			temp0 = 1
-			break
-
-		case 3
-			temp0 = 3
-			Get16x16TileInfo(temp6, temp4, temp5, TILEINFO_DIRECTION)
-			break
-
-		case 5
-			temp0 = 2
-			break
-		default
-			temp0 = 0
-			break
-		end switch
-
-	if temp7 != temp0
-		if temp7 == 0
-			temp7 = temp0
-		else
-			if temp0 == 1
-				temp7 = 1
-			end if
-		end if
-	end if	
-
-		switch temp7
-		case 1
-			if player[currentPlayer].yvel >= 0
-				player[currentPlayer].gravity = GRAVITY_AIR
-				PlaySfx(SfxName[Bumper2], false)
-				
-				
-#platform: Use_Haptics
-				HapticEffect(11, 0, 0, 0)
-#endplatform
-
-				if player[currentPlayer].state == Player_State_Fly
-					player[currentPlayer].yvel = -0x40000
-				else
-					player[currentPlayer].yvel = -0x70000
-				end if
-
-				if player[currentPlayer].state == Player_State_Hurt
-				
-#platform: Use_Origins
-					player[currentPlayer].state = Player_State_Air_NoDropDash
-#endplatform
-
-#platform: Use_Standalone
-					player[currentPlayer].state = Player_State_Air
-#endplatform
-					player[currentPlayer].timer = 0
-				end if
-			else
-				if player[currentPlayer].gravity == GRAVITY_AIR
-					player[currentPlayer].yvel = 0x40000
-					PlaySfx(SfxName[Bumper2], false)
-				end if
-			end if
-			break
-
-		case 2
-			if player[currentPlayer].gravity == GRAVITY_AIR
-				PlaySfx(SfxName[MiniBumper], false)
-				
-#platform: Use_Haptics
-				HapticEffect(11, 0, 0, 0)
-#endplatform
-
-				if player[currentPlayer].yvel >= 0
-					player[currentPlayer].yvel = -0x40000
-				else
-					player[currentPlayer].yvel =  0x40000
-				end if
-			end if
-			break
-
-		case 3
-			if player[currentPlayer].gravity == GRAVITY_AIR
-				PlaySfx(SfxName[Bumper2], false)
-				
-#platform: Use_Haptics
-				HapticEffect(11, 0, 0, 0)
-#endplatform
-
-				if player[currentPlayer].yvel >= 0
-					if player[currentPlayer].state == Player_State_Fly
-						player[currentPlayer].yvel = -0x40000
-					else
-						player[currentPlayer].yvel = -0x70000
-					end if
-				else
-					player[currentPlayer].yvel = 0x40000
-				end if
-
-				if temp6 == 0
-					if player[currentPlayer].xvel > 0
-						FlipSign(player[currentPlayer].xvel)
-						player[currentPlayer].xvel  *= 5
-						player[currentPlayer].xvel >>= 2
-						if player[currentPlayer].xvel > -0x20000
-							player[currentPlayer].xvel = -0x20000
-						end if
-					else
-						if player[currentPlayer].xvel > -0x20000
-							player[currentPlayer].xvel = -0x20000
-						end if
-					end if
-				else
-					if player[currentPlayer].xvel < 0
-						FlipSign(player[currentPlayer].xvel)
-						player[currentPlayer].xvel  *= 5
-						player[currentPlayer].xvel >>= 2
-						if player[currentPlayer].xvel < 0x20000
-							player[currentPlayer].xvel = 0x20000
-						end if
-					else
-						if player[currentPlayer].xvel < 0x20000
-							player[currentPlayer].xvel = 0x20000
-						end if
-					end if
-				end if
-				player[currentPlayer].speed = player[currentPlayer].xvel
-			end if
-			break
-		end switch
-
-		temp3   = player[currentPlayer].ypos
-		temp3 >>= 16
-
-		temp5   = temp3
-		temp3  -= 6
-		temp5  += 6
-
-		temp2   = player[currentPlayer].xpos
-		temp2 >>= 16
-
-		if player[currentPlayer].xvel > 0
-			temp2 += 8
-		else
-			temp2 -= 8
-		end if
-
-		temp4 = temp2
-		temp7 = 0
-		Get16x16TileInfo(temp0, temp2, temp3, TILEINFO_ANGLEA)
-		switch temp0
-		case 3
-			temp7 = 1
-			break
-
-		case 5
-			temp7 = 2
-			break
-
-		case 7
-			temp7 = 1
-			break
-
-		end switch
-
-		Get16x16TileInfo(temp0, temp4, temp5, TILEINFO_ANGLEA)
-		switch temp0
-		case 3
-			temp7 = 1
-			break
-
-		case 5
-			temp7 = 2
-			break
-
-		case 7
-			temp7 = 1
-			break
-
-		end switch
-
-		switch temp7
-		case 1
-			if player[currentPlayer].xvel > 0
-				player[currentPlayer].xvel = -0x50000
-			else
-				player[currentPlayer].xvel = 0x50000
-			end if
-			player[currentPlayer].speed = player[currentPlayer].xvel
-			PlaySfx(SfxName[Bumper2], false)
-			break
-
-		case 2
-			if player[currentPlayer].xvel > 0
-				player[currentPlayer].xvel = -0x40000
-			else
-				player[currentPlayer].xvel = 0x40000
-			end if
-			player[currentPlayer].speed = player[currentPlayer].xvel
-			PlaySfx(SfxName[MiniBumper], false)
-				
-#platform: Use_Haptics
-			HapticEffect(11, 0, 0, 0)
-#endplatform
-			break
-
-		end switch
-	next
+	object.timer++
+	if object.timer > 7
+		tileLayer[0].deformationOffsetW++
+		tileLayer[0].deformationOffsetW++
+		object.timer = 0
+	end if
+	
+	Stage.WaterLevel = 1272
+	
 end event
 
+
 event ObjectStartup
+
+	player.score = tileLayer[1].parallaxFactor
+	tileLayer[1].parallaxFactor = 64
+	tileLayer[2].parallaxFactor = 64
+
+	arrayPos0 = 0x100
+	while arrayPos0 < 0x240
+		arrayPos1 = arrayPos0
+		arrayPos1 -= 0x100
+		Rand(stage.deformationData1[arrayPos1], 4)
+		temp0 = arrayPos0
+		temp0 &= 1
+		if temp0 == 1
+			FlipSign(stage.deformationData1[arrayPos1])
+		end if
+		stage.deformationData1[arrayPos0] = stage.deformationData1[arrayPos1]
+		arrayPos0++
+	loop
+
 	// Set the music track
 	SetMusicTrack("SpringYard.ogg", TRACK_STAGE, MUSIC_LOOP_SYZ)
 
@@ -808,9 +541,10 @@ event ObjectStartup
 	SlowDownMusic = SYZSetup_SlowDownMusic
 
 	// Load colors used for the palette cycle
-	temp0 = 1
-	temp1 = 0
-	temp2 = 32
+	// While the majority of this game uses tables for colour data, SYZ instead goes back to the v3 approach of loading colours from an external file into alternate palette banks
+	temp0 = 1  // Palette bank
+	temp1 = 0  // Start Index
+	temp2 = 32 // End Index
 	while temp0 < 5
 		LoadPalette("SYZ_PalCycle.act", temp0, 160, temp1, temp2)
 		temp0++
