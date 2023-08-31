@@ -5149,12 +5149,15 @@ event ObjectUpdate
 								if player.state != Player_State_BubbleBounce
 									if player.state != Player_State_Roll
 										if player.state != Player_State_TubeRoll
-											player.animation = ANI_WALKING
-											if player.entityPos == camera[currentPlayer].target
-												camera[currentPlayer].adjustY = 0
+											CallFunction(Player_GetDropDashCharge)
+											if temp7 < 20
+												player.animation = ANI_WALKING
+												if player.entityPos == camera[0].target
+													camera[0].adjustY = 0
+												end if
+												
+												player.iypos += player.jumpOffset
 											end if
-
-											player.iypos += player.jumpOffset
 										end if
 									end if
 								end if
@@ -5349,6 +5352,8 @@ event ObjectDraw
 		end if
 		
 		object.rotation = player.spriteRotation
+	else
+		player.spriteRotation = object.rotation
 	end if
 	
 	if player.animation != player.prevAnimation
