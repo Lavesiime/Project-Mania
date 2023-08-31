@@ -508,12 +508,32 @@ event ObjectUpdate
 		object.timer = 0
 	end if
 	
-	Stage.WaterLevel = 1272
+	// Change the palette to the underwater one after the water level's Y Pos
+	temp0 = stage.waterLevel
+	temp0 -= screen.yoffset
+
+	// Enforce a minimum of 0
+	if temp0 < 0
+		temp0 = 0
+	end if
+
+	// Enforce a maximum of the screen's vertical size
+	if temp0 > screen.ysize
+		temp0 = screen.ysize
+	end if
+
+	// Set the above water palette from the upper part of the screen
+	SetActivePalette(0, 0, temp0)
+
+	// Otherwise, use the normal water palette
+	SetActivePalette(1, temp0, screen.ysize)
 	
 end event
 
 
 event ObjectStartup
+
+	Stage.WaterLevel = 1280
 
 	player.score = tileLayer[1].parallaxFactor
 	tileLayer[1].parallaxFactor = 64
@@ -532,6 +552,8 @@ event ObjectStartup
 		stage.deformationData1[arrayPos0] = stage.deformationData1[arrayPos1]
 		arrayPos0++
 	loop
+
+	LoadPalette("LZ_WaterPal.act", 1, 0, 0, 256)
 
 	// Set the music track
 	SetMusicTrack("SpringYard.ogg", TRACK_STAGE, MUSIC_LOOP_SYZ)
@@ -605,6 +627,10 @@ event ObjectStartup
 
 		CallFunction(Player_SetupAttractDemo)
 	end if
+end event
+
+event ObjectDraw
+
 end event
 
 
