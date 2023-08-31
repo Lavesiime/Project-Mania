@@ -23,6 +23,7 @@ event ObjectStartup
 	SpriteFrame(-128, -16, 256, 16, 0, 16)
 	SpriteFrame(-128, -16, 256, 16, 0, 32)
 	SpriteFrame(-128, -16, 256, 16, 0, 48)
+	SpriteFrame(-128, -16, 256, 16, 0, 64)
 	
 	foreach (TypeName[Deformation Sprite], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].drawOrder = 5
