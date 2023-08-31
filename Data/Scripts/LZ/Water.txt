@@ -712,15 +712,19 @@ event ObjectDraw
 
 	temp1 = stage.waterLevel
 	temp1 -= screen.yoffset
-	DrawSpriteScreenFX(object.frame, FX_INK, temp0, temp1)
 	
-	temp0 += 256
-	DrawSpriteScreenFX(object.frame, FX_INK, temp0, temp1)
+	temp2 = 8
+	temp3 = 0
+	while temp3 < temp2
+		DrawSpriteScreenFX(object.frame, FX_INK, temp0, temp1)
+		temp0 += 64
+		temp3++
+	loop
 end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("LZ/Objects4.gif")
+	LoadSpriteSheet("LZ/Objects2.gif")
 
 	SetTableValue(Water_ProcessLZAct1, 1, Water_processActTable)
 	SetTableValue(Water_ProcessLZAct2, 2, Water_processActTable)
@@ -789,17 +793,17 @@ event ObjectStartup
 		end if
 	next
 	
-	SpriteFrame(0, -8, 256, 16, 0, 0)
-	SpriteFrame(0, -8, 256, 16, 0, 16)
-	SpriteFrame(0, -8, 256, 16, 0, 32)
-	SpriteFrame(0, -8, 256, 16, 0, 48)
-	SpriteFrame(0, -8, 256, 16, 0, 64)
-	SpriteFrame(0, -8, 256, 16, 0, 80)
-	SpriteFrame(0, -8, 256, 16, 0, 96)
-	SpriteFrame(0, -8, 256, 16, 0, 112)
-	SpriteFrame(0, -8, 256, 16, 0, 128)
-	SpriteFrame(0, -8, 256, 16, 0, 144)
-
+	SpriteFrame(0, -8, 64, 16, 1, 129)
+	SpriteFrame(0, -8, 64, 16, 66, 129)
+	SpriteFrame(0, -8, 64, 16, 131, 129)
+	SpriteFrame(0, -8, 64, 16, 1, 146)
+	SpriteFrame(0, -8, 64, 16, 66, 146)
+	SpriteFrame(0, -8, 64, 16, 131, 146)
+	SpriteFrame(0, -8, 64, 16, 1, 163)
+	SpriteFrame(0, -8, 64, 16, 66, 163)
+	SpriteFrame(0, -8, 64, 16, 131, 163)
+	SpriteFrame(0, -8, 64, 16, 1, 180)
+	
 	BrokenMonitor_ResetDrownMusic = Water_ResetDrownMusic
 end event
 
