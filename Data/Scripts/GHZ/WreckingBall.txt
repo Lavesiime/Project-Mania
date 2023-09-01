@@ -17,6 +17,10 @@ private alias 0 : WRECKINGBALL_INACTIVE
 private alias 1 : WRECKINGBALL_ACTIVE
 private alias 2 : WRECKINGBALL_EXPLODE
 
+// Misc aliases
+private alias  0 : PATH_A
+private alias  1 : PATH_B
+
 
 // ========================
 // Events
