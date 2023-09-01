@@ -179,7 +179,7 @@ event ObjectUpdate
 			object.type = TypeName[Lose Ring]
 			object.animationSpeed = 128
 			object.alpha = 256
-
+			object.state = 0
 		else
 			// Move to the player
 			arrayPos0 = object.targetPlayer

@@ -2836,9 +2836,14 @@ public function Player_State_Ground
 			player.skidding--
 
 			if ringTimer == 0
-				CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos)
-				object[tempObjectPos].iypos += player.collisionBottom
-				object[tempObjectPos].drawOrder = player.sortedDrawOrder
+				if object.value15 == 0
+					CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos)
+					object[tempObjectPos].state = 2
+					object[tempObjectPos].iypos += player.collisionBottom
+					object[tempObjectPos].drawOrder = player.sortedDrawOrder
+					object.value15 = 3
+				end if
+				object.value15--
 			end if
 
 			if player.speed > 0
@@ -2846,7 +2851,8 @@ public function Player_State_Ground
 			else
 				player.direction = FACING_LEFT
 			end if
-
+		else
+			object.value15 = 0
 		end if
 
 		if player.collisionMode == 0
@@ -3086,9 +3092,8 @@ public function Player_State_Air
 
 			PlaySfx(SfxName[Release], false)
 			
-			CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos)
+			CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos) // DropDash Dust
 			object[tempObjectPos].state = 1
-			object[tempObjectPos].frame = 11
 			object[tempObjectPos].direction = player.direction
 			
 			CallFunction(Player_HandleOnGround)
@@ -3885,6 +3890,7 @@ end function
 public function Player_State_GlideSlide
 	if player.gravity == GRAVITY_GROUND
 		if player.speed == 0
+			object.value15 = 0 // Reset dust cloud timer
 			player.scrollTracking = false
 			if player.timer < 16
 				player.timer++
@@ -3896,9 +3902,17 @@ public function Player_State_GlideSlide
 			end if
 		else
 			if ringTimer == 0
-				CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos)
-				object[tempObjectPos].iypos += player.collisionBottom
-				object[tempObjectPos].drawOrder = player.sortedDrawOrder
+				
+				if object.value15 == 0
+					CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos)
+					object[tempObjectPos].state = 2
+					object[tempObjectPos].iypos += player.collisionBottom
+					object[tempObjectPos].drawOrder = player.sortedDrawOrder
+					object.value15 = 3
+				end if
+				
+				object.value15--
+				
 				if player.timer == 0
 					PlaySfx(SfxName[Sliding], false)
 					player.timer = 1
@@ -3928,6 +3942,7 @@ public function Player_State_GlideSlide
 		end if
 		player.xvel = player.speed
 	else
+		object.value15 = 0 // Reset dust cloud timer
 		player.timer = 0
 		player.animation = ANI_GLIDING_DROP
 		player.state = Player_State_GlideDrop

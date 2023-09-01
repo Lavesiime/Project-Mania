@@ -24,104 +24,93 @@ private alias object.collisionBottom 	: player.collisionBottom
 // ========================
 
 event ObjectUpdate
-	if object.state == 0
-		object.xpos += object.xvel
-		object.ypos += object.yvel
-
-		switch object.frame
-		case 0
-		case 1
-		case 2
-			object.animationTimer++
-			if object.animationTimer > 3
-				object.frame++
-				object.animationTimer = 0
-			end if
-			break
-
-		case 3
-			object.animationTimer++
-			if object.animationTimer > 3
-				object.type = TypeName[Blank Object]
-			end if
-			break
-
-		case 4
-		case 5
-		case 6
-		case 7
-		case 8
-		case 9
-			object.animationTimer++
-			if object.animationTimer > 1
-				object.frame++
-				object.animationTimer = 0
-			end if
-			break
-
-		case 10
-			object.animationTimer++
-			if object.animationTimer > 1
-				object.frame = 4
-				object.animationTimer = 0
-			end if
-			break
+	switch object.state
+	case 0
+		object.frame++
+		if object.frame > 13
+			object.frame = 0
+		end if
+		break
 		
-		end switch
-	else
+	case 1
+		if object.frame < 14
+			object.frame = 14
+		end if
+	
+		object.animationTimer++
+		if object.animationTimer > 2
+			object.animationTimer = 0
+			object.frame++
+		end if
+		if object.frame > 23
+			object.type = TypeName[Blank Object]
+		end if
+		break
+	
+	case 2
+		if object.frame < 24
+			object.frame = 24
+		end if
+	
 		object.animationTimer++
 		if object.animationTimer > 1
 			object.animationTimer = 0
 			object.frame++
 		end if
-		if object.frame > 20
+		if object.frame > 33
 			object.type = TypeName[Blank Object]
 		end if
-	end if
+		break
+		
+	end switch
 end event
 
 
 event ObjectDraw
-	if object.state == 0
-		if object.frame > 3
-			currentPlayer = object.targetPlayer
-			object.direction = player[currentPlayer].direction
-			object.xpos = player[currentPlayer].xpos
-			object.iypos = player[currentPlayer].collisionBottom
-			object.ypos += player[currentPlayer].ypos
-			if player[currentPlayer].animation != ANI_SPINDASH
-				object.type = TypeName[Blank Object]
-			else
-				DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
-			end if
-
+	switch object.state
+	case 0
+		currentPlayer = object.targetPlayer
+		object.direction = player[currentPlayer].direction
+		object.xpos = player[currentPlayer].xpos
+		object.iypos = player[currentPlayer].collisionBottom
+		object.ypos += player[currentPlayer].ypos
+		if player[currentPlayer].animation != ANI_SPINDASH
+			object.type = TypeName[Blank Object]
 		else
 			DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
 		end if
-	else
+		break
+		
+	case 1
+	case 2
 		DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
-	end if
+		break
+	
+	end switch
 end event
 
 
 event ObjectStartup
 	LoadSpriteSheet("Global/Items.gif")
 
-	// Dust frames
-	SpriteFrame(-7, -11, 13, 14, 51, 183)
-	SpriteFrame(-7, -11, 13, 14, 65, 183)
-	SpriteFrame(-6, -11, 13, 14, 79, 183)
-	SpriteFrame(-7, -11, 13, 14, 93, 183)
-	SpriteFrame(-32, -10, 32, 10, 58, 245)
-	SpriteFrame(-32, -12, 32, 12, 91, 243)
-	SpriteFrame(-32, -16, 32, 16, 124, 239)
-	SpriteFrame(-32, -18, 32, 18, 157, 237)
-	SpriteFrame(-32, -20, 32, 20, 190, 235)
-	SpriteFrame(-32, -21, 32, 21, 223, 206)
-	SpriteFrame(-32, -23, 32, 23, 223, 228) // 10
+	// Spin Dash dust frames
+	SpriteFrame(-32, -23, 32, 23, 256, 66) // 0
+	SpriteFrame(-32, -23, 32, 23, 289, 66)
+	SpriteFrame(-32, -23, 32, 23, 322, 66)
+	SpriteFrame(-32, -23, 32, 23, 256, 90)
+	SpriteFrame(-32, -23, 32, 23, 289, 90)
+	SpriteFrame(-32, -23, 32, 23, 322, 90)
+	SpriteFrame(-32, -23, 32, 23, 256, 114)
+	SpriteFrame(-32, -23, 32, 23, 289, 114)
+	SpriteFrame(-32, -23, 32, 23, 322, 114)
+	SpriteFrame(-32, -23, 32, 23, 256, 138)
+	SpriteFrame(-32, -23, 32, 23, 289, 138)
+	SpriteFrame(-32, -23, 32, 23, 322, 138)
+	SpriteFrame(-32, -23, 32, 23, 256, 162)
+	SpriteFrame(-32, -23, 32, 23, 289, 162) // 13
 	
 	// Drop Dash dust frames
-	SpriteFrame(-40, -30, 32, 40, 1, 457)
+	SpriteFrame(-40, -30, 32, 40, 1, 457) // 14
 	SpriteFrame(-40, -30, 32, 40, 34, 457)
 	SpriteFrame(-40, -30, 32, 40, 67, 457)
 	SpriteFrame(-40, -30, 32, 40, 100, 457)
@@ -130,7 +119,19 @@ event ObjectStartup
 	SpriteFrame(-40, -30, 32, 40, 199, 457)
 	SpriteFrame(-40, -30, 32, 40, 232, 457)
 	SpriteFrame(-40, -30, 32, 40, 265, 457)
-	SpriteFrame(-40, -30, 32, 40, 298, 457) // 20
+	SpriteFrame(-40, -30, 32, 40, 298, 457) // 23
+	
+	// Skid dust frames
+	SpriteFrame(-10, -16, 16, 20, 58, 244) // 24
+	SpriteFrame(-10, -16, 16, 20, 75, 244)
+	SpriteFrame(-10, -16, 16, 20, 92, 244)
+	SpriteFrame(-10, -16, 16, 20, 109, 244)
+	SpriteFrame(-10, -16, 16, 20, 126, 244)
+	SpriteFrame(-10, -16, 16, 20, 143, 244)
+	SpriteFrame(-10, -16, 16, 20, 160, 244)
+	SpriteFrame(-10, -16, 16, 20, 177, 244)
+	SpriteFrame(-10, -16, 16, 20, 194, 244)
+	SpriteFrame(-10, -16, 16, 20, 211, 244) // 33
 end event
 
 
