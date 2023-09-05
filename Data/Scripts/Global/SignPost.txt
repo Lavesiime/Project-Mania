@@ -17,14 +17,13 @@ private alias 1 : SIGNPOST_SPINNING
 private alias 2 : SIGNPOST_HANDLEACTFINISH
 private alias 3 : SIGNPOST_EXITSTAGERIGHT
 private alias 4 : SIGNPOST_TOSPECIALSTAGE
-private alias 5 : SIGNPOST_BLANK // Set by Act Finish in SBZ2 transition
 
-// Track Aliases
+// Tracks
 private alias 1 : TRACK_ACTFINISH
 
-// Game Mode Aliases
+// Game Modes
 private alias 0 : MODE_NOSAVE
-private alias 1 : MODE_SAVEGAME
+private alias 1 : MODE_NORMAL
 private alias 2 : MODE_TIMEATTACK
 
 // Player Aliases
@@ -50,9 +49,6 @@ private alias object.value7 		: player.invincibleTimer
 
 // Reserved Object Slot Aliases
 private alias 30 : SLOT_ACTFINISH
-
-// Achievement Aliases
-private alias 1 : ACHIEVEMENT_BLASTPROCESSING
 
 
 // ========================
@@ -106,8 +102,7 @@ event ObjectUpdate
 					if stage.listPos == 0
 						if stage.minutes == 0
 							if stage.seconds < 30
-								// Grant the "Blast Processing" Achievement
-								CallNativeFunction2(SetAchievement, ACHIEVEMENT_BLASTPROCESSING, 100)
+								CallNativeFunction2(SetAchievement, 1, 100)
 							end if
 						end if
 					end if
@@ -129,10 +124,10 @@ event ObjectUpdate
 	case SIGNPOST_SPINNING
 		music.volume--
 		object.timer++
-		if object.timer == 2
+		if object.timer == 1
 			object.timer = 0
 			object.frame++
-			if object.frame == 5
+			if object.frame == 10
 				object.frame = 1
 				Rand(temp0, 48)
 				temp0 <<= 16
@@ -219,7 +214,6 @@ event ObjectUpdate
 	case SIGNPOST_HANDLEACTFINISH
 		if player[0].type == TypeName[Blank Object]
 			object.state = SIGNPOST_TOSPECIALSTAGE
-			
 			if object.propertyValue < 3
 				PlayMusic(TRACK_ACTFINISH)
 			else
@@ -308,21 +302,18 @@ event ObjectUpdate
 		end if
 		break
 		
-	// "SIGNPOST_BLANK" doesn't have anything, it's set by Act Finish in SBZ2 for the transition
-	
 	end switch
 
 #platform: USE_ORIGINS
 	if game.playMode == BOOT_PLAYMODE_MISSION
 		if object.state > SIGNPOST_AWAITPLAYER
 			player[0].invincibleTimer = 80
-			
 			if object.state > SIGNPOST_SPINNING
 				CheckCurrentStageFolder("Mission_Zone02") // Marble Zone - Mission Mode
 				temp0 = checkResult
-				CheckEqual(stage.actNum, 1) // "Ring Rush"
+				CheckEqual(stage.actNum, 1)
 				checkResult &= temp0
-				player[0].interaction = checkResult
+				object[0].interaction = checkResult
 			end if
 		end if
 	end if
@@ -337,47 +328,86 @@ event ObjectDraw
 		DrawSprite(object.frame)
 	else
 		temp0 = object.frame
-		temp0 += 4
+		temp0 += 10
 		DrawSprite(temp0)
 	end if
 end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Global/Items2.gif")
-	SpriteFrame(-24, 16, 48, 16, 34, 214)
+	LoadSpriteSheet("Global/Items.gif")
+	SpriteFrame(-24, 16, 48, 16, 246, 396)
 	switch stage.playerListPos
 	case PLAYER_SONIC_ALONE
-		SpriteFrame(-24, -16, 48, 32, 34, 182)
-		SpriteFrame(-16, -16, 32, 32, 1, 150)
-		SpriteFrame(-4, -16, 8, 32, 189, 131)
-		SpriteFrame(-16, -16, 32, 32, 1, 183)
-		SpriteFrame(-24, -16, 48, 32, 34, 83)
-		SpriteFrame(-16, -16, 32, 32, 1, 150)
-		SpriteFrame(-4, -16, 8, 32, 189, 131)
-		SpriteFrame(-16, -16, 32, 32, 1, 183)
+		SpriteFrame(-24, -16, 48, 32, 246, 364)
+		SpriteFrame(-20, -16, 40, 32, 336, 397)
+		SpriteFrame(-16, -16, 32, 32, 377, 397)
+		SpriteFrame(-12, -16, 24, 32, 410, 397)
+		SpriteFrame(-8, -16, 16, 32, 435, 397)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 452, 397)
+		SpriteFrame(-12, -16, 24, 32, 469, 397)
+		SpriteFrame(-16, -16, 32, 32, 331, 430)
+		SpriteFrame(-20, -16, 40, 32, 364, 430)
+
+		SpriteFrame(-24, -16, 48, 32, 405, 430)
+		SpriteFrame(-20, -16, 40, 32, 336, 397)
+		SpriteFrame(-16, -16, 32, 32, 377, 397)
+		SpriteFrame(-12, -16, 24, 32, 410, 397)
+		SpriteFrame(-8, -16, 16, 32, 435, 397)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 452, 397)
+		SpriteFrame(-12, -16, 24, 32, 469, 397)
+		SpriteFrame(-16, -16, 32, 32, 331, 430)
+		SpriteFrame(-20, -16, 40, 32, 364, 430)
 		break
 		
 	case PLAYER_TAILS_ALONE
-		SpriteFrame(-24, -16, 48, 32, 34, 182)
-		SpriteFrame(-16, -16, 32, 32, 83, 131)
-		SpriteFrame(-4, -16, 8, 32, 189, 131)
-		SpriteFrame(-16, -16, 32, 32, 83, 163)
-		SpriteFrame(-24, -16, 48, 32, 34, 116)
-		SpriteFrame(-16, -16, 32, 32, 83, 131)
-		SpriteFrame(-4, -16, 8, 32, 189, 131)
-		SpriteFrame(-16, -16, 32, 32, 83, 163)
+		SpriteFrame(-24, -16, 48, 32, 246, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		SpriteFrame(-24, -16, 48, 32, 330, 463)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
 		break
 		
 	case PLAYER_KNUX_ALONE
-		SpriteFrame(-24, -16, 48, 32, 34, 182)
-		SpriteFrame(-16, -16, 32, 32, 83, 131)
-		SpriteFrame(-4, -16, 8, 32, 189, 131)
-		SpriteFrame(-16, -16, 32, 32, 83, 163)
-		SpriteFrame(-24, -16, 48, 32, 34, 149)
-		SpriteFrame(-16, -16, 32, 32, 83, 131)
-		SpriteFrame(-4, -16, 8, 32, 189, 131)
-		SpriteFrame(-16, -16, 32, 32, 83, 163)
+		SpriteFrame(-24, -16, 48, 32, 246, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		SpriteFrame(-24, -16, 48, 32, 379, 463)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
 		break
 		
 	end switch
