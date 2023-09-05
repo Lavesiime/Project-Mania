@@ -54,7 +54,7 @@ event ObjectUpdate
 				ResetObjectEntity(4, TypeName[Blank Object], 0, 0, 0)
 				object.drawOrder = 4
 				object.state = SPECIALRING_DISAPPEARING
-				object.frame = 32
+				object.frame = 22
 
 				StopSfx(SfxName[Flying])
 				StopSfx(SfxName[Tired])
@@ -92,18 +92,21 @@ event ObjectDraw
 	case SPECIALRING_FLOATING
 		// Only show up if there are 50 or more rings collected
 		if player[0].rings >= 50
-			temp0 = object.frame
-			temp0 >>= 2
-			if temp0 > 3
-				object.direction = FACING_LEFT
-			else
+			DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+			temp0 = 3
+			temp0 /= 2
+			object.animationTimer++
+			object.frame++
+			if object.frame < 12
 				object.direction = FACING_RIGHT
 			end if
-			
-			DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
-
-			object.frame++
-			if object.frame > 31
+			if object.frame > 11
+				if object.frame < 22
+					object.direction = FACING_LEFT
+				end if
+			end if			
+			if object.frame > 21
+				object.direction = FACING_RIGHT
 				object.frame = 0
 			end if
 		end if
@@ -111,29 +114,31 @@ event ObjectDraw
 
 	case SPECIALRING_DISAPPEARING
 		// Determine whether to flip the sprite or not based on current frame
-		temp0 = object.frame
-		temp0 >>= 2
-		if temp0 > 11
+		// Draw the sprite
+		DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+		object.animationTimer++
+		if object.animationTimer >= 1
+			object.frame++
+			object.animationTimer = 0
+		end if
+		if object.frame < 22
+			object.frame = 22
+		end if
+		if object.frame > 29
 			object.direction = FACING_LEFT
 		else
 			object.direction = FACING_RIGHT
 		end if
-
-		// Draw the sprite
-		DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
-
-		if temp0 == 11
+		if object.frame == 29
 			object.direction = FACING_LEFT
-			DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
+			DrawSpriteXY(object.frame, object.xpos, object.ypos)
 		else
-			if temp0 == 15
+			if object.frame == 37
 				object.direction = FACING_LEFT
-				DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
+				DrawSpriteXY(object.frame, object.xpos, object.ypos)
 			end if
 		end if
-
-		object.frame++
-		if object.frame > 63 // Time to disappear?
+		if object.frame > 37 // Time to disappear?
 			// Clear this object
 			ResetObjectEntity(object.entityPos, TypeName[Blank Object], 0, 0, 0)
 		end if
@@ -144,29 +149,57 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Global/Items.gif")
+	LoadSpriteSheet("Global/Display2.gif")
 
 	// Sprite frames
 
-	// Special Ring Spinning - #0-7
-	SpriteFrame(-32, -32, 64, 64, 339, 1)
-	SpriteFrame(-28, -32, 56, 64, 455, 131)
-	SpriteFrame(-24, -32, 48, 64, 404, 1)
-	SpriteFrame(-16, -32, 32, 64, 479, 66)
-	SpriteFrame(-12, -32, 24, 64, 453, 1)
-	SpriteFrame(-16, -32, 32, 64, 479, 66)
-	SpriteFrame(-24, -32, 48, 64, 404, 1)
-	SpriteFrame(-28, -32, 56, 64, 455, 131)
+	// Special Ring Spinning - #0-22
+	SpriteFrame(-32, -32, 64, 64, 37, 0) // Frame 0
+	SpriteFrame(-30, -32, 60, 64, 102, 0) // Frame 1
+	SpriteFrame(-28, -32, 56, 64, 163, 0) // Frame 2
+	SpriteFrame(-26, -32, 52, 64, 38, 64) // Frame 3
+	SpriteFrame(-24, -32, 48, 64, 91, 64) // Frame 4
+	SpriteFrame(-22, -32, 44, 64, 140, 64) // Frame 5
+	SpriteFrame(-20, -32, 40, 64, 185, 64) // Frame 6
+	SpriteFrame(-18, -32, 36, 64, 220, 0) // Frame 7
+	SpriteFrame(-16, -32, 32, 64, 1, 128) // Frame 8
+	SpriteFrame(-14, -32, 28, 64, 226, 64) // Frame 9
+	SpriteFrame(-12, -32, 24, 64, 34, 128) // Frame 10
+	SpriteFrame(-10, -32, 20, 64, 0, 192) // Frame 11
+	
+	// Flip
+	SpriteFrame(-12, -32, 24, 64, 34, 128) // Frame 12
+	SpriteFrame(-14, -32, 28, 64, 226, 64) // Frame 13
+	SpriteFrame(-16, -32, 32, 64, 1, 128) // Frame 14
+	SpriteFrame(-18, -32, 36, 64, 220, 0) // Frame 15
+	SpriteFrame(-20, -32, 40, 64, 185, 64) // Frame 16
+	SpriteFrame(-22, -32, 44, 64, 140, 64) // Frame 17
+	SpriteFrame(-24, -32, 48, 64, 91, 64) // Frame 18
+	SpriteFrame(-26, -32, 52, 64, 38, 64) // Frame 19
+	SpriteFrame(-28, -32, 56, 64, 163, 0) // Frame 20
+	SpriteFrame(-30, -32, 60, 64, 102, 0) // Frame 21
 
-	// Special Ring Warping - #8-15
-	SpriteFrame(0, -32, 32, 64, 478, 1)
-	SpriteFrame(-16, -32, 48, 64, 357, 66)
-	SpriteFrame(-24, -32, 56, 64, 406, 66)
-	SpriteFrame(0, -32, 32, 64, 412, 131)
-	SpriteFrame(-24, -32, 56, 64, 406, 66)
-	SpriteFrame(-16, -32, 48, 64, 357, 66)
-	SpriteFrame(0, -32, 32, 64, 478, 1)
-	SpriteFrame(-32, -32, 32, 64, 380, 131)
+
+	// Special Ring Warping - #23-38
+	SpriteFrame(0, -32, 32, 64, 58, 128) // Frame 22
+	SpriteFrame(-16, -32, 48, 64, 90, 128) // Frame 23
+	SpriteFrame(-12, -32, 44, 64, 138, 128) // Frame 24
+	SpriteFrame(-24, -32, 56, 64, 199, 128) // Frame 25
+	SpriteFrame(-24, -32, 56, 64, 21, 192) // Frame 26
+	SpriteFrame(-24, -32, 56, 64, 78, 192) // Frame 27
+	SpriteFrame(-24, -32, 56, 64, 135, 192) // Frame 28
+
+	SpriteFrame(0, -32, 32, 64, 224, 192) // Frame 29
+
+	SpriteFrame(-24, -32, 56, 64, 135, 192) // Frame 30
+	SpriteFrame(-24, -32, 56, 64, 78, 192) // Frame 31
+	SpriteFrame(-24, -32, 56, 64, 21, 192) // Frame 32
+	SpriteFrame(-24, -32, 56, 64, 199, 128) // Frame 33
+	SpriteFrame(-12, -32, 44, 64, 138, 128) // Frame 34
+	SpriteFrame(-16, -32, 48, 64, 90, 128) // Frame 35
+	SpriteFrame(0, -32, 32, 64, 58, 128) // Frame 36
+
+	SpriteFrame(-32, -32, 32, 64, 192, 192) // Frame 37
 
 	// Find max emerald count
 	if options.superStates == false
