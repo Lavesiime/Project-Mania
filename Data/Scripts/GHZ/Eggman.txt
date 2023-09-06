@@ -510,17 +510,9 @@ event ObjectUpdate
 							temp0 = object.entityPos
 							temp0 -= 6
 							object[-2].state = 1
-							object[-2].xvel = -0x18000
-							object[-2].yvel = -0x10000
 							object[-3].state = 1
-							object[-3].xvel = 0x18000
-							object[-3].yvel = -0x10000
 							object[-4].state = 1
-							object[-4].xvel = -0x18000
-							object[-4].yvel = -0x20000
 							object[-5].state = 1
-							object[-5].xvel = 0x18000
-							object[-5].yvel = -0x20000
 							ResetObjectEntity(temp0, TypeName[Explosion], 0, object[-6].xpos, object[-6].ypos)
 							object[-1].state = WRECKINGBALL_EXPLODE
 							object[-1].flameAnim = FLAME_INACTIVE
