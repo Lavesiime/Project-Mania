@@ -93,8 +93,8 @@ event ObjectUpdate
 		if stage.playerListPos == PLAYER_TAILS_ALONE
 			// Animate Tails's tails
 			object.tailFrame = object.timer
-			object.tailFrame >>= 3
-			object.tailFrame %= 5
+			object.tailFrame >>= 2
+			object.tailFrame %= 10
 			object.tailFrame += 36
 		end if
 
@@ -104,7 +104,7 @@ event ObjectUpdate
 				ResetObjectEntity(currentPlayer, TypeName[Ending Pose], 0, player[currentPlayer].xpos, player[currentPlayer].ypos)
 				player[currentPlayer].drawOrder = 6
 				player[currentPlayer].state = ENDINGPOSE_P2_POSE_1
-				player[currentPlayer].frame = 43
+				player[currentPlayer].frame = 48
 				player[currentPlayer].direction = FACING_LEFT
 				
 				currentPlayer++
@@ -367,7 +367,7 @@ event ObjectUpdate
 				ResetObjectEntity(currentPlayer, TypeName[Ending Pose], 0, player[currentPlayer].xpos, player[currentPlayer].ypos)
 				player[currentPlayer].drawOrder = 6
 				player[currentPlayer].state = ENDINGPOSE_P2_LOOKAROUND
-				player[currentPlayer].frame = 43
+				player[currentPlayer].frame = 48
 				player[currentPlayer].direction = FACING_LEFT
 				
 				currentPlayer++
@@ -460,7 +460,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 60
 			object.timer = 0
-			object.frame = 43
+			object.frame = 48
 			object.state++
 		end if
 		break
@@ -498,10 +498,10 @@ event ObjectDraw
 			if stage.player2Enabled == true
 				if options.region == true
 					// "Sonic the Hedgehog and Miles"
-					temp1 = 42
+					temp1 = 47
 				else
 					// "Sonic the Hedgehog and Tails"
-					temp1 = 41
+					temp1 = 46
 				end if
 			else
 				temp1 = 10
@@ -578,13 +578,18 @@ event ObjectStartup
 	SpriteFrame(-16, -23, 27, 41, 268, 57)
 	SpriteFrame(-16, -23, 33, 41, 234, 57)
 	
-	// 36-40 - Tails's Tails' Frames
+	// 36-45 - Tails's Tails' Frames
 	// Drawn using object.tailFrame, rather than the base object.frame
-	SpriteFrame(-21, -6, 16, 24, 256, 99)
-	SpriteFrame(-25, -6, 20, 24, 273, 99)
-	SpriteFrame(-25, -6, 20, 24, 294, 99)
-	SpriteFrame(-25, -6, 20, 24, 315, 99)
-	SpriteFrame(-25, -6, 20, 24, 336, 99)
+	SpriteFrame(-22, -8, 16, 24, 256, 99)
+	SpriteFrame(-22, -9, 16, 24, 409, 232)
+	SpriteFrame(-26, -8, 20, 24, 273, 99)
+	SpriteFrame(-26, -8, 20, 24, 427, 232)
+	SpriteFrame(-26, -8, 20, 24, 294, 99)
+	SpriteFrame(-26, -9, 21, 24, 448, 232)
+	SpriteFrame(-26, -8, 20, 24, 315, 99)
+	SpriteFrame(-26, -9, 21, 24, 470, 232)
+	SpriteFrame(-26, -8, 20, 24, 336, 99)
+	SpriteFrame(-26, -8, 20, 24, 492, 232)
 	
 	// 41 - "Sonic the Hedgehog and Tails"
 	SpriteFrame(-48, 0, 96, 40, 256, 141)
