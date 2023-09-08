@@ -200,7 +200,6 @@ event ObjectUpdate
 	object.animationTimer &= 3
 	object.wingFrame++
 	object.wingFrame &= 3
-	end if
 end event
 
 

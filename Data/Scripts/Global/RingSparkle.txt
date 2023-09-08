@@ -42,11 +42,13 @@ event ObjectUpdate
 			object.frame2 = 15
 			object.frame3 = 21
 			
+			temp2 = 16 // Used for pos offset randomness
+			
 			object.sparkle1X = object.xpos
 			object.sparkle1Y = object.ypos
-			Rand(temp0, 12)
+			Rand(temp0, temp2)
 			temp0 -= 6
-			Rand(temp1, 12)
+			Rand(temp1, temp2)
 			temp1 -= 6
 			temp0 <<= 16
 			temp1 <<= 16
@@ -55,9 +57,9 @@ event ObjectUpdate
 					
 			object.sparkle2X = object.xpos
 			object.sparkle2Y = object.ypos
-			Rand(temp0, 12)
+			Rand(temp0, temp2)
 			temp0 -= 6
-			Rand(temp1, 12)
+			Rand(temp1, temp2)
 			temp1 -= 6
 			temp0 <<= 16
 			temp1 <<= 16
@@ -66,9 +68,9 @@ event ObjectUpdate
 						
 			object.sparkle3X = object.xpos
 			object.sparkle3Y = object.ypos
-			Rand(temp0, 12)
+			Rand(temp0, temp2)
 			temp0 -= 6
-			Rand(temp1, 12)
+			Rand(temp1, temp2)
 			temp1 -= 6
 			temp0 <<= 16
 			temp1 <<= 16
@@ -95,6 +97,24 @@ event ObjectUpdate
 		if object.frame1 == 15
 			object.type = TypeName[Blank Object]
 			object.frame = 0
+			
+#platform: USE_ORIGINS
+			if game.playMode == BOOT_PLAYMODE_MISSION
+				if game.missionFunctionNo == MISSIONNO_RINGCHALLENGE50
+					// Turn the Object into a Ring Reset Object
+					// -> missionTypeEX is set by a foreach in Ring Reset's startup
+					object.type = object.missionTypeEX
+					
+					// Now, set the time the Object was collected + 20 seconds
+					object.timeCheckpoint = stage.minutes
+					object.timeCheckpoint *= 60
+					object.timeCheckpoint += stage.seconds
+					object.timeCheckpoint += 20
+					
+					object.priority = PRIORITY_ACTIVE
+				end if
+			end if
+#endplatform
 		end if
 	end if
 	object.timer++
@@ -163,22 +183,3 @@ event RSDKLoad
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
 end event
-
-
-#platform: USE_ORIGINS
-			if game.playMode == BOOT_PLAYMODE_MISSION
-				if game.missionFunctionNo == MISSIONNO_RINGCHALLENGE50
-					// Turn the Object into a Ring Reset Object
-					// -> missionTypeEX is set by a foreach in Ring Reset's startup
-					object.type = object.missionTypeEX
-					
-					// Now, set the time the Object was collected + 20 seconds
-					object.timeCheckpoint = stage.minutes
-					object.timeCheckpoint *= 60
-					object.timeCheckpoint += stage.seconds
-					object.timeCheckpoint += 20
-					
-					object.priority = PRIORITY_ACTIVE
-				end if
-			end if
-#endplatform
