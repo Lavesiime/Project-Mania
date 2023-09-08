@@ -279,6 +279,10 @@ event ObjectUpdate
 				object.animation = ROLLER_ANI_ROLLING
 				object.state = ROLLER_ROLLING
 				PlaySfx(SfxName[Large Booster], false)
+				CreateTempObject(TypeName[Dust Puff], 0, object.xpos, object.ypos) // DropDash Dust
+				object[tempObjectPos].state = 1
+				object[tempObjectPos].ypos += 0x40000
+				object[tempObjectPos].direction = object.direction
 			end if
 			object.animationTimer = 0
 		end if
