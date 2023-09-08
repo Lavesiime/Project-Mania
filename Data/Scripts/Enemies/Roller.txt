@@ -244,6 +244,9 @@ event ObjectUpdate
 		end if
 		if object.animationTimer >= 6
 			object.frame--
+			if object.frame == 10
+				PlaySfx(SfxName[Close], false)
+			end if
 			if object.frame == 8
 				object.animation = ROLLER_ANI_STANDING
 			end if
@@ -269,9 +272,13 @@ event ObjectUpdate
 		end if
 		if object.animationTimer >= 6
 			object.frame++
+			if object.frame == 10
+				PlaySfx(SfxName[Close], false)
+			end if
 			if object.frame == 17
 				object.animation = ROLLER_ANI_ROLLING
 				object.state = ROLLER_ROLLING
+				PlaySfx(SfxName[Large Booster], false)
 			end if
 			object.animationTimer = 0
 		end if
