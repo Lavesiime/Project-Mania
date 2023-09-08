@@ -204,7 +204,7 @@ private alias object.value11 : player.scrollDelay			// A timer of how long the c
 private alias object.value12 : player.tailFrame				// One of Tails's tail values, not used by the player itself
 private alias object.value13 : player.tailAnim				// Also one of Tails's tail values
 private alias object.value14 : player.skidding
-// value15 is unused
+private alias object.value15 : player.dropDashCharge		// Also used for skidding dust timer
 private alias object.value16 : player.isSidekick			// true if an AI character (P2 in singleplayer), false otherwise (P1, P2 in 2PVS)
 private alias object.value17 : debugMode.currentSelection
 private alias object.value18 : player.sortedDrawOrder
@@ -318,8 +318,6 @@ reserve function Player_State_Clinging
 reserve function Player_State_Waterslide
 reserve function Player_State_Carried
 reserve function Player_State_ContinueRun
-reserve function Player_SetDropDashCharge
-reserve function Player_GetDropDashCharge
 reserve function Player_HandleDropDash
 reserve function Player_CheckIfOnScreen
 reserve function Player_SetupAttractDemo
@@ -2047,8 +2045,7 @@ public function Player_HandleAirMovement
 	player.collisionMode = CMODE_FLOOR
 	if player.animation == ANI_JUMPING
 		// The dropdash anim is just the jumping anim in disguise, so check for that
-		CallFunction(Player_GetDropDashCharge)
-		if temp7 < 20
+		if player.dropDashCharge < 20
 			player.animationSpeed = player.rollAnimationSpeed
 		else
 			player.animationSpeed = 255
@@ -2143,8 +2140,7 @@ public function Player_Action_Jump
 		player.jumpAbilityState = 1
 	end if
 	
-	temp7 = -1
-	CallFunction(Player_SetDropDashCharge)
+	player.dropDashCharge = -1
 end function
 
 
@@ -2156,8 +2152,7 @@ public function Player_Action_Spindash
 	// Don't play the Charge sound effect if using the Drop Dash
 	CheckEqual(player.releasingDropDash, true)
 	temp0 = checkResult
-	CallFunction(Player_GetDropDashCharge)
-	CheckGreater(20, temp7)
+	CheckGreater(20, player.dropDashCharge)
 	temp0 |= checkResult
 	if temp0 == true
 		PlaySfx(SfxName[Charge], false)
@@ -2589,8 +2584,7 @@ end function
 public function Player_HandleDropDash
 	if player.animation == ANI_JUMPING
 		if player.releasingDropDash == false
-			CallFunction(Player_GetDropDashCharge)
-			if temp7 == 0
+			if player.dropDashCharge == 0
 				if player.jumpPress == true
 					CheckEqual(player.character, PLAYER_SONIC_ALONE)
 					temp0 = checkResult
@@ -2607,52 +2601,28 @@ public function Player_HandleDropDash
 					temp0 &= temp1
 					
 					if temp0 == true
-						temp7 = 1
+						player.dropDashCharge = 1
 					else
-						temp7 = -1
+						player.dropDashCharge = -1
 					end if
 				end if
 			else
 				if player.jumpHold == false
 					player.animation = ANI_JUMPING
-					temp7 = -1
+					player.dropDashCharge = -1
 				else
-					temp7++
-					if temp7 == 20
+					player.dropDashCharge++
+					if player.dropDashCharge == 20
 						PlaySfx(SfxName[DropDash], false)
 					end if
 					
 				end if
 			end if
-			
-			CallFunction(Player_SetDropDashCharge)
 		end if
 	else
-		temp7 = -1
-		CallFunction(Player_SetDropDashCharge)
+		player.dropDashCharge = -1
 	end if
 end function
-
-// Yes, this is actually how Sonic Team programmed this
-// Note about these next two functions, player.dropdashCount0 and player.dropdashCount1 are global variables, NOT object values
-
-public function Player_SetDropDashCharge
-	if player.entityPos == SLOT_PLAYER1
-		player.dropdashCount0 = temp7
-	else
-		player.dropdashCount1 = temp7
-	end if
-end function
-
-
-public function Player_GetDropDashCharge
-	if player.entityPos == SLOT_PLAYER1
-		temp7 = player.dropdashCount0
-	else
-		temp7 = player.dropdashCount1
-	end if
-end function
-
 
 public function Player_CheckIfOnScreen
 	// This function is new to Origins, it's nothing too notable though
@@ -2933,8 +2903,7 @@ end function
 
 // Prevents the player from using the Drop Dash if they went in midair without jumping
 public function Player_State_Air_NoDropDash
-	temp7 = -1
-	CallFunction(Player_SetDropDashCharge)
+	player.dropDashCharge = -1
 	player.state = Player_State_Air_NoDropDash
 	CallFunction(Player_State_Air)
 end function
@@ -3034,15 +3003,13 @@ public function Player_State_Air
 	
 		CheckEqual(player.releasingDropDash, false)
 		temp0 = checkResult
-		CallFunction(Player_GetDropDashCharge)
-		CheckGreater(temp7, 19)
+		CheckGreater(player.dropDashCharge, 19)
 		temp0 &= checkResult
 		
 		if temp0 == true
 			// Release the dropdash!
 	
-			temp7 = -1
-			CallFunction(Player_SetDropDashCharge)
+			player.dropDashCharge = -1
 			Sin256(temp0, player.angle)
 			
 			if player.direction == FACING_RIGHT
@@ -3090,6 +3057,7 @@ public function Player_State_Air
 				FlipSign(player.speed)
 			end if
 
+			StopSfx(SfxName[DropDash])
 			PlaySfx(SfxName[Release], false)
 			
 			CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos) // DropDash Dust
@@ -3161,8 +3129,7 @@ public function Player_State_RollJump
 	else
 		CheckEqual(player.releasingDropDash, false)
 		temp0 = checkResult
-		CallFunction(Player_GetDropDashCharge)
-		CheckGreater(temp7, 19)
+		CheckGreater(player.dropDashCharge, 19)
 		temp0 &= checkResult
 		
 		if temp0 == true
@@ -3284,13 +3251,11 @@ public function Player_State_Spindash
 	
 	CheckEqual(player.releasingDropDash, false)
 	temp2 = checkResult
-	CallFunction(Player_GetDropDashCharge)
-	CheckGreater(temp7, 19)
+	CheckGreater(player.dropDashCharge, 19)
 	temp2 &= checkResult
 	
 	if temp2 == true
-		temp7 = -1
-		CallFunction(Player_SetDropDashCharge)
+		player.dropDashCharge = -1
 		Sin256(temp0, player.angle)
 		
 		if player.direction == FACING_RIGHT
@@ -4603,8 +4568,7 @@ end function
 
 
 public function Player_State_Hurt
-	temp7 = -1
-	CallFunction(Player_SetDropDashCharge)
+	player.dropDashCharge = -1
 
 	if player.gravity == GRAVITY_AIR
 		player.scrollTracking = true
@@ -5164,8 +5128,7 @@ event ObjectUpdate
 								if player.state != Player_State_BubbleBounce
 									if player.state != Player_State_Roll
 										if player.state != Player_State_TubeRoll
-											CallFunction(Player_GetDropDashCharge)
-											if temp7 < 20
+											if player.dropDashCharge < 20
 												player.animation = ANI_WALKING
 												if player.entityPos == camera[0].target
 													camera[0].adjustY = 0
@@ -5226,8 +5189,7 @@ event ObjectUpdate
 							if player.state != Player_State_BubbleBounce
 								if player.state != Player_State_Roll
 									if player.state != Player_State_TubeRoll
-										CallFunction(Player_GetDropDashCharge)
-										if temp7 < 20
+										if player.dropDashCharge < 20
 											player.animation = ANI_WALKING
 											if player.entityPos == camera[0].target
 												camera[0].adjustY = 0
@@ -5379,8 +5341,7 @@ event ObjectDraw
 	end if
 
 	// This implementation certainly is not ideal but I do not want to sift through every script to find ANI_JUMPING checks.
-	CallFunction(Player_GetDropDashCharge)
-	if temp7 > 19
+	if player.dropDashCharge > 19
 		if player.animation == ANI_JUMPING
 			player.animation = ANI_DROPDASH
 		end if

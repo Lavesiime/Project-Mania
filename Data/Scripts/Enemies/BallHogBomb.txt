@@ -46,6 +46,11 @@ event ObjectUpdate
 					FlipSign(object.xvel)
 				end if
 			end if
+			
+			if object.outOfBounds == false
+				PlaySfx(SfxName[Hog Bounce], false)
+			end if
+			
 		end if
 	end if
 

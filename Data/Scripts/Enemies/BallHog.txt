@@ -66,6 +66,8 @@ end function
 
 event ObjectUpdate
 
+	player.score = object.frame
+
 	// Check collision with players
 	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
 		BoxCollisionTest(C_TOUCH, object.entityPos, -12, -18, 12, 18, currentPlayer, player[currentPlayer].hitboxLeft, player[currentPlayer].hitboxTop, player[currentPlayer].hitboxRight, player[currentPlayer].hitboxBottom)
@@ -102,6 +104,7 @@ event ObjectUpdate
 			object.yvel = -0x29999
 			object.ypos += object.yvel
 			object.yvel += 0x95C0
+			PlaySfx(SfxName[Hog Jump], false)
 		end if
 
 		if object.frame == 4
@@ -121,6 +124,8 @@ event ObjectUpdate
 			object[tempObjectPos].ypos += 0xC0000
 			ballHogBomb[tempObjectPos].bombTime = object.propertyValue
 			ballHogBomb[tempObjectPos].bombTime *= 60
+			
+			PlaySfx(SfxName[Hog Drop], false)
 
 		end if
 	end if
