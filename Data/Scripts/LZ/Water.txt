@@ -161,104 +161,101 @@ end function
 
 
 private function Water_ProcessLZAct3
-	stage.newWaterLevel = 0xb000000
-	if 0 == 1
-		switch stage.waterState
-		case 0
-			stage.newWaterLevel = 0xA000000
-			object[arrayPos0].ypos = stage.newWaterLevel
-			if temp0 >= 1696
-				if temp1 >= 960
-					if temp1 < 1536
-						stage.waterState = 1
-						stage.newWaterLevel = 0x4C80000
-						object[arrayPos0].ypos = stage.newWaterLevel
-						PlaySfx(SfxName[Large Wall], false)
-						SetTileLayerEntry(302, 0, 12, 5)
-						SetTileLayerEntry(303, 0, 13, 5)
-					end if
+	switch stage.waterState
+	case 0
+		stage.newWaterLevel = 0xA000000
+		object[arrayPos0].ypos = stage.newWaterLevel
+		if temp0 >= 1696
+			if temp1 >= 960
+				if temp1 < 1536
+					stage.waterState = 1
+					stage.newWaterLevel = 0x4C80000
+					object[arrayPos0].ypos = stage.newWaterLevel
+					PlaySfx(SfxName[Large Wall], false)
+					SetTileLayerEntry(302, 0, 12, 5)
+					SetTileLayerEntry(303, 0, 13, 5)
 				end if
 			end if
-			break
+		end if
+		break
 
-		case 1
-			temp3 = 0x4C80000
-			if temp0 >= 2048
-				temp3 = 0x3080000
-				if temp0 >= 0x14A0
-					temp2 = false
-					if stage.newWaterLevel == 0x5080000
+	case 1
+		temp3 = 0x4C80000
+		if temp0 >= 2048
+			temp3 = 0x3080000
+			if temp0 >= 0x14A0
+				temp2 = false
+				if stage.newWaterLevel == 0x5080000
+					temp2 = true
+				else
+					if temp1 >= 1536
 						temp2 = true
 					else
-						if temp1 >= 1536
+						if temp1 < 640
 							temp2 = true
-						else
-							if temp1 < 640
-								temp2 = true
-							end if
-						end if
-					end if
-
-					if temp2 == true
-						temp3 = 0x5080000
-						object[arrayPos0].ypos = temp3
-						if temp0 >= 6160
-							stage.waterState = 2
 						end if
 					end if
 				end if
-			end if
-			stage.newWaterLevel = temp3
-			break
 
-		case 2
-			stage.newWaterLevel = 0x5080000
-			if temp0 >= 6400
-				stage.newWaterLevel = 0x1880000
-				if temp0 < 7040
-					if object[arrayPos0].ypos == stage.newWaterLevel
-						stage.waterState = 3
+				if temp2 == true
+					temp3 = 0x5080000
+					object[arrayPos0].ypos = temp3
+					if temp0 >= 6160
+						stage.waterState = 2
 					end if
-				else
+				end if
+			end if
+		end if
+		stage.newWaterLevel = temp3
+		break
+
+	case 2
+		stage.newWaterLevel = 0x5080000
+		if temp0 >= 6400
+			stage.newWaterLevel = 0x1880000
+			if temp0 < 7040
+				if object[arrayPos0].ypos == stage.newWaterLevel
 					stage.waterState = 3
 				end if
+			else
+				stage.waterState = 3
 			end if
-			break
+		end if
+		break
 
-		case 3
-			stage.newWaterLevel = 0x1880000
+	case 3
+		stage.newWaterLevel = 0x1880000
+		object[arrayPos0].ypos = stage.newWaterLevel
+
+		if temp1 > 1792
+			stage.newWaterLevel = 0xA000000
 			object[arrayPos0].ypos = stage.newWaterLevel
+		end if
 
-			if temp1 > 1792
-				stage.newWaterLevel = 0xA000000
-				object[arrayPos0].ypos = stage.newWaterLevel
-			end if
+		if temp1 < 160
+			stage.newWaterLevel = 0xA000000
+			object[arrayPos0].ypos = stage.newWaterLevel
+		end if
 
-			if temp1 < 160
-				stage.newWaterLevel = 0xA000000
-				object[arrayPos0].ypos = stage.newWaterLevel
+		if temp0 >= 7040
+			stage.newWaterLevel = 0xA000000
+			object[arrayPos0].ypos = stage.newWaterLevel
+			if temp0 >= 7264
+				stage.waterState = 4
+				stage.newWaterLevel = 0x6080000
+				object[arrayPos0].ypos = 0x7C00000
+				Water_activateFlag = true
 			end if
+		end if
+		break
 
-			if temp0 >= 7040
-				stage.newWaterLevel = 0xA000000
-				object[arrayPos0].ypos = stage.newWaterLevel
-				if temp0 >= 7264
-					stage.waterState = 4
-					stage.newWaterLevel = 0x6080000
-					object[arrayPos0].ypos = 0x7C00000
-					Water_activateFlag = true
-				end if
-			end if
-			break
-
-		case 4
-			if temp0 >= 7840
-				stage.newWaterLevel = 0x1280000
-			end if
-			break
-			
-		end switch
-	end if
+	case 4
+		if temp0 >= 7840
+			stage.newWaterLevel = 0x1280000
+		end if
+		break
+		
+	end switch
 end function
 
 
