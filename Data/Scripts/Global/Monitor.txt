@@ -459,7 +459,6 @@ event ObjectStartup
 			end if
 		next
 	end if
-	player.score = stage.listPos
 end event
 
 
