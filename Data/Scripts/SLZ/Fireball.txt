@@ -21,6 +21,7 @@ private alias 3 : FIREBALL_MOVE_DOWN
 private alias 4 : FIREBALL_MOVE_LEFT
 private alias 5 : FIREBALL_MOVE_RIGHT
 private alias 6 : FIREBALL_DISSIPATE
+private alias 7 : FIREBALL_DISSIPATE_S
 
 // Player Aliases
 private alias object.value17 : debugMode.currentSelection
@@ -60,7 +61,7 @@ private function Fireball_DebugDraw
 		break
 
 	case 1
-		if object.direction == FLIP_NONE
+		if object.direction == 0
 			object.direction = FLIP_Y
 		end if
 
@@ -89,26 +90,26 @@ private function Fireball_DebugSpawn
 		break
 
 	case 1
-		if object.direction == FLIP_NONE
+		if object.direction == 0
 			object[tempObjectPos].propertyValue = FIREBALL_MOVE_UP
 			object[tempObjectPos].yvel = -0x20000
-			object[tempObjectPos].fireballDir = FLIP_Y
+			object[tempObjectPos].fireballDir = 2
 		else
 			object[tempObjectPos].propertyValue = 3
 			object[tempObjectPos].yvel = 0x20000
-			object[tempObjectPos].fireballDir = FLIP_NONE
+			object[tempObjectPos].fireballDir = 0
 		end if
 		break
 
 	case 2
-		if object.direction == FLIP_NONE
+		if object.direction == 0
 			object[tempObjectPos].propertyValue = FIREBALL_MOVE_RIGHT
 			object[tempObjectPos].xvel = 0x20000
-			object[tempObjectPos].fireballDir = FLIP_NONE
+			object[tempObjectPos].fireballDir = 0
 		else
 			object[tempObjectPos].propertyValue = FIREBALL_MOVE_LEFT
 			object[tempObjectPos].xvel = -0x20000
-			object[tempObjectPos].fireballDir = FLIP_X
+			object[tempObjectPos].fireballDir = 1
 		end if
 		break
 		
@@ -150,38 +151,53 @@ event ObjectUpdate
 		object.yvel += 0x1800
 		object.ypos += object.yvel
 		if object.yvel > 0
-			object.fireballDir = FLIP_NONE
+			object.fireballDir = 0
 		end if
 
 		if object.ypos > object.finalY
 			object.type = TypeName[Blank Object]
 		end if
 
-		object.frame = object.animationTimer
-		object.frame /= 12
-		object.direction = object.animationTimer
-		object.direction /= 6
-		object.direction &= FLIP_X
-		object.direction += object.fireballDir
 		object.animationTimer++
-		object.animationTimer %= 24
+		if object.animationTimer == 4
+			object.frame++
+			object.animationTimer = 0
+		end if
+		if object.frame < 4
+			object.direction = FACING_LEFT
+		end if
+		if object.frame > 3
+			object.direction = FACING_RIGHT
+		end if
+		if object.frame > 7
+			object.frame = 0
+			object.direction = FACING_LEFT
+		end if
+		object.direction += object.fireballDir
 		break
 
 	case FIREBALL_MOVE_UP
 		object.ypos += object.yvel
-		object.frame = object.animationTimer
-		object.frame /= 12
-		object.direction = object.animationTimer
-		object.direction /= 6
-		object.direction &= FLIP_X
-		object.direction += object.fireballDir
 		object.animationTimer++
-		object.animationTimer %= 24
-
-		ObjectTileCollision(CSIDE_ROOF, 0, -8, PATH_A)
+		if object.animationTimer == 4
+			object.frame++
+			object.animationTimer = 0
+		end if
+		if object.frame < 4
+			object.direction = FACING_LEFT
+		end if
+		if object.frame > 3
+			object.direction = FACING_RIGHT
+		end if
+		if object.frame > 7
+			object.frame = 0
+			object.direction = FACING_LEFT
+		end if
+		object.direction += object.fireballDir
+		ObjectTileCollision(CSIDE_FLOOR, 0, 8, PATH_A)
 		if checkResult == true
 			object.state = FIREBALL_DISSIPATE
-			object.frame = 2 // dissipate (V)
+			object.frame = 16 // dissipate (V)
 		end if
 
 		if object.outOfBounds == true
@@ -191,19 +207,26 @@ event ObjectUpdate
 
 	case FIREBALL_MOVE_DOWN
 		object.ypos += object.yvel
-		object.frame = object.animationTimer
-		object.frame /= 12
-		object.direction = object.animationTimer
-		object.direction /= 6
-		object.direction &= FLIP_X
-		object.direction += object.fireballDir
 		object.animationTimer++
-		object.animationTimer %= 24
-
+		if object.animationTimer == 4
+			object.frame++
+			object.animationTimer = 0
+		end if
+		if object.frame < 4
+			object.direction = FACING_LEFT
+		end if
+		if object.frame > 3
+			object.direction = FACING_RIGHT
+		end if
+		if object.frame > 7
+			object.frame = 0
+			object.direction = FACING_LEFT
+		end if
+		object.direction += object.fireballDir
 		ObjectTileCollision(CSIDE_FLOOR, 0, 8, PATH_A)
 		if checkResult == true
 			object.state = FIREBALL_DISSIPATE
-			object.frame = 2 // dissipate (V)
+			object.frame = 16 // dissipate (V)
 		end if
 
 		if object.outOfBounds == true
@@ -213,21 +236,29 @@ event ObjectUpdate
 
 	case FIREBALL_MOVE_LEFT
 		object.xpos += object.xvel
-		object.frame = object.animationTimer
-		object.frame /= 12
-		object.frame += 3
-		object.direction = object.animationTimer
-		object.direction /= 6
-		object.direction &= FLIP_X
-		object.direction <<= 1 // turn it into either FLIP_Y or FLIP_NONE
-		object.direction += object.fireballDir
 		object.animationTimer++
-		object.animationTimer %= 24
-
+		if object.animationTimer == 4
+			object.frame++
+			object.animationTimer = 0
+		end if
+		if object.frame < 8
+			object.frame = 8
+		end if
+		if object.frame < 12
+			object.direction = 2
+		end if
+		if object.frame > 11
+			object.direction = 0
+		end if
+		if object.frame > 15
+			object.frame = 8
+			object.direction = 2
+		end if
+		object.direction += object.fireballDir
 		ObjectTileCollision(CSIDE_RWALL, -8, 0, PATH_A)
 		if checkResult == true
-			object.state = FIREBALL_DISSIPATE
-			object.frame = 5 // dissipate (H)
+			object.state = FIREBALL_DISSIPATE_S
+			object.frame = 19 // dissipate (H)
 		end if
 
 		if object.outOfBounds == true
@@ -237,23 +268,31 @@ event ObjectUpdate
 
 	case FIREBALL_MOVE_RIGHT
 		object.xpos += object.xvel
-		object.frame = object.animationTimer
-		object.frame /= 12
-		object.frame += 3
-		object.direction = object.animationTimer
-		object.direction /= 6
-		object.direction &= FLIP_X
-		object.direction <<= 1 // turn it into either FLIP_Y or FLIP_NONE
-		object.direction += object.fireballDir
 		object.animationTimer++
-		object.animationTimer %= 24
-		
+		if object.animationTimer == 4
+			object.frame++
+			object.animationTimer = 0
+		end if
+		if object.frame < 8
+			object.frame = 8
+		end if
+		if object.frame < 12
+			object.direction = 2
+		end if
+		if object.frame > 11
+			object.direction = 0
+		end if
+		if object.frame > 15
+			object.frame = 8
+			object.direction = 2
+		end if
+		object.direction += object.fireballDir
 		ObjectTileCollision(CSIDE_LWALL, 8, 0, PATH_A)
 		if checkResult == true
-			object.state = FIREBALL_DISSIPATE
-			object.frame = 5 // dissipate (H)
+			object.state = FIREBALL_DISSIPATE_S
+			object.frame = 19 // dissipate (H)
 		end if
-		
+
 		if object.outOfBounds == true
 			object.type = TypeName[Blank Object]
 		end if
@@ -261,11 +300,33 @@ event ObjectUpdate
 		
 	case FIREBALL_DISSIPATE
 		object.timer++
+		object.animationTimer++
+		if object.animationTimer > 2
+			object.frame++
+			object.animationTimer = 0
+		end if
+		if object.frame < 16
+			object.frame = 16
+		end if
 		if object.timer == 8
 			object.type = TypeName[Blank Object]
 		end if
 		break
-		
+
+	case FIREBALL_DISSIPATE_S
+		object.timer++
+		object.animationTimer++
+		if object.animationTimer > 2
+			object.frame++
+			object.animationTimer = 0
+		end if
+		if object.frame < 19
+			object.frame = 19
+		end if
+		if object.timer == 8
+			object.type = TypeName[Blank Object]
+		end if
+		break
 	end switch
 
 	if object.state > FIREBALL_SPAWNER
@@ -288,12 +349,31 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("SLZ/Objects.gif")
-	SpriteFrame(-7, -23, 15, 31, 1, 1)
-	SpriteFrame(-8, -24, 16, 32, 17, 1)
-	SpriteFrame(-8, -15, 16, 23, 34, 1)
-	SpriteFrame(-23, -8, 31, 15, 2, 34)
-	SpriteFrame(-24, -8, 32, 15, 1, 50)
-	SpriteFrame(-15, -8, 23, 16, 10, 66)
+	SpriteFrame(-8, -24, 16, 32, 17, 1)  // Vertical 1 - #0
+	SpriteFrame(-8, -24, 16, 32, 207, 27)  // Vertical 2 - #1
+	SpriteFrame(-7, -23, 15, 31, 208, 225)  // Vertical 3 - #2
+	SpriteFrame(-8, -24, 16, 32, 1, 1)  // Vertical 4 - #3
+	SpriteFrame(-8, -24, 16, 32, 17, 1)  // Vertical 1 - #4
+	SpriteFrame(-8, -24, 16, 32, 207, 27)  // Vertical 2 - #5
+	SpriteFrame(-7, -23, 15, 31, 208, 225)  // Vertical 3 - #6
+	SpriteFrame(-8, -24, 16, 32, 1, 1)  // Vertical 4 - #7
+
+	SpriteFrame(-24, -8, 32, 16, 1, 50) // Horizontal 1 - #8
+	SpriteFrame(-24, -8, 32, 16, 51, 188) // Horizontal 2 - #9
+	SpriteFrame(-24, -8, 32, 16, 51, 205) // Horizontal 3 - #10
+	SpriteFrame(-23, -7, 31, 15, 2, 34) // Horizontal 4 - #11
+	SpriteFrame(-24, -8, 32, 16, 1, 50) // Horizontal 1 - #12
+	SpriteFrame(-24, -8, 32, 16, 51, 188) // Horizontal 2 - #13
+	SpriteFrame(-24, -8, 32, 16, 51, 205) // Horizontal 3 - #14
+	SpriteFrame(-23, -7, 31, 15, 2, 34) // Horizontal 4 - #15
+
+	SpriteFrame(-7, -23, 15, 31, 177, 59)  // Vertical Dissipate - #16
+	SpriteFrame(-8, -15, 16, 23, 34, 1)  // Vertical Dissipate - #17
+	SpriteFrame(-8, -15, 16, 23, 176, 91)  // Vertical Dissipate - #18
+
+	SpriteFrame(-24, -8, 32, 15, 175, 225) // Horizontal Dissipate - #19
+	SpriteFrame(-15, -8, 23, 16, 10, 66) // Horizontal Dissipate - #20
+	SpriteFrame(-15, -8, 23, 16, 165, 240) // Horizontal Dissipate - #21
 
 	foreach (TypeName[Fireball], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].interval = object[arrayPos0].propertyValue
@@ -306,49 +386,49 @@ event ObjectStartup
 		case 0
 			object[arrayPos0].propertyValue = FIREBALL_MOVE_GRAVITY
 			object[arrayPos0].yvel = -0x40000
-			object[arrayPos0].fireballDir = FLIP_Y
+			object[arrayPos0].fireballDir = 2
 			break
 
 		case 1
 			object[arrayPos0].propertyValue = FIREBALL_MOVE_GRAVITY
 			object[arrayPos0].yvel = -0x50000
-			object[arrayPos0].fireballDir = FLIP_Y
+			object[arrayPos0].fireballDir = 2
 			break
 
 		case 2
 			object[arrayPos0].propertyValue = FIREBALL_MOVE_GRAVITY
 			object[arrayPos0].yvel = -0x60000
-			object[arrayPos0].fireballDir = FLIP_Y
+			object[arrayPos0].fireballDir = 2
 			break
 
 		case 3
 			object[arrayPos0].propertyValue = FIREBALL_MOVE_GRAVITY
 			object[arrayPos0].yvel = -0x70000
-			object[arrayPos0].fireballDir = FLIP_Y
+			object[arrayPos0].fireballDir = 2
 			break
 
 		case 4
 			object[arrayPos0].propertyValue = FIREBALL_MOVE_UP
 			object[arrayPos0].yvel = -0x20000
-			object[arrayPos0].fireballDir = FLIP_Y
+			object[arrayPos0].fireballDir = 2
 			break
 
 		case 5
 			object[arrayPos0].propertyValue = FIREBALL_MOVE_DOWN
 			object[arrayPos0].yvel = 0x20000
-			object[arrayPos0].fireballDir = FLIP_NONE
+			object[arrayPos0].fireballDir = 0
 			break
 
 		case 6
 			object[arrayPos0].propertyValue = FIREBALL_MOVE_LEFT
 			object[arrayPos0].xvel = -0x20000
-			object[arrayPos0].fireballDir = FLIP_X
+			object[arrayPos0].fireballDir = 1
 			break
 
 		case 7
 			object[arrayPos0].propertyValue = FIREBALL_MOVE_RIGHT
 			object[arrayPos0].xvel = 0x20000
-			object[arrayPos0].fireballDir = FLIP_NONE
+			object[arrayPos0].fireballDir = 0
 			break
 			
 		end switch

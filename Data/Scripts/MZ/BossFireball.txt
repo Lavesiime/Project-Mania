@@ -39,16 +39,22 @@ reserve function BossFireball_ProcessAnimation
 
 // Shared by several states in order to animate the fireball
 private function BossFireball_ProcessAnimation
-	object.frame = object.animationTimer
-	object.frame /= 12
-
-	object.direction = object.animationTimer
-	object.direction /= 6
-	object.direction &= 1
-	object.direction += object.fireballDir
-
 	object.animationTimer++
-	object.animationTimer %= 24
+	if object.animationTimer == 4
+		object.frame++
+		object.animationTimer = 0
+	end if
+	if object.frame < 4
+		object.direction = FACING_LEFT
+	end if
+	if object.frame > 3
+		object.direction = FACING_RIGHT
+	end if
+	if object.frame > 7
+		object.frame = 0
+		object.direction = FACING_LEFT
+	end if
+	object.direction += object.fireballDir
 end function
 
 
@@ -105,7 +111,7 @@ event ObjectUpdate
 		if object.timer == 120
 			object.timer = 0
 			object.state = BOSSFIREBALL_DISSIPATE
-			object.frame = 2
+			object.frame = 8
 			object.direction = FACING_RIGHT
 		else
 			CallFunction(BossFireball_ProcessAnimation)
@@ -194,7 +200,7 @@ event ObjectUpdate
 		if object.timer == 120
 			object.timer = 0
 			object.state = BOSSFIREBALL_DISSIPATE
-			object.frame = 2
+			object.frame = 8
 			object.direction = FACING_RIGHT
 
 		else
@@ -229,6 +235,14 @@ event ObjectUpdate
 
 	case BOSSFIREBALL_DISSIPATE
 		object.timer++
+		object.animationTimer++
+		if object.animationTimer > 2
+			object.frame++
+			object.animationTimer = 0
+		end if
+		if object.frame < 8
+			object.frame = 8
+		end if
 		if object.timer == 8
 			object.type = TypeName[Blank Object]
 		end if
@@ -238,7 +252,7 @@ event ObjectUpdate
 
 	// Check for player collision
 	if object.state > BOSSFIREBALL_SPAWNING
-		if object.frame < 2
+		if object.frame < 8
 			foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
 				BoxCollisionTest(C_TOUCH, object.entityPos, -6, -6, 6, 6, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 				if checkResult == true
@@ -257,9 +271,18 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-7, -23, 15, 31, 52, 114)
-	SpriteFrame(-8, -24, 16, 32, 68, 114)
-	SpriteFrame(-8, -19, 16, 23, 85, 114)
+	SpriteFrame(-8, -24, 16, 32, 68, 114)  // Vertical 1 - #0
+	SpriteFrame(-8, -24, 16, 32, 105, 15)  // Vertical 2 - #1
+	SpriteFrame(-7, -23, 15, 31, 52, 114)  // Vertical 3 - #2
+	SpriteFrame(-8, -24, 16, 32, 105, 48)  // Vertical 4 - #3
+	SpriteFrame(-8, -24, 16, 32, 68, 114)  // Vertical 1 - #4
+	SpriteFrame(-8, -24, 16, 32, 105, 15)  // Vertical 2 - #5
+	SpriteFrame(-7, -23, 15, 31, 52, 114)  // Vertical 3 - #6
+	SpriteFrame(-8, -24, 16, 32, 105, 48)  // Vertical 4 - #7
+
+	SpriteFrame(-7, -23, 15, 31, 290, 66)  // Vertical Dissipate - #8
+	SpriteFrame(-8, -15, 16, 23, 85, 114)  // Vertical Dissipate - #9
+	SpriteFrame(-8, -15, 16, 23, 289, 101)  // Vertical Dissipate - #10
 end event
 
 
