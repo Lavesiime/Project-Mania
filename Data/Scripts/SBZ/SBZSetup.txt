@@ -420,6 +420,11 @@ end event
 
 
 event ObjectStartup
+
+	if options.encoreGraphics == true
+		LoadPalette("SBZEncore.act", 0, 0, 0, 256)
+	end if
+
 	if stage.actNum < 5
 		// If in acts 1-4, then play the SBZ music
 		SetMusicTrack("ScrapBrain.ogg", TRACK_STAGE, MUSIC_LOOP_SBZ)

@@ -446,7 +446,7 @@ event ObjectUpdate
 
 				switch stage.playerListPos
 					case PLAYER_SONIC_AND_TAILS
-						EditMenuEntry(MENU_2, "PLAYER@@*S AND T*", temp2, true)
+						EditMenuEntry(MENU_2, "PLAYER@@@@@@*S&T*", temp2, true)
 						break
 
 					case PLAYER_SONIC_ALONE
@@ -848,7 +848,7 @@ event ObjectStartup
 			break
 			
 		case 3
-			AddMenuEntry(MENU_2, "PLAYER@@*S AND T*", true)
+			AddMenuEntry(MENU_2, "PLAYER@@@@@@*S&T*", true)
 			hexNo[+1].number = 0
 			break
 

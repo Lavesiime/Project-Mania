@@ -654,6 +654,11 @@ end event
 
 
 event ObjectStartup
+
+	if options.encoreGraphics == true
+		LoadPalette("MZEncore.act", 0, 0, 0, 256)
+	end if
+
 	// Set the music track for this Stage
 	SetMusicTrack("Marble.ogg", TRACK_STAGE, MUSIC_LOOP_MZ)
 	SpeedUpMusic = MZSetup_SpeedUpMusic

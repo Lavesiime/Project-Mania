@@ -316,6 +316,11 @@ end event
 
 
 event ObjectStartup
+
+	if options.encoreGraphics == true
+		LoadPalette("SLZEncore.act", 0, 0, 0, 256)
+	end if
+
 	LoadSpriteSheet("SLZ/Objects.gif")
 	
 	SetMusicTrack("Starlight.ogg", TRACK_STAGE, MUSIC_LOOP_SLZ)

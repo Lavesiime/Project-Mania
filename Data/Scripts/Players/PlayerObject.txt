@@ -2928,6 +2928,16 @@ public function Player_State_Air
 				player.animation = ANI_WALKING
 			end if
 		end if
+		
+		if player.animation == ANI_SPINDASH
+			player.animation = ANI_JUMPING
+			player.iypos -= player.jumpOffset
+		end if
+		
+		if player.animation == ANI_STOPPED
+			player.animation = ANI_WALKING
+			player.iypos -= player.jumpOffset
+		end if
 
 		// After hitting a spring
 		if player.animation == ANI_BOUNCING

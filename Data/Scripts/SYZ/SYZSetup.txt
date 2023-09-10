@@ -809,6 +809,10 @@ end event
 
 event ObjectStartup
 
+	if options.encoreGraphics == true
+		LoadPalette("SYZEncore.act", 0, 0, 0, 256)
+	end if
+
 	arrayPos0 = 0x100
 	while arrayPos0 < 0x240
 		arrayPos1 = arrayPos0
@@ -835,7 +839,11 @@ event ObjectStartup
 	temp1 = 0
 	temp2 = 32
 	while temp0 < 5
-		LoadPalette("SYZ_PalCycle.act", temp0, 160, temp1, temp2)
+		if options.encoreGraphics == true
+			LoadPalette("SYZ_PalCycleEncore.act", temp0, 160, temp1, temp2)
+		else
+			LoadPalette("SYZ_PalCycle.act", temp0, 160, temp1, temp2)
+		end if
 		temp0++
 		temp1 += 32
 		temp2 += 32

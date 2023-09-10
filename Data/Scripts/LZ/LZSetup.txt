@@ -1052,7 +1052,13 @@ event ObjectStartup
 
 	if stage.actNum < 4
 		// If in acts 1-3, then only load the LZ underwater palette
-		LoadPalette("LZ_WaterPal.act", 1, 0, 0, 256)
+		
+		if options.encoreGraphics == true
+			LoadPalette("LZEncore.act", 0, 0, 0, 256)
+			LoadPalette("LZ_WaterPalEncore.act", 1, 0, 0, 256)
+		else
+			LoadPalette("LZ_WaterPal.act", 1, 0, 0, 256)
+		end if
 	else
 		// SBZ3: Load not only the water palette, but also the main stage palette
 		LoadPalette("SBZ3_Pal.act", 0, 128, 128, 228)

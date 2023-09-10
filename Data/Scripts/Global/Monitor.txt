@@ -41,7 +41,7 @@ private alias 12 : MONITOR_EGGMAN
 private alias 13 : MONITOR_SHIELD_GOGGLES
 private alias 14 : MONITOR_DEBUG_SPIKES
 private alias 15 : MONITOR_DEBUG_SHIELD
-private alias 16 : MONITOR_DEBUG_EMERALDS
+private alias 16 : MONITOR_HYPER_RING
 private alias 17 : MONITOR_COUNT
 
 // Monitor states
@@ -418,13 +418,17 @@ event ObjectStartup
 		switch stage.listPos
 		case 12 // SLZ1
 		case 13 // SLZ2
-		case 17 // SBZ2
+		case 17 // SBZ3
 			foreach (TypeName[Monitor], arrayPos0, ALL_ENTITIES)
 				if object[arrayPos0].propertyValue >= MONITOR_SHIELD_BUBBLE
 					if object[arrayPos0].propertyValue <= MONITOR_SHIELD_LIGHTNING
 						// Completely erase all elemental shield monitors
 						object[arrayPos0].type = TypeName[Blank Object]
 					end if
+				end if
+				if object[arrayPos0].propertyValue == MONITOR_HYPER_RING
+					// Completely erase all hyper ring monitors as well
+					object[arrayPos0].type = TypeName[Blank Object]
 				end if
 			next
 			break
@@ -436,6 +440,10 @@ event ObjectStartup
 						// Turn all elemental shield monitors into standard shields
 						object[arrayPos0].propertyValue = MONITOR_SHIELD_BLUE
 					end if
+				end if
+				if object[arrayPos0].propertyValue == MONITOR_HYPER_RING
+					// Turn all hyper ring monitors into standard shields
+					object[arrayPos0].propertyValue = MONITOR_SHIELD_BLUE
 				end if
 			next
 			break
@@ -451,6 +459,7 @@ event ObjectStartup
 			end if
 		next
 	end if
+	player.score = stage.listPos
 end event
 
 

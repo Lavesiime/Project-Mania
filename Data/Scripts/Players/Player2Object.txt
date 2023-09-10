@@ -959,7 +959,7 @@ event ObjectStartup
 		player[1].isSidekick = true
 		player[1].jumpAbility = Player2_Action_DblJumpTailsAI
 		
-		if options.spindash == true
+		if options.moveset > 0
 			player[1].actionSpindash = Player_Action_Spindash
 		else
 			player[1].actionSpindash = Player_Action_Jump
