@@ -5355,7 +5355,6 @@ event ObjectDraw
 end event
 
 event ObjectStartup
-	options.shieldType = 2
 
 	playerCount = 0
 

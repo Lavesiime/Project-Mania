@@ -110,6 +110,14 @@ event ObjectStartup
 	// Frame
 	SpriteFrame(32, -24, 80, 50, 0, 0)
 	
+	// Chars
+	SpriteFrame(-8, -12, 16, 23, 180, 36)	// 10 - Sonic Idle
+	SpriteFrame(-8, -12, 16, 23, 197, 36)
+	SpriteFrame(-8, -12, 16, 23, 214, 36)	// 12 - Tails Idle
+	SpriteFrame(-8, -12, 16, 23, 231, 36)
+	SpriteFrame(-8, -12, 16, 23, 214, 36)	// 14 - Knuckles Idle
+	SpriteFrame(-8, -12, 16, 23, 231, 60)
+	
 	// Set the preview to GHZ by default
 	BGAnimation_currentPreview = 1
 end event

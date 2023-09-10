@@ -112,9 +112,9 @@ event ObjectUpdate
 			specialStage.emeralds = 0
 			specialStage.nextZone = 0
 
-			// New Game - to GHZ1 you go!
-			stage.activeList 	  = REGULAR_STAGE
-			stage.listPos 		  = 0
+			// New Game - to Level Select you go!
+			stage.activeList 	  = PRESENTATION_STAGE
+			stage.listPos 		  = 5
 
 			LoadStage()
 		end if

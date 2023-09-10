@@ -151,9 +151,13 @@ event ObjectDraw
 	
 #platform: USE_STANDALONE
 	if object.state == COUNTDOWNBUBBLE_SETUP
-		DrawSprite(object.frame)
+		object.inkEffect = INK_ALPHA
+		object.alpha = 180
+		DrawSpriteFX(object.frame, FX_INK, object.xpos, object.ypos)
 	else
-		DrawSpriteScreenXY(object.frame, object.drawPos.x, object.drawPos.y)
+		object.inkEffect = INK_ALPHA
+		object.alpha = 180
+		DrawSpriteScreenFX(object.frame, FX_INK, object.drawPos.x, object.drawPos.y)
 	end if
 #endplatform
 end event

@@ -512,6 +512,11 @@ end event
 
 
 event ObjectStartup
+
+	if options.encoreGraphics == true
+		LoadPalette("GHZEncore.act", 0, 0, 0, 256)
+	end if
+
 	SetMusicTrack("GreenHill.ogg", TRACK_STAGE, MUSIC_LOOP_GHZ)
 	SpeedUpMusic = GHZSetup_SpeedUpMusic
 	SlowDownMusic = GHZSetup_SlowDownMusic

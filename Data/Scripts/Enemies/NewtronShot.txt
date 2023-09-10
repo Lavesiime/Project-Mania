@@ -38,7 +38,9 @@ end event
 
 
 event ObjectDraw
-	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	object.inkEffect = INK_ADD
+	object.alpha = 180
+	DrawSpriteFX(object.frame, FX_INK, object.xpos, object.ypos)
 end event
 
 

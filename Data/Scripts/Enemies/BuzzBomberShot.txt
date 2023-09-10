@@ -74,7 +74,13 @@ end event
 
 
 event ObjectDraw
-	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	object.inkEffect = INK_ADD
+	object.alpha = 180
+	temp0 = object.frame
+	if object.direction == 1
+		temp0 += 4
+	end if
+	DrawSpriteFX(temp0, FX_INK, object.xpos, object.ypos)
 end event
 
 
@@ -86,6 +92,10 @@ event ObjectStartup
 		SpriteFrame(-7, -7, 14, 14, 177, 94)
 		SpriteFrame(-6, -6, 12, 12, 160, 111)
 		SpriteFrame(-6, -6, 12, 12, 173, 111)
+		SpriteFrame(-8, -8, 16, 16, 160, 78)
+		SpriteFrame(-7, -7, 14, 14, 177, 78)
+		SpriteFrame(-6, -6, 12, 12, 160, 111)
+		SpriteFrame(-6, -6, 12, 12, 173, 111)
 	end if
 
 	CheckCurrentStageFolder("Zone02")
@@ -95,6 +105,10 @@ event ObjectStartup
 		SpriteFrame(-7, -7, 14, 14, 19, 178)
 		SpriteFrame(-6, -6, 12, 12, 37, 179)
 		SpriteFrame(-6, -6, 12, 12, 54, 179)
+		SpriteFrame(-8, -8, 16, 16, 474, 493)
+		SpriteFrame(-7, -7, 14, 14, 491, 493)
+		SpriteFrame(-6, -6, 12, 12, 37, 179)
+		SpriteFrame(-6, -6, 12, 12, 54, 179)
 	end if
 
 	CheckCurrentStageFolder("Zone03")
@@ -102,6 +116,10 @@ event ObjectStartup
 		LoadSpriteSheet("SYZ/Objects.gif")
 		SpriteFrame(-8, -8, 16, 16, 47, 81)
 		SpriteFrame(-7, -7, 14, 14, 65, 82)
+		SpriteFrame(-6, -6, 12, 12, 83, 83)
+		SpriteFrame(-6, -6, 12, 12, 100, 83)
+		SpriteFrame(-8, -8, 16, 16, 101, 1)
+		SpriteFrame(-7, -7, 14, 14, 102, 19)
 		SpriteFrame(-6, -6, 12, 12, 83, 83)
 		SpriteFrame(-6, -6, 12, 12, 100, 83)
 	end if
