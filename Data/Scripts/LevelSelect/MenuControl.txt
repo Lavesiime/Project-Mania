@@ -27,7 +27,7 @@ private alias 25 : MAX_SELECTION_COUNT
 
 // Aliases for some of the special options
 private alias 64 : SETTING_PLAYER
-private alias 65 : SETTING_SPINDASH
+private alias 65 : SETTING_MOVESET
 private alias 66 : SETTING_GNDSPDCAP
 private alias 67 : SETTING_AIRSPDCAP
 private alias 68 : SETTING_ENCOREGRAPHICS
@@ -468,7 +468,7 @@ event ObjectUpdate
 				break
 			end if
 
-		case SETTING_SPINDASH
+		case SETTING_MOVESET
 			// Spindash setting
 			hexNo[+1].highlighted = HEXNO_HIGHLIGHT_FALSE
 			hexNo[+2].highlighted = HEXNO_HIGHLIGHT_FALSE
@@ -478,15 +478,27 @@ event ObjectUpdate
 			checkResult |= keyPress[0].buttonC
 
 			if checkResult == true
-				// Toggle it
-				options.spindash ^= true
-
+			
+				options.moveset++
+				options.moveset %= 3
+				
 				// Update the menu to match
-				if options.spindash == true
-					EditMenuEntry(MENU_2, "SPINDASH@@@@@*ON*", temp2, true)
-				else
-					EditMenuEntry(MENU_2, "SPINDASH@@@@*OFF*", temp2, true)
-				end if
+				switch options.moveset
+					case 0
+						EditMenuEntry(MENU_2, "MOVES@@@@@@@@*S1*", temp2, true)
+						break
+
+					case 1
+						stage.player2Enabled = false
+						EditMenuEntry(MENU_2, "MOVES@@@@@*MANIA*", temp2, true)
+						break
+
+					case 2
+						stage.player2Enabled = false
+						EditMenuEntry(MENU_2, "MOVES@@*MANIA+S3*", temp2, true)
+						break
+					end switch
+				break
 			end if
 			break
 
@@ -840,14 +852,23 @@ event ObjectStartup
 			hexNo[+1].number = 0
 			break
 
-		end switch
+	end switch
 	AddMenuEntry(MENU_2, " ", false)
 
-	if options.spindash == true
-		AddMenuEntry(MENU_2, "SPINDASH@@@@@*ON*", true)
-	else
-		AddMenuEntry(MENU_2, "SPINDASH@@@@*OFF*", true)
-	end if
+	switch options.moveset
+		case 0
+			AddMenuEntry(MENU_2, "MOVES@@@@@@@@*S1*", true)
+			break
+
+		case 1
+			AddMenuEntry(MENU_2, "MOVES@@@@@*MANIA*", true)
+			break
+
+		case 2
+			AddMenuEntry(MENU_2, "MOVES@@*MANIA+S3*", true)
+			break
+
+	end switch
 	AddMenuEntry(MENU_2, " ", false)
 
 	if options.speedCap == true

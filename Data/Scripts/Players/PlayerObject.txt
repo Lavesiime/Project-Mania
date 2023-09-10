@@ -2322,7 +2322,7 @@ public function Player_Action_DblJumpSonic
 				// Determine ability with the player's current shield
 				switch player.shield
 				case SHIELD_NONE
-					if options.shieldType > 1 // Are S3K shields on?
+					if options.moveset > 1 // Is the moveset set to S3 + Mania?
 						PlaySfx(SfxName[Insta Shield], false)
 
 						// Set the shield object slot to hold the insta shield
@@ -2582,42 +2582,46 @@ end function
 
 // Handles activating the Drop Dash (Check Player_State_Air or Player_State_RollJump for releasing it)
 public function Player_HandleDropDash
-	if player.animation == ANI_JUMPING
-		if player.releasingDropDash == false
-			if player.dropDashCharge == 0
-				if player.jumpPress == true
-					CheckEqual(player.character, PLAYER_SONIC_ALONE)
-					temp0 = checkResult
-					// You can't use the Drop Dash with elemental shields
-					CheckNotEqual(player.shield, SHIELD_BUBBLE)
-					temp1 = checkResult
-					CheckNotEqual(player.shield, SHIELD_FIRE)
-					temp1 &= checkResult
-					CheckNotEqual(player.shield, SHIELD_LIGHTNING)
-					temp1 &= checkResult
-					CheckNotEqual(player.invincibleTimer, 0)
-					temp1 |= checkResult
-					
-					temp0 &= temp1
-					
-					if temp0 == true
-						player.dropDashCharge = 1
-					else
-						player.dropDashCharge = -1
+	if options.moveset > 0
+		if player.animation == ANI_JUMPING
+			if player.releasingDropDash == false
+				if player.dropDashCharge == 0
+					if player.jumpPress == true
+						CheckEqual(player.character, PLAYER_SONIC_ALONE)
+						temp0 = checkResult
+						// You can't use the Drop Dash with elemental shields
+						CheckNotEqual(player.shield, SHIELD_BUBBLE)
+						temp1 = checkResult
+						CheckNotEqual(player.shield, SHIELD_FIRE)
+						temp1 &= checkResult
+						CheckNotEqual(player.shield, SHIELD_LIGHTNING)
+						temp1 &= checkResult
+						CheckNotEqual(player.invincibleTimer, 0)
+						temp1 |= checkResult
+						
+						temp0 &= temp1
+						
+						if temp0 == true
+							player.dropDashCharge = 1
+						else
+							player.dropDashCharge = -1
+						end if
 					end if
-				end if
-			else
-				if player.jumpHold == false
-					player.animation = ANI_JUMPING
-					player.dropDashCharge = -1
 				else
-					player.dropDashCharge++
-					if player.dropDashCharge == 20
-						PlaySfx(SfxName[DropDash], false)
+					if player.jumpHold == false
+						player.animation = ANI_JUMPING
+						player.dropDashCharge = -1
+					else
+						player.dropDashCharge++
+						if player.dropDashCharge == 20
+							PlaySfx(SfxName[DropDash], false)
+						end if
+						
 					end if
-					
 				end if
 			end if
+		else
+			player.dropDashCharge = -1
 		end if
 	else
 		player.dropDashCharge = -1
@@ -5408,8 +5412,8 @@ event ObjectStartup
 
 		player[0].rollingDeceleration = 0x2000
 
-		// If the spindash is enabled, allow the player to spindash
-		if options.spindash == true
+		// If the spindash is enabled (moveset setting in this mod), allow the player to spindash
+		if options.moveset > 0
 			player[0].spindashFunction = Player_Action_Spindash
 		else
 			player[0].spindashFunction = Player_Action_Jump

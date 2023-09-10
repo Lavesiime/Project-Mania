@@ -61,7 +61,8 @@ event ObjectUpdate
 			object.type = TypeName[Blank Object]
 		else
 			player[currentPlayer].direction = object.direction
-			player[currentPlayer].animation = object.animation
+			player[currentPlayer].animation = ANI_HURT
+			player[currentPlayer].state = Player_State_Hurt
 
 			if player[currentPlayer].animation == ANI_JUMPING
 				player[currentPlayer].state = Player_State_Air
