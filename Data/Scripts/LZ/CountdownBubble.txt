@@ -30,7 +30,6 @@ private alias 8 : COUNTDOWNBUBBLE_FRAME8
 
 event ObjectUpdate
 	object.timer += 10
-	player.score = object.timer
 	if object.timer < 512
 		object.scale += 10
 	else

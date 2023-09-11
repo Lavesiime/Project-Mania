@@ -173,7 +173,6 @@ private function Orbinaut_HandleCollisions
 						Sin256(temp2, temp7)
 						temp2 <<= 12
 						temp2 += object.ypos
-						player.score = 400
 						CreateTempObject(TypeName[Orbinaut], 0, temp1, temp2)
 						object[tempObjectPos].state = ORBINAUT_DESTROYEDORB
 						object[tempObjectPos].drawOrder = 5

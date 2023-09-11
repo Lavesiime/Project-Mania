@@ -18,7 +18,6 @@ private alias object.animation : player.animation
 private alias object.value34   : player.collisionEnabled
 
 event ObjectUpdate
-	player.score = 69
 	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
 		if player[currentPlayer].collisionEnabled == true
 			player[currentPlayer].collisionEnabled = false
