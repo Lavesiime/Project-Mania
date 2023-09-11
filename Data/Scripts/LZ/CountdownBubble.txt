@@ -29,105 +29,23 @@ private alias 8 : COUNTDOWNBUBBLE_FRAME8
 // ========================
 
 event ObjectUpdate
-	switch object.state
-	case COUNTDOWNBUBBLE_SETUP
-		object.ypos += object.yvel
-		object.timer++
-
-		if object.timer > 6
-			object.timer = 0
-			object.frame++
-		end if
-
-		if object.frame < 5
-			Sin(object.xpos, object.angle)
-			object.xpos <<= 9
-			object.xpos += object.drawPos.x
-			object.angle += 4
-			object.angle &= 0x1FF
+	object.timer += 10
+	player.score = object.timer
+	if object.timer < 512
+		object.scale += 10
+	else
+		if object.timer > 1024
+			object.scale -= 10
 		else
-			temp0 = object.propertyValue
-			temp0 *= 3
-			object.frame += temp0
-			object.drawPos.x = object.ixpos
-			object.drawPos.x -= screen.xoffset
-			object.drawPos.y = object.iypos
-			object.drawPos.y -= screen.yoffset
-			object.state++
+			temp0 = object.timer
+			temp0 %= 256
+			if temp0 < 128
+				object.scale += 5
+			else
+				object.scale -= 5
+			end if
 		end if
-		break
-
-	case COUNTDOWNBUBBLE_FRAME1
-		object.timer++
-		if object.timer == 6
-			object.timer = 0
-			object.frame++
-			object.state++
-		end if
-		break
-
-	case COUNTDOWNBUBBLE_FRAME2
-		object.timer++
-		if object.timer == 6
-			object.timer = 0
-			object.frame++
-			object.state++
-		end if
-		break
-
-	case COUNTDOWNBUBBLE_FRAME3
-		object.timer++
-		if object.timer == 8
-			object.timer = 0
-			object.frame--
-			object.state++
-		end if
-		break
-
-	case COUNTDOWNBUBBLE_FRAME4
-		object.timer++
-		if object.timer == 8
-			object.timer = 0
-			object.frame++
-			object.state++
-		end if
-		break
-
-	case COUNTDOWNBUBBLE_FRAME5
-		object.timer++
-		if object.timer == 8
-			object.timer = 0
-			object.frame--
-			object.state++
-		end if
-		break
-
-	case COUNTDOWNBUBBLE_FRAME6
-		object.timer++
-		if object.timer == 8
-			object.timer = 0
-			object.frame++
-			object.state++
-		end if
-		break
-
-	case COUNTDOWNBUBBLE_FRAME7
-		object.timer++
-		if object.timer == 8
-			object.timer = 0
-			object.frame--
-			object.state++
-		end if
-		break
-
-	case COUNTDOWNBUBBLE_FRAME8
-		object.timer++
-		if object.timer == 9
-			object.type = TypeName[Blank Object]
-		end if
-		break
-		
-	end switch
+	end if
 end event
 
 
@@ -150,14 +68,13 @@ event ObjectDraw
 #endplatform
 	
 #platform: USE_STANDALONE
-	if object.state == COUNTDOWNBUBBLE_SETUP
-		object.inkEffect = INK_ALPHA
-		object.alpha = 180
-		DrawSpriteFX(object.frame, FX_INK, object.xpos, object.ypos)
-	else
-		object.inkEffect = INK_ALPHA
-		object.alpha = 180
-		DrawSpriteScreenFX(object.frame, FX_INK, object.drawPos.x, object.drawPos.y)
+	object.inkEffect = INK_ALPHA
+	object.alpha = 180
+	
+	temp0 = object.timer
+	temp0 %= 20
+	if temp0 == 0
+		DrawSpriteScreenFX(object.frame, FX_SCALE, object.drawPos.x, object.drawPos.y)
 	end if
 #endplatform
 end event
@@ -167,29 +84,12 @@ event ObjectStartup
 	LoadSpriteSheet("LZ/Objects.gif")
 
 	// Sprite frames
-	SpriteFrame(-2, -2, 4, 4, 97, 115)
-	SpriteFrame(-3, -3, 6, 6, 94, 120)
-	SpriteFrame(-4, -4, 8, 8, 111, 115)
-	SpriteFrame(-6, -6, 12, 12, 205, 126)
-	SpriteFrame(-8, -8, 16, 16, 32, 155)
-	SpriteFrame(-8, -12, 16, 24, 140, 34)
-	SpriteFrame(-8, -10, 16, 20, 204, 1)
-	SpriteFrame(-8, -10, 0, 0, 204, 1)
-	SpriteFrame(-8, -12, 16, 24, 172, 34)
-	SpriteFrame(-8, -10, 16, 20, 221, 1)
-	SpriteFrame(-8, -10, 0, 0, 221, 1)
-	SpriteFrame(-8, -12, 16, 24, 156, 34)
-	SpriteFrame(-8, -10, 16, 20, 238, 1)
-	SpriteFrame(-8, -10, 0, 0, 238, 1)
-	SpriteFrame(-8, -12, 16, 24, 156, 34)
-	SpriteFrame(-8, -10, 16, 20, 188, 22)
-	SpriteFrame(-8, -10, 0, 0, 188, 22)
-	SpriteFrame(-8, -12, 16, 24, 172, 34)
-	SpriteFrame(-8, -10, 16, 20, 204, 22)
-	SpriteFrame(-8, -10, 0, 0, 204, 22)
-	SpriteFrame(-8, -12, 16, 24, 124, 34)
-	SpriteFrame(-8, -10, 16, 20, 187, 1)
-	SpriteFrame(-8, -10, 0, 0, 187, 1)
+	SpriteFrame(-8, -10, 16, 21, 204, 1)
+	SpriteFrame(-8, -10, 16, 21, 221, 1)
+	SpriteFrame(-8, -10, 16, 21, 238, 1)
+	SpriteFrame(-8, -10, 16, 21, 188, 22)
+	SpriteFrame(-8, -10, 16, 21, 204, 22)
+	SpriteFrame(-8, -10, 16, 21, 187, 1)
 end event
 
 

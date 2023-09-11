@@ -855,6 +855,14 @@ public function Player_HandleSuperForm
 		case PLAYER_SONIC_ALONE
 		case PLAYER_SONIC_AND_TAILS
 			CallFunction(Player_HandleSuperPalette_Sonic)
+			temp0 = Player_superRingLossTimer
+			temp0 %= 20
+			if temp0 == 0
+				CreateTempObject(TypeName[Ring Sparkle], 0, object.xpos, object.ypos)
+				object[tempObjectPos].propertyValue = 1
+				object[tempObjectPos].drawOrder = player.sortedDrawOrder
+				object[tempObjectPos].yvel = -0x10000
+			end if
 			break
 
 		case PLAYER_TAILS_ALONE
@@ -2915,7 +2923,11 @@ end function
 
 public function Player_State_Air
 	CallFunction(Player_HandleAirFriction)
-	CallFunction(Player_HandleDropDash)
+	
+	if player.character == PLAYER_SONIC_ALONE
+		CallFunction(Player_HandleDropDash)
+	end if
+		
 
 	if player.gravity == GRAVITY_AIR
 		CallFunction(Player_HandleAirMovement)
@@ -3128,7 +3140,10 @@ public function Player_State_RollJump
 	player.left = false
 	player.right = false
 	CallFunction(Player_HandleAirFriction)
-	CallFunction(Player_HandleDropDash)
+	
+	if player.character == PLAYER_SONIC_ALONE
+		CallFunction(Player_HandleDropDash)
+	end if
 	
 	if player.gravity == GRAVITY_AIR
 		if player.animation == ANI_JUMPING
@@ -3882,12 +3897,16 @@ public function Player_State_GlideSlide
 		else
 			if ringTimer == 0
 				
+				if object.value15 < 0
+					object.value15 = 0
+				end if
+				
 				if object.value15 == 0
 					CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos)
 					object[tempObjectPos].state = 2
 					object[tempObjectPos].iypos += player.collisionBottom
 					object[tempObjectPos].drawOrder = player.sortedDrawOrder
-					object.value15 = 3
+					object.value15 = 4
 				end if
 				
 				object.value15--
@@ -5271,7 +5290,7 @@ event ObjectDraw
 		temp5 = player.speed
 		temp5 >>= 8
 		Abs(temp5)
-		temp5 /= 100
+		temp5 /= 150
 		if temp5 > 20
 			temp5 = 20
 		end if

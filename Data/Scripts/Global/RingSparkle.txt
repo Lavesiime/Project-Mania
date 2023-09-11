@@ -43,39 +43,46 @@ event ObjectUpdate
 			object.frame3 = 21
 			
 			temp2 = 16 // Used for pos offset randomness
+			if object.propertyValue == 1
+				temp2 = 24
+			end if
+			temp4 = temp2
+			temp4 /= 2
 			
 			object.sparkle1X = object.xpos
 			object.sparkle1Y = object.ypos
 			Rand(temp0, temp2)
-			temp0 -= 6
+			temp0 -= temp4
 			Rand(temp1, temp2)
-			temp1 -= 6
+			temp1 -= temp4
 			temp0 <<= 16
 			temp1 <<= 16
 			object.sparkle1X += temp0
 			object.sparkle1Y += temp1
-					
-			object.sparkle2X = object.xpos
-			object.sparkle2Y = object.ypos
-			Rand(temp0, temp2)
-			temp0 -= 6
-			Rand(temp1, temp2)
-			temp1 -= 6
-			temp0 <<= 16
-			temp1 <<= 16
-			object.sparkle2X += temp0
-			object.sparkle2Y += temp1
-						
-			object.sparkle3X = object.xpos
-			object.sparkle3Y = object.ypos
-			Rand(temp0, temp2)
-			temp0 -= 6
-			Rand(temp1, temp2)
-			temp1 -= 6
-			temp0 <<= 16
-			temp1 <<= 16
-			object.sparkle3X += temp0
-			object.sparkle3Y += temp1
+			
+			if object.propertyValue != 1
+				object.sparkle2X = object.xpos
+				object.sparkle2Y = object.ypos
+				Rand(temp0, temp2)
+				temp0 -= temp4
+				Rand(temp1, temp2)
+				temp1 -= temp4
+				temp0 <<= 16
+				temp1 <<= 16
+				object.sparkle2X += temp0
+				object.sparkle2Y += temp1
+							
+				object.sparkle3X = object.xpos
+				object.sparkle3Y = object.ypos
+				Rand(temp0, temp2)
+				temp0 -= temp4
+				Rand(temp1, temp2)
+				temp1 -= temp4
+				temp0 <<= 16
+				temp1 <<= 16
+				object.sparkle3X += temp0
+				object.sparkle3Y += temp1
+			end if
 		end if
 	end if
 
@@ -118,6 +125,8 @@ event ObjectUpdate
 		end if
 	end if
 	object.timer++
+	
+	object.sparkle1Y += object.yvel
 end event
 
 

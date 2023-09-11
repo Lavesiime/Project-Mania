@@ -43,17 +43,49 @@ event ObjectUpdate
 	if object.state == AIRBUBBLE_ACTIVE
 		object.timer++
 		if object.timer > 1
-			if object.frame < 83
-				object.frame = 83
-			end if
+			
+			switch object.propertyValue
+				case 0
+				case 2
+					if object.frame < 23
+						object.frame++
+					end if
+					break
+				
+				case 4
+					if object.frame < 24
+						object.frame = 24
+					end if
+					if object.frame > 65
+						object.frame = 51
+					end if
+					object.frame++
+					break
+					
+				case 6
+					if object.frame < 83
+						object.frame = 83
+					end if
+					if object.frame > 170
+						object.frame = 132
+					end if
+					object.frame++
+					break
+					
+				case 8
+					if object.frame < 172
+						object.frame = 172
+					end if
+					if object.frame < 186
+						object.frame += 2
+					else
+						object.type = TypeName[Blank Object]
+					end if
+					break
+				
+			end switch
+				
 			object.timer = 0
-			if object.frame == 187
-				object.type = TypeName[Blank Object]
-			end if
-
-			if object.frame < object.propertyValue
-				object.frame++
-			end if
 		end if
 
 		object.ypos += object.yvel
@@ -95,19 +127,24 @@ event ObjectUpdate
 			object.bubbleUsed = false
 		end if
 
+		if object.frame > 131
+			object.frame = 131
+		end if
+		
+		if object.frame > 83
+			object.frame -= 2
+		else
+			object.type = TypeName[Blank Object]
+		end if
+
 		if object.timer < 20
 			object.timer++
 			if object.bubbleUsed != false
 				player[currentPlayer].animation = ANI_BREATHING
 			end if
-
-			if object.timer > 9
-				object.frame = 164
-			end if
 		else
-			object.type = TypeName[Blank Object]
-
 			if object.bubbleUsed != false
+				object.bubbleUsed = false
 				player[currentPlayer].animation = ANI_WALKING
 				player[currentPlayer].animationSpeed = 20
 			end if
@@ -118,65 +155,67 @@ event ObjectUpdate
 		object.type = TypeName[Blank Object]
 	end if
 
-	if object.frame == 6
-		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
-			if player[currentPlayer].animation != ANI_DYING
-				if player[currentPlayer].shield != SHIELD_BUBBLE
-					BoxCollisionTest(C_TOUCH, object.entityPos, -2, -2, 2, 2, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+	if object.propertyValue == 6
+		if object.frame >= 132
+			foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+				if player[currentPlayer].animation != ANI_DYING
+					if player[currentPlayer].shield != SHIELD_BUBBLE
+						BoxCollisionTest(C_TOUCH, object.entityPos, -2, -2, 2, 2, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 
-					if checkResult == true
-						object.frame = 7
-						object.state = AIRBUBBLE_USED
-						object.timer = 0
-						object.yvel = 0
-						object.targetPlayer = currentPlayer
-						player[currentPlayer].yvel = 0
-						player[currentPlayer].xvel = 0
-						player[currentPlayer].speed = 0
-						CheckEqual(player[currentPlayer].animation, ANI_FLYING)
-						temp0 = checkResult
-						CheckEqual(player[currentPlayer].animation, ANI_FLYINGTIRED)
-						temp0 |= checkResult
-						CheckEqual(player[currentPlayer].animation, ANI_SWIM_LIFT)
-						temp0 |= checkResult
-						CheckEqual(player[currentPlayer].animation, ANI_GLIDING)
-						temp0 |= checkResult
-						CheckEqual(player[currentPlayer].animation, ANI_GLIDING_STOP)
-						temp0 |= checkResult
-						CheckEqual(player[currentPlayer].animation, ANI_CLIMBING)
-						temp0 |= checkResult
-						CheckEqual(player[currentPlayer].animation, ANI_LEDGEPULLUP)
-						temp0 |= checkResult
-						CheckEqual(player[currentPlayer].animation, ANI_CLINGING)
-						temp0 |= checkResult
-						CheckEqual(player[currentPlayer].animation, ANI_FANROTATE)
-						temp0 |= checkResult
+						if checkResult == true
+							object.propertyValue = 7
+							object.state = AIRBUBBLE_USED
+							object.timer = 0
+							object.yvel = 0
+							object.targetPlayer = currentPlayer
+							player[currentPlayer].yvel = 0
+							player[currentPlayer].xvel = 0
+							player[currentPlayer].speed = 0
+							CheckEqual(player[currentPlayer].animation, ANI_FLYING)
+							temp0 = checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_FLYINGTIRED)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_SWIM_LIFT)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_GLIDING)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_GLIDING_STOP)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_CLIMBING)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_LEDGEPULLUP)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_CLINGING)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_FANROTATE)
+							temp0 |= checkResult
 
-						if temp0 == false
-							player[currentPlayer].animation = ANI_BREATHING
-							object.bubbleUsed = true
-#platform: USE_ORIGINS
-							CallNativeFunction4(NotifyCallback, NOTIFY_STATS_PARAM_1, 1, 0, 0)
-#endplatform
+							if temp0 == false
+								player[currentPlayer].animation = ANI_BREATHING
+								object.bubbleUsed = true
+	#platform: USE_ORIGINS
+								CallNativeFunction4(NotifyCallback, NOTIFY_STATS_PARAM_1, 1, 0, 0)
+	#endplatform
+							end if
+
+							player[currentPlayer].drownTimer = 0
+							player[currentPlayer].drownLevel = 0
+
+							if player[currentPlayer].state == Player_State_RollJump
+								player[currentPlayer].state = Player_State_Air
+							end if
+
+							if player[currentPlayer].state == Player_State_Carried
+								player[currentPlayer].state = Player_State_Air
+								player[1].flyCarryTimer = 30
+							end if
+
+							PlaySfx(SfxName[Breathing], false)
 						end if
-
-						player[currentPlayer].drownTimer = 0
-						player[currentPlayer].drownLevel = 0
-
-						if player[currentPlayer].state == Player_State_RollJump
-							player[currentPlayer].state = Player_State_Air
-						end if
-
-						if player[currentPlayer].state == Player_State_Carried
-							player[currentPlayer].state = Player_State_Air
-							player[1].flyCarryTimer = 30
-						end if
-
-						PlaySfx(SfxName[Breathing], false)
 					end if
 				end if
-			end if
-		next
+			next
+		end if
 	end if
 end event
 
@@ -414,11 +453,11 @@ event ObjectStartup
 	SpriteFrame(-16, -16, 32, 32, 124, 1) // Frame 177
 	SpriteFrame(-16, -16, 32, 32, 124, 1) // Frame 178
 
-	SpriteFrame(-16, -16, 32, 32, 156, 3) // Frame 179
-	SpriteFrame(-16, -16, 32, 32, 156, 3) // Frame 180
-	SpriteFrame(-16, -16, 32, 32, 156, 3) // Frame 181
-	SpriteFrame(-16, -16, 32, 32, 156, 3) // Frame 182
-	SpriteFrame(-16, -16, 32, 32, 156, 3) // Frame 183
+	SpriteFrame(-14, -14, 30, 30, 156, 3) // Frame 179
+	SpriteFrame(-14, -14, 30, 30, 156, 3) // Frame 180
+	SpriteFrame(-14, -14, 30, 30, 156, 3) // Frame 181
+	SpriteFrame(-14, -14, 30, 30, 156, 3) // Frame 182
+	SpriteFrame(-14, -14, 30, 30, 156, 3) // Frame 183
 
 	SpriteFrame(0, 0, 0, 0, 156, 3) // Frame 184
 	SpriteFrame(0, 0, 0, 0, 156, 3) // Frame 185

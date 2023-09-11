@@ -316,8 +316,11 @@ end function
 private function Water_SpawnCountDownBubble
 	CreateTempObject(TypeName[Countdown Bubble], temp0, player[currentPlayer].xpos, player[currentPlayer].ypos)
 	object[tempObjectPos].drawOrder = 5
+	object[tempObjectPos].scale = 0
 	object[tempObjectPos].yvel = -0x8800
+	object[tempObjectPos].frame = temp0
 	countdownBubble[tempObjectPos].drawPos.y = currentPlayer // this is odd... this is drawPos.y, not "targetPlayer", likely a leftover from AirBubble spawning
+	
 	
 	if player[currentPlayer].direction == 0
 		object[tempObjectPos].xpos += 0x60000
@@ -326,7 +329,10 @@ private function Water_SpawnCountDownBubble
 		object[tempObjectPos].angle = 0x100
 	end if
 
-	countdownBubble[tempObjectPos].drawPos.x = object[tempObjectPos].xpos
+	countdownBubble[tempObjectPos].drawPos.x = object[tempObjectPos].ixpos
+	countdownBubble[tempObjectPos].drawPos.x -= screen.xoffset
+	countdownBubble[tempObjectPos].drawPos.y = object[tempObjectPos].iypos
+	countdownBubble[tempObjectPos].drawPos.y -= screen.yoffset
 end function
 
 
