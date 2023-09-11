@@ -36,7 +36,7 @@ event ObjectUpdate
 			temp0 |= ANI_HURT
 			temp0 <<= 8
 		end if
-
+		PlaySfx(SfxName[Drop], false)
 		// Create an SBZ3 Fall object for every player
 		currentPlayer = 0
 		while currentPlayer < playerCount
