@@ -448,7 +448,7 @@ event ObjectStartup
 		LoadSpriteSheet("LZ/Objects.gif")
 		SpriteFrame(-10, -10, 20, 20, 50, 105)
 		SpriteFrame(-10, -10, 20, 20, 71, 105)
-		SpriteFrame(-10, -10, 20, 20, 50, 154)
+		SpriteFrame(-10, -10, 20, 20, 49, 154)
 		SpriteFrame(-8, -8, 16, 16, 107, 1)
 	end if
 

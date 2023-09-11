@@ -59,8 +59,11 @@ end function
 // ========================
 
 event ObjectUpdate
+	object.animationTimer++
 	object.frame++
-	object.frame %= 48
+	if object.frame > 35
+		object.frame = 0
+	end if
 
 	if object.iypos > stage.waterLevel
 		temp0 = object.ixpos
@@ -168,7 +171,7 @@ end event
 event ObjectDraw
 	if object.iypos >= stage.waterLevel
 		temp0 = object.frame
-		temp0 >>= 4
+
 		
 		object.inkEffect = INK_ALPHA
 		object.alpha = 180
@@ -182,9 +185,47 @@ event ObjectStartup
 	LoadSpriteSheet("LZ/Objects.gif")
 
 	// Bubbler frames
-	SpriteFrame(-8, -8, 16, 16, 61, 51)
-	SpriteFrame(-8, -8, 16, 16, 78, 51)
 	SpriteFrame(-8, -8, 16, 16, 95, 51)
+	SpriteFrame(-8, -8, 16, 16, 95, 51)
+	SpriteFrame(-8, -8, 16, 16, 95, 51)
+	SpriteFrame(-8, -8, 16, 16, 95, 51)
+	SpriteFrame(-8, -8, 16, 16, 95, 51)
+	SpriteFrame(-8, -8, 16, 16, 95, 51)
+
+	SpriteFrame(-8, -8, 16, 16, 1, 166)
+	SpriteFrame(-8, -8, 16, 16, 1, 166)
+	SpriteFrame(-8, -8, 16, 16, 1, 166)
+	SpriteFrame(-8, -8, 16, 16, 1, 166)
+	SpriteFrame(-8, -8, 16, 16, 1, 166)
+	SpriteFrame(-8, -8, 16, 16, 1, 166)
+
+	SpriteFrame(-8, -8, 16, 16, 91, 0)
+	SpriteFrame(-8, -8, 16, 16, 91, 0)
+	SpriteFrame(-8, -8, 16, 16, 91, 0)
+	SpriteFrame(-8, -8, 16, 16, 91, 0)
+	SpriteFrame(-8, -8, 16, 16, 91, 0)
+	SpriteFrame(-8, -8, 16, 16, 91, 0)
+
+	SpriteFrame(-8, -8, 16, 16, 69, 156)
+	SpriteFrame(-8, -8, 16, 16, 69, 156)
+	SpriteFrame(-8, -8, 16, 16, 69, 156)
+	SpriteFrame(-8, -8, 16, 16, 69, 156)
+	SpriteFrame(-8, -8, 16, 16, 69, 156)
+	SpriteFrame(-8, -8, 16, 16, 69, 156)
+
+	SpriteFrame(-8, -8, 16, 16, 61, 51)
+	SpriteFrame(-8, -8, 16, 16, 61, 51)
+	SpriteFrame(-8, -8, 16, 16, 61, 51)
+	SpriteFrame(-8, -8, 16, 16, 61, 51)
+	SpriteFrame(-8, -8, 16, 16, 61, 51)
+	SpriteFrame(-8, -8, 16, 16, 61, 51)
+
+	SpriteFrame(-8, -8, 16, 16, 78, 51)
+	SpriteFrame(-8, -8, 16, 16, 78, 51)
+	SpriteFrame(-8, -8, 16, 16, 78, 51)
+	SpriteFrame(-8, -8, 16, 16, 78, 51)
+	SpriteFrame(-8, -8, 16, 16, 78, 51)
+	SpriteFrame(-8, -8, 16, 16, 78, 51)
 
 	foreach (TypeName[Air Bubbler], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].drawOrder = 4
