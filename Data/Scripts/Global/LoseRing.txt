@@ -242,6 +242,20 @@ event ObjectUpdate
 			end if
 		end if
 	end if
+	
+	if object.value30 == 1
+		temp0 = object.timer
+		temp0 %= 16
+		if temp0 == 0
+			CreateTempObject(TypeName[Ring Sparkle], 2, object.xpos, object.ypos)
+			if object.propertyValue == LOSERING_TYPE_HIGH
+				object[tempObjectPos].drawOrder = 4
+			else
+				object[tempObjectPos].drawOrder = 2
+			end if
+		end if
+	end if
+	
 end event
 
 

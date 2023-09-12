@@ -46,6 +46,9 @@ event ObjectUpdate
 			if object.propertyValue == 1
 				temp2 = 24
 			end if
+			if object.propertyValue == 2
+				temp2 = 24
+			end if
 			temp4 = temp2
 			temp4 /= 2
 			
@@ -126,7 +129,9 @@ event ObjectUpdate
 	end if
 	object.timer++
 	
-	object.sparkle1Y += object.yvel
+	if object.propertyValue == 1
+		object.sparkle1Y += object.yvel
+	end if
 end event
 
 

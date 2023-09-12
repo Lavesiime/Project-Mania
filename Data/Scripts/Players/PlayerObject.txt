@@ -2622,7 +2622,9 @@ public function Player_HandleDropDash
 				else
 					if player.jumpHold == false
 						player.animation = ANI_JUMPING
-						player.dropDashCharge = -1
+						if player.dropDashCharge >= 20
+							player.dropDashCharge = -1
+						end if
 					else
 						player.dropDashCharge++
 						if player.dropDashCharge == 20
