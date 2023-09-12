@@ -44,54 +44,72 @@ event ObjectUpdate
 		object.xpos += object.xvel
 		object.ypos += object.yvel
 
-		
-		if object.xvel >= 0
-			if object.value30 == 0
-				ObjectTileCollision(CSIDE_LWALL, 8, 0, PATH_A)
+		if options.moveset > 1 // Tie the Mania ring collision to the moveset setting I guess
+			if object.xvel >= 0
+				if object.value30 == 0
+					ObjectTileCollision(CSIDE_LWALL, 8, 0, PATH_A)
+				else
+					ObjectTileCollision(CSIDE_LWALL, 16, 0, PATH_A)
+				end if
+				if checkResult == true
+					FlipSign(object.xvel)
+				end if
 			else
-				ObjectTileCollision(CSIDE_LWALL, 16, 0, PATH_A)
+				if object.value30 == 0
+					ObjectTileCollision(CSIDE_RWALL, -8, 0, PATH_A)
+				else
+					ObjectTileCollision(CSIDE_RWALL, -16, 0, PATH_A)
+				end if
+				if checkResult == true
+					FlipSign(object.xvel)
+				end if
 			end if
-			if checkResult == true
-				FlipSign(object.xvel)
-			end if
-		else
-			if object.value30 == 0
-				ObjectTileCollision(CSIDE_RWALL, -8, 0, PATH_A)
+			
+			if object.yvel >= 0
+				if object.value30 == 0
+					ObjectTileCollision(CSIDE_FLOOR, 0, 8, PATH_A)
+				else
+					ObjectTileCollision(CSIDE_FLOOR, 0, 16, PATH_A)
+				end if
+				if checkResult == true
+					temp0 = object.yvel
+					temp0 >>= 2
+					object.yvel -= temp0
+					FlipSign(object.yvel)
+					if object.yvel > -0x10000
+						object.yvel = -0x10000
+					end if
+				end if
 			else
-				ObjectTileCollision(CSIDE_RWALL, -16, 0, PATH_A)
-			end if
-			if checkResult == true
-				FlipSign(object.xvel)
-			end if
-		end if
-		
-		if object.yvel >= 0
-			if object.value30 == 0
-				ObjectTileCollision(CSIDE_FLOOR, 0, 8, PATH_A)
-			else
-				ObjectTileCollision(CSIDE_FLOOR, 0, 16, PATH_A)
-			end if
-			if checkResult == true
-				temp0 = object.yvel
-				temp0 >>= 2
-				object.yvel -= temp0
-				FlipSign(object.yvel)
-				if object.yvel > -0x10000
-					object.yvel = -0x10000
+				if object.value30 == 0
+					ObjectTileCollision(CSIDE_ROOF, 0, -8, PATH_A)
+				else
+					ObjectTileCollision(CSIDE_ROOF, 0, -16, PATH_A)
+				end if
+				if checkResult == true
+					temp0 = object.yvel
+					temp0 >>= 2
+					object.yvel -= temp0
+					if object.yvel < 0x10000
+						object.yvel = 0x10000
+					end if
 				end if
 			end if
 		else
-			if object.value30 == 0
-				ObjectTileCollision(CSIDE_ROOF, 0, -8, PATH_A)
-			else
-				ObjectTileCollision(CSIDE_ROOF, 0, -16, PATH_A)
-			end if
-			if checkResult == true
-				temp0 = object.yvel
-				temp0 >>= 2
-				object.yvel -= temp0
-				if object.yvel < 0x10000
-					object.yvel = 0x10000
+			if object.yvel >= 0
+				if object.value30 == 0
+					ObjectTileCollision(CSIDE_FLOOR, 0, 8, PATH_A)
+				else
+					ObjectTileCollision(CSIDE_FLOOR, 0, 16, PATH_A)
+				end if
+				if checkResult == true
+					temp0 = object.yvel
+					temp0 >>= 2
+					object.yvel -= temp0
+					FlipSign(object.yvel)
+					if object.yvel > -0x10000
+						object.yvel = -0x10000
+					end if
 				end if
 			end if
 		end if
@@ -142,6 +160,8 @@ event ObjectUpdate
 						else
 							object.drawOrder = 2
 						end if
+						object.xvel = 0
+						object.yvel = 0
 						object.timer = 0
 						object.targetPlayer = 0
 						object.timer = 0

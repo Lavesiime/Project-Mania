@@ -446,22 +446,22 @@ event ObjectUpdate
 
 				switch stage.playerListPos
 					case PLAYER_SONIC_AND_TAILS
-						EditMenuEntry(MENU_2, "PLAYER@@@@@@*S&T*", temp2, true)
+						EditMenuEntry(MENU_2, "PLAYER@@@@@@*S&T*", temp2, false)
 						break
 
 					case PLAYER_SONIC_ALONE
 						stage.player2Enabled = false
-						EditMenuEntry(MENU_2, "PLAYER@@@@*SONIC*", temp2, true)
+						EditMenuEntry(MENU_2, "PLAYER@@@@*SONIC*", temp2, false)
 						break
 
 					case PLAYER_TAILS_ALONE
 						stage.player2Enabled = false
-						EditMenuEntry(MENU_2, "PLAYER@@@@*TAILS*", temp2, true)
+						EditMenuEntry(MENU_2, "PLAYER@@@@*TAILS*", temp2, false)
 						break
 
 					case PLAYER_KNUX_ALONE
 						stage.player2Enabled = false
-						EditMenuEntry(MENU_2, "PLAYER@*KNUCKLES*", temp2, true)
+						EditMenuEntry(MENU_2, "PLAYER@*KNUCKLES*", temp2, false)
 						break
 						
 					end switch
@@ -485,17 +485,19 @@ event ObjectUpdate
 				// Update the menu to match
 				switch options.moveset
 					case 0
-						EditMenuEntry(MENU_2, "MOVES@@@@@@@@*S1*", temp2, true)
+						EditMenuEntry(MENU_2, "MOVES@@@@@@@@*S1*", temp2, false)
 						break
-
+						
 					case 1
-						stage.player2Enabled = false
-						EditMenuEntry(MENU_2, "MOVES@@@@@*MANIA*", temp2, true)
+						EditMenuEntry(MENU_2, "MOVES@@@@*S1(MD)*", temp2, false)
 						break
 
 					case 2
-						stage.player2Enabled = false
-						EditMenuEntry(MENU_2, "MOVES@@*MANIA+S3*", temp2, true)
+						EditMenuEntry(MENU_2, "MOVES@@@@@*MANIA*", temp2, false)
+						break
+
+					case 3
+						EditMenuEntry(MENU_2, "MOVES@@*MANIA+S3*", temp2, false)
 						break
 					end switch
 				break
@@ -514,9 +516,9 @@ event ObjectUpdate
 
 				// Update the menu text to match the new setting
 				if options.speedCap == true
-					EditMenuEntry(MENU_2, "GND SPD CAP@@*ON*", temp2, true)
+					EditMenuEntry(MENU_2, "GND SPD CAP@@*ON*", temp2, false)
 				else
-					EditMenuEntry(MENU_2, "GND SPD CAP *OFF*", temp2, true)
+					EditMenuEntry(MENU_2, "GND SPD CAP *OFF*", temp2, false)
 				end if
 			end if
 			break
@@ -534,9 +536,9 @@ event ObjectUpdate
 
 				// Change the menu text to match the new option setting
 				if options.airSpeedCap == true
-					EditMenuEntry(MENU_2, "AIR SPD CAP@@*ON*", temp2, true)
+					EditMenuEntry(MENU_2, "AIR SPD CAP@@*ON*", temp2, false)
 				else
-					EditMenuEntry(MENU_2, "AIR SPD CAP *OFF*", temp2, true)
+					EditMenuEntry(MENU_2, "AIR SPD CAP *OFF*", temp2, false)
 				end if
 			end if
 			break
@@ -553,9 +555,9 @@ event ObjectUpdate
 				
 				// Update the menu text
 				if options.encoreGraphics == true
-					EditMenuEntry(MENU_2, "GRAPHICS@*ENCORE*", temp2, true)
+					EditMenuEntry(MENU_2, "GRAPHICS@*ENCORE*", temp2, false)
 				else
-					EditMenuEntry(MENU_2, "GRAPHICS@@*MANIA*", temp2, true)
+					EditMenuEntry(MENU_2, "GRAPHICS@@*MANIA*", temp2, false)
 				end if
 			end if
 			break
@@ -576,19 +578,19 @@ event ObjectUpdate
 				// Update the menu text to account for the new change
 				switch options.shieldType
 					case MENUCONTROL_SHIELD_S1
-						EditMenuEntry(MENU_2, "ITEMS@@@@@@@@*S1*", temp2, true)
+						EditMenuEntry(MENU_2, "ITEMS@@@@@@@@*S1*", temp2, false)
 						break
 
 					case MENUCONTROL_SHIELD_S2
-						EditMenuEntry(MENU_2, "ITEMS@@@@@@@@*S2*", temp2, true)
+						EditMenuEntry(MENU_2, "ITEMS@@@@@@@@*S2*", temp2, false)
 						break
 
 					case MENUCONTROL_SHIELD_S3_S1
-						EditMenuEntry(MENU_2, "ITEMS@@@@@*Mania*", temp2, true)
+						EditMenuEntry(MENU_2, "ITEMS@@@@@*Mania*", temp2, false)
 						break
 
 					case MENUCONTROL_SHIELD_S3_S2
-						EditMenuEntry(MENU_2, "ITEMS@@*S2+Mania*", temp2, true)
+						EditMenuEntry(MENU_2, "ITEMS@@*S2+Mania*", temp2, false)
 						break
 				end switch
 			end if
@@ -609,9 +611,9 @@ event ObjectUpdate
 
 				// And update the menu to match
 				if options.superStates == true
-					EditMenuEntry(MENU_2, "MAX EMERALDS *07*", temp2, true)
+					EditMenuEntry(MENU_2, "MAX EMERALDS *07*", temp2, false)
 				else
-					EditMenuEntry(MENU_2, "MAX EMERALDS *06*", temp2, true)
+					EditMenuEntry(MENU_2, "MAX EMERALDS *06*", temp2, false)
 				end if
 			end if
 			break
@@ -859,12 +861,16 @@ event ObjectStartup
 		case 0
 			AddMenuEntry(MENU_2, "MOVES@@@@@@@@*S1*", true)
 			break
-
+			
 		case 1
-			AddMenuEntry(MENU_2, "MOVES@@@@@*MANIA*", true)
+			AddMenuEntry(MENU_2, "MOVES@@@@*S1(MD)*", true)
 			break
 
 		case 2
+			AddMenuEntry(MENU_2, "MOVES@@@@@*MANIA*", true)
+			break
+
+		case 3
 			AddMenuEntry(MENU_2, "MOVES@@*MANIA+S3*", true)
 			break
 
@@ -916,10 +922,6 @@ event ObjectStartup
 	else
 		AddMenuEntry(MENU_2, "MAX EMERALDS *07*", true)
 	end if
-
-	AddMenuEntry(MENU_2, " ", false)
-	AddMenuEntry(MENU_2, " ", false)
-	//AddMenuEntry(MENU_2, "SOUND TEST *@@*", true)
 
 	menu1.selection =  0
 	menu2.selection = -1

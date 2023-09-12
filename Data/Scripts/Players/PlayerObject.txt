@@ -1818,7 +1818,7 @@ public function Player_HandleGroundMovement
 			end if
 		end if
 
-		if options.speedCap == true
+		if options.moveset == 1
 			// Enforce the speed cap
 			if player.left == true
 				temp0 = player.topSpeed
@@ -1911,7 +1911,7 @@ public function Player_HandleAirFriction
 		end if
 	end if
 
-	if options.airSpeedCap == true
+	if options.moveset == 1
 		if player.left == true
 			temp0 = player.topSpeed
 			FlipSign(temp0)
@@ -2125,11 +2125,15 @@ public function Player_Action_Jump
 		CallFunction(Player_HandleRollAnimSpeed)
 
 		// Remove roll lock
-		//if player.state == Player_State_Roll
-			//player.state = Player_State_RollJump
-		//else
+		if player.state == Player_State_Roll
+			if options.moveset < 2
+				player.state = Player_State_RollJump
+			else
+				player.state = Player_State_Air
+			end if
+		else
 			player.state = Player_State_Air
-		//end if
+		end if
 
 #platform: USE_STANDALONE
 		PlaySfx(SfxName[Jump], false)
@@ -2590,7 +2594,7 @@ end function
 
 // Handles activating the Drop Dash (Check Player_State_Air or Player_State_RollJump for releasing it)
 public function Player_HandleDropDash
-	if options.moveset > 0
+	if options.moveset > 1
 		if player.animation == ANI_JUMPING
 			if player.releasingDropDash == false
 				if player.dropDashCharge == 0
@@ -5442,7 +5446,7 @@ event ObjectStartup
 		player[0].rollingDeceleration = 0x2000
 
 		// If the spindash is enabled (moveset setting in this mod), allow the player to spindash
-		if options.moveset > 0
+		if options.moveset > 1
 			player[0].spindashFunction = Player_Action_Spindash
 		else
 			player[0].spindashFunction = Player_Action_Jump
