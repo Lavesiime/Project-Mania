@@ -169,8 +169,21 @@ event ObjectUpdate
 			Get16x16TileInfo(temp0, object.ixpos, temp1, 8)
 			if temp0 == TILE_LAVA
 				object.state = FALLINGBLOCK_FLOATING_LAVA
+				StopSfx(SfxName[Lava Block])
+				PlaySfx(SfxName[Lava Block], false)
+				CreateTempObject(TypeName[Lava Particle], 0, object.xpos, object.ypos)
+				object[tempObjectPos].ypos += 0x100000
+				object[tempObjectPos].xvel = -0x18000
+				object[tempObjectPos].yvel = -0x30000
+				object[tempObjectPos].drawOrder = 4
+				CreateTempObject(TypeName[Lava Particle], 0, object.xpos, object.ypos)
+				object[tempObjectPos].ypos += 0x100000
+				object[tempObjectPos].xvel = 0x18000
+				object[tempObjectPos].yvel = -0x30000
+				object[tempObjectPos].drawOrder = 4
 			else
 				object.state = FALLINGBLOCK_IDLE
+				PlaySfx(SfxName[Falling Block], false)
 			end if
 		end if
 

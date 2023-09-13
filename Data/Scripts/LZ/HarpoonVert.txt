@@ -68,7 +68,7 @@ end function
 event ObjectUpdate
 	if object.animationTimer == 0
 		if object.animationTimer == 3
-			PlaySfx(SfxName[Spear], false)
+			//PlaySfx(SfxName[Spear], false) Gonna need to look into this
 		end if
 		object.timer++
 		if object.timer >= 4
@@ -80,7 +80,7 @@ event ObjectUpdate
 		if object.value6 == 0
 			object.animationTimer--
 			if object.animationTimer == 3
-				PlaySfx(SfxName[Spear], false)
+				//PlaySfx(SfxName[Spear], false) Gonna need to look into this
 			end if
 			object.value6 = 0
 		else

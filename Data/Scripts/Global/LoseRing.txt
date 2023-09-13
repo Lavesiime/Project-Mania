@@ -243,9 +243,9 @@ event ObjectUpdate
 		end if
 	end if
 	
-	if object.value30 == 1
+	if object.value30 > 0
 		temp0 = object.timer
-		temp0 %= 16
+		temp0 %= 32
 		if temp0 == 0
 			CreateTempObject(TypeName[Ring Sparkle], 2, object.xpos, object.ypos)
 			if object.propertyValue == LOSERING_TYPE_HIGH

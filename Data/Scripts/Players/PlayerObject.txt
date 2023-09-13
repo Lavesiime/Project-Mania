@@ -1280,7 +1280,8 @@ public function Player_SpikeHit
 
 					// Check for spike bug and player invulnerability
 					// Do note though, by default spike bug is disabled in this game and there's no way to turn it on (disregading the Broken Monitor dead code) so only this second blink timer check actually does anything
-					temp0 = options.spikeBehavior
+					CheckEqual(options.moveset, 1)
+					temp0 = checkResult
 					CheckEqual(player[currentPlayer].blinkTimer, 0)
 					temp0 |= checkResult
 
@@ -2334,7 +2335,7 @@ public function Player_Action_DblJumpSonic
 				// Determine ability with the player's current shield
 				switch player.shield
 				case SHIELD_NONE
-					if options.moveset > 1 // Is the moveset set to S3 + Mania?
+					if options.moveset > 2 // Is the moveset set to S3 + Mania?
 						PlaySfx(SfxName[Insta Shield], false)
 
 						// Set the shield object slot to hold the insta shield
@@ -2688,7 +2689,19 @@ public function Player_State_Ground
 		if player.speed == 0
 			if player.collisionMode == 0
 				if player.timer < 240
-					player.animation = ANI_STOPPED
+					if player.animation != ANI_LOOKINGUP
+						if player.animation != ANI_LOOKINGDOWN
+							player.animation = ANI_STOPPED
+						else
+							if player.frame == 6
+								player.animation = ANI_STOPPED
+							end if
+						end if
+					else
+						if player.frame == 8
+							player.animation = ANI_STOPPED
+						end if
+					end if
 					player.timer++
 				else
 					player.animation = ANI_WAITING
@@ -3042,6 +3055,18 @@ public function Player_State_Air
 			// Release the dropdash!
 	
 			player.dropDashCharge = -1
+
+			player.timer = 0
+			player.state = Player_State_Roll
+			player.animation = ANI_JUMPING
+			player.iypos -= player.jumpOffset
+
+			currentPlayer = player.entityPos
+			if player.entityPos == camera[currentPlayer].target
+				player.scrollDelay = 15
+				camera[currentPlayer].style = CAMERASTYLE_HLOCKED
+			end if
+
 			Sin256(temp0, player.angle)
 			
 			if player.direction == FACING_RIGHT
@@ -3058,26 +3083,10 @@ public function Player_State_Air
 				end if
 				FlipSign(temp0)
 			end if
+			temp0 >>= 2
 			
-			player.abilityTimer = temp0
-			temp1 = false
-
-			player.timer = 0
-			player.state = Player_State_Roll
-			player.animation = ANI_JUMPING
-			player.iypos -= player.jumpOffset
-
-			currentPlayer = player.entityPos
-			if player.entityPos == camera[currentPlayer].target
-				player.scrollDelay = 15
-				camera[currentPlayer].style = CAMERASTYLE_HLOCKED
-			end if
-
-			temp0 = player.abilityTimer
-			temp0 >>= 17
-			temp0 <<= 16
 			if Player_superState == SUPERSTATE_SUPER
-				temp0 += 0xB0000
+				temp0 += 0xC0000
 			else
 				temp0 += 0x80000
 			end if
@@ -3190,6 +3199,9 @@ public function Player_State_LookUp
 		player.state = Player_State_Ground
 		player.timer = 0
 	else
+		if options.moveset == 1
+			player.timer = 60
+		end if
 		if player.timer < 60
 			player.timer++
 		else
@@ -3206,6 +3218,9 @@ public function Player_State_LookUp
 			if player.lookPosY > temp0
 				player.lookPosY -= 2
 			end if
+		end if
+		if player.frame == 5
+			player.animationTimer = 0
 		end if
 
 		player.animation = ANI_LOOKINGUP
@@ -3230,6 +3245,9 @@ public function Player_State_Crouch
 		player.state = Player_State_Ground
 		player.timer = 0
 	else
+		if options.moveset == 1
+			player.timer = 60
+		end if
 		if player.timer < 60
 			player.timer++
 		else
@@ -3246,6 +3264,10 @@ public function Player_State_Crouch
 			if player.lookPosY < temp0
 				player.lookPosY += 2
 			end if
+		end if
+		
+		if player.frame == 4
+			player.animationTimer = 0
 		end if
 
 		player.animation = ANI_LOOKINGDOWN
@@ -4326,7 +4348,7 @@ public function Player_State_GotHit
 			temp0 = 1
 			ResetObjectEntity(arrayPos0, TypeName[Blank Object], 0, 0, 0)
 			player.shield = SHIELD_NONE
-			CheckEqual(options.spikeBehavior, 0)
+			CheckEqual(options.moveset, 1)
 			temp1 = checkResult
 			CheckNotEqual(player.blinkTimer, 0)
 			temp1 &= checkResult
