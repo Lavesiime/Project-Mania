@@ -65,9 +65,9 @@ end event
 
 event ObjectDraw
 	if Player_superState != SUPERSTATE_SUPER
-		DrawSpriteFX(object.frame, FX_INK, object[-playerCount].xpos, object[-playerCount].ypos)
 		object.inkeffect = INK_ADD
 		object.alpha = 0xE0
+		DrawSpriteFX(object.frame, FX_INK, object[-playerCount].xpos, object[-playerCount].ypos)
 	end if
 end event
 
