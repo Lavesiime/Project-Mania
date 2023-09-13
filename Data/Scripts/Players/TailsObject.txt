@@ -344,6 +344,14 @@ event ObjectDraw
 		break
 		
 	case 7 // ANI_SKIDDING
+		temp0 = player.tailFrame
+		temp0 >>= 2
+		temp0 += 19
+
+		if object.visible == true
+			DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
+		end if
+		break
 	case 9 // ANI_SPINDASH
 		temp0 = player.tailFrame
 		temp0 >>= 2
