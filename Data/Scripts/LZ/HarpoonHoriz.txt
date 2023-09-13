@@ -60,6 +60,9 @@ end function
 
 event ObjectUpdate
 	if object.animationTimer == 0
+		if object.animationTimer == 3
+			PlaySfx(SfxName[Spear], false)
+		end if
 		object.timer++
 		if object.timer >= 4
 			object.timer = 0
@@ -69,6 +72,9 @@ event ObjectUpdate
 	else
 		if object.value6 == 0
 			object.animationTimer--
+			if object.animationTimer == 3
+				PlaySfx(SfxName[Spear], false)
+			end if
 			object.value6 = 0
 		else
 			object.value6--
