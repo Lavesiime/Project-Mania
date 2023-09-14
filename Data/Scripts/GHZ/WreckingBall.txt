@@ -90,6 +90,7 @@ event ObjectDraw
 		temp0 &= 7
 		temp0++
 		DrawSprite(temp0)
+		DrawSpriteFX(1, FX_ROTATE, object.xpos, object.ypos)
 
 		// Draw Shine Overlay
 		object.inkEffect = INK_ADD

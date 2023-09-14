@@ -451,8 +451,7 @@ event ObjectUpdate
 	end if
 
 	if object.sunFlowerTimer == 0
-		object.sunFlowerTimer = 20
-		temp0 = 768
+		temp0 = 0x1F6
 		temp0 += object.sunFlowerFrame
 		Copy16x16Tile(427, temp0)
 		temp0++
@@ -462,7 +461,15 @@ event ObjectUpdate
 		temp0++
 		Copy16x16Tile(430, temp0)
 		object.sunFlowerFrame += 4
-		object.sunFlowerFrame &= 7
+		object.sunFlowerFrame %= 32
+		
+		temp0 = object.sunFlowerFrame
+		temp0 %= 16
+		if temp0 == 4
+			object.sunFlowerTimer = 30
+		else
+			object.sunFlowerTimer = 1
+		end if
 	else
 		object.sunFlowerTimer--
 	end if
@@ -471,27 +478,29 @@ event ObjectUpdate
 		switch object.extendFlowerFrame
 		case 0
 			object.extendFlowerTimer = 160
-			temp0 = 0
 			break
 			
-		case 1
-			object.extendFlowerTimer = 10
-			temp0 = 6
+		case 4
+			object.extendFlowerTimer = 8
 			break
 			
-		case 2
+		case 8
 			object.extendFlowerTimer = 160
-			temp0 = 12
 			break
 			
-		case 3
-			object.extendFlowerTimer = 10
-			temp0 = 6
+		case 12
+			object.extendFlowerTimer = 8
+			break
+			
+		default
+			object.extendFlowerTimer = 1
 			break
 			
 		end switch
 		
-		temp0 += 776
+		temp0 = object.extendFlowerFrame
+		temp0 *= 6
+		temp0 += 0x216
 		Copy16x16Tile(431, temp0)
 		temp0++
 		Copy16x16Tile(432, temp0)
@@ -504,7 +513,7 @@ event ObjectUpdate
 		temp0++
 		Copy16x16Tile(436, temp0)
 		object.extendFlowerFrame++
-		object.extendFlowerFrame &= 3
+		object.extendFlowerFrame %= 16
 	else
 		object.extendFlowerTimer--
 	end if

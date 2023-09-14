@@ -28,7 +28,7 @@ private alias 25 : MAX_SELECTION_COUNT
 // Aliases for some of the special options
 private alias 64 : SETTING_PLAYER
 private alias 65 : SETTING_MOVESET
-private alias 66 : SETTING_GNDSPDCAP
+private alias 66 : SETTING_FASTRUN
 private alias 67 : SETTING_AIRSPDCAP
 private alias 68 : SETTING_ENCOREGRAPHICS
 private alias 69 : SETTING_ITEMS
@@ -504,22 +504,31 @@ event ObjectUpdate
 			end if
 			break
 
-		case SETTING_GNDSPDCAP
-			// Ground speed cap option
+		case SETTING_FASTRUN
+			// Fast run option
 			checkResult = keyPress[0].buttonA
 			checkResult |= keyPress[0].buttonB
 			checkResult |= keyPress[0].buttonC
 			
 			if checkResult == true
-				// Toggle it
-				options.speedCap ^= true
+			
+				options.fastRun++
+				options.fastRun %= 3
+			
+				switch options.fastRun
+					case 0
+						EditMenuEntry(MENU_2, "FAST RUN@@@*NONE*", temp2, false)
+						break
+						
+					case 1
+						EditMenuEntry(MENU_2, "FAST RUN@@*MANIA*", temp2, false)
+						break
+						
+					case 2
+						EditMenuEntry(MENU_2, "FAST RUN@@@@@*CD*", temp2, false)
+						break
 
-				// Update the menu text to match the new setting
-				if options.speedCap == true
-					EditMenuEntry(MENU_2, "GND SPD CAP@@*ON*", temp2, false)
-				else
-					EditMenuEntry(MENU_2, "GND SPD CAP *OFF*", temp2, false)
-				end if
+				end switch
 			end if
 			break
 
@@ -836,22 +845,18 @@ event ObjectStartup
 	switch stage.playerListPos
 		case 0
 			AddMenuEntry(MENU_2, "PLAYER@@@@*SONIC*", true)
-			hexNo[+1].number = 1
 			break
 
 		case 1
 			AddMenuEntry(MENU_2, "PLAYER@@@@*TAILS*", true)
-			hexNo[+1].number = 2
 			break
 
 		case 2
 			AddMenuEntry(MENU_2, "PLAYER@*KNUCKLES*", true)
-			hexNo[+1].number = 3
 			break
 			
 		case 3
 			AddMenuEntry(MENU_2, "PLAYER@@@@@@*S&T*", true)
-			hexNo[+1].number = 0
 			break
 
 	end switch
@@ -877,11 +882,20 @@ event ObjectStartup
 	end switch
 	AddMenuEntry(MENU_2, " ", false)
 
-	if options.speedCap == true
-		AddMenuEntry(MENU_2, "GND SPD CAP@@*ON*", true)
-	else
-		AddMenuEntry(MENU_2, "GND SPD CAP@*OFF*", true)
-	end if
+	switch options.fastRun
+		case 0
+			AddMenuEntry(MENU_2, "FAST RUN@@@*NONE*", true)
+			break
+			
+		case 1
+			AddMenuEntry(MENU_2, "FAST RUN@@*MANIA*", true)
+			break
+			
+		case 2
+			AddMenuEntry(MENU_2, "FAST RUN@@@@@*CD*", true)
+			break
+
+	end switch
 	AddMenuEntry(MENU_2, " ", false)
 
 	if options.airSpeedCap == true

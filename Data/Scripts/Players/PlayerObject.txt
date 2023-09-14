@@ -2791,8 +2791,20 @@ public function Player_State_Ground
 					player.animation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
-					if player.speed > 0x9FFFF
-						player.animation = ANI_PEELOUT
+					if player.speed > 0xC0000
+						if options.fastRun != 0
+							if player.character == PLAYER_SONIC_ALONE
+								if options.fastRun == 1
+									player.animation = ANI_DASH
+								else
+									player.animation = ANI_PEELOUT
+								end if
+							else
+								player.animation = ANI_PEELOUT
+							end if
+						else
+							player.animation = ANI_RUNNING
+						end if
 					else
 						if player.speed > 0x5F5C2
 							player.animation = ANI_RUNNING
@@ -2810,8 +2822,20 @@ public function Player_State_Ground
 					player.animation = ANI_WALKING
 					CallFunction(Player_HandleWalkAnimSpeed)
 				else
-					if player.speed < -0x9FFFF
-						player.animation = ANI_PEELOUT
+					if player.speed < -0xC0000
+						if options.fastRun != 0
+							if player.character == PLAYER_SONIC_ALONE
+								if options.fastRun == 1
+									player.animation = ANI_DASH
+								else
+									player.animation = ANI_PEELOUT
+								end if
+							else
+								player.animation = ANI_PEELOUT
+							end if
+						else
+							player.animation = ANI_RUNNING
+						end if
 					else
 						if player.speed < -0x5F5C2
 							player.animation = ANI_RUNNING
@@ -5092,7 +5116,7 @@ public function Player_State_ContinueRun
 			CallFunction(Player_HandleWalkAnimSpeed)
 		else
 			if player.speed > 0x9FFFF
-				player.animation = ANI_PEELOUT
+				player.animation = ANI_DASH
 			else
 				player.animation = ANI_RUNNING
 			end if
