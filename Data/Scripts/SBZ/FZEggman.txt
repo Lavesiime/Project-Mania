@@ -17,6 +17,8 @@ private alias object.value4 : object.isVulnerable
 private alias object.value5 : object.floorPos
 private alias object.value6 : object.flashFrame
 
+private alias object.value22 : object.screenFlashTimer
+
 // Piston aliases
 private alias object.value0 : fzPiston.fzEggmanSlot
 private alias object.propertyValue : fzPiston.hasEggman
@@ -100,6 +102,7 @@ end table
 // ========================
 
 private function FZEggman_CheckBossHit
+	object.health = 7
 	CheckEqual(player[currentPlayer].animation, ANI_JUMPING)
 	temp0 = checkResult
 	CheckEqual(player[currentPlayer].animation, ANI_GLIDING)
@@ -150,7 +153,7 @@ event ObjectUpdate
 		fzPiston[+3].fzEggmanSlot = temp0
 		fzPiston[+4].fzEggmanSlot = temp0
 		object.boundsR = object.ixpos
-		object.boundsR += 656
+		object.boundsR += 712
 		object.floorPos = object.ypos
 		object.floorPos -= 0x400000
 		object.state++
@@ -217,6 +220,9 @@ event ObjectUpdate
 				object.isVulnerable = false // you can't underflow the value if it counts up AND you disable attacks :bigthinker:
 				object.animation = FZEGGANI_TOASTED
 				object.state = FZEGGMAN_FLEE
+				
+				object[10].screenFlashTimer = 1 // SBZSetup
+				PlaySfx(SfxName[Alarm], false)
 			else
 				object.state++
 			end if

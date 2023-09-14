@@ -52,6 +52,8 @@ private alias object.speed : player.speed
 private alias object.direction : player.direction
 private alias object.gravity : player.gravity
 private alias object.animation : player.animation
+private alias object.animationTimer : player.animationTimer
+private alias object.frame : player.frame
 private alias object.controlMode : player.controlMode
 
 // Game Modes
@@ -248,6 +250,9 @@ event ObjectUpdate
 						player[currentPlayer].speed = 0
 						if object.state == EGGMOBILE_FLEE
 							player[currentPlayer].animation = ANI_LOOKINGUP
+							if player[currentPlayer].frame == 5
+								player[currentPlayer].animationTimer = 0
+							end if
 						else
 							player[currentPlayer].animation = ANI_STOPPED
 						end if

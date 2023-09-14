@@ -35,6 +35,9 @@ private alias object.value17 : object.palIndexE
 private alias object.value19 : object.palIndexF
 private alias object.value20 : object.palIndexG
 
+private alias object.value21 : object.screenFlashAlpha
+private alias object.value22 : object.screenFlashTimer
+
 // Tile Flag Aliases
 private alias 1 : TILE_CONVEYORBELT
 
@@ -416,8 +419,49 @@ event ObjectUpdate
 		GetTableValue(temp0, object.palIndexC, SBZSetup_palTableC_1)
 		SetPaletteEntry(0, 169, temp0)
 	end if
+	
+	if stage.listPos == 18
+		temp0 = 5
+		switch object.screenFlashTimer
+		case 1
+		case 3
+		case 5
+		case 7
+			object.screenFlashAlpha += temp0
+			if object.screenFlashAlpha == 130
+				object.screenFlashTimer++
+			end if
+			SetScreenFade(0xC0, 0x00, 0x00, object.screenFlashAlpha)
+			break
+			
+		case 2
+		case 4
+		case 6
+		case 8
+			object.screenFlashAlpha -= temp0
+			if object.screenFlashAlpha == 0
+				object.screenFlashTimer++
+				PlaySfx(SfxName[Alarm], false)
+			end if
+			SetScreenFade(0xC0, 0x00, 0x00, object.screenFlashAlpha)
+			break
+
+		end switch
+		
+		if camera[0].xpos > 1632
+			stage.activeLayer[0] = 1
+			stage.activeLayer[1] = 3
+		else
+			stage.activeLayer[0] = 2
+			stage.activeLayer[1] = 4
+		end if
+	end if
 end event
 
+
+event ObjectDraw
+	
+end event
 
 event ObjectStartup
 
