@@ -93,11 +93,19 @@ event ObjectUpdate
 		
 	end switch
 
-	object.animationTimer++
-	object.animationTimer &= object.animTimerMax
-	temp0 = object.animationTimer
-	temp0 >>= object.animSpeed
-	GetTableValue(object.frame, temp0, object.frameTable)
+	if object.frameTable == PlasmaBall_chargingFrames
+		object.animationTimer++
+		temp0 = object.animationTimer
+		temp0 /= 3
+		temp0 %= 16
+		GetTableValue(object.frame, temp0, object.frameTable)
+	else
+		object.animationTimer++
+		object.animationTimer &= object.animTimerMax
+		temp0 = object.animationTimer
+		temp0 >>= object.animSpeed
+		GetTableValue(object.frame, temp0, object.frameTable)
+	end if
 
 	if object.frameTable == PlasmaBall_attackingFrames
 		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)

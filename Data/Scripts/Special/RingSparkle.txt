@@ -11,36 +11,170 @@
 
 private alias object.value0 : object.timer
 
+private alias object.value1 : object.frame1
+private alias object.value4 : object.frame2
+private alias object.value5 : object.frame3
+
+private alias object.value6 : object.sparkle1X
+private alias object.value7 : object.sparkle1Y
+
+private alias object.value8 : object.sparkle2X
+private alias object.value9 : object.sparkle2Y
+
+private alias object.value10 : object.sparkle3X
+private alias object.value11 : object.sparkle3Y
+
 
 // ========================
 // Events
 // ========================
 
 event ObjectUpdate
-	object.timer++
-	if object.timer == 6
+	if object.timer == 0
+		if object.frame1 == 0
+			object.frame2 = 15
+			object.frame3 = 21
+			
+			temp2 = 16 // Used for pos offset randomness
+			if object.propertyValue == 1
+				temp2 = 24
+			end if
+			if object.propertyValue == 2
+				temp2 = 24
+			end if
+			temp4 = temp2
+			temp4 /= 2
+			
+			Rand(temp0, temp2)
+			temp0 -= temp4
+			Rand(temp1, temp2)
+			temp1 -= temp4
+			temp0 <<= 16
+			temp1 <<= 16
+			object.sparkle1X = temp0
+			object.sparkle1Y = temp1
+			
+			if object.propertyValue != 1
+				Rand(temp0, temp2)
+				temp0 -= temp4
+				Rand(temp1, temp2)
+				temp1 -= temp4
+				temp0 <<= 16
+				temp1 <<= 16
+				object.sparkle2X = temp0
+				object.sparkle2Y = temp1
+							
+				Rand(temp0, temp2)
+				temp0 -= temp4
+				Rand(temp1, temp2)
+				temp1 -= temp4
+				temp0 <<= 16
+				temp1 <<= 16
+				object.sparkle3X = temp0
+				object.sparkle3Y = temp1
+			end if
+		end if
+	end if
+
+	if object.timer == 1
 		object.timer = 0
-		object.frame++
-		if object.frame == 4
+		object.frame1++
+		
+		if object.frame2 == 20
+			object.frame2 = 29
+		end if
+		if object.frame2 != 29
+			object.frame2++
+		end if
+		
+		if object.frame3 != 29
+			object.frame3++
+		end if
+
+		if object.frame1 == 15
 			object.type = TypeName[Blank Object]
 			object.frame = 0
+			
+#platform: USE_ORIGINS
+			if game.playMode == BOOT_PLAYMODE_MISSION
+				if game.missionFunctionNo == MISSIONNO_RINGCHALLENGE50
+					// Turn the Object into a Ring Reset Object
+					// -> missionTypeEX is set by a foreach in Ring Reset's startup
+					object.type = object.missionTypeEX
+					
+					// Now, set the time the Object was collected + 20 seconds
+					object.timeCheckpoint = stage.minutes
+					object.timeCheckpoint *= 60
+					object.timeCheckpoint += stage.seconds
+					object.timeCheckpoint += 20
+					
+					object.priority = PRIORITY_ACTIVE
+				end if
+			end if
+#endplatform
 		end if
+	end if
+	object.timer++
+	
+	if object.propertyValue == 1
+		object.sparkle1Y += object.yvel
 	end if
 end event
 
 
 event ObjectDraw
 	CallFunction(SpecialSetup_GetBlockPos)
-	DrawSpriteXY(object.frame, temp0, temp1)
+	temp0 += object.sparkle1X
+	temp1 += object.sparkle1Y
+	DrawSpriteXY(object.frame1, temp0, temp1)
+	CallFunction(SpecialSetup_GetBlockPos)
+	temp0 += object.sparkle2X
+	temp1 += object.sparkle2Y
+	DrawSpriteXY(object.frame2, temp0, temp1)
+	CallFunction(SpecialSetup_GetBlockPos)
+	temp0 += object.sparkle3X
+	temp1 += object.sparkle3Y
+	DrawSpriteXY(object.frame3, temp0, temp1)
 end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Special/Objects.gif")
-	SpriteFrame(-8, -8, 16, 16, 1, 455)
-	SpriteFrame(-8, -8, 16, 16, 18, 455)
-	SpriteFrame(-8, -8, 16, 16, 1, 472)
-	SpriteFrame(-8, -8, 16, 16, 18, 472)
+	LoadSpriteSheet("Global/Items.gif")
+
+	// Sparkle frames
+	SpriteFrame(-8, -8, 17, 17, 1, 430)
+	SpriteFrame(-8, -8, 17, 17, 19, 430)
+	SpriteFrame(-8, -8, 17, 17, 37, 430)
+	SpriteFrame(-8, -8, 17, 17, 55, 430)
+	SpriteFrame(-8, -8, 17, 17, 73, 430)
+	SpriteFrame(-8, -8, 17, 17, 91, 430)
+	SpriteFrame(-8, -8, 17, 17, 109, 430)
+	SpriteFrame(-8, -8, 17, 17, 127, 430)
+	SpriteFrame(-8, -8, 17, 17, 145, 430)
+	SpriteFrame(-8, -8, 17, 17, 163, 430)
+	SpriteFrame(-8, -8, 17, 17, 181, 430)
+	SpriteFrame(-8, -8, 17, 17, 199, 430)
+	SpriteFrame(-8, -8, 17, 17, 217, 430)
+	SpriteFrame(-8, -8, 17, 17, 235, 430)
+	SpriteFrame(-8, -8, 17, 17, 253, 430) // 14 - Big Sparkle End
+	
+	SpriteFrame(-8, -8, 17, 17, 1, 412)
+	SpriteFrame(-8, -8, 17, 17, 19, 412)
+	SpriteFrame(-8, -8, 17, 17, 37, 412)
+	SpriteFrame(-8, -8, 17, 17, 55, 412)
+	SpriteFrame(-8, -8, 17, 17, 73, 412)
+	SpriteFrame(-8, -8, 17, 17, 91, 412) // 20 - Small Sparkle End
+	
+	SpriteFrame(-8, -8, 17, 17, 109, 412)
+	SpriteFrame(-8, -8, 17, 17, 127, 412)
+	SpriteFrame(-8, -8, 17, 17, 145, 412)
+	SpriteFrame(-8, -8, 17, 17, 163, 412)
+	SpriteFrame(-8, -8, 17, 17, 181, 412)
+	SpriteFrame(-8, -8, 17, 17, 199, 412)
+	SpriteFrame(-8, -8, 17, 17, 217, 412)
+	SpriteFrame(-8, -8, 17, 17, 235, 412) // 28 - Medium Sparkle End
+	
+	SpriteFrame(-8, -8, 17, 17, 253, 412) // 29 - Blank
 end event
 
 
