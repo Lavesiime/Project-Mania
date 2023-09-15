@@ -164,6 +164,23 @@ event ObjectUpdate
 				object[tempObjectPos].drawOrder = 5
 				PlaySfx(SfxName[Explosion], false)
 			end if
+			if temp0 == 27298
+				PlaySfx(SfxName[Explosion], false)
+				Rand(temp0, screen.xsize)
+				Rand(temp1, screen.ysize)
+				temp0 += camera[0].xpos
+				temp1 += camera[0].ypos
+				temp2 = screen.xsize
+				temp3 = screen.ysize
+				temp2 /= 2
+				temp3 /= 2
+				temp0 -= temp2
+				temp1 -= temp3
+				temp0 <<= 16
+				temp1 <<= 16
+				CreateTempObject(TypeName[Explosion], 0, temp0, temp1)
+				object[tempObjectPos].drawOrder = 5
+			end if
 		end if
 	end if
 end event

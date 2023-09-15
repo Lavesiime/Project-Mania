@@ -424,9 +424,16 @@ event ObjectUpdate
 		temp0 = 5
 		switch object.screenFlashTimer
 		case 1
+			object.screenFlashAlpha += 40
+			if object.screenFlashAlpha == 320
+				object.screenFlashTimer++
+			end if
+			SetScreenFade(0xFF, 0xFF, 0xFF, object.screenFlashAlpha)
+			break
 		case 3
 		case 5
 		case 7
+		case 9
 			object.screenFlashAlpha += temp0
 			if object.screenFlashAlpha == 130
 				object.screenFlashTimer++
@@ -435,15 +442,28 @@ event ObjectUpdate
 			break
 			
 		case 2
+			object.screenFlashAlpha -= 40
+			if object.screenFlashAlpha == 0
+				object.screenFlashTimer++
+			end if
+			SetScreenFade(0xFF, 0xFF, 0xFF, object.screenFlashAlpha)
+			break
 		case 4
 		case 6
 		case 8
+		case 10
 			object.screenFlashAlpha -= temp0
 			if object.screenFlashAlpha == 0
 				object.screenFlashTimer++
 				PlaySfx(SfxName[Alarm], false)
 			end if
 			SetScreenFade(0xC0, 0x00, 0x00, object.screenFlashAlpha)
+			break
+
+		case 12
+			if screen.shakeY == 0
+				screen.shakeY = 2
+			end if
 			break
 
 		end switch

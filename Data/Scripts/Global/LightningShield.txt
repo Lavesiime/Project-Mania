@@ -50,7 +50,7 @@ end table
 // ========================
 
 event ObjectUpdate
-	object.drawOrder = 7
+	object.drawOrder = 8
 
 	// Unload if the player shouldn't have a shield
 	if player[-playerCount].state == Player_State_Death

@@ -55,6 +55,9 @@ private alias object.animation : player.animation
 private alias object.animationTimer : player.animationTimer
 private alias object.frame : player.frame
 private alias object.controlMode : player.controlMode
+private alias object.controlLock : player.controlLock
+private alias object.right		:	player.right
+private alias object.left		:	player.left
 
 // Game Modes
 private alias 0 : MODE_NOSAVE
@@ -73,236 +76,321 @@ private alias 30 : SLOT_ACTFINISH
 // ========================
 
 event ObjectUpdate
-	switch object.state
-	case EGGMOBILE_WAITING
-		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
-			BoxCollisionTest(C_SOLID, object.entityPos, -24, -96, 24, 96, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
-		next
-		break
 
-	case EGGMOBILE_ACTIVATE
-		object.priority = PRIORITY_ACTIVE
-		object.animation = EGGMOBILE_ANI_FLYING
-		object.legAnim = LEGS_RETRACT
-		object.yvel = -0x18000
-		object.state++
-		break
-
-	case EGGMOBILE_RISE
-		object.ypos += object.yvel
-		object.timer++
-		if object.timer >= 52
-			object.flameAnim = FLAME_ACTIVE
-			object.xvel = 0x18000
-			object.yvel = -0x1800
-			object.state++
-		end if
-		break
-
-	case EGGMOBILE_HIT
-		object.explosionTimer++
-		temp0 = object.explosionTimer
-		temp0 &= 7
-		if temp0 == 4
-			Rand(temp0, 96)
-			temp0 -= 48
-			temp0 <<= 16
-			temp0 += object.xpos
-			Rand(temp1, 48)
-			temp1 -= 24
-			temp1 <<= 16
-			temp1 += object.ypos
-			CreateTempObject(TypeName[Explosion], 0, temp0, temp1)
-			object[tempObjectPos].drawOrder = 4
-			if object.fadeTimer < 256
-				PlaySfx(SfxName[Explosion], false)
-			end if
-		end if
-
-		if object.fadeTimer < 256
+	if object.alpha == 2
+		switch object.state
+		case 0
 			object.timer++
-			if object.timer >= 30
-				PlaySfx(SfxName[Boss Hit], false)
-				object.yvel = 0x6000
-				object.timer = 0
+			if object.timer > 120
+				object.rotation+= 8
+				if object.rotation == 256
+					object.state++
+					object.timer = 0
+				end if
 			end if
-		end if
-		// [Fall-through]
-	case EGGMOBILE_FLEE
+			break
+			
+		case 1
+			object.timer++
+			if object.timer > 30
+				object.xvel = -18000
+				object.yvel = -18000
+				object.rotation+= 4
+				object.scale -= 2
+				if object.scale == 0
+					object.state++
+				end if
+			end if
+			break
+		
+		end switch
+		
 		object.xpos += object.xvel
 		object.ypos += object.yvel
-		temp0 = stage.newXBoundary2
-		temp0 += 212
-		temp0 <<= 16
-		if object.xpos >= temp0
-#platform: USE_ORIGINS
-			CheckNotEqual(options.gameMode, MODE_TIMEATTACK)
-			temp0 = checkResult
-			CheckEqual(game.playMode, BOOT_PLAYMODE_BOSSRUSH)
-			temp0 &= checkResult
-			if temp0 != 0
-				CallNativeFunction2(NotifyCallback, NOTIFY_KILL_BOSS, 0)
-				CallNativeFunction2(NotifyCallback, NOTIFY_BOSS_END, true)
-				StopMusic()
-				object.state = EGGMOBILE_BOSSRUSH
-				object.fadeTimer = 0
-			else
-#endplatform
-#platform: USE_STANDALONE
-				if options.gameMode == MODE_TIMEATTACK
-#endplatform
-#platform: USE_ORIGINS
-				CheckEqual(options.gameMode, MODE_TIMEATTACK)
-				temp0 = checkResult
-				CheckNotEqual(game.oneStageFlag, false)
-				temp0 |= checkResult
-				if temp0 != false
-#endplatform
-					object.type = TypeName[Blank Object]
-					ResetObjectEntity(SLOT_ACTFINISH, TypeName[Act Finish], 0, 0, 0)
-					object[SLOT_ACTFINISH].drawOrder = 6
-					object[SLOT_ACTFINISH].priority = PRIORITY_ACTIVE
-					stage.timeEnabled = false
-					PlayMusic(TRACK_ACTFINISH)
-				else
-					object.fadeTimer += 4
-					music.volume -= 2
-					SetScreenFade(0, 0, 0, object.fadeTimer)
-					if object.fadeTimer == 384
-					
-#platform: USE_ORIGINS
-						// This variable isn't used anywhere in Final Zone, perhaps a scrapped achievement?
-						temp0 = StageStatsUsabilityParam5
-						temp0 &= 1
-						temp1 = StageStatsUsabilityParam5
-						temp1 &= 2
-						temp2 = StageStatsUsabilityParam5
-						temp2 &= 4
-						
-						CallNativeFunction4(NotifyCallback, NOTIFY_STATS_CHARA_ACTION, temp0, temp1, temp2)
-						CallNativeFunction2(NotifyCallback, NOTIFY_ACT_FINISH, 0)
-						
-						StageStatsUsabilityParam1 = 0
-						StageStatsUsabilityParam2 = 0
-						StageStatsUsabilityParam3 = 0
-						StageStatsUsabilityParam4 = 0
-						StageStatsUsabilityParam5 = 0
-						StatsUsabilityParam1 = 0
-						StatsUsabilityParam2 = 0
-						StatsUsabilityParam3 = 0
-						StatsUsabilityParam4 = 0
-						StatsUsabilityParam5 = 0
-#endplatform
+	else
+	
+		switch object.state
+		case EGGMOBILE_WAITING
+			foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+				BoxCollisionTest(C_SOLID, object.entityPos, -24, -96, 24, 96, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+			next
+			break
 
-						if stage.debugMode == false
-							if options.stageSelectFlag == false
-								CallNativeFunction2(SetLeaderboard, 19, player.score)
-							end if
-						end if
+		case EGGMOBILE_ACTIVATE
+			object.priority = PRIORITY_ACTIVE
+			object.animation = EGGMOBILE_ANI_FLYING
+			object.legAnim = LEGS_RETRACT
+			object.yvel = -0x18000
+			object.state++
+			break
 
-						if options.gameMode == MODE_NORMAL
-							arrayPos1 = options.saveSlot
-							arrayPos1 <<= 3
-							arrayPos1 += 4
-							saveRAM[arrayPos1] = 20
-							WriteSaveRAM()
-						end if
+		case EGGMOBILE_RISE
+			object.ypos += object.yvel
+			object.timer++
+			if object.timer >= 52
+				object.flameAnim = FLAME_ACTIVE
+				object.xvel = 0x18000
+				object.yvel = -0x1800
+				object.state++
+			end if
+			break
 
-						stage.activeList = PRESENTATION_STAGE
-						stage.listPos = 1
-						LoadStage()
+		case EGGMOBILE_HIT
+			foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+				player[currentPlayer].controlMode = CONTROLMODE_NONE
+			next
+			
+			if object.timer < 40
+				object.explosionTimer++
+				temp0 = object.explosionTimer
+				temp0 &= 7
+				if temp0 == 4
+					Rand(temp0, 96)
+					temp0 -= 48
+					temp0 <<= 16
+					temp0 += object.xpos
+					Rand(temp1, 48)
+					temp1 -= 24
+					temp1 <<= 16
+					temp1 += object.ypos
+					CreateTempObject(TypeName[Explosion], 0, temp0, temp1)
+					object[tempObjectPos].drawOrder = 4
+					if object.fadeTimer < 256
+						PlaySfx(SfxName[Explosion], false)
 					end if
 				end if
-#platform: USE_ORIGINS
+
+				if object.fadeTimer < 256
+					object.timer++
+					if object.timer >= 30
+						PlaySfx(SfxName[Boss Hit], false)
+						object.yvel = 0x6000
+						object.timer = 0
+					end if
+				end if
 			end if
-#endplatform
-		end if
-
-		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
-			if player[currentPlayer].xpos >= object.playerStopPos
-				CheckEqual(player[currentPlayer].state, Player_State_Ground)
+			// [Fall-through]
+		case EGGMOBILE_FLEE
+			object.xpos += object.xvel
+			object.ypos += object.yvel
+			temp0 = stage.newXBoundary2
+			temp0 += 212
+			temp0 <<= 16
+			if object.xpos >= temp0
+	#platform: USE_ORIGINS
+				CheckNotEqual(options.gameMode, MODE_TIMEATTACK)
 				temp0 = checkResult
-#platform: USE_ORIGINS
-				CheckEqual(player[currentPlayer].state, Player_State_Air_NoDropDash)
-				temp0 |= checkResult
-#endplatform
-				CheckEqual(player[currentPlayer].state, Player_State_Air)
-				temp0 |= checkResult
-				CheckEqual(player[currentPlayer].state, Player_State_Fly)
-				temp0 |= checkResult
-				CheckEqual(player[currentPlayer].state, Player_State_GlideRight)
-				temp0 |= checkResult
-				CheckEqual(player[currentPlayer].state, Player_State_Roll)
-				temp0 |= checkResult
-				CheckEqual(player[currentPlayer].state, Player_State_RollJump)
-				temp0 |= checkResult
-				CheckEqual(player[currentPlayer].state, Player_State_Static)
-				temp0 |= checkResult
-				CheckEqual(player[currentPlayer].state, Player_State_Spindash)
-				temp0 |= checkResult
+				CheckEqual(game.playMode, BOOT_PLAYMODE_BOSSRUSH)
+				temp0 &= checkResult
+				if temp0 != 0
+					CallNativeFunction2(NotifyCallback, NOTIFY_KILL_BOSS, 0)
+					CallNativeFunction2(NotifyCallback, NOTIFY_BOSS_END, true)
+					StopMusic()
+					object.state = EGGMOBILE_BOSSRUSH
+					object.fadeTimer = 0
+				else
+	#endplatform
+	#platform: USE_STANDALONE
+					if options.gameMode == MODE_TIMEATTACK
+	#endplatform
+	#platform: USE_ORIGINS
+					CheckEqual(options.gameMode, MODE_TIMEATTACK)
+					temp0 = checkResult
+					CheckNotEqual(game.oneStageFlag, false)
+					temp0 |= checkResult
+					if temp0 != false
+	#endplatform
+						object.type = TypeName[Blank Object]
+						ResetObjectEntity(SLOT_ACTFINISH, TypeName[Act Finish], 0, 0, 0)
+						object[SLOT_ACTFINISH].drawOrder = 6
+						object[SLOT_ACTFINISH].priority = PRIORITY_ACTIVE
+						stage.timeEnabled = false
+						PlayMusic(TRACK_ACTFINISH)
+					else
+						if object.timer < 40
+							object.timer = 40
+						end if
+						object.timer++
+						temp0 = object.timer
+						temp0 %= 2
+						if temp0 == 0
+							music.volume -= 1
+						end if
+						if object.timer > 200
+							object.fadeTimer += 2
+							SetScreenFade(0, 0, 0, object.fadeTimer)
+							if object.fadeTimer == 384
+							
+		#platform: USE_ORIGINS
+								// This variable isn't used anywhere in Final Zone, perhaps a scrapped achievement?
+								temp0 = StageStatsUsabilityParam5
+								temp0 &= 1
+								temp1 = StageStatsUsabilityParam5
+								temp1 &= 2
+								temp2 = StageStatsUsabilityParam5
+								temp2 &= 4
+								
+								CallNativeFunction4(NotifyCallback, NOTIFY_STATS_CHARA_ACTION, temp0, temp1, temp2)
+								CallNativeFunction2(NotifyCallback, NOTIFY_ACT_FINISH, 0)
+								
+								StageStatsUsabilityParam1 = 0
+								StageStatsUsabilityParam2 = 0
+								StageStatsUsabilityParam3 = 0
+								StageStatsUsabilityParam4 = 0
+								StageStatsUsabilityParam5 = 0
+								StatsUsabilityParam1 = 0
+								StatsUsabilityParam2 = 0
+								StatsUsabilityParam3 = 0
+								StatsUsabilityParam4 = 0
+								StatsUsabilityParam5 = 0
+		#endplatform
 
-				if temp0 == true
-					player[currentPlayer].state = Player_State_Static
-					player[currentPlayer].direction = FACING_RIGHT
-					player[currentPlayer].controlMode = CONTROLMODE_NONE
-					if player[currentPlayer].gravity == 0
-						player[currentPlayer].xvel = 0
-						player[currentPlayer].speed = 0
-						if object.state == EGGMOBILE_FLEE
-							player[currentPlayer].animation = ANI_LOOKINGUP
-							if player[currentPlayer].frame == 5
-								player[currentPlayer].animationTimer = 0
+								if stage.debugMode == false
+									if options.stageSelectFlag == false
+										CallNativeFunction2(SetLeaderboard, 19, player.score)
+									end if
+								end if
+
+								if options.gameMode == MODE_NORMAL
+									arrayPos1 = options.saveSlot
+									arrayPos1 <<= 3
+									arrayPos1 += 4
+									saveRAM[arrayPos1] = 20
+									WriteSaveRAM()
+								end if
+
+								stage.activeList = PRESENTATION_STAGE
+								stage.listPos = 1
+								LoadStage()
+							end if
+						end if
+					end if
+	#platform: USE_ORIGINS
+				end if
+	#endplatform
+			end if
+
+			foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+				if player[currentPlayer].xpos >= object.playerStopPos
+					CheckEqual(player[currentPlayer].state, Player_State_Ground)
+					temp0 = checkResult
+	#platform: USE_ORIGINS
+					CheckEqual(player[currentPlayer].state, Player_State_Air_NoDropDash)
+					temp0 |= checkResult
+	#endplatform
+					CheckEqual(player[currentPlayer].state, Player_State_Air)
+					temp0 |= checkResult
+					CheckEqual(player[currentPlayer].state, Player_State_Fly)
+					temp0 |= checkResult
+					CheckEqual(player[currentPlayer].state, Player_State_GlideRight)
+					temp0 |= checkResult
+					CheckEqual(player[currentPlayer].state, Player_State_Roll)
+					temp0 |= checkResult
+					CheckEqual(player[currentPlayer].state, Player_State_RollJump)
+					temp0 |= checkResult
+					CheckEqual(player[currentPlayer].state, Player_State_Static)
+					temp0 |= checkResult
+					CheckEqual(player[currentPlayer].state, Player_State_Spindash)
+					temp0 |= checkResult
+
+					if temp0 == true
+						player[currentPlayer].state = Player_State_Static
+						player[currentPlayer].direction = FACING_RIGHT
+						player[currentPlayer].controlMode = CONTROLMODE_NONE
+						if player[currentPlayer].gravity == 0
+							player[currentPlayer].xvel = 0
+							player[currentPlayer].speed = 0
+							if object.state == EGGMOBILE_FLEE
+								if object.timer > 120
+									player[currentPlayer].animation = ANI_WAITING
+								else
+									player[currentPlayer].animation = ANI_LOOKINGUP
+									if object.timer < 100
+										if player[currentPlayer].frame == 5
+											player[currentPlayer].animationTimer = 0
+										end if
+									end if
+								end if
+							else
+								if object.timer > 40
+									if object[currentPlayer].propertyValue == PLAYER_SONIC_ALONE
+										player[currentPlayer].animation = ANI_VICTORY
+									end if
+								else
+									player[currentPlayer].animation = ANI_STOPPED
+								end if
 							end if
 						else
-							player[currentPlayer].animation = ANI_STOPPED
+							player[currentPlayer].speed = player[currentPlayer].xvel
+							player[currentPlayer].yvel += 0x3800
 						end if
 					else
-						player[currentPlayer].speed = player[currentPlayer].xvel
-						player[currentPlayer].yvel += 0x3800
+						if player[currentPlayer].state == Player_State_GlideSlide
+							player[currentPlayer].speed = 0
+						end if
 					end if
 				else
-					if player[currentPlayer].state == Player_State_GlideSlide
-						player[currentPlayer].speed = 0
-					end if
-				end if
-			end if
-		next
-		break
-
-	case EGGMOBILE_SEAT
-		// position == eggmobile.position
-		object.xpos = object[+10].xpos
-		object.ypos = object[+10].ypos
-		if object[+1].type == TypeName[Blank Object]
-			object.type = TypeName[Blank Object]
-		end if
-		break
-		
-	end switch
-
-	if object.state == EGGMOBILE_FLEE
-		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
-			BoxCollisionTest(C_TOUCH, object.entityPos, -20, -16, 20, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
-			if checkResult == true
-				CallFunction(Player_CheckHit)
-				if checkResult == true
-					object.state 	 = EGGMOBILE_HIT
-					object.animation = EGGMOBILE_ANI_WASHIT
-					PlaySfx(SfxName[Boss Hit], false)
-					object.timer = 0
-					if stage.debugMode == false
-						if currentPlayer == 0
-							CallNativeFunction2(SetAchievement, 10, 100)
+					if object.state == EGGMOBILE_FLEE
+						temp0 = object.playerStopPos
+						temp0 >>= 16
+						if object.xpos > object.playerStopPos
+							player[currentPlayer].controlMode = CONTROLMODE_NONE
+							player[currentPlayer].state = Player_State_Ground
+							player[currentPlayer].right = true
+							player[currentPlayer].left = false
+						end if
+					else
+						if player[currentPlayer].xpos < object.xpos
+							player[currentPlayer].state = Player_State_Ground
+							player[currentPlayer].right = true
+							player[currentPlayer].left = false
 						end if
 					end if
 				end if
+			next
+			break
+
+		case EGGMOBILE_SEAT
+			// position == eggmobile.position
+			object.xpos = object[+10].xpos
+			object.ypos = object[+10].ypos
+			if object[+1].type == TypeName[Blank Object]
+				object.type = TypeName[Blank Object]
 			end if
-		next
+			break
+			
+		end switch
+
+		if object.state == EGGMOBILE_FLEE
+			foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+				BoxCollisionTest(C_TOUCH, object.entityPos, -20, -16, 20, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+				if checkResult == true
+					CallFunction(Player_CheckHit)
+					if checkResult == true
+						object.state 	 = EGGMOBILE_HIT
+						object.animation = EGGMOBILE_ANI_WASHIT
+						PlaySfx(SfxName[Boss Hit], false)
+						object.timer = 0
+						if stage.debugMode == false
+							if currentPlayer == 0
+								CallNativeFunction2(SetAchievement, 10, 100)
+							end if
+						end if
+					end if
+				end if
+			next
+		end if
 	end if
 end event
 
 
 event ObjectDraw
+
+	if object.alpha == 2
+		DrawSpriteFX(0, FX_ROTOZOOM, object.xpos, object.ypos)
+		DrawSpriteFX(140, FX_ROTOZOOM, object.xpos, object.ypos)
+	else
+	
 	switch object.animation
 	case EGGMOBILE_ANI_IDLE
 		DrawSpriteFX(0, FX_FLIP, object.xpos, object.ypos)
@@ -335,9 +423,9 @@ event ObjectDraw
 		if object.eggmanFrame > 175
 			object.eggmanFrame = 140
 		end if
-		DrawSpriteFX(216, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(221, FX_FLIP, object.xpos, object.ypos)
 		DrawSpriteFX(object.eggmanFrame, FX_FLIP, object.xpos, object.ypos)
-		DrawSpriteFX(215, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(220, FX_FLIP, object.xpos, object.ypos)
 		break
 		
 	end switch
@@ -348,12 +436,12 @@ event ObjectDraw
 		break
 		
 	case LEGS_RETRACT
-		object.legAnimTimer++
+		object.legAnimTimer+= 3
 		if object.legAnimTimer >= 60
 			object.legAnim = LEGS_NONE
 		else
 			temp0 = object.legAnimTimer
-			temp0 /= 20
+			temp0 /= 7
 			temp0 += 212
 			DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
 		end if
@@ -378,6 +466,8 @@ event ObjectDraw
 		end if
 		DrawSpriteFX(object.flameFrame, FX_FLIP, object.xpos, object.ypos)
 	end if
+	end if
+	
 end event
 
 
@@ -659,14 +749,20 @@ event ObjectStartup
 
 	// Legs
 	SpriteFrame(-20, 16, 40, 21, 131, 115) // Frame 212
-	SpriteFrame(-20, 8, 48, 19, 172, 115) // Frame 213
-	SpriteFrame(-20, 8, 40, 16, 172, 135) // Frame 214
+	SpriteFrame(-20, 16, 40, 21, 385, 1) // Frame 213
+	SpriteFrame(-20, 16, 40, 21, 426, 1) // Frame 214
+	SpriteFrame(-20, 16, 40, 21, 467, 1) // Frame 215
+	SpriteFrame(-20, 8, 48, 19, 172, 115) // Frame 216
+	SpriteFrame(-20, 8, 48, 19, 385, 23) // Frame 217
+	SpriteFrame(-20, 8, 40, 16, 172, 135) // Frame 218
+	SpriteFrame(-20, 8, 40, 16, 434, 23) // Frame 219
+	SpriteFrame(-20, 8, 40, 16, 385, 43) // Frame 219
 
 	// Damaged Egg Mobile
-	SpriteFrame(-28, -32, 64, 56, 0, 174) // Frame 215
+	SpriteFrame(-28, -32, 64, 56, 0, 174) // Frame 219
 
 	// Damaged Seat
-	SpriteFrame(-28, -32, 64, 24, 0, 231) // Frame 216
+	SpriteFrame(-28, -32, 64, 24, 0, 231) // Frame 220
 
 	foreach (TypeName[Eggmobile], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].direction = FACING_LEFT

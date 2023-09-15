@@ -16,6 +16,7 @@ private alias object.value3 : object.boundsR
 private alias object.value4 : object.isVulnerable
 private alias object.value5 : object.floorPos
 private alias object.value6 : object.flashFrame
+private alias object.value7 : object.explosionTimer
 
 private alias object.value22 : object.screenFlashTimer
 
@@ -60,14 +61,23 @@ private alias 2 : FZEGGANI_LAUGH
 private alias 3 : FZEGGANI_HIT
 private alias 4 : FZEGGANI_DEFEATED
 private alias 5 : FZEGGANI_TOASTED
+private alias 6 : FZEGGANI_JUMPING
 
 // Player Aliases
 private alias object.state : player.state
 private alias object.xpos : player.xpos
 private alias object.xvel : player.xvel
+private alias object.yvel : player.yvel
 private alias object.speed : player.speed
 private alias object.animation : player.animation
 private alias object.collisionRight : player.collisionRight
+private alias object.controlLock	 : player.controlLock
+private alias object.controlMode	 : player.controlMode
+private alias object.gravity	 : player.gravity
+
+// Super States
+private alias 1 : SUPERSTATE_SUPER
+private alias 2 : SUPERSTATE_UNTRANSFORM
 
 // Path ID Aliases
 private alias 0 : PATH_A
@@ -102,7 +112,9 @@ end table
 // ========================
 
 private function FZEggman_CheckBossHit
-	object.health = 7
+	if object.health != 8
+		//object.health = 7
+	end if
 	CheckEqual(player[currentPlayer].animation, ANI_JUMPING)
 	temp0 = checkResult
 	CheckEqual(player[currentPlayer].animation, ANI_GLIDING)
@@ -222,9 +234,60 @@ event ObjectUpdate
 				object.state = FZEGGMAN_FLEE
 				
 				object[10].screenFlashTimer = 1 // SBZSetup
+				screen.shakeX = 10
+				screen.shakeY = 10
 				PlaySfx(SfxName[Alarm], false)
+				PlaySfx(SfxName[Large Explosion], false)
+				foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+					if player[currentPlayer].state == Player_State_Static
+						player[currentPlayer].state = Player_State_Ground
+						object[currentPlayer].controlMode = currentPlayer
+					end if
+				next
 			else
 				object.state++
+			end if
+		else
+			if object.timer <= 80
+				if object.health == 8
+					object.explosionTimer++
+					temp0 = object.explosionTimer
+					temp0 %= 1
+					if temp0 == 0
+						foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+							CheckEqual(player[currentPlayer].state, Player_State_Ground)
+							temp1 = checkResult
+							CheckEqual(player[currentPlayer].gravity, GRAVITY_GROUND)
+							temp1 |= checkResult
+							if temp1 == true
+								player[currentPlayer].state = Player_State_Static
+								player[currentPlayer].speed = 0
+								player[currentPlayer].xvel = 0
+								player[currentPlayer].yvel = 0
+								player[currentPlayer].animation = ANI_FLAILING2
+								player[currentPlayer].controlMode = CONTROLMODE_NONE
+							end if
+							if Player_superState == SUPERSTATE_SUPER
+								Player_superState = SUPERSTATE_UNTRANSFORM
+							end if
+						next
+						PlaySfx(SfxName[Explosion], false)
+						Rand(temp0, screen.xsize)
+						Rand(temp1, screen.ysize)
+						temp0 += camera[0].xpos
+						temp1 += camera[0].ypos
+						temp2 = screen.xsize
+						temp3 = screen.ysize
+						temp2 /= 2
+						temp3 /= 2
+						temp0 -= temp2
+						temp1 -= temp3
+						temp0 <<= 16
+						temp1 <<= 16
+						CreateTempObject(TypeName[Explosion], 0, temp0, temp1)
+						object[tempObjectPos].drawOrder = 5
+					end if
+				end if
 			end if
 		end if
 		break
@@ -332,7 +395,8 @@ event ObjectUpdate
 		temp0 -= 0x300000
 		if object.xpos >= temp0
 			object.xvel = 0x24000
-			object.yvel = -0x4C000
+			object.yvel = -0x4E000
+			object.animation = FZEGGANI_JUMPING
 			object.state++
 		end if
 		break
@@ -348,7 +412,9 @@ event ObjectUpdate
 		end if
 
 		if object.yvel > 0
-			if object.ypos >= eggmobile[+7].ypos
+			temp0 = eggmobile[+7].ypos
+			temp0 -= 0x100000
+			if object.ypos >= temp0
 				object.ypos = eggmobile[+7].ypos
 				object.yvel = 0
 				eggmobile[+7].state++
@@ -427,6 +493,16 @@ event ObjectUpdate
 		end if
 		break
 		
+	case FZEGGANI_JUMPING
+		if object.frame < 157
+			object.frame = 157
+		end if
+		if object.frame > 238
+			object.frame = 238
+		end if
+		object.frame++
+		break
+		
 	end switch
 
 	if object.invincibilityTimer != 0
@@ -459,11 +535,11 @@ event ObjectUpdate
 							else
 								object.health = 8
 							end if
-							
-							if object.health == 8
-								// Nothing. There's literally nothing here LMAO
-							end if
 #endplatform
+							if object.health == 8
+								PlaySfx(SfxName[Quake], false)
+								object[10].screenFlashTimer = 12 // SBZSetup 
+							end if
 						end if
 					end if
 				end if
@@ -683,6 +759,97 @@ event ObjectStartup
 	SpriteFrame(-31, -25, 58, 53, 418, 109) // Frame 154
 	SpriteFrame(-31, -25, 58, 53, 418, 109) // Frame 155
 	SpriteFrame(-31, -25, 58, 53, 418, 109) // Frame 156
+	
+	// Jumping
+	SpriteFrame(-17, -23, 38, 51, 1, 1) // Frame 157
+	SpriteFrame(-17, -23, 38, 51, 1, 1) // Frame 158
+	SpriteFrame(-20, -22, 37, 50, 434, 58) // Frame 159
+	SpriteFrame(-20, -22, 37, 50, 434, 58) // Frame 160
+	SpriteFrame(-21, -19, 38, 47, 472, 61) // Frame 161
+	SpriteFrame(-21, -19, 38, 47, 472, 61) // Frame 162
+	SpriteFrame(-21, -19, 38, 47, 472, 61) // Frame 163
+	SpriteFrame(-22, -17, 39, 45, 1, 106) // Frame 164
+	SpriteFrame(-22, -17, 39, 45, 1, 106) // Frame 165
+	SpriteFrame(-22, -17, 39, 45, 1, 106) // Frame 166
+	SpriteFrame(-22, -17, 39, 45, 1, 106) // Frame 167
+	SpriteFrame(-22, -17, 39, 45, 1, 106) // Frame 168
+	SpriteFrame(-23, -16, 40, 44, 41, 106) // Frame 169
+	SpriteFrame(-23, -16, 40, 44, 41, 106) // Frame 170
+	SpriteFrame(-23, -16, 40, 44, 41, 106) // Frame 171
+	SpriteFrame(-23, -16, 40, 44, 41, 106) // Frame 172
+	SpriteFrame(-23, -16, 40, 44, 41, 106) // Frame 173
+	SpriteFrame(-20, -24, 40, 57, 82, 106) // Frame 174
+	SpriteFrame(-20, -24, 40, 57, 82, 106) // Frame 175
+	SpriteFrame(-18, -21, 38, 48, 123, 106) // Frame 176
+	SpriteFrame(-18, -21, 38, 48, 123, 106) // Frame 177
+	SpriteFrame(-18, -21, 38, 48, 123, 106) // Frame 178
+	SpriteFrame(-18, -21, 38, 48, 123, 106) // Frame 179
+	SpriteFrame(-18, -21, 38, 48, 123, 106) // Frame 180
+	SpriteFrame(-18, -21, 38, 48, 123, 106) // Frame 181
+	SpriteFrame(-19, -20, 39, 46, 162, 106) // Frame 182
+	SpriteFrame(-19, -20, 39, 46, 162, 106) // Frame 183
+	SpriteFrame(-19, -20, 39, 46, 162, 106) // Frame 184
+	SpriteFrame(-19, -20, 39, 46, 162, 106) // Frame 185
+	SpriteFrame(-19, -20, 39, 46, 162, 106) // Frame 186
+	SpriteFrame(-19, -20, 39, 46, 162, 106) // Frame 187
+	SpriteFrame(-19, -20, 39, 46, 162, 106) // Frame 188 cant be bothered to edit all these 
+	SpriteFrame(-19, -20, 39, 46, 162, 106) // Frame 115
+	SpriteFrame(-19, -25, 40, 50, 202, 106) // Frame 116
+	SpriteFrame(-19, -25, 40, 50, 202, 106) // Frame 117
+	SpriteFrame(-19, -25, 40, 50, 202, 106) // Frame 118
+	SpriteFrame(-19, -25, 40, 50, 202, 106) // Frame 119
+	SpriteFrame(-19, -25, 40, 50, 202, 106) // Frame 120
+	SpriteFrame(-19, -25, 40, 50, 202, 106) // Frame 121
+	SpriteFrame(-19, -25, 40, 50, 202, 106) // Frame 122
+	SpriteFrame(-19, -25, 40, 50, 202, 106) // Frame 123
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 124
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 125
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 126
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 127
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 128
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 129
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 130
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 131
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 132
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 133
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 134
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 135
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 136
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 137
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 138
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 139
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 140
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 141
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 142
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 143
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 144
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 145
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 146
+	SpriteFrame(-19, -25, 36, 53, 274, 55) // Frame 147
+	SpriteFrame(-18, -20, 39, 48, 314, 60) // Frame 148
+	SpriteFrame(-18, -20, 39, 48, 314, 60) // Frame 149
+	SpriteFrame(-18, -20, 39, 48, 314, 60) // Frame 150
+	SpriteFrame(-18, -20, 39, 48, 314, 60) // Frame 151
+	SpriteFrame(-19, -21, 38, 49, 354, 59) // Frame 152
+	SpriteFrame(-19, -21, 38, 49, 354, 59) // Frame 153
+	SpriteFrame(-19, -21, 38, 49, 354, 59) // Frame 154
+	SpriteFrame(-19, -21, 38, 49, 354, 59) // Frame 155
+	SpriteFrame(-19, -21, 38, 49, 354, 59) // Frame 156
+	SpriteFrame(-17, -22, 37, 50, 394, 58) // Frame 157
+	SpriteFrame(-17, -22, 37, 50, 394, 58) // Frame 158
+	SpriteFrame(-17, -22, 37, 50, 394, 58) // Frame 159
+	SpriteFrame(-17, -22, 37, 50, 394, 58) // Frame 160
+	SpriteFrame(-17, -22, 37, 50, 394, 58) // Frame 161
+	SpriteFrame(-17, -22, 37, 50, 394, 58) // Frame 162
+	SpriteFrame(-17, -22, 37, 50, 394, 58) // Frame 163
+	SpriteFrame(-17, -22, 37, 50, 394, 58) // Frame 164
+	SpriteFrame(-17, -22, 37, 50, 394, 58) // Frame 165
+	SpriteFrame(-17, -22, 37, 50, 394, 58) // Frame 166
+	SpriteFrame(-17, -23, 38, 51, 1, 1) // Frame 167
+	SpriteFrame(-17, -23, 38, 51, 1, 1) // Frame 168
+	SpriteFrame(-17, -23, 38, 51, 1, 1) // Frame 169
+	SpriteFrame(-17, -23, 38, 51, 1, 1) // Frame 170
+	SpriteFrame(-17, -23, 38, 51, 1, 1) // Frame 239
 
 	foreach (TypeName[FZ Eggman], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].priority = PRIORITY_ACTIVE

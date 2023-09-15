@@ -29,7 +29,7 @@ event ObjectUpdate
 		//    separate from the -1 of DRAWORDER_PLAYER
 		// - In Origins however, they turned Draw Order 7 into a real thing, retroactively turning this into an actually valid thing...
 		//    It's nothing too major at all, but just something interesting of note
-		object.drawOrder = 7
+		object.drawOrder = 8
 		
 		object.timer++
 		if object.timer > 3
