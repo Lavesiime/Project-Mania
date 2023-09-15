@@ -965,6 +965,8 @@ event ObjectStartup
 			player[1].actionSpindash = Player_Action_Jump
 		end if
 
+		CallFunction(Player_HandleSuperPalette_Tails) // Initialize fur colors
+
 		CheckCurrentStageFolder("Continue")
 		if checkResult == true
 			player[1].stateInputP2 = Player2_Input_None
