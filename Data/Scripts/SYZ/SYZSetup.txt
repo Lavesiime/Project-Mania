@@ -544,9 +544,13 @@ event ObjectUpdate
 	end if
 
 	object.rLightTimer++
-	object.rLightTimer %= 48
-	SYZSetup_RLightFrame = object.rLightTimer
-	SYZSetup_RLightFrame >>= 3
+	if object.rLightTimer > 1
+		SYZSetup_RLightFrame++
+		object.rLightTimer = 0
+	end if
+	if SYZSetup_RLightFrame > 23
+		SYZSetup_RLightFrame = 0
+	end if
 
 	SYZSetup_oscillation++
 	SYZSetup_oscillation %= 356
