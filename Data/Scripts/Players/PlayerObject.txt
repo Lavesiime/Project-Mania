@@ -2369,7 +2369,7 @@ public function Player_Action_DblJumpSonic
 					PlaySfx(SfxName[Bubble Bounce], false)
 
 					player.yvel = 0x80000
-					//player.xvel = 0
+					player.xvel >>= 1
 					player.speed = player.xvel
 					player.jumpAbilityState = 2
 					player.state = Player_State_BubbleBounce

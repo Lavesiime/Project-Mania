@@ -1,6 +1,6 @@
 // ----------------------------------
 // RSDK Project: Sonic 1
-// Script Description: Monitor Shard Object
+// Script Description: Lava Particle Object
 // ----------------------------------
 
 // ========================

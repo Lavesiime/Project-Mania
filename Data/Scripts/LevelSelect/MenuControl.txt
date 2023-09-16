@@ -23,7 +23,7 @@ private alias 3 : MENUCONTROL_LOADLEVEL
 private alias 4 : MENUCONTROL_LOADSPECIAL
 
 // The maximum number of selections available
-private alias 25 : MAX_SELECTION_COUNT
+private alias 24 : MAX_SELECTION_COUNT
 
 // Aliases for some of the special options
 private alias 64 : SETTING_PLAYER
@@ -120,24 +120,23 @@ private table MenuControl_EntryTable
 	0,  8, 1, 6,  23, 3 	// 6  - SYZ 1
 	0,  9, 1, 7,  23, 3 	// 7  - SYZ 2
 	0, 10, 1, 8,  24, 3 	// 8  - SYZ 3
-	0, 12, 1, 9,  25, 4 	// 9  - LZ 1
-	0, 13, 1, 10, 25, 4 	// 10 - LZ 2
-	0, 14, 1, 11, 25, 4 	// 11 - LZ 3
-	0, 16, 1, 12, 25, 5 	// 12 - SLZ 1
-	0, 17, 1, 13, 25, 5 	// 13 - SLZ 2
-	0, 18, 1, 14, 25, 5 	// 14 - SLZ 3
-	0, 20, 1, 15, 25, 6 	// 15 - SBZ 1
-	0, 21, 1, 16, 25, 6 	// 16 - SBZ 2
-	0, 22, 1, 17, 25, 6 	// 17 - SBZ 3
-	0, 24, 1, 18, 25, 7 	// 18 - Final Zone
+	0, 12, 1, 9,  24, 4 	// 9  - LZ 1
+	0, 13, 1, 10, 24, 4 	// 10 - LZ 2
+	0, 14, 1, 11, 24, 4 	// 11 - LZ 3
+	0, 16, 1, 12, 24, 5 	// 12 - SLZ 1
+	0, 17, 1, 13, 24, 5 	// 13 - SLZ 2
+	0, 18, 1, 14, 24, 5 	// 14 - SLZ 3
+	0, 20, 1, 15, 24, 6 	// 15 - SBZ 1
+	0, 21, 1, 16, 24, 6 	// 16 - SBZ 2
+	0, 22, 1, 17, 24, 6 	// 17 - SBZ 3
+	0, 24, 1, 18, 24, 7 	// 18 - Final Zone
 	1,  0, 0,  0, 0 ,64		// 19 - Player Option
 	1, 	2, 0,  0, 2 ,65		// 20 - Spindash Setting
-	1, 	4, 0,  0, 3 ,66		// 21 - Ground Speed Cap Setting
-	1,  6, 0,  0, 5 ,67		// 22 - Air Speed Cap Setting
-	1,  8, 0,  0, 6 ,68		// 23 - Encore Graphics Setting
-	1, 10, 0,  0, 8 ,69		// 24 - Items Setting
-	1, 12, 0,  0, 9 ,70		// 25 - Max Emeralds Count
-//	1, 14, 0,  0, 11,71		// 26 - Sound Test
+	1, 	4, 0,  0, 3 ,66		// 21 - Fast Run Setting
+	1,  6, 0,  0, 5 ,68		// 22 - Encore Graphics Setting
+	1,  8, 0,  0, 6 ,69		// 23 - Items Setting
+	1, 10, 0,  0, 8 ,70		// 24 - Max Emeralds Count
+//	1, 12, 0,  0, 10,71		// 25 - Sound Test
 end table
 
 
@@ -898,13 +897,6 @@ event ObjectStartup
 	end switch
 	AddMenuEntry(MENU_2, " ", false)
 
-	if options.airSpeedCap == true
-		AddMenuEntry(MENU_2, "AIR SPD CAP@@*ON*", true)
-	else
-		AddMenuEntry(MENU_2, "AIR SPD CAP@*OFF*", true)
-	end if
-	AddMenuEntry(MENU_2, " ", false)
-
 	if options.encoreGraphics == true
 		AddMenuEntry(MENU_2, "GRAPHICS@*ENCORE*", true)
 	else
@@ -941,7 +933,7 @@ event ObjectStartup
 	
 	AddMenuEntry(MENU_2, " ", false)
 	AddMenuEntry(MENU_2, " ", false)
-	AddMenuEntry(MENU_2, "still unifnished lol", false)
+	//AddMenuEntry(MENU_2, "still unifnished lol", false)
 	AddMenuEntry(MENU_2, " ", false)
 	AddMenuEntry(MENU_2, " ", false)
 	AddMenuEntry(MENU_2, " ", false)

@@ -39,8 +39,7 @@ event ObjectUpdate
 	end if
 
 	if object.sunFlowerTimer == 0
-		object.sunFlowerTimer = 20
-		temp0 = 768
+		temp0 = 0x1F6
 		temp0 += object.sunFlowerFrame
 		Copy16x16Tile(427, temp0)
 		temp0++
@@ -49,18 +48,16 @@ event ObjectUpdate
 		Copy16x16Tile(429, temp0)
 		temp0++
 		Copy16x16Tile(430, temp0)
-
-		temp0 = 796
-		temp0 += object.sunFlowerFrame
-		Copy16x16Tile(421, temp0)
-		temp0++
-		Copy16x16Tile(422, temp0)
-		temp0++
-		Copy16x16Tile(423, temp0)
-		temp0++
-		Copy16x16Tile(424, temp0)
 		object.sunFlowerFrame += 4
-		object.sunFlowerFrame &= 7
+		object.sunFlowerFrame %= 32
+		
+		temp0 = object.sunFlowerFrame
+		temp0 %= 16
+		if temp0 == 4
+			object.sunFlowerTimer = 30
+		else
+			object.sunFlowerTimer = 1
+		end if
 	else
 		object.sunFlowerTimer--
 	end if
@@ -69,27 +66,29 @@ event ObjectUpdate
 		switch object.extendFlowerFrame
 		case 0
 			object.extendFlowerTimer = 160
-			temp0 = 0
 			break
-
-		case 1
-			object.extendFlowerTimer = 10
-			temp0 = 6
+			
+		case 4
+			object.extendFlowerTimer = 8
 			break
-
-		case 2
+			
+		case 8
 			object.extendFlowerTimer = 160
-			temp0 = 12
 			break
-
-		case 3
-			object.extendFlowerTimer = 10
-			temp0 = 6
+			
+		case 12
+			object.extendFlowerTimer = 8
+			break
+			
+		default
+			object.extendFlowerTimer = 1
 			break
 			
 		end switch
-
-		temp0 += 776
+		
+		temp0 = object.extendFlowerFrame
+		temp0 *= 6
+		temp0 += 0x216
 		Copy16x16Tile(431, temp0)
 		temp0++
 		Copy16x16Tile(432, temp0)
@@ -102,87 +101,77 @@ event ObjectUpdate
 		temp0++
 		Copy16x16Tile(436, temp0)
 		object.extendFlowerFrame++
-		object.extendFlowerFrame &= 3
+		object.extendFlowerFrame %= 16
 	else
 		object.extendFlowerTimer--
 	end if
 
 	if object.bubbleFlowerTimer == 0
+		object.bubbleFlowerFrame++
+		object.bubbleFlowerFrame %= 12
+		
 		switch object.bubbleFlowerFrame
 		case 0
-			object.bubbleFlowerTimer = 16
-			temp0 = 0
-			break
-
-		case 1
-			object.bubbleFlowerTimer = 16
-			temp0 = 6
+			object.bubbleFlowerTimer = 32
 			break
 
 		case 2
-			object.bubbleFlowerTimer = 16
-			temp0 = 12
+			object.bubbleFlowerTimer = 32
 			break
 
+		case 4
+			object.bubbleFlowerTimer = 32
+			break
+
+		case 8
+			object.bubbleFlowerTimer = 32
+			break
+		
+		case 1
 		case 3
-			object.bubbleFlowerTimer = 16
-			temp0 = 6
+			object.bubbleFlowerTimer = 3
+			break
+			
+		default
+			object.bubbleFlowerTimer = 2
 			break
 			
 		end switch
-		
-		temp0 += 816
-		Copy16x16Tile(411, temp0)
-		temp0++
-		Copy16x16Tile(412, temp0)
-		temp0++
-		Copy16x16Tile(413, temp0)
-		temp0++
-		Copy16x16Tile(414, temp0)
-		temp0++
-		Copy16x16Tile(415, temp0)
-		temp0++
-		Copy16x16Tile(416, temp0)
-		object.bubbleFlowerFrame++
-		object.bubbleFlowerFrame &= 3
 	else
 		object.bubbleFlowerTimer--
 	end if
 
 	if object.bubbleFlowerTimer2 == 0
+		object.bubbleFlowerFrame2++
+		object.bubbleFlowerFrame2 %= 12
+		
 		switch object.bubbleFlowerFrame2
 		case 0
-			object.bubbleFlowerTimer2 = 16
-			temp0 = 0
-			break
-
-		case 1
-			object.bubbleFlowerTimer2 = 16
-			temp0 = 4
+			object.bubbleFlowerTimer2 = 36
 			break
 
 		case 2
-			object.bubbleFlowerTimer2 = 16
-			temp0 = 8
+			object.bubbleFlowerTimer2 = 36
 			break
 
+		case 4
+			object.bubbleFlowerTimer2 = 36
+			break
+
+		case 8
+			object.bubbleFlowerTimer2 = 36
+			break
+		
+		case 1
 		case 3
-			object.bubbleFlowerTimer2 = 16
-			temp0 = 4
+			object.bubbleFlowerTimer2 = 3
+			break
+			
+		default
+			object.bubbleFlowerTimer2 = 2
 			break
 			
 		end switch
-
-		temp0 += 804
-		Copy16x16Tile(417, temp0)
-		temp0++
-		Copy16x16Tile(418, temp0)
-		temp0++
-		Copy16x16Tile(419, temp0)
-		temp0++
-		Copy16x16Tile(420, temp0)
-		object.bubbleFlowerFrame2++
-		object.bubbleFlowerFrame2 &= 3
 	else
 		object.bubbleFlowerTimer2--
 	end if
@@ -190,6 +179,9 @@ end event
 
 
 event ObjectStartup
+	specialStage.emeralds = 0xff
+
+
 	SetMusicTrack("Ending.ogg", 0, false)
 
 	animalType1 = TypeName[Pocky]

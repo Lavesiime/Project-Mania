@@ -58,6 +58,7 @@ private alias object.controlMode : player.controlMode
 private alias object.controlLock : player.controlLock
 private alias object.right		:	player.right
 private alias object.left		:	player.left
+private alias object.jumpPress	:	player.jumpPress
 
 // Game Modes
 private alias 0 : MODE_NOSAVE
@@ -338,12 +339,22 @@ event ObjectUpdate
 							player[currentPlayer].state = Player_State_Ground
 							player[currentPlayer].right = true
 							player[currentPlayer].left = false
+							if player[currentPlayer].animation == ANI_PUSHING
+								player[currentPlayer].jumpPress = true
+							else
+								player[currentPlayer].jumpPress = false
+							end if
 						end if
 					else
 						if player[currentPlayer].xpos < object.xpos
 							player[currentPlayer].state = Player_State_Ground
 							player[currentPlayer].right = true
 							player[currentPlayer].left = false
+							if player[currentPlayer].animation == ANI_PUSHING
+								player[currentPlayer].jumpPress = true
+							else
+								player[currentPlayer].jumpPress = false
+							end if
 						end if
 					end if
 				end if

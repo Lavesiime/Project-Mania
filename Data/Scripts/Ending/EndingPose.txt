@@ -331,8 +331,12 @@ event ObjectUpdate
 			SetTileLayerEntry(187, 0, 3, 3)
 			SetTileLayerEntry(188, 0, 4, 2)
 			SetTileLayerEntry(189, 0, 5, 2)
-			SetTileLayerEntry(190, 0, 4, 3)
+			//SetTileLayerEntry(190, 0, 4, 3)
 			SetTileLayerEntry(191, 0, 5, 3)
+			
+			foreach (TypeName[Flower], arrayPos0, ALL_ENTITIES)
+				object[arrayPos0].value0 = true
+			next
 			
 			object.state++
 		end if
