@@ -38,6 +38,9 @@ private alias object.value20 : object.palIndexG
 private alias object.value21 : object.screenFlashAlpha
 private alias object.value22 : object.screenFlashTimer
 
+private alias object.value23 : object.aniTilesFrameA
+private alias object.value24 : object.aniTilesFrameB
+
 // Tile Flag Aliases
 private alias 1 : TILE_CONVEYORBELT
 
@@ -186,43 +189,57 @@ end table
 // ========================
 
 private function SBZSetup_BGEffectsAct1
-	if object.aniTilesTimerA < 65
-		temp0 = object.aniTilesTimerA
-		temp0 &= 7
-		if temp0 == 0
-			temp0 = object.aniTilesTimerA
-			temp0 &= 63
-			temp0 >>= 3
-			temp0 <<= 2
-			temp0 += 604
+	if object.aniTilesTimerA == 0
+		object.aniTilesFrameA++
+		
+		if object.aniTilesFrameA == 14
+			object.aniTilesTimerA = 64
+			Copy16x16Tile(591, 0)
+			temp0++
+			Copy16x16Tile(592, 0)
+			temp0++
+			Copy16x16Tile(593, 0)
+		else
+			object.aniTilesTimerA = 6
+			temp0 = object.aniTilesFrameA
+			temp0 *= 3
+			temp0 += 0x256
+			Copy16x16Tile(591, temp0)
+			temp0++
 			Copy16x16Tile(592, temp0)
 			temp0++
 			Copy16x16Tile(593, temp0)
-			temp0++
-			Copy16x16Tile(594, temp0)
 		end if
+		
+		object.aniTilesFrameA %= 14
 	end if
-	object.aniTilesTimerA++
-	object.aniTilesTimerA %= 192
+	object.aniTilesTimerA--
 
-	if object.aniTilesTimerB < 65
-		temp0 = object.aniTilesTimerB
-		temp0 &= 7
-		if temp0 == 0
-			temp0 = object.aniTilesTimerB
-			temp0 &= 63
-			temp0 >>= 3
-			temp0 <<= 2
-			temp0 += 604
+	if object.aniTilesTimerB == 0
+		object.aniTilesFrameB++
+		
+		if object.aniTilesFrameB == 14
+			object.aniTilesTimerB = 80
+			Copy16x16Tile(594, 0)
+			temp0++
+			Copy16x16Tile(595, 0)
+			temp0++
+			Copy16x16Tile(596, 0)
+		else
+			object.aniTilesTimerB = 6
+			temp0 = object.aniTilesFrameB
+			temp0 *= 3
+			temp0 += 0x256
+			Copy16x16Tile(594, temp0)
+			temp0++
+			Copy16x16Tile(595, temp0)
+			temp0++
 			Copy16x16Tile(596, temp0)
-			temp0++
-			Copy16x16Tile(597, temp0)
-			temp0++
-			Copy16x16Tile(598, temp0)
 		end if
+		
+		object.aniTilesFrameB %= 14
 	end if
-	object.aniTilesTimerB++
-	object.aniTilesTimerB %= 144
+	object.aniTilesTimerB--
 	
 	object.palRotateTimerAct1++
 	if object.palRotateTimerAct1 == 2
@@ -514,12 +531,12 @@ event ObjectStartup
 	object[SLOT_ZONESETUP].drawOrder 	= 0
 
 	// Init aniTiles
-	Copy16x16Tile(592, 604)
-	Copy16x16Tile(593, 605)
-	Copy16x16Tile(594, 606)
-	Copy16x16Tile(596, 604)
-	Copy16x16Tile(597, 605)
-	Copy16x16Tile(598, 606)
+	Copy16x16Tile(591, 604)
+	Copy16x16Tile(592, 605)
+	Copy16x16Tile(593, 606)
+	Copy16x16Tile(594, 604)
+	Copy16x16Tile(595, 605)
+	Copy16x16Tile(596, 606)
 
 	// Use different palette cycles and such based on the act
 	switch stage.actNum

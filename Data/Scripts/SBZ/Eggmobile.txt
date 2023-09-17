@@ -434,9 +434,9 @@ event ObjectDraw
 		if object.eggmanFrame > 175
 			object.eggmanFrame = 140
 		end if
-		DrawSpriteFX(221, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(222, FX_FLIP, object.xpos, object.ypos)
 		DrawSpriteFX(object.eggmanFrame, FX_FLIP, object.xpos, object.ypos)
-		DrawSpriteFX(220, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(221, FX_FLIP, object.xpos, object.ypos)
 		break
 		
 	end switch
@@ -767,13 +767,13 @@ event ObjectStartup
 	SpriteFrame(-20, 8, 48, 19, 385, 23) // Frame 217
 	SpriteFrame(-20, 8, 40, 16, 172, 135) // Frame 218
 	SpriteFrame(-20, 8, 40, 16, 434, 23) // Frame 219
-	SpriteFrame(-20, 8, 40, 16, 385, 43) // Frame 219
+	SpriteFrame(-20, 8, 40, 16, 385, 43) // Frame 220
 
 	// Damaged Egg Mobile
-	SpriteFrame(-28, -32, 64, 56, 0, 174) // Frame 219
+	SpriteFrame(-28, -32, 64, 56, 0, 174) // Frame 221
 
 	// Damaged Seat
-	SpriteFrame(-28, -32, 64, 24, 0, 231) // Frame 220
+	SpriteFrame(-28, -32, 64, 24, 0, 231) // Frame 222
 
 	foreach (TypeName[Eggmobile], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].direction = FACING_LEFT
