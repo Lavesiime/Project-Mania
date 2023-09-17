@@ -158,7 +158,7 @@ event ObjectUpdate
 								switch stage.playerListPos
 								case PLAYER_SONIC_ALONE
 								case PLAYER_SONIC_AND_TAILS
-									object[currentPlayer].frame = 4
+									object[currentPlayer].frame = 50
 									break
 									
 								case PLAYER_TAILS_ALONE

@@ -12,6 +12,7 @@
 private alias object.value0 : object.timer
 private alias object.value1 : object.logoPos // Not set in this script, but set by the [Ending Control] that spawns this object
 private alias object.value2 : object.tailFrame
+private alias object.value3 : object.animTimer
 
 // This object's states are pretty complex, a single object won't cycle through them all but instead each of the states appear under different scenarios
 // I tried to note how each state plays into others, sorry if the explanation isn't any good though...
@@ -226,7 +227,20 @@ event ObjectUpdate
 			switch stage.playerListPos
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
-				object.frame = 4
+				if object.frame < 50
+					object.frame = 50
+					object.animTimer = 0
+				end if
+				player.score = object.frame
+				object.animTimer++
+				if object.animTimer >= 3
+					object.frame++
+					object.animTimer = 0
+				end if
+				if object.frame > 53
+					object.frame = 53
+					object.animTimer = 0
+				end if
 				break
 				
 			case PLAYER_TAILS_ALONE
@@ -258,7 +272,7 @@ event ObjectUpdate
 		switch stage.playerListPos
 		case PLAYER_SONIC_ALONE
 		case PLAYER_SONIC_AND_TAILS
-			object.frame += 5
+			object.frame = 53
 			break
 			
 		case PLAYER_TAILS_ALONE
@@ -277,7 +291,7 @@ event ObjectUpdate
 			switch stage.playerListPos
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
-				object.frame = 7
+				object.frame = 54
 				break
 				
 			case PLAYER_TAILS_ALONE
@@ -315,7 +329,34 @@ event ObjectUpdate
 		break
 
 	case ENDINGPOSE_LOOKUP
-		// In this state, we wait for the Emeralds to increase our state
+		switch stage.playerListPos
+		case PLAYER_SONIC_ALONE
+		case PLAYER_SONIC_AND_TAILS
+			if object.frame < 54
+				object.frame = 54
+				object.animTimer = 0
+			end if
+			player.score = object.frame
+			object.animTimer++
+			if object.animTimer >= 6
+				object.frame++
+				object.animTimer = 0
+			end if
+			if object.frame > 57
+				object.frame = 57
+				object.animTimer = 0
+			end if
+			break
+			
+		case PLAYER_TAILS_ALONE
+			object.frame = 19
+			break
+			
+		case PLAYER_KNUX_ALONE
+			object.frame = 29
+			break
+			
+		end switch
 		break
 
 	case ENDINGPOSE_EMERALDSFLASH_A
@@ -335,7 +376,7 @@ event ObjectUpdate
 			SetTileLayerEntry(191, 0, 5, 3)
 			
 			foreach (TypeName[Flower], arrayPos0, ALL_ENTITIES)
-				object[arrayPos0].value0 = true
+				object[arrayPos0].value0 = true	// Let these know the emeralds have done their little dance thing whatever
 			next
 			
 			object.state++
@@ -595,15 +636,25 @@ event ObjectStartup
 	SpriteFrame(-26, -8, 20, 24, 336, 99)
 	SpriteFrame(-26, -8, 20, 24, 492, 232)
 	
-	// 41 - "Sonic the Hedgehog and Tails"
+	// 46 - "Sonic the Hedgehog and Tails"
 	SpriteFrame(-48, 0, 96, 40, 256, 141)
 	
-	// 42 - "Sonic the Hedgehog and Miles"
+	// 47 - "Sonic the Hedgehog and Miles"
 	SpriteFrame(-48, 0, 96, 40, 256, 199)
 	
-	// 43-44 - P2 Tails Pose Frames
+	// 48-49 - P2 Tails Pose Frames
 	SpriteFrame(-10, -13, 22, 31, 58, 99)
 	SpriteFrame(-20, -17, 36, 35, 44, 131)
+	
+	// 50-  - Sonic Good ending
+	SpriteFrame(-9, -20, 28, 39, 1, 256)
+	SpriteFrame(-9, -20, 26, 39, 30, 256)
+	SpriteFrame(-9, -20, 24, 39, 57, 256)
+	SpriteFrame(-9, -20, 23, 39, 82, 256) // 53
+	SpriteFrame(-9, -20, 22, 39, 106, 256) // 54
+	SpriteFrame(-12, -20, 25, 39, 129, 256)
+	SpriteFrame(-13, -20, 26, 39, 155, 256)
+	SpriteFrame(-16, -20, 29, 39, 182, 256) // 57
 end event
 
 
