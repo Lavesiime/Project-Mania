@@ -5518,8 +5518,13 @@ event ObjectStartup
 		case PLAYER_SONIC_ALONE
 			// Even though you never start an act as Super Sonic, loading the animation file on startup will load all the sprites upon startup
 			// so that they won't have to load during gameplay instead and cause a notable pause
-			LoadAnimation("SuperSonic.ani")
-			LoadAnimation("Sonic.ani")
+			CheckCurrentStageFolder("Ending")
+			if checkResult == true
+				LoadAnimation("SonicEnding.ani")
+			else
+				LoadAnimation("SuperSonic.ani")
+				LoadAnimation("Sonic.ani")
+			end if
 			
 			CallFunction(Player_HandleSuperPalette_Sonic) // Initialize fur colors
 			
@@ -5535,7 +5540,12 @@ event ObjectStartup
 			
 			CallFunction(Player_HandleSuperPalette_Tails) // Initialize fur colors
 			
-			LoadAnimation("Tails.ani")
+			CheckCurrentStageFolder("Ending")
+			if checkResult == true
+				LoadAnimation("TailsEnding.ani")
+			else
+				//LoadAnimation("Tails.ani")
+			end if
 			
 			// As opposed to Sonic & Knuckles' 5 pixel offset, 
 			// Tails get offset by 1 pixel when rolling since he's shorter
@@ -5551,7 +5561,12 @@ event ObjectStartup
 			break
 
 		case PLAYER_KNUX_ALONE
-			LoadAnimation("Knuckles.ani")
+			CheckCurrentStageFolder("Ending")
+			if checkResult == true
+				LoadAnimation("KnucklesEnding.ani")
+			else
+				LoadAnimation("Knuckles.ani")
+			end if
 			
 			CallFunction(Player_HandleSuperPalette_Knux) // Initialize fur colors
 			
