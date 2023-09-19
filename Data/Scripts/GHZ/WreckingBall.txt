@@ -16,6 +16,7 @@ private alias object.value10 : object.collided
 private alias 0 : WRECKINGBALL_INACTIVE
 private alias 1 : WRECKINGBALL_ACTIVE
 private alias 2 : WRECKINGBALL_EXPLODE
+private alias 3 : WRECKINGBALL_DEBRIS
 
 // Misc aliases
 private alias  0 : PATH_A
@@ -27,7 +28,8 @@ private alias  1 : PATH_B
 // ========================
 
 event ObjectUpdate
-	if object.state == WRECKINGBALL_EXPLODE
+	switch object.state
+	case WRECKINGBALL_EXPLODE
 		if object.timer < 180
 			object.rotation *= 248
 			object.rotation >>= 8
@@ -44,10 +46,38 @@ event ObjectUpdate
 				temp1 <<= 16
 				temp1 += object.ypos
 				CreateTempObject(TypeName[Explosion], 0, temp0, temp1)
+				object[tempObjectPos].drawOrder = 4
 			end if
+		else
+			CreateTempObject(TypeName[Wrecking Ball], 0, object.xpos, object.ypos)
+			object[tempObjectPos].state = WRECKINGBALL_DEBRIS
+			object[tempObjectPos].frame = 9
+			object[tempObjectPos].drawOrder = 4
+			object[tempObjectPos].xvel = -0x08000
+			object[tempObjectPos].yvel = -0x30000
+			CreateTempObject(TypeName[Wrecking Ball], 0, object.xpos, object.ypos)
+			object[tempObjectPos].state = WRECKINGBALL_DEBRIS
+			object[tempObjectPos].frame = 10
+			object[tempObjectPos].drawOrder = 4
+			object[tempObjectPos].xvel = 0x08000
+			object[tempObjectPos].yvel = -0x30000
+			CreateTempObject(TypeName[Wrecking Ball], 0, object.xpos, object.ypos)
+			object[tempObjectPos].state = WRECKINGBALL_DEBRIS
+			object[tempObjectPos].frame = 11
+			object[tempObjectPos].drawOrder = 4
+			object[tempObjectPos].xvel = -0x0B000
+			object[tempObjectPos].yvel = -0x28000
+			CreateTempObject(TypeName[Wrecking Ball], 0, object.xpos, object.ypos)
+			object[tempObjectPos].state = WRECKINGBALL_DEBRIS
+			object[tempObjectPos].frame = 12
+			object[tempObjectPos].drawOrder = 4
+			object[tempObjectPos].xvel = 0x0B000
+			object[tempObjectPos].yvel = -0x28000
+			
+			object.type = TypeName[Blank Object]
 		end if
 
-		if object.timer >= 180
+		if object.timer > 180
 			object.timer++
 			object.ypos += object.yvel
 			object.yvel += 0x03000
@@ -59,7 +89,16 @@ event ObjectUpdate
 				end if
 			end if
 		end if
-	end if
+		break
+		
+	case WRECKINGBALL_DEBRIS
+	object.timer++
+		object.xpos += object.xvel
+		object.ypos += object.yvel
+		object.yvel += 0x03000
+		break
+		
+	end switch
 
 	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
 		if object.state == WRECKINGBALL_ACTIVE
@@ -73,29 +112,36 @@ end event
 
 
 event ObjectDraw
-	temp0 = object.timer
-	temp0 %= 2
-	if temp0 == 0
-		temp1 = 1
+	if object.state == WRECKINGBALL_DEBRIS
+		temp0 = object.timer
+		temp0 %= 2
+		if temp0 == 0
+			temp1 = 1
+		else
+			temp1 = 0
+		end if
+		if temp1 == true
+			DrawSprite(object.frame)
+		end if
 	else
-		temp1 = 0
-	end if
-	CheckGreater(180, object.timer)
-	temp1 |= checkResult
-	if temp1 == true
-		// Draw Wrecking ball
-		temp0 = object.rotation
-		temp0 += 8
-		temp0 >>= 4
-		temp0 &= 7
-		temp0++
-		DrawSprite(temp0)
-		DrawSpriteFX(1, FX_ROTATE, object.xpos, object.ypos)
+		temp0 = object.timer
+		temp0 %= 2
+		if temp0 == 0
+			temp1 = 1
+		else
+			temp1 = 0
+		end if
+		CheckGreater(180, object.timer)
+		temp1 |= checkResult
+		if temp1 == true
+			// Draw Wrecking ball
+			DrawSpriteFX(1, FX_ROTATE, object.xpos, object.ypos)
 
-		// Draw Shine Overlay
-		object.inkEffect = INK_ADD
-		object.alpha = 160
-		DrawSpriteFX(0, FX_INK, object.xpos, object.ypos)
+			// Draw Shine Overlay
+			object.inkEffect = INK_ADD
+			object.alpha = 160
+			DrawSpriteFX(0, FX_INK, object.xpos, object.ypos)
+		end if
 	end if
 end event
 
@@ -112,6 +158,12 @@ event ObjectStartup
 	SpriteFrame(-24, -24, 48, 48, 197, 77) 	// Wrecking Ball - #6
 	SpriteFrame(-24, -24, 48, 48, 148, 77) 	// Wrecking Ball - #7
 	SpriteFrame(-24, -24, 48, 48, 99, 77) 	// Wrecking Ball - #8
+	
+	// Debris
+	SpriteFrame(-24, -24, 24, 24, 50, 77)
+	SpriteFrame(0, -24, 24, 24, 74, 77)
+	SpriteFrame(-24, 0, 24, 24, 50, 101)
+	SpriteFrame(0, 0, 24, 24, 74, 101)
 end event
 
 

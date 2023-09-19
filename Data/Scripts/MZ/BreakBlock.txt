@@ -57,8 +57,6 @@ event ObjectUpdate
 				temp1 = checkResult
 				checkEqual(COL_TOP, temp1)
 				temp0 = checkResult
-				checkEqual(COL_BOTTOM, temp1)
-				temp0 |= checkResult
 				if temp0 != 0
 					player[currentPlayer].yvel = -0x30000
 					player[currentPlayer].gravity = GRAVITY_AIR

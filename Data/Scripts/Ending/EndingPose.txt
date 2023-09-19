@@ -54,8 +54,14 @@ private alias object.up : player.up
 private alias object.drawOrder : player.drawOrder
 private alias object.controlMode : player.controlMode
 
+// Other aliases
+private alias object.value10 : object.endingPos
+
 // Reserved Object Slot Aliases
 private alias 1 : SLOT_PLAYER2
+
+// Animation Aliases
+private alias 2 : ANI_ENDING_LARGEPOSE
 
 
 // ========================
@@ -151,6 +157,7 @@ event ObjectUpdate
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
 				object.frame = 2
+				object[0].animation = ANI_ENDING_LARGEPOSE
 				object.ixpos = camera[0].xpos
 				object.iypos = camera[0].ypos
 				break
@@ -227,20 +234,7 @@ event ObjectUpdate
 			switch stage.playerListPos
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
-				if object.frame < 50
-					object.frame = 50
-					object.animTimer = 0
-				end if
-				player.score = object.frame
-				object.animTimer++
-				if object.animTimer >= 3
-					object.frame++
-					object.animTimer = 0
-				end if
-				if object.frame > 53
-					object.frame = 53
-					object.animTimer = 0
-				end if
+				object.frame = 4
 				break
 				
 			case PLAYER_TAILS_ALONE
@@ -272,7 +266,7 @@ event ObjectUpdate
 		switch stage.playerListPos
 		case PLAYER_SONIC_ALONE
 		case PLAYER_SONIC_AND_TAILS
-			object.frame = 53
+			object.frame += 5
 			break
 			
 		case PLAYER_TAILS_ALONE
@@ -291,7 +285,7 @@ event ObjectUpdate
 			switch stage.playerListPos
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
-				object.frame = 54
+				object.frame = 7
 				break
 				
 			case PLAYER_TAILS_ALONE
@@ -314,6 +308,7 @@ event ObjectUpdate
 			
 			CreateTempObject(TypeName[Emeralds], 0, object.xpos, object.ypos)
 			object[tempObjectPos].drawOrder = 6
+			object[tempObjectPos].value10 = object.entityPos
 			
 			object.state++
 		else
@@ -329,34 +324,7 @@ event ObjectUpdate
 		break
 
 	case ENDINGPOSE_LOOKUP
-		switch stage.playerListPos
-		case PLAYER_SONIC_ALONE
-		case PLAYER_SONIC_AND_TAILS
-			if object.frame < 54
-				object.frame = 54
-				object.animTimer = 0
-			end if
-			player.score = object.frame
-			object.animTimer++
-			if object.animTimer >= 6
-				object.frame++
-				object.animTimer = 0
-			end if
-			if object.frame > 57
-				object.frame = 57
-				object.animTimer = 0
-			end if
-			break
-			
-		case PLAYER_TAILS_ALONE
-			object.frame = 19
-			break
-			
-		case PLAYER_KNUX_ALONE
-			object.frame = 29
-			break
-			
-		end switch
+		// In this state, we wait for the Emeralds to increase our state
 		break
 
 	case ENDINGPOSE_EMERALDSFLASH_A

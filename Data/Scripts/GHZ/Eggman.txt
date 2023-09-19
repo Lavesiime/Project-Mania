@@ -395,6 +395,7 @@ event ObjectUpdate
 			temp1 <<= 16
 			temp1 += object.ypos
 			CreateTempObject(TypeName[Explosion], 0, temp0, temp1)
+			object[tempObjectPos].drawOrder = 4
 			PlaySfx(SfxName[Explosion], false)
 		end if
 
@@ -551,6 +552,14 @@ end event
 
 
 event ObjectDraw
+	object[-6].drawOrder = 4
+	object[-5].drawOrder = 4
+	object[-4].drawOrder = 4
+	object[-3].drawOrder = 4
+	object[-2].drawOrder = 4
+	object[-1].drawOrder = 4
+	object.drawOrder = 4
+
 	switch object.animation
 	default
 	case GHZEGGANI_INVISIBLE

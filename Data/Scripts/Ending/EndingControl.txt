@@ -122,9 +122,15 @@ event ObjectUpdate
 						object.state++
 					else
 						if currentPlayer == 0
-							ResetObjectEntity(currentPlayer, TypeName[Ending Pose], 0, object.xpos, object.ypos)
+							// Keep the player object
+							CreateTempObject(TypeName[Ending Pose], 0, object.xpos, object.ypos)
+							object[tempObjectPos].timer = 0
+							object[tempObjectPos].logoPos = 224
+							object[tempObjectPos].drawOrder = 6
+							
 							object[currentPlayer].controlMode = CONTROLMODE_NONE
 							object[currentPlayer].drawOrder = 6
+							object[currentPlayer].state = Player_State_Static
 
 							if options.superStates == false
 								// Six emeralds
@@ -140,15 +146,16 @@ event ObjectUpdate
 								switch stage.playerListPos
 								case PLAYER_SONIC_ALONE
 								case PLAYER_SONIC_AND_TAILS
-									object[currentPlayer].frame = 0
+									object[tempObjectPos].frame = 0
+									object[currentPlayer].animation = ANI_WAITING
 									break
 									
 								case PLAYER_TAILS_ALONE
-									object[currentPlayer].frame = 13
+									object[tempObjectPos].frame = 13
 									break
 									
 								case PLAYER_KNUX_ALONE
-									object[currentPlayer].frame = 24
+									object[tempObjectPos].frame = 24
 									break
 									
 								end switch
@@ -158,24 +165,23 @@ event ObjectUpdate
 								switch stage.playerListPos
 								case PLAYER_SONIC_ALONE
 								case PLAYER_SONIC_AND_TAILS
-									object[currentPlayer].frame = 50
+									object[tempObjectPos].frame = 4
+									object[currentPlayer].animation = ANI_WAITING
 									break
 									
 								case PLAYER_TAILS_ALONE
-									object[currentPlayer].frame = 16
+									object[tempObjectPos].frame = 16
 									break
 									
 								case PLAYER_KNUX_ALONE
-									object[currentPlayer].frame = 27
+									object[tempObjectPos].frame = 27
 									break
 									
 								end switch
 								
 								// Put them in the Good Ending state too, looks like the Emeralds are starting to do something
-								object[currentPlayer].state = 5
+								object[tempObjectPos].state = 5
 							end if
-
-							object[currentPlayer].logoPos = 224
 						end if
 					end if
 				end if
