@@ -55,13 +55,15 @@ private alias object.drawOrder : player.drawOrder
 private alias object.controlMode : player.controlMode
 
 // Other aliases
-private alias object.value10 : object.endingPos
+private alias object.value2 : object.endingPos
 
 // Reserved Object Slot Aliases
 private alias 1 : SLOT_PLAYER2
 
 // Animation Aliases
 private alias 2 : ANI_ENDING_LARGEPOSE
+private alias 8 : ANI_ENDING_HOLDEMERALDS
+private alias 9 : ANI_ENDING_LOOKATEMERALDS
 
 
 // ========================
@@ -122,6 +124,7 @@ event ObjectUpdate
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
 				object.frame = 1
+				object[0].animation = ANI_ENDING_LARGEPOSE
 				break
 				
 			case PLAYER_TAILS_ALONE
@@ -157,7 +160,6 @@ event ObjectUpdate
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
 				object.frame = 2
-				object[0].animation = ANI_ENDING_LARGEPOSE
 				object.ixpos = camera[0].xpos
 				object.iypos = camera[0].ypos
 				break
@@ -235,6 +237,7 @@ event ObjectUpdate
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
 				object.frame = 4
+				object[0].animation = ANI_ENDING_HOLDEMERALDS
 				break
 				
 			case PLAYER_TAILS_ALONE
@@ -280,6 +283,26 @@ event ObjectUpdate
 		end switch
 
 		object.timer++
+		
+		if object.timer == 70
+			switch stage.playerListPos
+			case PLAYER_SONIC_ALONE
+			case PLAYER_SONIC_AND_TAILS
+				object.frame = 7
+				object[0].animation = ANI_ENDING_LOOKATEMERALDS
+				break
+				
+			case PLAYER_TAILS_ALONE
+				object.frame = 19
+				break
+				
+			case PLAYER_KNUX_ALONE
+				object.frame = 29
+				break
+				
+			end switch
+		end if
+		
 		if object.timer == 80
 			object.timer = 0
 			switch stage.playerListPos
@@ -308,7 +331,7 @@ event ObjectUpdate
 			
 			CreateTempObject(TypeName[Emeralds], 0, object.xpos, object.ypos)
 			object[tempObjectPos].drawOrder = 6
-			object[tempObjectPos].value10 = object.entityPos
+			object[tempObjectPos].endingPos = object.entityPos
 			
 			object.state++
 		else
@@ -503,7 +526,7 @@ event ObjectDraw
 	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
 	
 	// P1 should draw the logo, as well
-	if object.entityPos == 0
+	if object.propertyValue == 1
 		if object.state > 0
 			temp0 = screen.xcenter
 			temp0 -= 96

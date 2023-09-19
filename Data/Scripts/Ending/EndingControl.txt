@@ -125,8 +125,9 @@ event ObjectUpdate
 							// Keep the player object
 							CreateTempObject(TypeName[Ending Pose], 0, object.xpos, object.ypos)
 							object[tempObjectPos].timer = 0
+							object[tempObjectPos].propertyValue = 1
 							object[tempObjectPos].logoPos = 224
-							object[tempObjectPos].drawOrder = 6
+							object[tempObjectPos].drawOrder = 0
 							
 							object[currentPlayer].controlMode = CONTROLMODE_NONE
 							object[currentPlayer].drawOrder = 6

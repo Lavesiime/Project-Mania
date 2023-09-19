@@ -11,7 +11,7 @@
 
 private alias object.value0 : object.timer
 private alias object.value1 : object.radius
-private alias object.value10 : object.endingPos
+private alias object.value2 : object.endingPos
 
 // States
 private alias 0 : EMERALDS_ASCEND
@@ -55,13 +55,13 @@ event ObjectUpdate
 	case EMERALDS_SPIN
 		if object.speed == 512
 			// Increase P1's Ending Pose state to what should hopefully be ENDINGPOSE_EMERALDSFLASH_A
-			temp0 = object.endingPos
-			player.score = object[temp0].entityPos
-			//object[temp0].state = ENDINGPOSE_EMERALDSFLASH_A
+			arrayPos0 = object.endingPos
+			object[arrayPos0].state = ENDINGPOSE_EMERALDSFLASH_A
 		end if
 		
 		// Once the screen is completely white, take that time to unload the object
-		if object[0].state == ENDINGPOSE_EMERALDSFLASH_B
+		arrayPos0 = object.endingPos
+		if object[arrayPos0].state == ENDINGPOSE_EMERALDSFLASH_B
 			object.type = TypeName[Blank Object]
 		end if
 		break
