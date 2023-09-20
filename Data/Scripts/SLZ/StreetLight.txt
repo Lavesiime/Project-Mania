@@ -34,6 +34,7 @@ end function
 
 
 event ObjectDraw
+	object.drawOrder = 5
 	object.inkEffect = INK_ALPHA
 	object.alpha = 75
 	DrawSpriteFX(object.frame, FX_INK, object.xpos, object.ypos)
