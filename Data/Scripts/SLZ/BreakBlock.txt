@@ -119,11 +119,11 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("SLZ/Objects3.gif")
-	SpriteFrame(-16, -16, 32, 32, 196, 1)
-	SpriteFrame(-8, -8, 16, 16, 196, 1)
-	SpriteFrame(-8, -8, 16, 16, 212, 1)
-	SpriteFrame(-8, -8, 16, 16, 196, 17)
-	SpriteFrame(-8, -8, 16, 16, 212, 17)
+	SpriteFrame(-16, -16, 32, 32, 76, 129)
+	SpriteFrame(-8, -8, 16, 16, 76, 129)
+	SpriteFrame(-8, -8, 16, 16, 92, 129)
+	SpriteFrame(-8, -8, 16, 16, 76, 145)
+	SpriteFrame(-8, -8, 16, 16, 92, 145)
 
 	SetTableValue(TypeName[Break Block], DebugMode_ObjCount, DebugMode_TypesTable)
 	SetTableValue(BreakBlock_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)

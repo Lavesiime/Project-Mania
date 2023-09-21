@@ -331,6 +331,10 @@ private function SBZSetup_BGEffectsAct2
 			player[currentPlayer].xpos += temp3
 		end if
 	next
+	
+	if stage.actNum == 5
+		CallFunction(SBZSetup_BGEffectsAct1) // Need to do this in FZ also
+	end if
 end function
 
 
