@@ -65,13 +65,13 @@ event ObjectStartup
 	foreach (TypeName[Street Light], arrayPos0, ALL_ENTITIES)
 		if object[arrayPos0].propertyValue == 0
 			object[arrayPos0].drawOrder = 3
-			object[arrayPos0].alpha = 25
+			object[arrayPos0].alpha = 20
 		else
 			object[arrayPos0].drawOrder = 4
-			object[arrayPos0].alpha = 30
+			object[arrayPos0].alpha = 25
 		end if
 		
-		object[arrayPos0].inkEffect = INK_ALPHA
+		object[arrayPos0].inkEffect = INK_ADD
 	next
 	
 	SetTableValue(TypeName[StreetLight], DebugMode_ObjCount, DebugMode_TypesTable)
