@@ -109,7 +109,10 @@ event ObjectUpdate
 				player[currentPlayer].right = true
 			end if
 
-			if player[currentPlayer].xpos > object.xpos
+			temp0 = object.xpos
+			temp0 -= 0x040000
+
+			if player[currentPlayer].xpos > temp0
 				if player[currentPlayer].right == true
 					// Sonic's turned around at reached the ending point, so now let's stop him and do all the fancy stuff
 					
@@ -127,7 +130,7 @@ event ObjectUpdate
 							object[tempObjectPos].timer = 0
 							object[tempObjectPos].propertyValue = 1
 							object[tempObjectPos].logoPos = 224
-							object[tempObjectPos].drawOrder = 0
+							object[tempObjectPos].drawOrder = 6
 							
 							object[currentPlayer].controlMode = CONTROLMODE_NONE
 							object[currentPlayer].drawOrder = 6

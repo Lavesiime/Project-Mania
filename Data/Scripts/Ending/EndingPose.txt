@@ -64,6 +64,7 @@ private alias 1 : SLOT_PLAYER2
 private alias 2 : ANI_ENDING_LARGEPOSE
 private alias 8 : ANI_ENDING_HOLDEMERALDS
 private alias 9 : ANI_ENDING_LOOKATEMERALDS
+private alias 10 : ANI_ENDING_LOOKINGAROUND
 
 
 // ========================
@@ -159,7 +160,7 @@ event ObjectUpdate
 			switch stage.playerListPos
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
-				object.frame = 2
+				object[0].animation = ANI_ENDING_LARGEPOSE
 				object.ixpos = camera[0].xpos
 				object.iypos = camera[0].ypos
 				break
@@ -384,7 +385,7 @@ event ObjectUpdate
 			switch stage.playerListPos
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
-				object.frame = 8
+				object[0].animation = ANI_ENDING_LOOKINGAROUND
 				break
 				
 			case PLAYER_TAILS_ALONE
@@ -415,10 +416,6 @@ event ObjectUpdate
 		switch stage.playerListPos
 		case PLAYER_SONIC_ALONE
 		case PLAYER_SONIC_AND_TAILS
-			object.frame = object.timer
-			object.frame /= 6
-			object.frame &= 1
-			object.frame += 8
 			break
 			
 		case PLAYER_TAILS_ALONE
@@ -519,11 +516,11 @@ end event
 event ObjectDraw
 	if object.tailFrame != 0
 		// Tails should have one of his tails sprites in tow
-		DrawSprite(object.tailFrame)
+		//DrawSprite(object.tailFrame)
 	end if
 	
 	// The main player sprite
-	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	//DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
 	
 	// P1 should draw the logo, as well
 	if object.propertyValue == 1
