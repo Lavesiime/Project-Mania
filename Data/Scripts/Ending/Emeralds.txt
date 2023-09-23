@@ -64,6 +64,48 @@ event ObjectUpdate
 		if object[arrayPos0].state == ENDINGPOSE_EMERALDSFLASH_B
 			object.type = TypeName[Blank Object]
 		end if
+		
+		if object.speed < 600
+			object.value4++
+		
+			if specialStage.emeralds == 0x3F // If the Player has 6 emeralds
+				temp0 = 6
+			else
+				temp0 = 7
+			end if
+			
+			while temp0 > 0
+				temp5 = object.value4
+				temp5 += temp0
+				temp5 %= 12
+				
+				if temp5 == 0
+					if specialStage.emeralds == 0x3F // (Six emeralds check again)
+						GetTableValue(temp3, temp0, Emeralds_throwAngles6)
+					else
+						GetTableValue(temp3, temp0, Emeralds_throwAngles7)
+					end if
+					temp3 += object.rotation
+
+					Cos(temp1, temp3)
+					temp1 *= object.radius
+					temp1 += object.xpos
+
+					Sin(temp2, temp3)
+					temp2 *= object.radius
+					temp2 += object.ypos
+
+					CreateTempObject(TypeName[Super Spark], 2, temp1, temp2)
+					object[tempObjectPos].frame     = 0
+					object[tempObjectPos].state     = 1
+					object[tempObjectPos].drawOrder = 6
+				end if
+				
+				temp0--
+			loop
+		else
+		end if
+		
 		break
 		
 	end switch

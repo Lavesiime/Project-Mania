@@ -5544,7 +5544,7 @@ event ObjectStartup
 			if checkResult == true
 				LoadAnimation("TailsEnding.ani")
 			else
-				//LoadAnimation("Tails.ani")
+				LoadAnimation("Tails.ani")
 			end if
 			
 			// As opposed to Sonic & Knuckles' 5 pixel offset, 

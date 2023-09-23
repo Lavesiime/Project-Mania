@@ -65,6 +65,7 @@ private alias 2 : ANI_ENDING_LARGEPOSE
 private alias 8 : ANI_ENDING_HOLDEMERALDS
 private alias 9 : ANI_ENDING_LOOKATEMERALDS
 private alias 10 : ANI_ENDING_LOOKINGAROUND
+private alias 11 : ANI_ENDING_VICTORY
 
 
 // ========================
@@ -109,23 +110,11 @@ event ObjectUpdate
 		end if
 
 		if object.timer == 240
-			currentPlayer = SLOT_PLAYER2
-			while currentPlayer < playerCount
-				ResetObjectEntity(currentPlayer, TypeName[Ending Pose], 0, player[currentPlayer].xpos, player[currentPlayer].ypos)
-				player[currentPlayer].drawOrder = 6
-				player[currentPlayer].state = ENDINGPOSE_P2_POSE_1
-				player[currentPlayer].frame = 48
-				player[currentPlayer].direction = FACING_LEFT
-				
-				currentPlayer++
-			loop
-			
 			object.timer = 0
 			switch stage.playerListPos
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
 				object.frame = 1
-				object[0].animation = ANI_ENDING_LARGEPOSE
 				break
 				
 			case PLAYER_TAILS_ALONE
@@ -138,17 +127,23 @@ event ObjectUpdate
 				
 			end switch
 			
+			object[0].animation = ANI_ENDING_LARGEPOSE
+			
 			object.state++
 			object.tailFrame = 0
 		else
-			currentPlayer = SLOT_PLAYER2
-			while currentPlayer < playerCount
-				if player[currentPlayer].speed == 0
-					player[currentPlayer].direction = FACING_LEFT
+			object[1].state = Player_State_Static
+			if object[1].speed <= 0
+				object[1].animation = ANI_STOPPED
+				object[1].speed = 0
+				object[1].direction = FACING_LEFT
+			else
+				if player[1].xpos > object.xpos
+					object[1].speed -= 0x900
+				else
+					object[1].speed = 0x20000
 				end if
-				
-				currentPlayer++
-			loop
+			end if
 		end if
 		break
 
@@ -160,7 +155,6 @@ event ObjectUpdate
 			switch stage.playerListPos
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
-				object[0].animation = ANI_ENDING_LARGEPOSE
 				object.ixpos = camera[0].xpos
 				object.iypos = camera[0].ypos
 				break
@@ -170,6 +164,9 @@ event ObjectUpdate
 				break
 				
 			end switch
+			
+			object[0].animation = ANI_ENDING_LARGEPOSE
+			object[1].animation = ANI_ENDING_VICTORY
 			
 			object.state++
 		end if
@@ -238,7 +235,6 @@ event ObjectUpdate
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
 				object.frame = 4
-				object[0].animation = ANI_ENDING_HOLDEMERALDS
 				break
 				
 			case PLAYER_TAILS_ALONE
@@ -251,14 +247,20 @@ event ObjectUpdate
 				
 			end switch
 
-			currentPlayer = SLOT_PLAYER2
-			while currentPlayer < playerCount
-				if player[currentPlayer].speed == 0
-					player[currentPlayer].direction = FACING_LEFT
+			object[0].animation = ANI_ENDING_HOLDEMERALDS
+			
+			object[1].state = Player_State_Static
+			if object[1].speed <= 0
+				object[1].animation = ANI_STOPPED
+				object[1].speed = 0
+				object[1].direction = FACING_LEFT
+			else
+				if player[1].xpos > object.xpos
+					object[1].speed -= 0x900
+				else
+					object[1].speed = 0x20000
 				end if
-				
-				currentPlayer++
-			loop
+			end if
 		end if
 		break
 
@@ -282,6 +284,24 @@ event ObjectUpdate
 			break
 			
 		end switch
+		
+		temp0 = object.timer
+		if object.timer < 35
+			temp0 %= 16
+		else
+			temp0 %= 8
+		end if
+		
+		if temp0 == 0
+			temp0 = player[0].xpos
+			temp1 = player[0].ypos
+			temp0 += 0x030000
+			temp1 += 0x040000
+			CreateTempObject(TypeName[Super Spark], 2, temp0, temp1)
+			object[tempObjectPos].frame     = 0
+			object[tempObjectPos].state     = 1
+			object[tempObjectPos].drawOrder = 6
+		end if
 
 		object.timer++
 		
@@ -290,7 +310,6 @@ event ObjectUpdate
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
 				object.frame = 7
-				object[0].animation = ANI_ENDING_LOOKATEMERALDS
 				break
 				
 			case PLAYER_TAILS_ALONE
@@ -302,6 +321,8 @@ event ObjectUpdate
 				break
 				
 			end switch
+			
+			object[0].animation = ANI_ENDING_LOOKATEMERALDS
 		end if
 		
 		if object.timer == 80
@@ -349,9 +370,21 @@ event ObjectUpdate
 
 	case ENDINGPOSE_LOOKUP
 		// In this state, we wait for the Emeralds to increase our state
+		object[1].animation = ANI_LOOKINGUP
+		if object[1].animation == ANI_LOOKINGUP
+			if object[1].frame == 5
+				object[1].animationTimer = 0
+			end if
+		end if
 		break
 
 	case ENDINGPOSE_EMERALDSFLASH_A
+		if object[1].animation == ANI_LOOKINGUP
+			if object[1].frame == 5
+				object[1].animationTimer = 0
+			end if
+		end if
+	
 		if object.timer < 384
 			object.timer += 6
 		else
@@ -385,7 +418,6 @@ event ObjectUpdate
 			switch stage.playerListPos
 			case PLAYER_SONIC_ALONE
 			case PLAYER_SONIC_AND_TAILS
-				object[0].animation = ANI_ENDING_LOOKINGAROUND
 				break
 				
 			case PLAYER_TAILS_ALONE
@@ -397,18 +429,10 @@ event ObjectUpdate
 				break
 				
 			end switch
-
+			
+			object[0].animation = ANI_ENDING_LOOKINGAROUND
+			object[1].animation = ANI_ENDING_LOOKINGAROUND
 			object.state++
-			currentPlayer = SLOT_PLAYER2
-			while currentPlayer < playerCount
-				ResetObjectEntity(currentPlayer, TypeName[Ending Pose], 0, player[currentPlayer].xpos, player[currentPlayer].ypos)
-				player[currentPlayer].drawOrder = 6
-				player[currentPlayer].state = ENDINGPOSE_P2_LOOKAROUND
-				player[currentPlayer].frame = 48
-				player[currentPlayer].direction = FACING_LEFT
-				
-				currentPlayer++
-			loop
 		end if
 		break
 

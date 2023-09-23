@@ -54,16 +54,35 @@ public function TailsObject_ProcessTailSprite
 		break
 		
 	case 7 // ANI_SKIDDING
+		player.tailFrame++
+		player.tailFrame %= 12
+		break
+		
 	case 9 // ANI_SPINDASH
 	case 10 // ANI_JUMPING
 	case 43 // Unknown, this was probably "SSRoll" before it got moved to its own ani file
-		player.tailFrame++
-		player.tailFrame %= 12
+		CheckCurrentStageFolder("Ending")
+		if checkResult == true
+			player.tailFrame++
+			player.tailFrame %= 40
+		else
+			player.tailFrame++
+			player.tailFrame %= 12
+		end if
 		break
 		
 	case 17 // ANI_PUSHING
 		player.tailFrame++
 		player.tailFrame %= 30
+		break
+		
+	case 8 // Ending
+	case 11 
+		CheckCurrentStageFolder("Ending")
+		if checkResult == true
+			player.tailFrame++
+			player.tailFrame %= 40
+		end if
 		break
 		
 	end switch
@@ -344,42 +363,89 @@ event ObjectDraw
 		break
 		
 	case 7 // ANI_SKIDDING
-	case 9 // ANI_SPINDASH
 		temp0 = player.tailFrame
 		temp0 >>= 1
 		temp0 += 19
+		temp1 = object.xpos
+		if object.direction == FACING_RIGHT
+			temp1 += 0x40000
+		else
+			temp1 -= 0x40000
+		end if
 		if object.visible == true
-			DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
+			DrawSpriteFX(temp0, FX_FLIP, temp1, object.ypos)
+		end if
+		break
+	
+	case 8 // Look at Emeralds in Ending
+		CheckCurrentStageFolder("Ending")
+		if checkResult == true
+			temp0 = player.tailFrame
+			temp0 >>= 2
+			if object.visible == true
+				DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
+			end if
+		end if
+		break
+	
+	case 9 // ANI_SPINDASH
+		CheckCurrentStageFolder("Ending") // Look Up in Ending
+		if checkResult == true
+			temp0 = player.tailFrame
+			temp0 >>= 2
+			if object.visible == true
+				DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
+			end if
+		else
+			temp0 = player.tailFrame
+			temp0 >>= 1
+			temp0 += 19
+			if object.visible == true
+				DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
+			end if
 		end if
 		break
 		
 	case 10 // ANI_JUMPING
+		CheckCurrentStageFolder("Ending") // Look Around in ending
+		if checkResult == true
+			break
+		end if
 	case 43 // Unknown, this was probably "SSRoll" before it got moved to its own ani file
-		temp0 = player.tailFrame
-		temp0 >>= 1
-		CheckEqual(object.xvel, 0)
-		temp1 = checkResult
-		CheckEqual(object.yvel, 0)
-		temp1 &= checkResult
-		temp2 = object.rotation
-		if temp1 == 0
-			ATan2(object.rotation, object.xvel, object.yvel)
-			object.rotation += 0x00
-			object.rotation &= 0xFF
-			temp0 += 10
-			if object.direction == 1
-				object.rotation += 0x80
+		CheckCurrentStageFolder("Ending") // Look Up in Ending
+		if checkResult == true
+			temp0 = player.tailFrame
+			temp0 >>= 2
+			if object.visible == true
+				DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
 			end if
 		else
-			temp0 += 10
-			object.rotation = 0x00
-		end if
+			temp0 = player.tailFrame
+			temp0 >>= 1
+			CheckEqual(object.xvel, 0)
+			temp1 = checkResult
+			CheckEqual(object.yvel, 0)
+			temp1 &= checkResult
+			temp2 = object.rotation
+			if temp1 == 0
+				ATan2(object.rotation, object.xvel, object.yvel)
+				object.rotation += 0x00
+				object.rotation &= 0xFF
+				temp0 += 10
+				if object.direction == 1
+					object.rotation += 0x80
+				end if
+			else
+				temp0 += 10
+				object.rotation = 0x00
+			end if
 
-		object.rotation <<= 1
-		if object.visible == true
-			DrawSpriteFX(temp0, FX_ROTATE, object.xpos, object.ypos)
+			object.rotation <<= 1
+			if object.visible == true
+				DrawSpriteFX(temp0, FX_ROTATE, object.xpos, object.ypos)
+			end if
+			object.rotation = temp2
 		end if
-		object.rotation = temp2
 		break
 		
 	case 17 // ANI_PUSHING
@@ -391,6 +457,24 @@ event ObjectDraw
 		end if
 		break
 		
+	case 11 // victory in ending
+		CheckCurrentStageFolder("Ending")
+		if checkResult == true
+			temp0 = player.tailFrame
+			temp0 >>= 2
+			temp1 = object.xpos
+			temp1 = object.xpos
+			if object.direction == FACING_RIGHT
+				temp1 += 0x40000
+			else
+				temp1 -= 0x40000
+			end if
+			if object.visible == true
+				DrawSpriteFX(temp0, FX_FLIP, temp1, object.ypos)
+			end if
+		end if
+		break
+	
 	end switch
 	
 	// Draw Tails himself
@@ -403,7 +487,12 @@ event ObjectStartup
 	if stage.playerListPos == true
 		LoadSpriteSheet("Players/Tails5.gif")
 		
-		LoadAnimation("Tails.ani")
+		CheckCurrentStageFolder("Ending")
+		if checkResult == true
+			LoadAnimation("TailsEnding.ani")
+		else
+			LoadAnimation("Tails.ani")
+		end if
 		
 		// Idle Tail Sprites - #0-9
 		SpriteFrame(-22, -8, 16, 24, 112, 178)

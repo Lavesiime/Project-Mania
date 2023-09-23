@@ -119,7 +119,13 @@ event ObjectDraw
 	case SUPERSPARK_ANIMATE1
 	case SUPERSPARK_ANIMATE2
 	case SUPERSPARK_DELAY
-		DrawSprite(object.frame)
+		if object.propertyValue == 2
+			object.alpha = 200
+			object.inkEffect = INK_ADD
+			DrawSpriteFX(object.frame, FX_INK, object.xpos, object.ypos)
+		else
+			DrawSprite(object.frame)
+		end if
 		break
 
 	end switch
