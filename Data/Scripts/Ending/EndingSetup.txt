@@ -179,7 +179,7 @@ end event
 
 
 event ObjectStartup
-	specialStage.emeralds = 0xff
+	//specialStage.emeralds = 0x3f
 
 
 	SetMusicTrack("Ending.ogg", 0, false)

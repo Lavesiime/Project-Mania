@@ -317,6 +317,9 @@ event ObjectUpdate
 									if object[currentPlayer].propertyValue == PLAYER_SONIC_ALONE
 										player[currentPlayer].animation = ANI_VICTORY
 									end if
+									if object[currentPlayer].propertyValue == PLAYER_KNUX_ALONE
+										player[currentPlayer].animation = ANI_VICTORY
+									end if
 								else
 									player[currentPlayer].animation = ANI_STOPPED
 								end if
