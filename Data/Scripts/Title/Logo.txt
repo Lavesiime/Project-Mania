@@ -400,6 +400,8 @@ event ObjectDraw
 
 	switch temp.titleCharacter
 	case 0
+	case 1
+	case 2
 	case 3
 		switch object.state
 		case LOGO_SETUP_SONIC
@@ -466,13 +468,13 @@ event ObjectDraw
 					object[+1].priority = PRIORITY_ACTIVE
 					object[+1].xpos 	= screen.xcenter
 					
-					if temp.titleCharacter == 3
-						object[+1].ypos = 216
-						object.state 	= LOGO_P2TEXTAPPEAR_SONIC
-					else
+					//if temp.titleCharacter == 3
+						//object[+1].ypos = 216
+						//object.state 	= LOGO_P2TEXTAPPEAR_SONIC
+					//else
 						object[+1].ypos = 192
 						object.state++
-					end if
+					//end if
 				end if
 				object.timer = 0
 			end if
@@ -669,7 +671,7 @@ event ObjectDraw
 		end switch
 		break
 
-	case 1
+	case 688
 		switch object.state
 		case LOGO_SETUP_TAILS
 			screen.xoffset 		 = 0
@@ -862,7 +864,7 @@ event ObjectDraw
 		end switch
 		break
 
-	case 2
+	case 27628
 		switch object.state
 		case LOGO_SETUP_KNUX
 			screen.xoffset = 0
