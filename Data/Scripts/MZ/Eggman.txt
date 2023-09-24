@@ -193,9 +193,9 @@ event ObjectUpdate
 			// 26 = SLOT_MUSICEVENT_BOSS
 			object[26].priority = PRIORITY_ACTIVE
 			object.drawOrder = 4
-			player[0].sortedDrawOrder = 5
+			player[0].sortedDrawOrder = 3
 			if object[1].type == TypeName[Player 2 Object]
-				player[1].sortedDrawOrder = 5
+				player[1].sortedDrawOrder = 3
 			end if
 			object.state++
 		end if

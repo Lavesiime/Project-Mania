@@ -61,7 +61,7 @@ private table BeltPlatform_movementTable4
 end table
 
 private table BeltPlatform_movementTable5
-	2770, 1546, 3166, 1546, 3166, 1726, 2770, 1726
+	0x1252, 0x020A, 0x13DE, 0x020A, 0x13DE, 0x02BE, 0x1252, 0x02BE
 end table
 
 
