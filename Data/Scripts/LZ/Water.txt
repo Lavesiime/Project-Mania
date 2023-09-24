@@ -727,7 +727,7 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("LZ/Objects2.gif")
+	LoadSpriteSheet("LZ/Objects3.gif")
 
 	SetTableValue(Water_ProcessLZAct1, 1, Water_processActTable)
 	SetTableValue(Water_ProcessLZAct2, 2, Water_processActTable)
@@ -796,16 +796,16 @@ event ObjectStartup
 		end if
 	next
 	
-	SpriteFrame(0, -8, 64, 16, 1, 129)
-	SpriteFrame(0, -8, 64, 16, 66, 129)
-	SpriteFrame(0, -8, 64, 16, 131, 129)
-	SpriteFrame(0, -8, 64, 16, 1, 146)
-	SpriteFrame(0, -8, 64, 16, 66, 146)
-	SpriteFrame(0, -8, 64, 16, 131, 146)
-	SpriteFrame(0, -8, 64, 16, 1, 163)
-	SpriteFrame(0, -8, 64, 16, 66, 163)
-	SpriteFrame(0, -8, 64, 16, 131, 163)
-	SpriteFrame(0, -8, 64, 16, 1, 180)
+	SpriteFrame(0, -8, 64, 16, 73, 10)
+	SpriteFrame(0, -8, 64, 16, 138, 10)
+	SpriteFrame(0, -8, 64, 16, 73, 27)
+	SpriteFrame(0, -8, 64, 16, 138, 27)
+	SpriteFrame(0, -8, 64, 16, 73, 44)
+	SpriteFrame(0, -8, 64, 16, 138, 44)
+	SpriteFrame(0, -8, 64, 16, 138, 61)
+	SpriteFrame(0, -8, 64, 16, 138, 78)
+	SpriteFrame(0, -8, 64, 16, 138, 95)
+	SpriteFrame(0, -8, 64, 16, 138, 112)
 	
 	BrokenMonitor_ResetDrownMusic = Water_ResetDrownMusic
 end event

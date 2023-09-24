@@ -599,19 +599,21 @@ end event
 
 
 event ObjectStartup
-	switch stage.playerListPos
-	case PLAYER_SONIC_ALONE
-		LoadSpriteSheet("Global/Eggman.gif")
-		break
+	if stage.listPos != 17
+		switch stage.playerListPos
+		case PLAYER_SONIC_ALONE
+			LoadSpriteSheet("Global/Eggman.gif")
+			break
 
-	case PLAYER_TAILS_ALONE
-		LoadSpriteSheet("Global/Eggman.gif")
-		break
+		case PLAYER_TAILS_ALONE
+			LoadSpriteSheet("Global/Eggman.gif")
+			break
 
-	case PLAYER_KNUX_ALONE
-		LoadSpriteSheet("Global/EggRobo.gif")
-		break
-	end switch
+		case PLAYER_KNUX_ALONE
+			LoadSpriteSheet("Global/EggRobo.gif")
+			break
+		end switch
+	end if
 	// Empty Egg Mobile
 	SpriteFrame(-28, -32, 64, 56, 255, 126) // Frame 0
 	SpriteFrame(-28, -32, 64, 56, 255, 183) // Frame 1

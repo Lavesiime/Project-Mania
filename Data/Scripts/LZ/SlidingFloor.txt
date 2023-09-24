@@ -178,8 +178,10 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("LZ/Objects2.gif")
-	SpriteFrame(-128, -64, 256, 125, 0, 0)
+	if stage.listPos == 17
+		LoadSpriteSheet("LZ/Objects2.gif")
+		SpriteFrame(-128, -64, 256, 125, 0, 0)
+	end if
 
 	SetTableValue(TypeName[Sliding Floor], DebugMode_ObjCount, DebugMode_TypesTable)
 	SetTableValue(SlidingFloor_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)
