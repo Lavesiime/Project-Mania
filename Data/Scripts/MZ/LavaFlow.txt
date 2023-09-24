@@ -181,7 +181,7 @@ event ObjectDraw
 	DrawSprite(1)
 	DrawSprite(2)
 	DrawSprite(3)
-	DrawSprite(4)
+	DrawSprite(object.frame)
 end event
 
 

@@ -52,103 +52,13 @@ event ObjectUpdate
 	switch object.state
 	case BREAKBLOCK_BLOCK
 		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
-			if player[currentPlayer].animation == ANI_JUMPING
-				BoxCollisionTest(C_SOLID, object.entityPos, -16, -16, 16, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
-				temp1 = checkResult
-				checkEqual(COL_TOP, temp1)
-				temp0 = checkResult
-				if temp0 != 0
+			BoxCollisionTest(C_SOLID, object.entityPos, -16, -16, 16, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+			temp1 = checkResult
+			checkEqual(COL_TOP, temp1)
+			temp0 = checkResult
+			if temp0 != 0
+				if player[currentPlayer].animation == ANI_JUMPING
 					player[currentPlayer].yvel = -0x30000
-					player[currentPlayer].gravity = GRAVITY_AIR
-
-					CreateTempObject(TypeName[Object Score], player[currentPlayer].badnikBonus, object.xpos, object.ypos)
-					object[tempObjectPos].drawOrder = 4
-
-					CreateTempObject(TypeName[Break Block], 0, object.xpos, object.ypos)
-					object[tempObjectPos].ixpos -= 8
-					object[tempObjectPos].iypos -= 8
-					object[tempObjectPos].xvel = -0x20000
-					object[tempObjectPos].yvel = -0x20000
-					object[tempObjectPos].state = BREAKBLOCK_DEBRIS
-					object[tempObjectPos].drawOrder = 5
-
-					CreateTempObject(TypeName[Break Block], 0, object.xpos, object.ypos)
-					object[tempObjectPos].ixpos += 8
-					object[tempObjectPos].iypos -= 8
-					object[tempObjectPos].xvel = 0x20000
-					object[tempObjectPos].yvel = -0x20000
-					object[tempObjectPos].state = BREAKBLOCK_DEBRIS
-					object[tempObjectPos].drawOrder = 5
-
-					CreateTempObject(TypeName[Break Block], 0, object.xpos, object.ypos)
-					object[tempObjectPos].ixpos -= 8
-					object[tempObjectPos].iypos += 8
-					object[tempObjectPos].xvel = -0x10000
-					object[tempObjectPos].yvel = -0x10000
-					object[tempObjectPos].state = BREAKBLOCK_DEBRIS
-					object[tempObjectPos].drawOrder = 5
-
-					CreateTempObject(TypeName[Break Block], 0, object.xpos, object.ypos)
-					object[tempObjectPos].ixpos += 8
-					object[tempObjectPos].iypos += 8
-					object[tempObjectPos].xvel = 0x10000
-					object[tempObjectPos].yvel = -0x10000
-					object[tempObjectPos].state = BREAKBLOCK_DEBRIS
-					object[tempObjectPos].drawOrder = 5
-
-					object.type = TypeName[Blank Object]
-
-					switch player[currentPlayer].badnikBonus
-					case 0
-						player.score += 100
-						break
-
-					case 1
-						player.score += 200
-						break
-
-					case 2
-						player.score += 500
-						break
-
-					case 3
-					case 4
-					case 5
-					case 6
-					case 7
-					case 8
-					case 9
-					case 10
-					case 11
-					case 12
-					case 13
-					case 14
-						player.score += 1000
-						break
-
-					case 15
-						player.score += 0x2710
-						if stage.debugMode == false
-							// Grant the "Block Buster" Achievement
-							CallNativeFunction2(SetAchievement, ACHIEVEMENT_BLOCKBUSTER, 100)
-						end if
-						break
-
-					end switch
-
-					if player[currentPlayer].gravity == 1
-						if player[currentPlayer].badnikBonus < 15
-							player[currentPlayer].badnikBonus++
-						end if
-					end if
-
-					PlaySfx(SfxName[Block Break], false)
-				end if
-			else
-				temp2 = player[currentPlayer].yvel
-				BoxCollisionTest(C_SOLID, object.entityPos, -16, -16, 16, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
-				if checkResult == COL_BOTTOM
-					player[currentPlayer].yvel = temp2
 					player[currentPlayer].gravity = GRAVITY_AIR
 
 					CreateTempObject(TypeName[Object Score], player[currentPlayer].badnikBonus, object.xpos, object.ypos)

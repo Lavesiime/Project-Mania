@@ -791,7 +791,7 @@ end event
 
 
 event ObjectStartup
-	SetMusicTrack("MainMenu.ogg", 0, 1)
+	SetMusicTrack("MainMenu.ogg", 0, 106596)
 	PlayMusic(0)
 
 	LoadSpriteSheet("LevelSelect/Text.gif")

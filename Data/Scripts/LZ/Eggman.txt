@@ -64,6 +64,11 @@ private alias object.xvel : player.xvel
 private alias object.speed : player.speed
 private alias object.animation : player.animation
 
+private alias object.value40 : player.hitboxLeft
+private alias object.value38 : player.hitboxTop
+private alias object.value41 : player.hitboxRight
+private alias object.value39 : player.hitboxBottom
+
 
 // ========================
 // Function Declarations
@@ -391,7 +396,7 @@ event ObjectUpdate
 				end if
 
 				// Check player collision
-				BoxCollisionTest(C_TOUCH, object.entityPos, -20, -16, 20, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+				BoxCollisionTest(C_TOUCH, object.entityPos, -20, -16, 20, 16, currentPlayer, player[currentPlayer].hitboxLeft, player[currentPlayer].hitboxTop, player[currentPlayer].hitboxRight, player[currentPlayer].hitboxBottom)
 				if checkResult == true
 					
 					// See if the player should be hit or is attacking

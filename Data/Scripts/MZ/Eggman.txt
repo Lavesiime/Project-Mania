@@ -82,6 +82,10 @@ private alias object.animation : player.animation
 private alias object.collisionRight : player.collisionRight
 
 private alias object.value18 : player.sortedDrawOrder
+private alias object.value40 : player.hitboxLeft
+private alias object.value38 : player.hitboxTop
+private alias object.value41 : player.hitboxRight
+private alias object.value39 : player.hitboxBottom
 
 // Music Events
 private alias 26 : SLOT_MUSICEVENT_BOSS
@@ -421,7 +425,7 @@ event ObjectUpdate
 					end if
 				end if
 
-				BoxCollisionTest(C_TOUCH, object.entityPos, -20, -16, 20, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+				BoxCollisionTest(C_TOUCH, object.entityPos, -20, -16, 20, 16, currentPlayer, player[currentPlayer].hitboxLeft, player[currentPlayer].hitboxTop, player[currentPlayer].hitboxRight, player[currentPlayer].hitboxBottom)
 				if checkResult == true
 					CallFunction(Player_CheckHit)
 					if object.state > MZEGGMAN_TAUNT
