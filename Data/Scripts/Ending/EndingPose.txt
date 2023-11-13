@@ -94,14 +94,14 @@ event ObjectUpdate
 	switch object.state
 	case ENDINGPOSE_INIT
 		object.state++
-		if stage.playerListPos == PLAYER_TAILS_ALONE
+		if stage.playerListPos == PLAYER_TAILS_A
 			// A little extra setup for Tails's tails
 			object.tailFrame = 36
 		end if
-		// [Fallthrough]
+		// Fall-through		
 	case ENDINGPOSE_WAITING
 		object.timer++
-		if stage.playerListPos == PLAYER_TAILS_ALONE
+		if stage.playerListPos == PLAYER_TAILS_A
 			// Animate Tails's tails
 			object.tailFrame = object.timer
 			object.tailFrame >>= 2
@@ -112,22 +112,26 @@ event ObjectUpdate
 		if object.timer == 240
 			object.timer = 0
 			switch stage.playerListPos
-			case PLAYER_SONIC_ALONE
-			case PLAYER_SONIC_AND_TAILS
+			case PLAYER_SONIC_A
+			case PLAYER_SONIC_TAILS_A
 				object.frame = 1
 				break
 				
-			case PLAYER_TAILS_ALONE
+			case PLAYER_TAILS_A
 				object.frame = 14
 				break
 				
-			case PLAYER_KNUX_ALONE
+			case PLAYER_KNUCKLES_A
 				object.frame = 25
 				break
 				
+#platform: USE_ORIGINS
+			case PLAYER_AMY_A
+				object.frame = 45
+				object.frame += 1
+				break
+#endplatform
 			end switch
-			
-			object[0].animation = ANI_ENDING_LARGEPOSE
 			
 			object.state++
 			object.tailFrame = 0
@@ -153,18 +157,25 @@ event ObjectUpdate
 		if object.timer == 12
 			object.timer = 0
 			switch stage.playerListPos
-			case PLAYER_SONIC_ALONE
-			case PLAYER_SONIC_AND_TAILS
+			case PLAYER_SONIC_A
+			case PLAYER_SONIC_TAILS_A
 				object.ixpos = camera[0].xpos
 				object.iypos = camera[0].ypos
 				break
 				
-			case PLAYER_TAILS_ALONE
-			case PLAYER_KNUX_ALONE
+			case PLAYER_TAILS_A
+			case PLAYER_KNUCKLES_A
 				break
 				
+#platform: USE_ORIGINS
+			case PLAYER_AMY_A
+				object.frame++
+				object.ixpos = camera[0].xpos
+				object.iypos = camera[0].ypos
+				break
+#endplatform
 			end switch
-			
+
 			object[0].animation = ANI_ENDING_LARGEPOSE
 			object[1].animation = ANI_ENDING_VICTORY
 			
@@ -178,23 +189,29 @@ event ObjectUpdate
 		if object.timer == 4
 			object.timer = -1560
 			switch stage.playerListPos
-			case PLAYER_SONIC_ALONE
-			case PLAYER_SONIC_AND_TAILS
+			case PLAYER_SONIC_A
+			case PLAYER_SONIC_TAILS_A
 				object.frame = 3
 				break
 				
-			case PLAYER_TAILS_ALONE
+			case PLAYER_TAILS_A
 				object.frame = 15
 				object.ixpos = camera[0].xpos
 				object.iypos = camera[0].ypos
 				break
 				
-			case PLAYER_KNUX_ALONE
+			case PLAYER_KNUCKLES_A
 				object.frame = 26
 				object.ixpos = camera[0].xpos
 				object.iypos = camera[0].ypos
 				break
 				
+#platform: USE_ORIGINS
+			case PLAYER_AMY_A
+				object.frame = 45
+				object.frame += 3
+				break
+#endplatform
 			end switch
 			
 			object.state++
@@ -232,23 +249,29 @@ event ObjectUpdate
 			object.state++
 		else
 			switch stage.playerListPos
-			case PLAYER_SONIC_ALONE
-			case PLAYER_SONIC_AND_TAILS
+			case PLAYER_SONIC_A
+			case PLAYER_SONIC_TAILS_A
 				object.frame = 4
 				break
 				
-			case PLAYER_TAILS_ALONE
+			case PLAYER_TAILS_A
 				object.frame = 16
 				break
 				
-			case PLAYER_KNUX_ALONE
+			case PLAYER_KNUCKLES_A
 				object.frame = 27
 				break
-				
+
+#platform: USE_ORIGINS
+			case PLAYER_AMY_A
+				object.frame = 45
+				object.frame += 4
+				break
+#endplatform
 			end switch
 
 			object[0].animation = ANI_ENDING_HOLDEMERALDS
-			
+
 			object[1].state = Player_State_Static
 			if object[1].speed <= 0
 				object[1].animation = ANI_STOPPED
@@ -270,21 +293,27 @@ event ObjectUpdate
 		object.frame &= 1
 		
 		switch stage.playerListPos
-		case PLAYER_SONIC_ALONE
-		case PLAYER_SONIC_AND_TAILS
+		case PLAYER_SONIC_A
+		case PLAYER_SONIC_TAILS_A
 			object.frame += 5
 			break
 			
-		case PLAYER_TAILS_ALONE
+		case PLAYER_TAILS_A
 			object.frame += 17
 			break
 			
-		case PLAYER_KNUX_ALONE
+		case PLAYER_KNUCKLES_A
 			object.frame += 27
 			break
-			
+
+#platform: USE_ORIGINS
+		case PLAYER_AMY_A
+			object.frame += 45
+			object.frame += 5
+			break
+#endplatform
 		end switch
-		
+
 		temp0 = object.timer
 		if object.timer < 35
 			temp0 %= 16
@@ -304,24 +333,30 @@ event ObjectUpdate
 		end if
 
 		object.timer++
-		
 		if object.timer == 70
+			object.timer = 0
 			switch stage.playerListPos
-			case PLAYER_SONIC_ALONE
-			case PLAYER_SONIC_AND_TAILS
+			case PLAYER_SONIC_A
+			case PLAYER_SONIC_TAILS_A
 				object.frame = 7
 				break
 				
-			case PLAYER_TAILS_ALONE
+			case PLAYER_TAILS_A
 				object.frame = 19
 				break
 				
-			case PLAYER_KNUX_ALONE
+			case PLAYER_KNUCKLES_A
 				object.frame = 29
 				break
-				
+
+#platform: USE_ORIGINS
+			case PLAYER_AMY_A
+				object.frame = 45
+				object.frame += 7
+				break
+#endplatform
 			end switch
-			
+
 			object[0].animation = ANI_ENDING_LOOKATEMERALDS
 		end if
 		
@@ -416,20 +451,26 @@ event ObjectUpdate
 			SetScreenFade(208, 255, 224, object.timer)
 		else
 			switch stage.playerListPos
-			case PLAYER_SONIC_ALONE
-			case PLAYER_SONIC_AND_TAILS
+			case PLAYER_SONIC_A
+			case PLAYER_SONIC_TAILS_A
 				break
 				
-			case PLAYER_TAILS_ALONE
+			case PLAYER_TAILS_A
 				object.frame = 20
 				break
 				
-			case PLAYER_KNUX_ALONE
+			case PLAYER_KNUCKLES_A
 				object.frame = 30
 				break
-				
+
+#platform: USE_ORIGINS
+			case PLAYER_AMY_A
+				object.frame = 45
+				object.frame += 8
+				break
+#endplatform
 			end switch
-			
+
 			object[0].animation = ANI_ENDING_LOOKINGAROUND
 			object[1].animation = ANI_ENDING_LOOKINGAROUND
 			object.state++
@@ -438,11 +479,11 @@ event ObjectUpdate
 
 	case ENDINGPOSE_LOOKAROUND
 		switch stage.playerListPos
-		case PLAYER_SONIC_ALONE
-		case PLAYER_SONIC_AND_TAILS
+		case PLAYER_SONIC_A
+		case PLAYER_SONIC_TAILS_A
 			break
 			
-		case PLAYER_TAILS_ALONE
+		case PLAYER_TAILS_A
 			object.frame = object.timer
 			object.frame /= 10
 			object.frame &= 3
@@ -452,7 +493,7 @@ event ObjectUpdate
 			end if
 			break
 			
-		case PLAYER_KNUX_ALONE
+		case PLAYER_KNUCKLES_A
 			object.frame = object.timer
 			object.frame /= 10
 			object.frame &= 3
@@ -462,6 +503,15 @@ event ObjectUpdate
 			end if
 			break
 			
+#platform: USE_ORIGINS
+		case PLAYER_AMY_A
+			object.frame = object.timer
+			object.frame /= 6
+			object.frame &= 1
+			object.frame += 8
+			object.frame += 45
+			break
+#endplatform
 		end switch
 
 		object.timer++
@@ -476,19 +526,25 @@ event ObjectUpdate
 		if object.timer == 60
 			object.timer = 0
 			switch stage.playerListPos
-			case PLAYER_SONIC_ALONE
-			case PLAYER_SONIC_AND_TAILS
+			case PLAYER_SONIC_A
+			case PLAYER_SONIC_TAILS_A
 				object.frame = 1
 				break
 				
-			case PLAYER_TAILS_ALONE
+			case PLAYER_TAILS_A
 				object.frame = 14
 				break
 				
-			case PLAYER_KNUX_ALONE
+			case PLAYER_KNUCKLES_A
 				object.frame = 25
 				break
-				
+
+#platform: USE_ORIGINS
+			case PLAYER_AMY_A
+				object.frame = 45
+				object.frame += 1
+				break
+#endplatform
 			end switch
 
 			object.state = ENDINGPOSE_POSE_START
@@ -540,14 +596,14 @@ end event
 event ObjectDraw
 	if object.tailFrame != 0
 		// Tails should have one of his tails sprites in tow
-		//DrawSprite(object.tailFrame)
+		DrawSprite(object.tailFrame)
 	end if
 	
 	// The main player sprite
-	//DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
 	
 	// P1 should draw the logo, as well
-	if object.propertyValue == 1
+	if object.entityPos == 0
 		if object.state > 0
 			temp0 = screen.xcenter
 			temp0 -= 96
@@ -562,9 +618,22 @@ event ObjectDraw
 				end if
 			else
 				temp1 = 10
-				if stage.playerListPos < PLAYER_SONIC_AND_TAILS
+#platform: USE_STANDALONE
+				if stage.playerListPos < PLAYER_SONIC_TAILS_A
 					temp1 += stage.playerListPos
 				end if
+#endplatform
+
+#platform: USE_ORIGINS
+				if stage.playerListPos < PLAYER_SONIC_TAILS
+					temp1 += stage.playerListPos
+				else
+					if stage.playerListPos == PLAYER_AMY
+						temp1 = 45
+						temp1 += 10
+					end if
+				end if
+#endplatform
 			end if
 
 			DrawSpriteScreenXY(temp1, temp0, 80)
@@ -635,7 +704,7 @@ event ObjectStartup
 	SpriteFrame(-16, -23, 27, 41, 268, 57)
 	SpriteFrame(-16, -23, 33, 41, 234, 57)
 	
-	// 36-45 - Tails's Tails' Frames
+	// 36-40 - Tails's Tails' Frames
 	// Drawn using object.tailFrame, rather than the base object.frame
 	SpriteFrame(-22, -8, 16, 24, 256, 99)
 	SpriteFrame(-22, -9, 16, 24, 409, 232)
@@ -657,7 +726,7 @@ event ObjectStartup
 	// 48-49 - P2 Tails Pose Frames
 	SpriteFrame(-10, -13, 22, 31, 58, 99)
 	SpriteFrame(-20, -17, 36, 35, 44, 131)
-	
+
 	// 50-  - Sonic Good ending
 	SpriteFrame(-9, -20, 28, 39, 1, 256)
 	SpriteFrame(-9, -20, 26, 39, 30, 256)
@@ -667,6 +736,27 @@ event ObjectStartup
 	SpriteFrame(-12, -20, 25, 39, 129, 256)
 	SpriteFrame(-13, -20, 26, 39, 155, 256)
 	SpriteFrame(-16, -20, 29, 39, 182, 256) // 57
+
+#platform: USE_ORIGINS
+	// 50 - Amy's Normal Ending Animation Frame
+	SpriteFrame(-10, -16, 21, 35, 421, 211)
+
+	// 51-53 - Amy's Final Pose Animation Frames
+	SpriteFrame(-12, -15, 28, 34, 407, 175)
+	SpriteFrame(-30, -42, 67, 67, 353, 211)
+	SpriteFrame(-31, -73, 124, 144, 3, 256)
+
+	// 54-59 - Amy's Good Ending Animation Frames
+	SpriteFrame(-8, -16, 21, 35, 353, 139)
+	SpriteFrame(-8, -16, 21, 35, 353, 139)
+	SpriteFrame(-12, -16, 25, 35, 375, 139)
+	SpriteFrame(-13, -17, 25, 36, 401, 138)
+	SpriteFrame(-13, -16, 26, 35, 353, 175)
+	SpriteFrame(-13, -16, 26, 35, 380, 175)
+	
+	// 60 - "Amy Rose in Sonic the Hedgehog"
+	SpriteFrame(-48, -17, 96, 48, 256, 240)
+#endplatform
 end event
 
 

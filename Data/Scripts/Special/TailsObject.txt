@@ -76,7 +76,7 @@ end event
 
 
 event ObjectStartup
-	if stage.playerListPos == PLAYER_TAILS_ALONE
+	if stage.playerListPos == PLAYER_TAILS_A
 		LoadSpriteSheet("Players/Tails5.gif")
 		
 		// Place the Tails Object into the scene
@@ -130,8 +130,8 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("Players/Tails1.gif")
-	SpriteFrame(-22, -8, 16, 24, 82, 199)
+	LoadSpriteSheet("Players/Tails5.gif")
+	SpriteFrame(-22, -8, 16, 24, 112, 178)
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
 end event

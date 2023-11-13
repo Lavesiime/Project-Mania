@@ -601,16 +601,20 @@ end event
 event ObjectStartup
 	if stage.listPos != 17
 		switch stage.playerListPos
-		case PLAYER_SONIC_ALONE
+		case PLAYER_SONIC_A
 			LoadSpriteSheet("Global/Eggman.gif")
 			break
 
-		case PLAYER_TAILS_ALONE
+		case PLAYER_TAILS_A
 			LoadSpriteSheet("Global/Eggman.gif")
 			break
 
-		case PLAYER_KNUX_ALONE
+		case PLAYER_KNUCKLES_A
 			LoadSpriteSheet("Global/EggRobo.gif")
+			break
+
+		case PLAYER_AMY_A
+			LoadSpriteSheet("Global/Eggman.gif")
 			break
 		end switch
 	end if

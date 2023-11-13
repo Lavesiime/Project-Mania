@@ -205,11 +205,7 @@ end event
 
 
 event ObjectStartup
-	if stage.listPos == 11
-		LoadSpriteSheet("LZ/Objects3.gif")
-	else
-		LoadSpriteSheet("SLZ/Objects.gif")
-	end if
+	LoadSpriteSheet("SLZ/Objects.gif")
 	SpriteFrame(-32, -8, 64, 32, 67, 26)
 	SpriteFrame(-8, -8, 16, 16, 67, 26)
 	SpriteFrame(-8, -8, 16, 16, 83, 26)

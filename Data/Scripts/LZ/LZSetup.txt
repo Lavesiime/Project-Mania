@@ -81,6 +81,7 @@ reserve function LZSetup_getClrDivisor
 reserve function LZSetup_InitSuperSonicPal
 reserve function LZSetup_InitSuperTailsPal
 reserve function LZSetup_InitSuperKnuxPal
+reserve function LZSetup_InitSuperAmyPal
 reserve function LZSetup_SpeedUpMusicLZ
 reserve function LZSetup_SlowDownMusicLZ
 reserve function LZSetup_SpeedUpMusicSBZ3
@@ -226,7 +227,7 @@ end function
 
 // Wacky function to take a normal color and turn it into an underwater color
 private function LZSetup_getClrDivisor
-	// Regular Colour
+	// Regular Color
 	object.clrDivisor_R = temp1
 	object.clrDivisor_R >>= 16
 
@@ -237,7 +238,7 @@ private function LZSetup_getClrDivisor
 	object.clrDivisor_B = temp1
 	object.clrDivisor_B &= 0xFF
 
-	// Underwater Colour
+	// Underwater Color
 	object.waterClrDivisor_R = temp2
 	object.waterClrDivisor_R >>= 16
 
@@ -722,6 +723,69 @@ private function LZSetup_InitSuperKnuxPal
 	temp0++
 end function
 
+private function LZSetup_InitSuperAmyPal
+#platform: USE_ORIGINS
+	temp0 = 0
+	GetPaletteEntry(1, 66, temp1)
+	SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+	temp0++
+	GetPaletteEntry(1, 67, temp1)
+	SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+	temp0++
+	GetPaletteEntry(1, 68, temp1)
+	SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+	temp0++
+	GetPaletteEntry(1, 64, temp1)
+	SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+	temp0++
+	GetPaletteEntry(1, 65, temp1)
+	SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+	temp0++
+	while temp0 < 30
+		temp4 = temp0
+		temp4 -= 5
+		GetTableValue(temp1, temp4, Player_AmySuperAltPal)
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 255
+		temp3 = temp1
+		temp3 &= 255
+		temp1 >>= 16
+		temp1 += 32
+		if temp1 > 255
+			temp1 = 255
+		end if
+		temp2 += 32
+		if temp2 > 255
+			temp2 = 255
+		end if
+		temp3 += 32
+		if temp3 > 255
+			temp3 = 255
+		end if
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+		temp0++
+	loop
+	temp6 = 25
+	while temp0 < 50
+		temp5 = 0
+		while temp5 < 5
+			temp4 = temp6
+			temp4 += temp5
+			GetTableValue(temp1, temp4, Player_AmySuperAltPal)
+			SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+			temp0++
+			temp5++
+		loop
+		temp6 -= 5
+	loop
+#endplatform
+end function
+
 
 private function LZSetup_SpeedUpMusicLZ
 	CheckEqual(object[SLOT_MUSICEVENT_CHANGE].type, TypeName[Music Event])
@@ -1065,10 +1129,13 @@ event ObjectStartup
 		LoadPalette("SBZ3_WaterPal.act", 1, 0, 0, 256)
 	end if
 	
-	// Set up Super colours
+	// Set up Super colors
 	CallFunction(LZSetup_InitSuperSonicPal)
 	CallFunction(LZSetup_InitSuperTailsPal)
 	CallFunction(LZSetup_InitSuperKnuxPal)
+#platform: USE_ORIGINS
+	CallFunction(LZSetup_InitSuperAmyPal)
+#endplatform
 
 	// Load the eletric flash palette in case the player gets wet with a lightning shield
 	LoadPalette("ElectricFlash.act", 2, 0, 0, 256)

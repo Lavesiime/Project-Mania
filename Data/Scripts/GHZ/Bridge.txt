@@ -47,6 +47,11 @@ reserve function Bridge_DebugSpawn
 
 private value Bridge_startDebugID = 0
 
+
+// ========================
+// Function Definitions
+// ========================
+
 private function Bridge_DebugDraw
 	temp0 = debugMode[0].currentSelection
 	temp0 -= Bridge_startDebugID
@@ -298,18 +303,9 @@ end event
 
 
 event ObjectStartup
-	CheckCurrentStageFolder("Zone01")
-	if checkResult == true
-		LoadSpriteSheet("GHZ/Objects.gif")
-		SpriteFrame(-8, -8, 16, 16, 1, 1)
-	end if
+	LoadSpriteSheet("GHZ/Objects.gif")
 
-	CheckCurrentStageFolder("Zone02")
-	if checkResult == true
-		LoadSpriteSheet("MZ/Objects.gif")
-		SpriteFrame(-8, -8, 16, 16, 123, 194)
-	end if
-
+	SpriteFrame(-8, -8, 16, 16, 1, 1)
 
 	foreach (TypeName[Bridge], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].startPos = object[arrayPos0].length
@@ -359,17 +355,8 @@ end event
 
 
 event RSDKLoad
-	CheckCurrentStageFolder("Zone01")
-	if checkResult == true
-		LoadSpriteSheet("GHZ/Objects.gif")
-		SpriteFrame(-8, -8, 16, 16, 1, 1)
-	end if
-
-	CheckCurrentStageFolder("Zone02")
-	if checkResult == true
-		LoadSpriteSheet("MZ/Objects.gif")
-		SpriteFrame(-8, -8, 16, 16, 123, 194)
-	end if
+	LoadSpriteSheet("GHZ/Objects.gif")
+	SpriteFrame(-8, -8, 16, 16, 1, 1)
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "length")
 end event

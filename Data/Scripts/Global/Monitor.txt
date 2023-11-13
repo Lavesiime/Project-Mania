@@ -12,19 +12,11 @@
 private alias object.value0 : object.contentsPos.y
 private alias object.value1 : object.timer
 
-// Player aliases
-private alias object.yvel : player.yvel
-private alias object.gravity : player.gravity
-private alias object.animation : player.animation
-private alias object.value16 : player.isSidekick
-private alias object.value17 : debugMode.currentSelection
-private alias object.value25 : player.gravityStrength
-private alias object.value40 : player.hitboxLeft
-private alias object.value38 : player.hitboxTop
-private alias object.value41 : player.hitboxRight
-private alias object.value39 : player.hitboxBottom
+// States
+private alias 0 : MONITOR_STATE_IDLE
+private alias 1 : MONITOR_STATE_FALL
 
-// Monitor type aliases
+// Contents Types
 private alias 0  : MONITOR_BLANK
 private alias 1  : MONITOR_RINGS
 private alias 2  : MONITOR_SHIELD_BLUE
@@ -51,11 +43,31 @@ private alias 1 : MONITOR_STATE_FALL
 // Broken monitor states
 private alias 0 : MONITOR_STATE_RISE
 
+// Player Aliases
+private alias object.yvel : player.yvel
+private alias object.gravity : player.gravity
+private alias object.animation : player.animation
+private alias object.value16 : player.isSidekick
+private alias object.value17 : debugMode.currentSelection
+private alias object.value25 : player.gravityStrength
+private alias object.value40 : player.hitboxLeft
+private alias object.value38 : player.hitboxTop
+private alias object.value41 : player.hitboxRight
+private alias object.value39 : player.hitboxBottom
+
 // Game Mode Aliases
 private alias 2 : MODE_TIMEATTACK
 
 // Path ID Aliases
 private alias 0 : PATH_A
+
+// Shield Type Aliases
+private alias 2 : SHIELDTYPE_S3_S1
+
+// Regular Stage Aliases
+private alias 12 : STAGE_R_SLZ1
+private alias 13 : STAGE_R_SLZ2
+private alias 17 : STAGE_R_SBZ3
 
 
 // ========================
@@ -83,7 +95,16 @@ private function Monitor_DebugDraw
 	temp0 = debugMode[0].currentSelection
 	temp0 -= Monitor_startDebugID
 	if temp0 == MONITOR_1UP_SONIC
+#platform: USE_STANDALONE
 		temp0 += stage.playerListPos
+#endplatform
+
+#platform: USE_ORIGINS
+		if stage.playerListPos != PLAYER_AMY_A
+			temp0 += stage.playerListPos
+		end if
+#endplatform
+
 	else
 		if temp0 > MONITOR_1UP_SONIC
 			temp0 += 2
@@ -107,7 +128,15 @@ private function Monitor_DebugSpawn
 	temp0 = debugMode[0].currentSelection
 	temp0 -= Monitor_startDebugID
 	if temp0 == MONITOR_1UP_SONIC
+#platform: USE_STANDALONE
 		temp0 += stage.playerListPos
+#endplatform
+
+#platform: USE_ORIGINS
+		if stage.playerListPos != PLAYER_AMY_A
+			temp0 += stage.playerListPos
+		end if
+#endplatform
 	else
 		if temp0 > MONITOR_1UP_SONIC
 			temp0 += 2
@@ -118,13 +147,12 @@ private function Monitor_DebugSpawn
 	if temp0 >= MONITOR_SHIELD_GOGGLES
 		// only allow goggles in labyrinth, otherwise skip it
 		CheckCurrentStageFolder("Zone04")
-		if checkResult == 0
+		if checkResult == false
 			temp0++
 		end if
 	end if
 
 	CreateTempObject(TypeName[Monitor], temp0, object.xpos, object.ypos)
-
 end function
 
 
@@ -163,6 +191,12 @@ event ObjectUpdate
 			temp0 |= checkResult
 			CheckEqual(player[currentPlayer].animation, ANI_GLIDING_STOP)
 			temp0 |= checkResult
+#platform: USE_ORIGINS
+			CheckEqual(player[currentPlayer].animation, ANI_HAMMER_JUMP)
+			temp0 |= checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_HAMMER_DASH)
+			temp0 |= checkResult
+#endplatform
 
 			if temp0 == true
 				if player[currentPlayer].isSidekick == false // Only P1 should be able to break monitors
@@ -328,35 +362,42 @@ event ObjectStartup
 	SpriteFrame(-16, -16, 32, 32, 18, 1)
 
 	// Icons
-	SpriteFrame(-8, -9, 16, 14, 51, 16)
-	SpriteFrame(-8, -9, 16, 14, 68, 16)
-	SpriteFrame(-8, -9, 16, 14, 51, 31)
-	SpriteFrame(-8, -9, 16, 14, 68, 31)
+	SpriteFrame(-8, -9, 16, 14, 51, 16) // 1 - MONITOR_RINGS
+	SpriteFrame(-8, -9, 16, 14, 68, 16) // 2 - MONITOR_SHIELD_BLUE
+	SpriteFrame(-8, -9, 16, 14, 51, 31) // 3 - MONITOR_INVINCIBILITY
+	SpriteFrame(-8, -9, 16, 14, 68, 31) // 4 - MONITOR_SPEEDSHOES
 #platform: USE_ORIGINS
 	if game.coinMode == false
+		if stage.playerListPos == PLAYER_AMY
+			SpriteFrame(-8, -9, 16, 14, 166, 118) // 5 - MONITOR_1UP_SONIC, except it's actually Amy
+		else
+			SpriteFrame(-8, -9, 16, 14, 51, 46) // 5 - MONITOR_1UP_SONIC, actually Sonic this time
+		end if
 #endplatform
-		SpriteFrame(-8, -9, 16, 14, 51, 46)
-		SpriteFrame(-8, -9, 16, 14, 68, 46)
-		SpriteFrame(-8, -9, 16, 14, 51, 61)
+#platform: USE_STANDALONE
+		SpriteFrame(-8, -9, 16, 14, 51, 46) // 5 - MONITOR_1UP_SONIC
+#endplatform
+		SpriteFrame(-8, -9, 16, 14, 68, 46) // 6 - MONITOR_1UP_TAILS
+		SpriteFrame(-8, -9, 16, 14, 51, 61) // 7 - MONITOR_1UP_KNUX
 #platform: USE_ORIGINS
 	else
-		SpriteFrame(-8, -9, 16, 14, 35, 100)
-		SpriteFrame(-8, -9, 16, 14, 35, 100)
-		SpriteFrame(-8, -9, 16, 14, 35, 100)
+		SpriteFrame(-8, -9, 16, 14, 35, 100) // 5 - MONITOR_1UP_SONIC (Coin)
+		SpriteFrame(-8, -9, 16, 14, 35, 100) // 6 - MONITOR_1UP_TAILS (Coin.. again)
+		SpriteFrame(-8, -9, 16, 14, 35, 100) // 7 - MONITOR_1UP_KNUX (Coin :D)
 	end if
 #endplatform
-	SpriteFrame(-8, -9, 16, 14, 68, 61)
-	SpriteFrame(-8, -9, 16, 14, 51, 91)
-	SpriteFrame(-8, -9, 16, 14, 68, 76)
-	SpriteFrame(-8, -9, 16, 14, 51, 76)
-	SpriteFrame(-8, -9, 16, 14, 68, 91)
-	SpriteFrame(-8, -9, 16, 14, 18, 100)
-	SpriteFrame(-8, -9, 16, 14, 117, 26)
-	SpriteFrame(-8, -9, 16, 14, 117, 41)
-	SpriteFrame(-8, -9, 16, 14, 117, 56)
-	SpriteFrame(-8, -9, 16, 14, 117, 71)
-	SpriteFrame(-8, -9, 16, 14, 51, 1)
-	SpriteFrame(-8, -9, 16, 14, 68, 1)
+	SpriteFrame(-8, -9, 16, 14, 68, 61) // 8 - MONITOR_SUPER
+	SpriteFrame(-8, -9, 16, 14, 51, 91) // 9 - MONITOR_SHIELD_BUBBLE
+	SpriteFrame(-8, -9, 16, 14, 68, 76) // 10 - MONITOR_SHIELD_FIRE
+	SpriteFrame(-8, -9, 16, 14, 51, 76) // 11 - MONITOR_SHIELD_LIGHTNING
+	SpriteFrame(-8, -9, 16, 14, 68, 91) // 12 - MONITOR_EGGMAN
+	SpriteFrame(-8, -9, 16, 14, 18, 100) // 13 - MONITOR_SHIELD_GOGGLES
+	SpriteFrame(-8, -9, 16, 14, 117, 26) // 14 - MONITOR_DEBUG_SPIKES
+	SpriteFrame(-8, -9, 16, 14, 117, 41) // 15 - MONITOR_DEBUG_SHIELD
+	SpriteFrame(-8, -9, 16, 14, 117, 56) // 16 - MONITOR_DEBUG_EMERALDS
+	SpriteFrame(-8, -9, 16, 14, 117, 71) // 17 - unknown, it points to a Goggles sprite but it was probably an actual icon in earlier vers of the sheet
+	SpriteFrame(-8, -9, 16, 14, 51, 1) // 18 - Static 1
+	SpriteFrame(-8, -9, 16, 14, 68, 1) // 19 - Static 2
 	
 	Monitor_startDebugID = DebugMode_ObjCount
 	Monitor_startDebugID--
@@ -372,6 +413,13 @@ event ObjectStartup
 				temp1 -= MONITOR_1UP_SONIC
 				if stage.playerListPos != temp1
 					temp2 = false
+#platform: USE_ORIGINS
+					if temp1 == PLAYER_SONIC
+						if stage.playerListPos == PLAYER_AMY
+							temp2 = true
+						end if
+					end if
+#endplatform
 				end if
 			end if
 		end if
@@ -388,16 +436,14 @@ event ObjectStartup
 			SetTableValue(TypeName[Monitor], DebugMode_ObjCount, DebugMode_TypesTable)
 			SetTableValue(Monitor_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)
 			SetTableValue(Monitor_DebugSpawn, DebugMode_ObjCount, DebugMode_SpawnTable)
-
 			DebugMode_ObjCount++
-
 		end if
 
 		temp0++
 	loop
 
 	// Switch life icons to the Tails variant if Tails is the main character
-	if stage.playerListPos == PLAYER_TAILS_ALONE
+	if stage.playerListPos == PLAYER_TAILS_A
 		foreach (TypeName[Monitor], arrayPos0, ALL_ENTITIES)
 			if object[arrayPos0].propertyValue == MONITOR_1UP_SONIC
 				object[arrayPos0].propertyValue = MONITOR_1UP_TAILS
@@ -406,7 +452,7 @@ event ObjectStartup
 	end if
 
 	// Switch life icons to the Knuckles variant if Knuckles is the main character
-	if stage.playerListPos == PLAYER_KNUX_ALONE
+	if stage.playerListPos == PLAYER_KNUCKLES_A
 		foreach (TypeName[Monitor], arrayPos0, ALL_ENTITIES)
 			if object[arrayPos0].propertyValue == MONITOR_1UP_SONIC
 				object[arrayPos0].propertyValue = MONITOR_1UP_KNUX
@@ -414,11 +460,11 @@ event ObjectStartup
 		next
 	end if
 
-	if options.shieldType < 2
+	if options.shieldType < SHIELDTYPE_S3_S1 // Are S3 shields disabled?
 		switch stage.listPos
-		case 12 // SLZ1
-		case 13 // SLZ2
-		case 17 // SBZ3
+		case STAGE_R_SLZ1
+		case STAGE_R_SLZ2
+		case STAGE_R_SBZ3 // (aka LZ4)
 			foreach (TypeName[Monitor], arrayPos0, ALL_ENTITIES)
 				if object[arrayPos0].propertyValue >= MONITOR_SHIELD_BUBBLE
 					if object[arrayPos0].propertyValue <= MONITOR_SHIELD_LIGHTNING

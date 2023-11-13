@@ -17,6 +17,7 @@ private alias 1 : LAVAFLOW_FLOWING
 private alias 2 : LAVAFLOW_FINISHEDFLOWING
 
 // Player Aliases
+private alias object.state : player.state
 private alias object.xpos  : player.xpos
 private alias object.ixpos : player.ixpos
 private alias object.collisionLeft: player.collisionLeft
@@ -26,6 +27,7 @@ private alias object.value3 : mzSetup.lavaAnimTimer
 
 // Reserved object slots
 private alias 10 : SLOT_ZONESETUP
+
 
 // ========================
 // Function Declarations
@@ -73,8 +75,8 @@ event ObjectUpdate
 		break
 
 	case LAVAFLOW_FLOWING
-		if object[0].state != Player_State_Death
-			if object[0].state != Player_State_Hurt
+		if player[0].state != Player_State_Death
+			if player[0].state != Player_State_Hurt
 				object.xpos += 0x18000
 				if object.xpos >= 0x6480000
 					object.xpos = 0x6480000
@@ -137,7 +139,7 @@ event ObjectUpdate
 		
 	end switch
 
-	Sin(object.spriteSprX, mzSetup[10].lavaAnimTimer)
+	Sin(object.spriteSprX, mzSetup[SLOT_ZONESETUP].lavaAnimTimer)
 	object.spriteSprX += 512
 	object.spriteSprX >>= 2
 	object.spriteSprX &= 31

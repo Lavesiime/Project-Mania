@@ -863,4 +863,8 @@ event RSDKLoad
 	SetActiveVariable("enabledInAir")
 	AddEnumVariable("false", false)
 	AddEnumVariable("true", true)
+
+	SetVariableAlias(ALIAS_VAR_VAL1, "isPlatform")
+	
+	// scale is set to 256 (half) in mission M005 but it doesn't really mean anything lol
 end event

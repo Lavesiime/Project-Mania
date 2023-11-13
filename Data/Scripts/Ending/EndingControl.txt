@@ -111,10 +111,7 @@ event ObjectUpdate
 				player[currentPlayer].right = true
 			end if
 
-			temp0 = object.xpos
-			temp0 -= 0x040000
-
-			if player[currentPlayer].xpos > temp0
+			if player[currentPlayer].xpos > object.xpos
 				if player[currentPlayer].right == true
 					// Sonic's turned around at reached the ending point, so now let's stop him and do all the fancy stuff
 					
@@ -151,48 +148,60 @@ event ObjectUpdate
 								// Normal Ending Frames
 								
 								switch stage.playerListPos
-								case PLAYER_SONIC_ALONE
-								case PLAYER_SONIC_AND_TAILS
+								case PLAYER_SONIC_A
+								case PLAYER_SONIC_TAILS_A
 									object[tempObjectPos].frame = 0
 									object[currentPlayer].animation = ANI_WAITING
 									break
 									
-								case PLAYER_TAILS_ALONE
+								case PLAYER_TAILS_A
 									object[tempObjectPos].frame = 13
 									object[currentPlayer].animation = ANI_WAITING
 									break
 									
-								case PLAYER_KNUX_ALONE
+								case PLAYER_KNUCKLES_A
 									object[tempObjectPos].frame = 24
 									object[currentPlayer].animation = ANI_WAITING
 									break
+#platform: USE_ORIGINS
+								case PLAYER_AMY_A
+									object[currentPlayer].frame = 45
+									break
+#endplatform
 									
 								end switch
 							else
 								// Good Ending Frames
 								
 								switch stage.playerListPos
-								case PLAYER_SONIC_ALONE
-								case PLAYER_SONIC_AND_TAILS
+								case PLAYER_SONIC_A
+								case PLAYER_SONIC_TAILS_A
 									object[tempObjectPos].frame = 4
 									object[currentPlayer].animation = ANI_WAITING
 									break
 									
-								case PLAYER_TAILS_ALONE
+								case PLAYER_TAILS_A
 									object[tempObjectPos].frame = 16
 									object[currentPlayer].animation = ANI_WAITING
 									break
-									
-								case PLAYER_KNUX_ALONE
+
+								case PLAYER_KNUCKLES_A
 									object[tempObjectPos].frame = 27
 									object[currentPlayer].animation = ANI_WAITING
 									break
-									
+#platform: USE_ORIGINS
+								case PLAYER_AMY_A
+									object[currentPlayer].frame += 45
+									object[currentPlayer].frame += 4
+									break
+#endplatform
 								end switch
 								
 								// Put them in the Good Ending state too, looks like the Emeralds are starting to do something
-								object[tempObjectPos].state = 5
+								object[currentPlayer].state = 5
 							end if
+
+							object[currentPlayer].logoPos = 224
 						end if
 					end if
 				end if

@@ -314,10 +314,10 @@ event ObjectUpdate
 								end if
 							else
 								if object.timer > 40
-									if object[currentPlayer].propertyValue == PLAYER_SONIC_ALONE
+									if object[currentPlayer].propertyValue == PLAYER_SONIC_A
 										player[currentPlayer].animation = ANI_VICTORY
 									end if
-									if object[currentPlayer].propertyValue == PLAYER_KNUX_ALONE
+									if object[currentPlayer].propertyValue == PLAYER_KNUCKLES_A
 										player[currentPlayer].animation = ANI_VICTORY
 									end if
 								else
@@ -487,16 +487,20 @@ end event
 
 event ObjectStartup
 	switch stage.playerListPos
-	case PLAYER_SONIC_ALONE
+	case PLAYER_SONIC_A
 		LoadSpriteSheet("Global/Eggman.gif")
 		break
 
-	case PLAYER_TAILS_ALONE
+	case PLAYER_TAILS_A
 		LoadSpriteSheet("Global/Eggman.gif")
 		break
 
-	case PLAYER_KNUX_ALONE
+	case PLAYER_KNUCKLES_A
 		LoadSpriteSheet("Global/EggRobo.gif")
+		break
+
+	case PLAYER_AMY_A
+		LoadSpriteSheet("Global/Eggman.gif")
 		break
 	end switch
 	// Empty Egg Mobile

@@ -23,8 +23,11 @@ private alias 3 : RIDEBLOCK_STOPPED
 private alias object.xpos: player.xpos
 private alias object.ypos: player.ypos
 
-// MZSetup Aliases
+// Tile Flag Aliases
 private alias 1 : TILE_LAVA
+
+// Tile Info ID Aliases
+private alias 8 : TILEINFO_ANGLEB
 
 // Path ID Aliases
 private alias 0 : PATH_A
@@ -67,7 +70,7 @@ event ObjectUpdate
 			BoxCollisionTest(C_PLATFORM, object.entityPos, -16, -16, 16, 0, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 			if checkResult == true
 				object.state++
-				if object.direction == 0
+				if object.direction == FLIP_NONE
 					object.xvel = 0x10000
 				else
 					object.xvel = -0x10000
@@ -97,7 +100,7 @@ event ObjectUpdate
 				object.timer = 0
 				temp1 = object.iypos
 				temp1 += 12
-				Get16x16TileInfo(temp0, object.ixpos, temp1, 8)
+				Get16x16TileInfo(temp0, object.ixpos, temp1, TILEINFO_ANGLEB)
 				if temp0 == TILE_LAVA
 					object.state = RIDEBLOCK_SINKING
 				else
@@ -111,7 +114,7 @@ event ObjectUpdate
 				object.timer = 0
 				temp1 = object.iypos
 				temp1 += 12
-				Get16x16TileInfo(temp0, object.ixpos, temp1, 8)
+				Get16x16TileInfo(temp0, object.ixpos, temp1, TILEINFO_ANGLEB)
 				if temp0 == TILE_LAVA
 					object.state = RIDEBLOCK_SINKING
 				else
@@ -179,7 +182,7 @@ event ObjectStartup
 
 	foreach (TypeName[Ride Block], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].direction = object[arrayPos0].propertyValue
-		object[arrayPos0].direction &= 1
+		object[arrayPos0].direction &= FLIP_X
 		object[arrayPos0].startPos.x = object[arrayPos0].xpos
 		object[arrayPos0].startPos.y = object[arrayPos0].ypos
 	next

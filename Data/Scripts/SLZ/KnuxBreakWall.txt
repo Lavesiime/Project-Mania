@@ -57,7 +57,7 @@ event ObjectUpdate
 		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
 			checkResult = false
 
-			if stage.playerListPos == PLAYER_KNUX_ALONE
+			if stage.playerListPos == PLAYER_KNUCKLES_A
 				checkResult = true
 			end if
 

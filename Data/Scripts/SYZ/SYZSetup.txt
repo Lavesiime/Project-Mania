@@ -77,6 +77,7 @@ private alias 30436  : MUSIC_LOOP_INV_F
 reserve function SYZSetup_SpeedUpMusic
 reserve function SYZSetup_SlowDownMusic
 
+
 // ========================
 // Static Values
 // ========================
@@ -811,8 +812,8 @@ event ObjectUpdate
 	
 end event
 
-event ObjectStartup
 
+event ObjectStartup
 	if options.encoreGraphics == true
 		LoadPalette("SYZEncore.act", 0, 0, 0, 256)
 	end if
@@ -866,7 +867,7 @@ event ObjectStartup
 
 	if options.attractMode == true
 		switch stage.playerListPos
-		case PLAYER_SONIC_ALONE
+		case PLAYER_SONIC_A
 			if credits.screen == 0
 				Player_attractTable = SYZSetup_replay_attract_S
 				Player_attractTableSize = 178
@@ -878,7 +879,7 @@ event ObjectStartup
 			end if
 			break
 			
-		case PLAYER_TAILS_ALONE
+		case PLAYER_TAILS_A
 			if credits.screen == 0
 				Player_attractTable = SYZSetup_replay_attract_T
 				Player_attractTableSize = 290
@@ -890,7 +891,7 @@ event ObjectStartup
 			end if
 			break
 			
-		case PLAYER_KNUX_ALONE
+		case PLAYER_KNUCKLES_A
 			if credits.screen == 0
 				Player_attractTable = SYZSetup_replay_attract_K
 				Player_attractTableSize = 182
