@@ -6487,7 +6487,12 @@ event ObjectStartup
 			break
 #platform: USE_ORIGINS
 		case PLAYER_AMY_A
-			LoadAnimation("Amy.ani")
+			CheckCurrentStageFolder("Ending")
+			if checkResult == true
+				LoadAnimation("KnucklesEnding.ani")
+			else
+				LoadAnimation("Amy.ani")
+			end if
 			CallFunction(Player_HandleSuperPalette_Amy)
 			player[SLOT_PLAYER1].character 	= PLAYER_AMY
 			player[SLOT_PLAYER1].jumpOffset 	= -4

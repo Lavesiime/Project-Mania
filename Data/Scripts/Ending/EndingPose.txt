@@ -334,7 +334,6 @@ event ObjectUpdate
 
 		object.timer++
 		if object.timer == 70
-			object.timer = 0
 			switch stage.playerListPos
 			case PLAYER_SONIC_A
 			case PLAYER_SONIC_TAILS_A
@@ -361,23 +360,6 @@ event ObjectUpdate
 		end if
 		
 		if object.timer == 80
-			object.timer = 0
-			switch stage.playerListPos
-			case PLAYER_SONIC_ALONE
-			case PLAYER_SONIC_AND_TAILS
-				object.frame = 7
-				break
-				
-			case PLAYER_TAILS_ALONE
-				object.frame = 19
-				break
-				
-			case PLAYER_KNUX_ALONE
-				object.frame = 29
-				break
-				
-			end switch
-
 			currentPlayer = SLOT_PLAYER2
 			while currentPlayer < playerCount
 				player[currentPlayer].up = true
@@ -596,48 +578,46 @@ end event
 event ObjectDraw
 	if object.tailFrame != 0
 		// Tails should have one of his tails sprites in tow
-		DrawSprite(object.tailFrame)
+		//DrawSprite(object.tailFrame)
 	end if
 	
 	// The main player sprite
-	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	//DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
 	
 	// P1 should draw the logo, as well
-	if object.entityPos == 0
-		if object.state > 0
-			temp0 = screen.xcenter
-			temp0 -= 96
-			temp0 -= object.logoPos
-			if stage.player2Enabled == true
-				if options.region == true
-					// "Sonic the Hedgehog and Miles"
-					temp1 = 47
-				else
-					// "Sonic the Hedgehog and Tails"
-					temp1 = 46
-				end if
+	if object.state > 0
+		temp0 = screen.xcenter
+		temp0 -= 96
+		temp0 -= object.logoPos
+		if stage.player2Enabled == true
+			if options.region == true
+				// "Sonic the Hedgehog and Miles"
+				temp1 = 47
 			else
-				temp1 = 10
+				// "Sonic the Hedgehog and Tails"
+				temp1 = 46
+			end if
+		else
+			temp1 = 10
 #platform: USE_STANDALONE
-				if stage.playerListPos < PLAYER_SONIC_TAILS_A
-					temp1 += stage.playerListPos
-				end if
+			if stage.playerListPos < PLAYER_SONIC_TAILS_A
+				temp1 += stage.playerListPos
+			end if
 #endplatform
 
 #platform: USE_ORIGINS
-				if stage.playerListPos < PLAYER_SONIC_TAILS
-					temp1 += stage.playerListPos
-				else
-					if stage.playerListPos == PLAYER_AMY
-						temp1 = 45
-						temp1 += 10
-					end if
+			if stage.playerListPos < PLAYER_SONIC_TAILS
+				temp1 += stage.playerListPos
+			else
+				if stage.playerListPos == PLAYER_AMY
+					temp1 = 45
+					temp1 += 10
 				end if
-#endplatform
 			end if
-
-			DrawSpriteScreenXY(temp1, temp0, 80)
+#endplatform
 		end if
+
+		DrawSpriteScreenXY(temp1, temp0, 80)
 	end if
 end event
 
