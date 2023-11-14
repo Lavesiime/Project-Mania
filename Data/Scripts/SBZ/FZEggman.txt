@@ -595,7 +595,7 @@ event ObjectStartup
 		break
 
 	case PLAYER_AMY_A
-		LoadSpriteSheet("Global/Eggman.gif")
+		LoadSpriteSheet("SBZ/FZEggman.gif")
 		break
 	end switch
 	// Flash Hit
