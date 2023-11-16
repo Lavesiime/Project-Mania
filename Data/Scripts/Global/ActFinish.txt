@@ -685,7 +685,7 @@ event ObjectStartup
 
 	// Change offset of sprites if Knuckles is P1
 	// (Done to make space for his large name)
-	if stage.playerListPos == PLAYER_SONIC
+	if stage.playerListPos == PLAYER_SONIC_A
 		SpriteFrame(0, 0, 56, 56, 41, 1) 		// #3  - Title card blue circle
 		SpriteFrame(17, 0, 47, 16, 1, 205) 		// #4  - "Has"
 		SpriteFrame(0, 0, 95, 16, 49, 205) 		// #5  - "Passed"
@@ -693,7 +693,7 @@ event ObjectStartup
 		SpriteFrame(0, 0, 43, 24, 138, 1) 		// #7  - Act 2 sign
 		SpriteFrame(0, 0, 43, 24, 182, 1) 		// #8  - Act 3 sign
 	end if
-	if stage.playerListPos == PLAYER_TAILS
+	if stage.playerListPos == PLAYER_TAILS_A
 		SpriteFrame(0, 0, 56, 56, 257, 1) 		// #3  - Title card orange circle
 		SpriteFrame(17, 0, 47, 16, 1, 205) 		// #4  - "Has"
 		SpriteFrame(0, 0, 95, 16, 49, 205) 		// #5  - "Passed"
@@ -701,7 +701,7 @@ event ObjectStartup
 		SpriteFrame(0, 0, 43, 24, 138, 1) 		// #7  - Act 2 sign
 		SpriteFrame(0, 0, 43, 24, 182, 1) 		// #8  - Act 3 sign
 	end if
-	if stage.playerListPos == PLAYER_KNUCKLES
+	if stage.playerListPos == PLAYER_KNUCKLES_A
 		SpriteFrame(20, 0, 56, 56, 314, 1) 		// #3  - Title card red circle
 		SpriteFrame(37, 0, 47, 16, 1, 205) 		// #4  - "Has"
 		SpriteFrame(20, 0, 95, 16, 49, 205) 	// #5  - "Passed"
@@ -710,7 +710,7 @@ event ObjectStartup
 		SpriteFrame(20, 0, 43, 24, 182, 1) 		// #8  - Act 3 sign
 	end if
 #platform: USE_ORIGINS
-	if stage.playerListPos == PLAYER_AMY
+	if stage.playerListPos == PLAYER_AMY_A
 		SpriteFrame(0, 0, 56, 56, 371, 1) 		// #3  - Title card orange circle
 		SpriteFrame(17, 0, 47, 16, 1, 205) 		// #4  - "Has"
 		SpriteFrame(0, 0, 95, 16, 49, 205) 		// #5  - "Passed"
@@ -719,33 +719,33 @@ event ObjectStartup
 		SpriteFrame(0, 0, 43, 24, 182, 1) 		// #8  - Act 3 sign
 	end if
 #endplatform
-	if stage.playerListPos == PLAYER_SONIC
+	if stage.playerListPos == PLAYER_SONIC_A
 		SpriteFrame(0, -2, 44, 16, 161, 26)  		// #9  - "Score"
 	end if
-	if stage.playerListPos == PLAYER_TAILS
+	if stage.playerListPos == PLAYER_TAILS_A
 		SpriteFrame(0, -2, 44, 16, 303, 58)  		// #9  - "Score"
 	end if
-	if stage.playerListPos == PLAYER_KNUCKLES
+	if stage.playerListPos == PLAYER_KNUCKLES_A
 		SpriteFrame(0, -2, 44, 16, 303, 75)  		// #9  - "Score"
 	end if
 #platform: USE_ORIGINS
-	if stage.playerListPos == PLAYER_AMY
+	if stage.playerListPos == PLAYER_AMY_A
 		SpriteFrame(0, -2, 44, 16, 303, 92)  		// #9  - "Score"
 	end if
 #endplatform
 	SpriteFrame(0, 0, 31, 11, 1, 17)  			// #10 - "Time" (cropped from normal HUD graphic)
 	SpriteFrame(0, 0, 31, 11, 1, 33)  			// #11 - "Rings" (also cropped from normal HUD graphic)
-	if stage.playerListPos == PLAYER_SONIC
+	if stage.playerListPos == PLAYER_SONIC_A
 		SpriteFrame(40, -2, 45, 16, 98, 43)  		// #12 - "Bonus"
 	end if
-	if stage.playerListPos == PLAYER_TAILS
+	if stage.playerListPos == PLAYER_TAILS_A
 		SpriteFrame(0, -2, 44, 16, 257, 58)  		// #12  - "Bonus"
 	end if
-	if stage.playerListPos == PLAYER_KNUCKLES
+	if stage.playerListPos == PLAYER_KNUCKLES_A
 		SpriteFrame(0, -2, 44, 16, 257, 75)  		// #12  - "Bonus"
 	end if
 #platform: USE_ORIGINS
-	if stage.playerListPos == PLAYER_AMY
+	if stage.playerListPos == PLAYER_AMY_A
 		SpriteFrame(0, -2, 44, 16, 257, 92) 		// #12  - "Bonus"
 	end if
 #endplatform

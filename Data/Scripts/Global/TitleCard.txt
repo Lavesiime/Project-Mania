@@ -278,17 +278,17 @@ event ObjectDraw
 		temp0 -= 28
 		temp0 += object.circlePos
 		temp0 += object.displayOffset
-		if stage.playerListPos == PLAYER_SONIC
+		if stage.playerListPos == PLAYER_SONIC_A
 			DrawSpriteScreenXY(26, temp0, 76)
 		end if
-		if stage.playerListPos == PLAYER_TAILS
+		if stage.playerListPos == PLAYER_TAILS_A
 			DrawSpriteScreenXY(31, temp0, 76)
 		end if
-		if stage.playerListPos == PLAYER_KNUCKLES
+		if stage.playerListPos == PLAYER_KNUCKLES_A
 			DrawSpriteScreenXY(32, temp0, 76)
 		end if
 #platform: USE_ORIGINS
-		if stage.playerListPos == PLAYER_AMY
+		if stage.playerListPos == PLAYER_AMY_A
 			DrawSpriteScreenXY(33, temp0, 76)
 		end if
 #endplatform
