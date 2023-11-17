@@ -26,7 +26,7 @@ private table CreditsEggman_delayTable
 end table
 
 private table CreditsEggman_frameTable
-	4, 5, 6, 5, 4, 5, 6, 5, 4, 5, 6, 5, 7, 5, 6, 5
+	4, 5, 6, 7, 8, 9, 10, 11, 12, 4, 5, 6, 7, 8, 9, 10, 11, 12
 end table
 
 
@@ -113,11 +113,15 @@ event ObjectUpdate
 
 	case 1
 		object.timer++
-		if object.timer == 4
+		if object.timer == 3
+			object.frame++
 			object.timer = 0
-			GetTableValue(object.frame, object.frameID, CreditsEggman_frameTable)
-			object.frameID++
-			object.frameID &= 15
+		end if
+		if object.frame < 4
+			object.frame = 4
+		end if
+		if object.frame > 12
+			object.frame = 4
 		end if
 		break
 		
@@ -213,7 +217,7 @@ event ObjectStartup
 		case 7
 		case 8
 			object[arrayPos0].frame = object[arrayPos0].propertyValue
-			object[arrayPos0].frame += 7
+			object[arrayPos0].frame += 12
 			break
 			
 		end switch
