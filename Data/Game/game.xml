@@ -78,6 +78,7 @@
   <objects>
     <object name="Monitor Shard" script="Global/MonitorShard.txt" forceLoad="false" />
     <object name="Animal Prison Part" script="Global/AnimalPrisonPart.txt" forceLoad="false" />
+    <object name="Hammer" script="Global/Hammer.txt" forceLoad="false" />
   </objects>
   <variables>
     <variable name="game.playMode" value="1" />
