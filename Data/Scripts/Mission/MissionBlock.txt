@@ -122,11 +122,43 @@ end event
 
 
 event ObjectStartup
-	// Load what's essentially the Labyrinth Zone sheet...
-	LoadSpriteSheet("Mission/Objects.gif")
-	
-	// And of course, only use a tiny portion of it
-	SpriteFrame(-16, -16, 32, 32, 1, 18)
+
+	CheckCurrentStageFolder("Zone01")
+	if checkResult == true
+		LoadSpriteSheet("GHZ/Objects3.gif")
+		SpriteFrame(-16, -16, 32, 32, 67, 175)
+	end if
+
+	CheckCurrentStageFolder("Zone02")
+	if checkResult == true
+		LoadSpriteSheet("MZ/Objects2.gif")
+		SpriteFrame(-16, -16, 32, 32, 57, 194)
+	end if
+
+	CheckCurrentStageFolder("Zone03")
+	if checkResult == true
+		LoadSpriteSheet("SYZ/Objects.gif")
+		SpriteFrame(-16, -16, 32, 32, 143, 152)
+	end if
+
+	CheckCurrentStageFolder("Zone04")
+	if checkResult == true
+		LoadSpriteSheet("LZ/Objects3.gif")
+		SpriteFrame(-16, -16, 32, 32, 223, 82)
+	end if
+
+	CheckCurrentStageFolder("Zone05")
+	if checkResult == true
+		LoadSpriteSheet("SLZ/Objects3.gif")
+		SpriteFrame(-16, -16, 32, 32, 66, 1)
+	end if
+
+	CheckCurrentStageFolder("Zone06")
+	if checkResult == true
+		LoadSpriteSheet("SBZ/Objects.gif")
+		SpriteFrame(-16, -16, 32, 32, 189, 192)
+	end if
+
 end event
 
 
