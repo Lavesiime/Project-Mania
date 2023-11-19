@@ -14,6 +14,14 @@ private alias object.value1 : object.paletteIndex
 private alias object.value2 : object.scrollPos
 private alias object.value3 : object.signTileFrame
 private alias object.value4 : object.cylinder1TileFrame
+private alias object.value5 : object.starTilesFrameA
+private alias object.value6 : object.starTilesTimerA
+private alias object.value7 : object.starTilesFrameB
+private alias object.value8 : object.starTilesTimerB
+private alias object.value9 : object.starTilesFrameC
+private alias object.value10 : object.starTilesTimerC
+private alias object.value11 : object.starTilesFrameD
+private alias object.value12 : object.starTilesTimerD
 
 // Tracks
 private alias 0 : TRACK_STAGE
@@ -324,6 +332,25 @@ event ObjectUpdate
 	if object.cylinder1TileFrame > 888
 		object.cylinder1TileFrame = 825
 	end if
+
+	// Star Animations
+	if object.starTilesTimerA == 0
+		object.starTilesFrameA++
+		
+		if object.starTilesFrameA == 3
+			object.starTilesTimerA = 64
+			Copy16x16Tile(963, 0)
+			temp2++
+
+		else
+			object.starTilesTimerA = 6
+			temp2 = object.starTilesFrameA
+			temp2 += 967
+			Copy16x16Tile(963, temp2)
+			temp2++
+		end if
+	end if
+	object.starTilesTimerA--
 end event
 
 
@@ -370,6 +397,13 @@ event ObjectStartup
 	object[SLOT_ZONESETUP].priority = PRIORITY_ACTIVE
 	object[SLOT_ZONESETUP].drawOrder = 5
 	object[SLOT_ZONESETUP].scrollPos = 496
+
+	// Init aniTiles
+	Copy16x16Tile(963, 967)
+	Copy16x16Tile(964, 968)
+	Copy16x16Tile(965, 969)
+	Copy16x16Tile(966, 970)
+
 	
 	temp0 = screen.xcenter
 	temp0 >>= 2
