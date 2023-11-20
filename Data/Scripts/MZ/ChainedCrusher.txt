@@ -33,6 +33,9 @@ private alias 3 : CHAINCRUSHER_TYPE_SMALL_ACTIVE
 private alias object.ypos    : player.ypos
 private alias object.gravity : player.gravity
 
+// Path ID Aliases
+private alias 0 : PATH_A
+
 // Debug Mode Aliases
 private alias object.value17 : debugMode.currentSelection
 
@@ -270,9 +273,57 @@ event ObjectUpdate
 			object.ypos += object.yvel
 			if object.ypos >= object.endPos.y
 				if object.yvel > 0x7000
+					GetBit(temp0, object.direction, 1)
 					CallFunction(ChainedCrusher_CheckOnScreen)
 					if checkResult == true
-						PlaySfx(SfxName[Crusher], false)
+						if object.crusherType == CHAINCRUSHER_TYPE_SMALL
+							if temp0 == true
+								ObjectTileCollision(CSIDE_FLOOR, 0, 14, PATH_A)
+							else
+								ObjectTileCollision(CSIDE_FLOOR, 0, 16, PATH_A)
+							end if
+							if checkResult == true
+								PlaySfx(SfxName[Impact4], false)
+							else
+								PlaySfx(SfxName[Crusher], false)
+							end if
+						end if
+						if object.crusherType == CHAINCRUSHER_TYPE_SMALL_ACTIVE
+							if temp0 == true
+								ObjectTileCollision(CSIDE_FLOOR, 0, 14, PATH_A)
+							else
+								ObjectTileCollision(CSIDE_FLOOR, 0, 16, PATH_A)
+							end if
+							if checkResult == true
+								PlaySfx(SfxName[Impact4], false)
+							else
+								PlaySfx(SfxName[Crusher], false)
+							end if
+						end if
+						if object.crusherType == CHAINCRUSHER_TYPE_MED
+							if temp0 == true
+								ObjectTileCollision(CSIDE_FLOOR, 0, 28, PATH_A)
+							else
+								ObjectTileCollision(CSIDE_FLOOR, 0, 32, PATH_A)
+							end if
+							if checkResult == true
+								PlaySfx(SfxName[Impact4], false)
+							else
+								PlaySfx(SfxName[Crusher], false)
+							end if
+						end if
+						if object.crusherType == CHAINCRUSHER_TYPE_LARGE
+							if temp0 == true
+								ObjectTileCollision(CSIDE_FLOOR, 0, 28, PATH_A)
+							else
+								ObjectTileCollision(CSIDE_FLOOR, 0, 32, PATH_A)
+							end if
+							if checkResult == true
+								PlaySfx(SfxName[Impact4], false)
+							else
+								PlaySfx(SfxName[Crusher], false)
+							end if
+						end if
 					end if
 				end if
 				object.ypos = object.endPos.y
