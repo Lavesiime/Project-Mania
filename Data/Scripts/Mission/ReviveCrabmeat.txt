@@ -222,7 +222,7 @@ event ObjectUpdate
 	switch object.animation
 	case CRABMEAT_ANI_MOVING
 		object.frame = object.animationTimer
-		object.frame >>= 4
+		object.frame >>= 3
 		object.animationTimer++
 		object.animationTimer %= 48
 		break
@@ -232,7 +232,9 @@ event ObjectUpdate
 		break
 
 	case CRABMEAT_ANI_IDLE
-		object.frame = 3
+		object.frame >>= 2
+		object.frame += 7
+		object.animationTimer++
 		break
 		
 	end switch
@@ -247,20 +249,32 @@ end event
 event ObjectStartup
 	CheckCurrentStageFolder("Zone01")
 	if checkResult == true
-		LoadSpriteSheet("GHZ/Objects.gif")
-		SpriteFrame(-21, -16, 42, 31, 138, 157)
-		SpriteFrame(-22, -16, 44, 31, 98, 189)
-		SpriteFrame(-22, -16, 44, 31, 98, 221)
-		SpriteFrame(-24, -15, 48, 30, 143, 189)
+		LoadSpriteSheet("GHZ/Objects3.gif")
+		SpriteFrame(-21, -16, 42, 31, 1, 1)
+		SpriteFrame(-22, -16, 44, 31, 44, 1)
+		SpriteFrame(-22, -16, 44, 31, 89, 1)
+		SpriteFrame(-22, -16, 44, 31, 134, 1)
+		SpriteFrame(-22, -16, 44, 31, 180, 1)
+		SpriteFrame(-22, -16, 44, 31, 1, 33)
+		SpriteFrame(-22, -16, 44, 31, 46, 33)
+		SpriteFrame(-24, -15, 48, 30, 91, 34)
+		SpriteFrame(-24, -15, 48, 30, 140, 34)
+		SpriteFrame(-24, -14, 48, 29, 189, 35)
 	end if
 
 	CheckCurrentStageFolder("Zone03")
 	if checkResult == true
-		LoadSpriteSheet("SYZ/Objects.gif")
-		SpriteFrame(-21, -16, 42, 31, 184, 1)
-		SpriteFrame(-22, -16, 44, 31, 184, 34)
-		SpriteFrame(-22, -16, 44, 31, 184, 66)
-		SpriteFrame(-24, -15, 48, 30, 184, 173)
+		LoadSpriteSheet("SYZ/Objects2.gif")
+		SpriteFrame(-21, -16, 42, 31, 157, 1)
+		SpriteFrame(-22, -16, 44, 31, 200, 1)
+		SpriteFrame(-22, -16, 44, 31, 157, 33)
+		SpriteFrame(-22, -16, 44, 31, 202, 33)
+		SpriteFrame(-22, -16, 44, 31, 122, 74)
+		SpriteFrame(-22, -16, 44, 31, 167, 74)
+		SpriteFrame(-22, -16, 44, 31, 212, 74)
+		SpriteFrame(-24, -15, 48, 30, 110, 106)
+		SpriteFrame(-24, -15, 48, 30, 159, 106)
+		SpriteFrame(-24, -14, 48, 29, 208, 107)
 	end if
 
 	CheckCurrentStageFolder("Zone07")

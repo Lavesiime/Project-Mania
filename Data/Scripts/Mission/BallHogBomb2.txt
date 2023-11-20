@@ -28,20 +28,32 @@ event ObjectUpdate
 	object.yvel += 0x3800
 	
 	if object.yvel > 0
-		// This bit is a new Ball Hog Bomb 2 bit - instead of checking for tile collisions here, let's just see if the object is below its bounce threshold
-		// temp0 doesn't really need to be used here but it was used in the base bomb script so i guess they just wanted to stick with that?
 		temp0 = object.ypos
-		if temp0 >= object.bouncePos
+
+		ObjectTileCollision(CSIDE_FLOOR, 0, 8, PATH_A)
+		if checkResult == true
 			object.yvel = -0x30000
-		end if
-		
-		// ..if we're going right, then check left wall collision?
-		// (this bit is new to the Ball Hog Bomb 2 script too, it's not in the normal version)
-		if object.xvel > 0
-			ObjectTileGrip(CSIDE_LWALL, 8, 0, PATH_A)
-			if checkResult != false
-				FlipSign(object.xvel)
+			object.ypos = temp0
+			ObjectTileGrip(CSIDE_FLOOR, -2, 8, PATH_A)
+			temp1 = object.ypos
+			object.ypos = temp0
+			ObjectTileGrip(CSIDE_FLOOR, 2, 8, PATH_A)
+			temp2 = object.ypos
+			object.ypos = temp0
+			if object.xvel > 0
+				if temp2 < temp1
+					FlipSign(object.xvel)
+				end if
+			else
+				if temp1 < temp2
+					FlipSign(object.xvel)
+				end if
 			end if
+			
+			if object.outOfBounds == false
+				PlaySfx(SfxName[Hog Bounce], false)
+			end if
+			
 		end if
 	end if
 	
@@ -52,10 +64,14 @@ event ObjectUpdate
 		end if
 	next
 	
+	// Animate the object
 	object.animationTimer++
-	if object.animationTimer >= 6
-		object.frame ^= 1
+	if object.animationTimer >= 3
+		object.frame++
 		object.animationTimer = 0
+	end if
+	if object.frame > 2
+		object.frame = 0
 	end if
 	
 	// Update the bomb's countdown timer
@@ -80,8 +96,9 @@ event ObjectStartup
 	CheckCurrentStageFolder("Zone06")
 	if checkResult == true
 		LoadSpriteSheet("SBZ/Objects.gif")
-		SpriteFrame(-7, -7, 14, 14, 82, 126)
 		SpriteFrame(-7, -7, 14, 14, 82, 143)
+		SpriteFrame(-7, -7, 14, 14, 82, 126)
+		SpriteFrame(-7, -7, 14, 14, 82, 109)
 	end if
 	
 	CheckCurrentStageFolder("Zone07")

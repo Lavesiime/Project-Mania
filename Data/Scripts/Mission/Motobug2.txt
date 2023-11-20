@@ -213,7 +213,7 @@ event ObjectUpdate
 
 	if object.animation == MOTOBUG_ANI_MOVING
 		object.frame = object.animationTimer
-		object.frame >>= 3
+		object.frame >>= 2
 		object.animationTimer++
 		object.animationTimer &= 31
 	end if
@@ -228,12 +228,42 @@ end event
 
 
 event ObjectStartup
+	CheckCurrentStageFolder("Zone01")
+	temp0 = checkResult
+	CheckCurrentStageFolder("Zone05")
+	temp1 = checkResult
 	if game.playMode == BOOT_PLAYMODE_MISSION
-		LoadSpriteSheet("GHZ/Objects.gif")
-		SpriteFrame(-21, -13, 40, 28, 98, 127)
-		SpriteFrame(-20, -14, 39, 29, 139, 127)
-		SpriteFrame(-20, -13, 39, 28, 98, 156)
-		SpriteFrame(-20, -14, 39, 29, 139, 127)
+		// In Origins's missions, GHZ and SYZ qualify for loading MZ sprites too
+		CheckCurrentStageFolder("Zone01")
+		temp0 |= checkResult
+		CheckCurrentStageFolder("Zone05")
+		temp1 |= checkResult
+	end if
+	if temp0 == true
+		LoadSpriteSheet("GHZ/Objects3.gif")
+		SpriteFrame(-20, -13, 39, 28, 1, 66)
+		SpriteFrame(-20, -13, 39, 28, 41, 66)
+		SpriteFrame(-20, -14, 39, 29, 81, 65)
+		SpriteFrame(-20, -14, 39, 29, 121, 65)
+		SpriteFrame(-22, -14, 41, 29, 161, 65)
+		SpriteFrame(-21, -13, 40, 28, 203, 66)
+		SpriteFrame(-21, -13, 40, 28, 1, 96)
+		SpriteFrame(-20, -14, 39, 29, 42, 95)
+		SpriteFrame(-20, -13, 39, 28, 82, 96)
+		SpriteFrame(-20, -13, 39, 28, 122, 96)
+	end if
+	if temp1 == true
+		LoadSpriteSheet("SLZ/Objects2.gif")
+		SpriteFrame(-20, -13, 39, 28, 1, 66)
+		SpriteFrame(-20, -13, 39, 28, 41, 66)
+		SpriteFrame(-20, -14, 39, 29, 81, 65)
+		SpriteFrame(-20, -14, 39, 29, 121, 65)
+		SpriteFrame(-22, -14, 41, 29, 161, 65)
+		SpriteFrame(-21, -13, 40, 28, 203, 66)
+		SpriteFrame(-21, -13, 40, 28, 1, 96)
+		SpriteFrame(-20, -14, 39, 29, 42, 95)
+		SpriteFrame(-20, -13, 39, 28, 82, 96)
+		SpriteFrame(-20, -13, 39, 28, 122, 96)
 	end if
 	
 	// (They removed the MBZ sheet checks and such here, more power to 'em I suppose)

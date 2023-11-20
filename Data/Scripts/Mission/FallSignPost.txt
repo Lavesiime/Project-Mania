@@ -100,10 +100,10 @@ event ObjectUpdate
 		end if
 		
 		object.spinTimer++
-		if object.spinTimer == 2
+		if object.spinTimer == 1
 			object.spinTimer = 0
 			object.frame++
-			if object.frame == 5
+			if object.frame == 10
 				Rand(temp0, 48)
 				temp0 <<= 16
 				temp0 += object.xpos
@@ -115,7 +115,7 @@ event ObjectUpdate
 				CreateTempObject(TypeName[Ring Sparkle], 0, temp0, temp1)
 			end if
 			
-			if object.frame == 9
+			if object.frame == 20
 				object.frame = 1
 				Rand(temp0, 48)
 				temp0 <<= 16
@@ -137,10 +137,10 @@ event ObjectUpdate
 		end if
 		
 		object.spinTimer++
-		if object.spinTimer == 2
+		if object.spinTimer == 1
 			object.spinTimer = 0
 			object.frame++
-			if object.frame == 5
+			if object.frame == 10
 				Rand(temp0, 48)
 				temp0 <<= 16
 				temp0 += object.xpos
@@ -152,7 +152,7 @@ event ObjectUpdate
 				CreateTempObject(TypeName[Ring Sparkle], 0, temp0, temp1)
 			end if
 			
-			if object.frame == 9
+			if object.frame == 20
 				object.frame = 1
 				Rand(temp0, 48)
 				temp0 <<= 16
@@ -165,7 +165,7 @@ event ObjectUpdate
 				CreateTempObject(TypeName[Ring Sparkle], 0, temp0, temp1)
 				object.spinCount--
 				if object.spinCount == 0
-					object.frame = 5
+					object.frame = 11
 					object.state = 3
 				end if
 			end if
@@ -242,16 +242,157 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Global/Items2.gif")
-	SpriteFrame(-24, 16, 48, 16, 34, 214)
-	SpriteFrame(-24, -16, 48, 32, 34, 182)
-	SpriteFrame(-16, -16, 32, 32, 1, 150)
-	SpriteFrame(-4, -16, 8, 32, 189, 131)
-	SpriteFrame(-16, -16, 32, 32, 1, 183)
-	SpriteFrame(-24, -16, 48, 32, 34, 83)
-	SpriteFrame(-16, -16, 32, 32, 1, 150)
-	SpriteFrame(-4, -16, 8, 32, 189, 131)
-	SpriteFrame(-16, -16, 32, 32, 1, 183)
+#platform: USE_STANDALONE
+	LoadSpriteSheet("Global/Items.gif")
+#endplatform
+#platform: USE_ORIGINS
+	if stage.playerListPos == PLAYER_AMY
+		LoadSpriteSheet("Global/Items.gif")
+	else
+		LoadSpriteSheet("Global/Items.gif")
+	end if
+#endplatform
+	
+	SpriteFrame(-24, 16, 48, 16, 246, 396)
+	switch stage.playerListPos
+	case PLAYER_SONIC_A
+		SpriteFrame(-24, -16, 48, 32, 246, 364)
+		SpriteFrame(-20, -16, 40, 32, 336, 397)
+		SpriteFrame(-16, -16, 32, 32, 377, 397)
+		SpriteFrame(-12, -16, 24, 32, 410, 397)
+		SpriteFrame(-8, -16, 16, 32, 435, 397)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 452, 397)
+		SpriteFrame(-12, -16, 24, 32, 469, 397)
+		SpriteFrame(-16, -16, 32, 32, 331, 430)
+		SpriteFrame(-20, -16, 40, 32, 364, 430)
+
+		SpriteFrame(-24, -16, 48, 32, 405, 430)
+		SpriteFrame(-20, -16, 40, 32, 336, 397)
+		SpriteFrame(-16, -16, 32, 32, 377, 397)
+		SpriteFrame(-12, -16, 24, 32, 410, 397)
+		SpriteFrame(-8, -16, 16, 32, 435, 397)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 452, 397)
+		SpriteFrame(-12, -16, 24, 32, 469, 397)
+		SpriteFrame(-16, -16, 32, 32, 331, 430)
+		SpriteFrame(-20, -16, 40, 32, 364, 430)
+
+		//Wink Frames
+		SpriteFrame(-24, -16, 48, 32, 257, 0)
+		SpriteFrame(-24, -16, 48, 32, 306, 0)
+		SpriteFrame(-24, -16, 48, 32, 355, 0)
+		SpriteFrame(-24, -16, 48, 32, 404, 0)
+		SpriteFrame(-24, -16, 48, 32, 355, 0)
+		SpriteFrame(-24, -16, 48, 32, 306, 0)
+		SpriteFrame(-24, -16, 48, 32, 257, 0)
+		SpriteFrame(-24, -16, 48, 32, 405, 430)
+		break
+		
+	case PLAYER_TAILS_A
+		SpriteFrame(-24, -16, 48, 32, 246, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		SpriteFrame(-24, -16, 48, 32, 330, 463)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		//Wink Frames
+		SpriteFrame(-24, -16, 48, 32, 453, 0)
+		SpriteFrame(-24, -16, 48, 32, 257, 33)
+		SpriteFrame(-24, -16, 48, 32, 306, 33)
+		SpriteFrame(-24, -16, 48, 32, 355, 33)
+		SpriteFrame(-24, -16, 48, 32, 306, 33)
+		SpriteFrame(-24, -16, 48, 32, 257, 33)
+		SpriteFrame(-24, -16, 48, 32, 453, 0)
+		SpriteFrame(-24, -16, 48, 32, 330, 463)
+		break
+		
+	case PLAYER_KNUCKLES_A
+		SpriteFrame(-24, -16, 48, 32, 246, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		SpriteFrame(-24, -16, 48, 32, 379, 463)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		//Wink Frames
+		SpriteFrame(-24, -16, 48, 32, 404, 33)
+		SpriteFrame(-24, -16, 48, 32, 453, 33)
+		SpriteFrame(-24, -16, 48, 32, 355, 66)
+		SpriteFrame(-24, -16, 48, 32, 404, 66)
+		SpriteFrame(-24, -16, 48, 32, 355, 66)
+		SpriteFrame(-24, -16, 48, 32, 453, 33)
+		SpriteFrame(-24, -16, 48, 32, 404, 33)
+		SpriteFrame(-24, -16, 48, 32, 379, 463)
+		break
+		
+#platform: USE_ORIGINS
+	case PLAYER_AMY_A
+		SpriteFrame(-24, -16, 48, 32, 246, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		SpriteFrame(-24, -16, 48, 32, 428, 463)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		//Wink Frames
+		SpriteFrame(-24, -16, 48, 32, 453, 66)
+		SpriteFrame(-24, -16, 48, 32, 355, 99)
+		SpriteFrame(-24, -16, 48, 32, 404, 99)
+		SpriteFrame(-24, -16, 48, 32, 453, 99)
+		SpriteFrame(-24, -16, 48, 32, 404, 99)
+		SpriteFrame(-24, -16, 48, 32, 355, 99)
+		SpriteFrame(-24, -16, 48, 32, 453, 66)
+		SpriteFrame(-24, -16, 48, 32, 428, 463)
+		break
+#endplatform
+	end switch
 	
 	foreach (TypeName[FallSignPost], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].frame = 1

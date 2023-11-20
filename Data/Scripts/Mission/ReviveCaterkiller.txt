@@ -42,8 +42,14 @@ private alias 3 : CATERKILLER_UNCONTRACT
 private alias 4 : CATERKILLER_LOWERHEAD
 private alias 5 : CATERKILLER_SPLITBODYPART
 private alias 6 : CATERKILLER_REVIVE
+private alias 7 : CATERKILLER_DESTROYEDBODYPART
 
 // Player aliases
+private alias object.ypos	 : player.ypos
+private alias object.animation : player.animation
+
+// Player aliases
+private alias object.value7  : player.invincibleTimer
 private alias object.value40 : player.hitboxLeft
 private alias object.value38 : player.hitboxTop
 private alias object.value41 : player.hitboxRight
@@ -185,6 +191,80 @@ private function Caterkiller_CheckPlayerCollisions
 			object[tempObjectPos].backupState = CATERKILLER_REVIVE
 			object[tempObjectPos].backupvalueA = object.bodyPositionRevive.x
 			object[tempObjectPos].backupvalueB = object.bodyPositionRevive.y
+
+			CheckEqual(player[currentPlayer].animation, ANI_JUMPING)
+			temp0 = checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_SPINDASH)
+			temp0 |= checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_GLIDING)
+			temp0 |= checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_GLIDING_STOP)
+			temp0 |= checkResult
+			CheckNotEqual(player[currentPlayer].invincibleTimer, 0)
+			temp0 |= checkResult
+			
+			// Tails can also break badniks that are hit his tails while flying, check for that
+			CheckEqual(player[currentPlayer].animation, ANI_FLYING)
+			temp1 = checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_FLYINGTIRED)
+			temp1 |= checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_FLY_LIFT_UP)
+			temp1 |= checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_FLY_LIFT_DOWN)
+			temp1 |= checkResult
+			CheckEqual(player[currentPlayer].animation, ANI_FLY_LIFT_TIRED)
+			temp1 |= checkResult
+			if temp1 == true
+				CheckGreater(player[currentPlayer].ypos, object.ypos)
+				temp0 |= checkResult
+			end if
+
+			if temp0 == true
+				// Create the destroyed body parts
+				CreateTempObject(TypeName[Caterkiller], 0, object.bodyPosition1.x, object.bodyPosition1.y)
+				if object.bodyDirection1 == 0
+					object[tempObjectPos].xvel = -0x09000
+				else
+					object[tempObjectPos].xvel = 0x09000
+				end if
+				object[tempObjectPos].yvel 		= -0x20000
+				object[tempObjectPos].direction = object.bodyDirection1
+				object[tempObjectPos].frame 	= 32
+				object[tempObjectPos].state 	= CATERKILLER_DESTROYEDBODYPART
+				object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
+				object[tempObjectPos].drawOrder = 5
+				temp0 = object.bodyFrame2
+				temp0 <<= 15
+				object.bodyPosition2.y -= temp0
+				object.frame -= temp0
+
+				CreateTempObject(TypeName[Caterkiller], 0, object.bodyPosition2.x, object.bodyPosition2.y)
+				if object.bodyDirection2 == 0
+					object[tempObjectPos].xvel = 0x09000
+				else
+					object[tempObjectPos].xvel = -0x09000
+				end if
+				object[tempObjectPos].yvel 		= -0x20000
+				object[tempObjectPos].direction = object.bodyDirection2
+				object[tempObjectPos].frame 	= 32
+				object[tempObjectPos].state 	= CATERKILLER_DESTROYEDBODYPART
+				object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
+				object[tempObjectPos].drawOrder = 5
+
+				CreateTempObject(TypeName[Caterkiller], 0, object.bodyPosition3.x, object.bodyPosition3.y)
+				if object.bodyDirection3 == 0
+					object[tempObjectPos].xvel = 0x20000
+				else
+					object[tempObjectPos].xvel = -0x20000
+				end if
+				object[tempObjectPos].yvel 		= -0x20000
+				object[tempObjectPos].direction = object.bodyDirection3
+				object[tempObjectPos].frame 	= 32
+				object[tempObjectPos].state 	= CATERKILLER_DESTROYEDBODYPART
+				object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
+				object[tempObjectPos].drawOrder = 5
+			end if
+
 			CallFunction(Player_BadnikBreak)
 		else
 			object.xpos = object.bodyPosition1.x
@@ -243,7 +323,7 @@ private function Caterkiller_CheckPlayerCollisions
 		end if
 		object[tempObjectPos].yvel 		= -0x40000
 		object[tempObjectPos].direction = object.bodyDirection1
-		object[tempObjectPos].frame 	= 16
+		object[tempObjectPos].frame 	= 32
 		object[tempObjectPos].state 	= CATERKILLER_SPLITBODYPART
 		object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
 		temp0 = object.bodyFrame2
@@ -259,7 +339,7 @@ private function Caterkiller_CheckPlayerCollisions
 		end if
 		object[tempObjectPos].yvel 		= -0x40000
 		object[tempObjectPos].direction = object.bodyDirection2
-		object[tempObjectPos].frame 	= 16
+		object[tempObjectPos].frame 	= 32
 		object[tempObjectPos].state 	= CATERKILLER_SPLITBODYPART
 		object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
 
@@ -271,7 +351,7 @@ private function Caterkiller_CheckPlayerCollisions
 		end if
 		object[tempObjectPos].yvel 		= -0x40000
 		object[tempObjectPos].direction = object.bodyDirection3
-		object[tempObjectPos].frame 	= 16
+		object[tempObjectPos].frame 	= 32
 		object[tempObjectPos].state 	= CATERKILLER_SPLITBODYPART
 		object[tempObjectPos].priority 	= PRIORITY_ACTIVE_SMALL
 		
@@ -482,6 +562,19 @@ event ObjectUpdate
 		end if
 		break
 
+	case CATERKILLER_DESTROYEDBODYPART
+		object.timer++
+		object.timer %= 2
+	
+		object.xpos += object.xvel
+		object.ypos += object.yvel
+		object.yvel += 0x3800
+
+		if object.outOfBounds == true
+			object.type = TypeName[Blank Object]
+		end if
+		break
+
 	case CATERKILLER_SPLITBODYPART
 		object.xpos += object.xvel
 		object.ypos += object.yvel
@@ -550,19 +643,19 @@ event ObjectDraw
 		object.direction = object.bodyDirection3
 		temp1 = object.bodyFrame3
 		temp1 >>= 1
-		temp1 += 16
+		temp1 += 32
 		DrawSpriteFX(temp1, FX_FLIP, object.bodyPosition3.x, object.bodyPosition3.y)
 
 		object.direction = object.bodyDirection2
 		temp1 = object.bodyFrame2
 		temp1 >>= 1
-		temp1 += 16
+		temp1 += 32
 		DrawSpriteFX(temp1, FX_FLIP, object.bodyPosition2.x, object.bodyPosition2.y)
 
 		object.direction = object.bodyDirection1
 		temp1 = object.bodyFrame1
 		temp1 >>= 1
-		temp1 += 16
+		temp1 += 32
 		DrawSpriteFX(temp1, FX_FLIP, object.bodyPosition1.x, object.bodyPosition1.y)
 
 		object.direction = temp0
@@ -571,13 +664,32 @@ event ObjectDraw
 		CheckEqual(object.state, CATERKILLER_LIFTHEAD)
 		temp1 = checkResult
 		CheckEqual(object.state, CATERKILLER_UNCONTRACT)
-		temp1 |= checkResult
+		temp1 |= checkResult		
 		if temp1 == true
-			temp0 += 8
+			object.animationTimer++
+			if object.animationTimer > 12
+				object.animationTimer = 12
+			end if
+		else
+			object.animationTimer--
+			if object.animationTimer < 0
+				object.animationTimer = 0
+			end if
 		end if
+
+		temp2 = object.animationTimer
+		temp2 /= 4
+		temp2 *= 8
+		temp0 += temp2
 		DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
 	else
-		DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+		if object.state == CATERKILLER_SPLITBODYPART
+			DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+		else
+			if object.timer == 0
+				DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+			end if
+		end if
 	end if
 end event
 
@@ -594,6 +706,16 @@ event ObjectStartup
 		SpriteFrame(-8, -19, 16, 22, 18, 81)
 		SpriteFrame(-8, -20, 16, 22, 18, 81)
 		SpriteFrame(-8, -21, 16, 22, 18, 81)
+
+		SpriteFrame(-8, -14, 16, 23, 199, 357)
+		SpriteFrame(-8, -15, 16, 23, 199, 357)
+		SpriteFrame(-8, -16, 16, 23, 199, 357)
+		SpriteFrame(-8, -17, 16, 23, 199, 357)
+		SpriteFrame(-8, -18, 16, 23, 199, 357)
+		SpriteFrame(-8, -19, 16, 23, 199, 357)
+		SpriteFrame(-8, -20, 16, 23, 199, 357)
+		SpriteFrame(-8, -21, 16, 23, 199, 357)
+
 		SpriteFrame(-8, -14, 16, 24, 1, 81)
 		SpriteFrame(-8, -15, 16, 24, 1, 81)
 		SpriteFrame(-8, -16, 16, 24, 1, 81)
@@ -602,6 +724,16 @@ event ObjectStartup
 		SpriteFrame(-8, -19, 16, 24, 1, 81)
 		SpriteFrame(-8, -20, 16, 24, 1, 81)
 		SpriteFrame(-8, -21, 16, 24, 1, 81)
+
+		SpriteFrame(-8, -14, 16, 25, 216, 355)
+		SpriteFrame(-8, -15, 16, 25, 216, 355)
+		SpriteFrame(-8, -16, 16, 25, 216, 355)
+		SpriteFrame(-8, -17, 16, 25, 216, 355)
+		SpriteFrame(-8, -18, 16, 25, 216, 355)
+		SpriteFrame(-8, -19, 16, 25, 216, 355)
+		SpriteFrame(-8, -20, 16, 25, 216, 355)
+		SpriteFrame(-8, -21, 16, 25, 216, 355)
+
 		SpriteFrame(-8, -8, 16, 16, 35, 81)
 		SpriteFrame(-8, -9, 16, 16, 35, 81)
 		SpriteFrame(-8, -10, 16, 16, 35, 81)
@@ -623,6 +755,16 @@ event ObjectStartup
 		SpriteFrame(-8, -19, 16, 22, 98, 98)
 		SpriteFrame(-8, -20, 16, 22, 98, 98)
 		SpriteFrame(-8, -21, 16, 22, 98, 98)
+
+		SpriteFrame(-8, -14, 16, 23, 239, 14)
+		SpriteFrame(-8, -15, 16, 23, 239, 14)
+		SpriteFrame(-8, -16, 16, 23, 239, 14)
+		SpriteFrame(-8, -17, 16, 23, 239, 14)
+		SpriteFrame(-8, -18, 16, 23, 239, 14)
+		SpriteFrame(-8, -19, 16, 23, 239, 14)
+		SpriteFrame(-8, -20, 16, 23, 239, 14)
+		SpriteFrame(-8, -21, 16, 23, 239, 14)
+
 		SpriteFrame(-8, -14, 16, 24, 81, 98)
 		SpriteFrame(-8, -15, 16, 24, 81, 98)
 		SpriteFrame(-8, -16, 16, 24, 81, 98)
@@ -631,6 +773,16 @@ event ObjectStartup
 		SpriteFrame(-8, -19, 16, 24, 81, 98)
 		SpriteFrame(-8, -20, 16, 24, 81, 98)
 		SpriteFrame(-8, -21, 16, 24, 81, 98)
+
+		SpriteFrame(-8, -14, 16, 25, 239, 38)
+		SpriteFrame(-8, -15, 16, 25, 239, 38)
+		SpriteFrame(-8, -16, 16, 25, 239, 38)
+		SpriteFrame(-8, -17, 16, 25, 239, 38)
+		SpriteFrame(-8, -18, 16, 25, 239, 38)
+		SpriteFrame(-8, -19, 16, 25, 239, 38)
+		SpriteFrame(-8, -20, 16, 25, 239, 38)
+		SpriteFrame(-8, -21, 16, 25, 239, 38)
+
 		SpriteFrame(-8, -8, 16, 16, 98, 121)
 		SpriteFrame(-8, -9, 16, 16, 98, 121)
 		SpriteFrame(-8, -10, 16, 16, 98, 121)
@@ -652,6 +804,16 @@ event ObjectStartup
 		SpriteFrame(-8, -19, 16, 22, 75, 26)
 		SpriteFrame(-8, -20, 16, 22, 75, 26)
 		SpriteFrame(-8, -21, 16, 22, 75, 26)
+
+		SpriteFrame(-8, -14, 16, 23, 74, 68)
+		SpriteFrame(-8, -15, 16, 23, 74, 68)
+		SpriteFrame(-8, -16, 16, 23, 74, 68)
+		SpriteFrame(-8, -17, 16, 23, 74, 68)
+		SpriteFrame(-8, -18, 16, 23, 74, 68)
+		SpriteFrame(-8, -19, 16, 23, 74, 68)
+		SpriteFrame(-8, -20, 16, 23, 74, 68)
+		SpriteFrame(-8, -21, 16, 23, 74, 68)
+
 		SpriteFrame(-8, -14, 16, 24, 75, 1)
 		SpriteFrame(-8, -15, 16, 24, 75, 1)
 		SpriteFrame(-8, -16, 16, 24, 75, 1)
@@ -660,6 +822,16 @@ event ObjectStartup
 		SpriteFrame(-8, -19, 16, 24, 75, 1)
 		SpriteFrame(-8, -20, 16, 24, 75, 1)
 		SpriteFrame(-8, -21, 16, 24, 75, 1)
+
+		SpriteFrame(-8, -14, 16, 25, 91, 66)
+		SpriteFrame(-8, -15, 16, 25, 91, 66)
+		SpriteFrame(-8, -16, 16, 25, 91, 66)
+		SpriteFrame(-8, -17, 16, 25, 91, 66)
+		SpriteFrame(-8, -18, 16, 25, 91, 66)
+		SpriteFrame(-8, -19, 16, 25, 91, 66)
+		SpriteFrame(-8, -20, 16, 25, 91, 66)
+		SpriteFrame(-8, -21, 16, 25, 91, 66)
+
 		SpriteFrame(-8, -8, 16, 16, 75, 49)
 		SpriteFrame(-8, -9, 16, 16, 75, 49)
 		SpriteFrame(-8, -10, 16, 16, 75, 49)
