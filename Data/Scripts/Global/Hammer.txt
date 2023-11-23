@@ -11,9 +11,10 @@
 
 private alias -1 : DRAWORDER_PLAYER
 
-private alias object.value0  : object.playerPos
+private alias object.value0  : object.timer
 private alias object.value1  : object.spriteRotation
 private alias object.value2  : object.targetRotation
+private alias object.value3  : object.playerPos
 
 private alias object.state   : player.state
 private alias object.xpos    : player.xpos
@@ -22,6 +23,7 @@ private alias object.animation    : player.animation
 private alias object.frame    : player.frame
 private alias object.direction    : player.direction
 private alias object.value7  : player.invincibleTimer
+private alias object.value15 : player.dropDashCharge
 private alias object.value38 : player.hitboxTop
 private alias object.value39 : player.hitboxBottom
 private alias object.value40 : player.hitboxLeft
@@ -53,64 +55,74 @@ event ObjectUpdate
 		object.type = TypeName[Blank Object]
 	end if
 	
-	player.score = object.animationSpeed
-	
 	object.xpos = player[currentPlayer].xpos
 	object.ypos = player[currentPlayer].ypos
 	
-	switch player[currentPlayer].frame
-	case 0
-		object.targetRotation = 96
-		break
-	case 1
-		object.targetRotation = 128
-		break
-	case 2
-		object.targetRotation = 160
-		break
-	case 3
-		object.targetRotation = 192
-		break
-	case 4
-		object.targetRotation = 224
-		break
-	case 5
-		object.targetRotation = 256
-		break
-	case 6
-		object.targetRotation = 288
-		break
-	case 7
-		object.targetRotation = 320
-		break
-	case 8
-		object.targetRotation = 352
-		break
-	case 9
-		object.targetRotation = 384
-		break
-	case 10
-		object.targetRotation = 416
-		break
-	case 11
-		object.targetRotation = 448
-		break
-	case 12
-		object.targetRotation = 460
-		break
-	case 13
-		object.targetRotation = 0
-		break
-	case 14
-		object.targetRotation = 32
-		break
-	case 15
-		object.targetRotation = 64
-		break
-	end switch
-	
-	// Correct the sprite's own rotation
-	object.targetRotation -= 64
+	// This is here to sync the hammer to the player's (rolling sprite) rotation
+	if object.timer == 0
+		switch player[currentPlayer].frame
+		case 0
+			object.targetRotation = 96
+			break
+		case 1
+			object.targetRotation = 128
+			break
+		case 2
+			object.targetRotation = 160
+			break
+		case 3
+			object.targetRotation = 192
+			break
+		case 4
+			object.targetRotation = 224
+			break
+		case 5
+			object.targetRotation = 256
+			break
+		case 6
+			object.targetRotation = 288
+			break
+		case 7
+			object.targetRotation = 320
+			break
+		case 8
+			object.targetRotation = 352
+			break
+		case 9
+			object.targetRotation = 384
+			break
+		case 10
+			object.targetRotation = 416
+			break
+		case 11
+			object.targetRotation = 448
+			break
+		case 12
+			object.targetRotation = 460
+			break
+		case 13
+			object.targetRotation = 0
+			break
+		case 14
+			object.targetRotation = 32
+			break
+		case 15
+			object.targetRotation = 64
+			break
+		end switch
+	else
+		switch object.animationSpeed
+		case 60
+			object.targetRotation += 8
+			break
+		case 120
+			object.targetRotation += 16
+			break
+		case 240
+			object.targetRotation += 32
+			break
+		end switch
+	end if
 	
 	object.rotation = object.targetRotation
 	if player[currentPlayer].direction == FLIP_X
@@ -121,6 +133,12 @@ event ObjectUpdate
 		object.frame = 0
 	end if
 #endplatform
+	
+	if player[currentPlayer].dropDashCharge <= 19
+		object.frame += 2
+	end if
+	
+	object.timer++
 end event
 
 
@@ -133,7 +151,8 @@ event ObjectStartup
 	LoadSpriteSheet("Global/Items.gif")
 	SpriteFrame(-24, -24, 48, 48, 404, 132)
 	SpriteFrame(-24, -24, 48, 48, 453, 132)
-	SpriteFrame(-24, -24, 48, 48, 355, 132)
+	SpriteFrame(-24, -24, 48, 48, 404, 181)
+	SpriteFrame(-24, -24, 48, 48, 453, 181)
 end event
 
 

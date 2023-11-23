@@ -2607,9 +2607,7 @@ public function Player_Action_Spindash
 	player.animation = ANI_SPINDASH
 	player.abilityTimer = 0
 
-#platform: USE_STANDALONE
 	PlaySfx(SfxName[Charge], false)
-#endplatform
 
 	// Create dust puff object
 	CreateTempObject(TypeName[Dust Puff], player.entityPos, player.xpos, player.ypos)
@@ -3079,10 +3077,20 @@ public function Player_Action_DblJumpAmy
 		PlaySfx(SfxName[HammerJump], false)
 		CallNativeFunction4(NotifyCallback, NOTIFY_STATS_CHARA_ACTION2, 0, 1, 0)
 
-		player.animationSpeed = 255
+		if player.animationSpeed < 80
+			player.animationSpeed = 60
+		else
+			if player.animationSpeed < 160
+				player.animationSpeed = 120
+			else
+				player.animationSpeed = 240
+			end if
+		end if
+		
+		player.animationSpeed = 240
 
 		CreateTempObject(TypeName[Hammer], 0, player.xpos, player.ypos)
-		object[tempObjectPos].value0 = player.entityPos
+		object[tempObjectPos].value3 = player.entityPos
 		object[tempObjectPos].animationSpeed = player.animationSpeed
 
 		// Change the animation without resetting the frame or animation speed
