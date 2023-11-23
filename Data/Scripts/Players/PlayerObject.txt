@@ -1550,6 +1550,7 @@ public function Player_ProjectileHit
 	else
 		if player[currentPlayer].state != Player_State_Death
 		
+#platform: USE_ORIGINS
 			CheckEqual(stage.playerListPos, PLAYER_AMY)
 			temp0 = checkResult
 			CheckEqual(player[currentPlayer].isSidekick, false)
@@ -1559,6 +1560,10 @@ public function Player_ProjectileHit
 			CheckEqual(player[currentPlayer].animation, ANI_HAMMER_DASH)
 			temp1 |= checkResult
 			temp0 &= temp1
+#endplatform
+#platform: USE_STANDALONE
+			temp0 = false
+#endplatform
 			
 			if temp0 == true
 				temp0 = player[currentPlayer].xpos

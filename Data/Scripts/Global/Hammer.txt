@@ -36,6 +36,7 @@ private alias 1 : SUPERSTATE_SUPER
 // ========================
 
 event ObjectUpdate
+#platform: USE_ORIGINS
 	// I mean.. Amy is always at 0 but yeah
 	currentPlayer = object.playerPos
 
@@ -119,7 +120,7 @@ event ObjectUpdate
 	else
 		object.frame = 0
 	end if
-
+#endplatform
 end event
 
 
