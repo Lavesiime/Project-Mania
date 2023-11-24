@@ -383,13 +383,13 @@ event ObjectStartup
 	SpriteFrame(0, 0, 39, 11, 1, 131) 	// 12/12 - Red Rings text
 	SpriteFrame(0, 0, 29, 4, 1, 45) 	// 13/13 - Timer ticks
 	SpriteFrame(0, 0, 3, 11, 37, 50) 	// 14/14 - : (Colon)
-	SpriteFrame(0, 0, 16, 16, 43, 107) 	// 15/15 - Sonic life icon
-	SpriteFrame(0, 0, 16, 16, 60, 107) 	// 16/16 - Tails life icon
-	SpriteFrame(0, 0, 16, 16, 77, 107) 	// 17/17 - Knuckles life icon
+	SpriteFrame(-1, 0, 17, 17, 42, 107) 	// 15/15 - Sonic life icon
+	SpriteFrame(0, 0, 16, 17, 60, 107) 	// 16/16 - Tails life icon
+	SpriteFrame(0, 0, 16, 17, 77, 107) 	// 17/17 - Knuckles life icon
 #platform: USE_ORIGINS
-	SpriteFrame(0, 0, 16, 16, 0, 0)		// XX/18 - Padding for Amy icon (her character ID is 5)
-	SpriteFrame(0, 0, 16, 16, 0, 0)		// XX/19 - Padding for Amy icon (her character ID is 5)
-	SpriteFrame(0, 0, 16, 16, 239, 174)	// XX/20 - Amy life icon
+	SpriteFrame(0, 0, 16, 17, 0, 0)		// XX/18 - Padding for Amy icon (her character ID is 5)
+	SpriteFrame(0, 0, 16, 17, 0, 0)		// XX/19 - Padding for Amy icon (her character ID is 5)
+	SpriteFrame(0, 0, 16, 17, 239, 174)	// XX/20 - Amy life icon
 #endplatform
 	SpriteFrame(0, 0, 8, 8, 1, 98) 		// 18/21 - Yellow "X" debug icon
 	SpriteFrame(0, 0, 8, 8, 10, 98) 	// 19/22 - Yellow "Y" debug icon
