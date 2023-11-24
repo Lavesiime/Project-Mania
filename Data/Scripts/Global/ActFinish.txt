@@ -739,14 +739,14 @@ event ObjectStartup
 		SpriteFrame(40, -2, 45, 16, 98, 43)  		// #12 - "Bonus"
 	end if
 	if stage.playerListPos == PLAYER_TAILS_A
-		SpriteFrame(0, -2, 44, 16, 257, 58)  		// #12  - "Bonus"
+		SpriteFrame(40, -2, 45, 16, 257, 58)  		// #12  - "Bonus"
 	end if
 	if stage.playerListPos == PLAYER_KNUCKLES_A
-		SpriteFrame(0, -2, 44, 16, 257, 75)  		// #12  - "Bonus"
+		SpriteFrame(40, -2, 45, 16, 257, 75)  		// #12  - "Bonus"
 	end if
 #platform: USE_ORIGINS
 	if stage.playerListPos == PLAYER_AMY_A
-		SpriteFrame(0, -2, 44, 16, 257, 92) 		// #12  - "Bonus"
+		SpriteFrame(40, -2, 45, 16, 257, 92) 		// #12  - "Bonus"
 	end if
 #endplatform
 	SpriteFrame(0, 0, 8, 11, 1, 50)  			// #13 - Number 0
