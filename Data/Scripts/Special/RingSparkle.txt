@@ -94,24 +94,6 @@ event ObjectUpdate
 		if object.frame1 == 15
 			object.type = TypeName[Blank Object]
 			object.frame = 0
-			
-#platform: USE_ORIGINS
-			if game.playMode == BOOT_PLAYMODE_MISSION
-				if game.missionFunctionNo == MISSIONNO_RINGCHALLENGE50
-					// Turn the Object into a Ring Reset Object
-					// -> missionTypeEX is set by a foreach in Ring Reset's startup
-					object.type = object.missionTypeEX
-					
-					// Now, set the time the Object was collected + 20 seconds
-					object.timeCheckpoint = stage.minutes
-					object.timeCheckpoint *= 60
-					object.timeCheckpoint += stage.seconds
-					object.timeCheckpoint += 20
-					
-					object.priority = PRIORITY_ACTIVE
-				end if
-			end if
-#endplatform
 		end if
 	end if
 	object.timer++
