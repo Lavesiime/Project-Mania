@@ -58,15 +58,15 @@ event ObjectStartup
 	CheckCurrentStageFolder("Zone01")
 	if checkResult == true
 		LoadSpriteSheet("GHZ/Objects.gif")
-		SpriteFrame(-6, -6, 12, 12, 179, 127)
-		SpriteFrame(-6, -6, 12, 12, 179, 140)
+		SpriteFrame(-6, -6, 12, 12, 175, 79)
+		SpriteFrame(-6, -6, 12, 12, 175, 92)
 	end if
 
 	CheckCurrentStageFolder("Zone03")
 	if checkResult == true
 		LoadSpriteSheet("SYZ/Objects.gif")
-		SpriteFrame(-6, -6, 12, 12, 227, 1)
-		SpriteFrame(-6, -6, 12, 12, 240, 1)
+		SpriteFrame(-6, -6, 12, 12, 208, 1)
+		SpriteFrame(-6, -6, 12, 12, 244, 1)
 	end if
 
 	CheckCurrentStageFolder("Zone07")

@@ -257,14 +257,16 @@ event ObjectStartup
 		SpriteFrame(-23, -9, 40, 27, 138, 175)
 		SpriteFrame(-23, -9, 35, 28, 179, 175)
 		SpriteFrame(-23, -9, 36, 29, 1, 195)
+		
 		SpriteFrame(-17, -15, 35, 8, 38, 196)
-		SpriteFrame(-18, -15, 37, 10, 38, 205)
-		SpriteFrame(-18, -10, 37, 5, 38, 216)
+		SpriteFrame(-18, -15, 37, 10, 38, 211)
+		SpriteFrame(-18, -10, 37, 5, 38, 205)
 		SpriteFrame(-18, -15, 35, 8, 78, 196)
-		SpriteFrame(-19, -15, 37, 10, 76, 205)
-		SpriteFrame(-19, -10, 37, 5, 76, 216)
+		SpriteFrame(-19, -15, 37, 10, 76, 211)
+		SpriteFrame(-19, -10, 37, 5, 76, 205)
+		
 		SpriteFrame(13, 4, 6, 5, 114, 196)
-		SpriteFrame(13, 4, 10, 5, 121, 196)
+		SpriteFrame(13, 4, 10, 5, 114, 210)
 	end if
 
 	CheckCurrentStageFolder("Zone02")
@@ -276,12 +278,14 @@ event ObjectStartup
 		SpriteFrame(-23, -9, 40, 27, 110, 146)
 		SpriteFrame(-23, -9, 35, 28, 163, 355)
 		SpriteFrame(-23, -9, 36, 29, 1, 147)
+		
 		SpriteFrame(-17, -15, 35, 8, 38, 147)
 		SpriteFrame(-18, -15, 37, 10, 233, 377)
 		SpriteFrame(-18, -10, 37, 5, 38, 156)
 		SpriteFrame(-18, -15, 35, 8, 38, 162)
 		SpriteFrame(-19, -15, 37, 10, 271, 377)
 		SpriteFrame(-19, -10, 37, 5, 38, 171)
+		
 		SpriteFrame(13, 4, 6, 5, 76, 153)
 		SpriteFrame(13, 4, 10, 5, 74, 147)
 	end if
@@ -302,8 +306,9 @@ event ObjectStartup
 		SpriteFrame(-18, -15, 35, 8, 38, 116)
 		SpriteFrame(-19, -15, 37, 10, 184, 123)
 		SpriteFrame(-19, -10, 37, 5, 38, 125)
+		
 		SpriteFrame(13, 4, 6, 5, 76, 123)
-		SpriteFrame(13, 4, 10, 5, 83, 123)
+		SpriteFrame(13, 4, 10, 5, 87, 129)
 	end if
 
 	CheckCurrentStageFolder("Zone07")

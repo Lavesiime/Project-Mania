@@ -211,20 +211,20 @@ event ObjectStartup
 	CheckCurrentStageFolder("Zone01")
 	if checkResult == true
 		LoadSpriteSheet("GHZ/Objects2.gif")
-		SpriteFrame(-20, -20, 39, 39, 1, 1) // 0 - Idle facing right frame
-		SpriteFrame(-19, -20, 39, 39, 81, 1) // 1 - Idle facing left frame
-		SpriteFrame(-20, -20, 39, 39, 160, 204) // 2 - Shooting facing right frame
-		SpriteFrame(-20, -20, 39, 39, 41, 1) // 3 - Shooting facing right frame
-		SpriteFrame(-20, -20, 39, 39, 120, 204) // 4 - Shoting facing right frame
-		SpriteFrame(-20, -20, 39, 39, 41, 1) // 3 - Shooting facing right frame
-		SpriteFrame(-20, -20, 39, 39, 160, 204) // 2 - Shooting facing right frame
-		SpriteFrame(-20, -20, 39, 39, 1, 1) // 0 - Idle facing right frame
-		SpriteFrame(-19, -20, 39, 39, 216, 205) // 5 - Shooting facing left frame
-		SpriteFrame(-19, -20, 39, 39, 121, 1) // 6 - Shooting facing left frame
-		SpriteFrame(-19, -20, 39, 39, 216, 165) // 7 - Shooting facing left frame
-		SpriteFrame(-19, -20, 39, 39, 121, 1) // 6 - Shooting facing left frame
-		SpriteFrame(-19, -20, 39, 39, 216, 205) // 5 - Shooting facing left frame
-		SpriteFrame(-19, -20, 39, 39, 81, 1) // 1 - Idle facing left frame
+		SpriteFrame(-20, -20, 39, 39, 216, 141) // 0 - Idle facing right frame
+		SpriteFrame(-19, -20, 39, 39, 1, 1) // 1 - Idle facing left frame
+		SpriteFrame(-20, -20, 39, 39, 216, 181) // 2 - Shooting facing right frame 1
+		SpriteFrame(-20, -20, 39, 39, 176, 204) // 3 - Shooting facing right frame 2 
+		SpriteFrame(-20, -20, 39, 39, 1136, 203) // 4 - Shooting facing right frame 3
+		SpriteFrame(-20, -20, 39, 39, 176, 204) // 3 - Shooting facing right frame 2
+		SpriteFrame(-20, -20, 39, 39, 216, 181) // 2 - Shooting facing right frame 1
+		SpriteFrame(-20, -20, 39, 39, 216, 141) // 0 - Idle facing right frame
+		SpriteFrame(-19, -20, 39, 39, 41, 1) // 5 - Shooting facing left frame 1
+		SpriteFrame(-19, -20, 39, 39, 81, 1) // 6 - Shooting facing left frame 2
+		SpriteFrame(-19, -20, 39, 39, 121, 1) // 7 - Shooting facing left frame 3
+		SpriteFrame(-19, -20, 39, 39, 81, 1) // 6 - Shooting facing left frame 2
+		SpriteFrame(-19, -20, 39, 39, 41, 1) // 5 - Shooting facing left frame 1
+		SpriteFrame(-19, -20, 39, 39, 1, 1) // 1 - Idle facing left frame
 	end if
 	
 	CheckCurrentStageFolder("Zone07")

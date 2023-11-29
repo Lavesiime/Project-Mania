@@ -744,11 +744,6 @@ public function Player_HandleSuperPalette_Sonic
 	// Palette table 0 is normal palette, palette table 1 is underwater palette
 	temp1 = Player_superBlendClr
 
-	GetTableValue(temp0, temp1, Player_SonicSuperPal)
-	SetPaletteEntry(0, 68, temp0)
-	GetTableValue(temp0, temp1, Player_SonicSuperAltPal)
-	SetPaletteEntry(1, 68, temp0)
-	temp1++
 
 	GetTableValue(temp0, temp1, Player_SonicSuperPal)
 	SetPaletteEntry(0, 2, temp0)
@@ -763,12 +758,6 @@ public function Player_HandleSuperPalette_Sonic
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_SonicSuperPal)
-	SetPaletteEntry(0, 69, temp0)
-	GetTableValue(temp0, temp1, Player_SonicSuperAltPal)
-	SetPaletteEntry(1, 69, temp0)
-	temp1++
-
-	GetTableValue(temp0, temp1, Player_SonicSuperPal)
 	SetPaletteEntry(0, 4, temp0)
 	GetTableValue(temp0, temp1, Player_SonicSuperAltPal)
 	SetPaletteEntry(1, 4, temp0)
@@ -778,6 +767,18 @@ public function Player_HandleSuperPalette_Sonic
 	SetPaletteEntry(0, 5, temp0)
 	GetTableValue(temp0, temp1, Player_SonicSuperAltPal)
 	SetPaletteEntry(1, 5, temp0)
+	temp1++
+
+	GetTableValue(temp0, temp1, Player_SonicSuperPal)
+	SetPaletteEntry(0, 6, temp0)
+	GetTableValue(temp0, temp1, Player_SonicSuperAltPal)
+	SetPaletteEntry(1, 6, temp0)
+	temp1++
+
+	GetTableValue(temp0, temp1, Player_SonicSuperPal)
+	SetPaletteEntry(0, 7, temp0)
+	GetTableValue(temp0, temp1, Player_SonicSuperAltPal)
+	SetPaletteEntry(1, 7, temp0)
 	temp1++
 end function
 
@@ -813,9 +814,27 @@ public function Player_HandleSuperPalette_Tails
 	temp1 = Player_superBlendClr
 
 	GetTableValue(temp0, temp1, Player_TailsSuperPal)
-	SetPaletteEntry(0, 70, temp0)
+	SetPaletteEntry(0, 9, temp0)
 	GetTableValue(temp0, temp1, Player_TailsSuperAltPal)
-	SetPaletteEntry(1, 70, temp0)
+	SetPaletteEntry(1, 9, temp0)
+	temp1++
+
+	GetTableValue(temp0, temp1, Player_TailsSuperPal)
+	SetPaletteEntry(0, 8, temp0)
+	GetTableValue(temp0, temp1, Player_TailsSuperAltPal)
+	SetPaletteEntry(1, 8, temp0)
+	temp1++
+
+	GetTableValue(temp0, temp1, Player_TailsSuperPal)
+	SetPaletteEntry(0, 11, temp0)
+	GetTableValue(temp0, temp1, Player_TailsSuperAltPal)
+	SetPaletteEntry(1, 11, temp0)
+	temp1++
+
+	GetTableValue(temp0, temp1, Player_TailsSuperPal)
+	SetPaletteEntry(0, 12, temp0)
+	GetTableValue(temp0, temp1, Player_TailsSuperAltPal)
+	SetPaletteEntry(1, 12, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_TailsSuperPal)
@@ -825,27 +844,9 @@ public function Player_HandleSuperPalette_Tails
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_TailsSuperPal)
-	SetPaletteEntry(0, 19, temp0)
+	SetPaletteEntry(0, 10, temp0)
 	GetTableValue(temp0, temp1, Player_TailsSuperAltPal)
-	SetPaletteEntry(1, 19, temp0)
-	temp1++
-
-	GetTableValue(temp0, temp1, Player_TailsSuperPal)
-	SetPaletteEntry(0, 17, temp0)
-	GetTableValue(temp0, temp1, Player_TailsSuperAltPal)
-	SetPaletteEntry(1, 17, temp0)
-	temp1++
-
-	GetTableValue(temp0, temp1, Player_TailsSuperPal)
-	SetPaletteEntry(0, 18, temp0)
-	GetTableValue(temp0, temp1, Player_TailsSuperAltPal)
-	SetPaletteEntry(1, 18, temp0)
-	temp1++
-
-	GetTableValue(temp0, temp1, Player_TailsSuperPal)
-	SetPaletteEntry(0, 16, temp0)
-	GetTableValue(temp0, temp1, Player_TailsSuperAltPal)
-	SetPaletteEntry(1, 16, temp0)
+	SetPaletteEntry(1, 10, temp0)
 end function
 
 
@@ -882,39 +883,39 @@ public function Player_HandleSuperPalette_Knux
 	temp1 = Player_superBlendClr
 
 	GetTableValue(temp0, temp1, Player_KnuxSuperPal)
-	SetPaletteEntry(0, 26, temp0)
+	SetPaletteEntry(0, 14, temp0)
 	GetTableValue(temp0, temp1, Player_KnuxSuperAltPal)
-	SetPaletteEntry(1, 26, temp0)
+	SetPaletteEntry(1, 14, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_KnuxSuperPal)
-	SetPaletteEntry(0, 71, temp0)
+	SetPaletteEntry(0, 15, temp0)
 	GetTableValue(temp0, temp1, Player_KnuxSuperAltPal)
-	SetPaletteEntry(1, 71, temp0)
+	SetPaletteEntry(1, 15, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_KnuxSuperPal)
-	SetPaletteEntry(0, 27, temp0)
+	SetPaletteEntry(0, 16, temp0)
 	GetTableValue(temp0, temp1, Player_KnuxSuperAltPal)
-	SetPaletteEntry(1, 27, temp0)
+	SetPaletteEntry(1, 16, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_KnuxSuperPal)
-	SetPaletteEntry(0, 72, temp0)
+	SetPaletteEntry(0, 17, temp0)
 	GetTableValue(temp0, temp1, Player_KnuxSuperAltPal)
-	SetPaletteEntry(1, 72, temp0)
+	SetPaletteEntry(1, 17, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_KnuxSuperPal)
-	SetPaletteEntry(0, 28, temp0)
+	SetPaletteEntry(0, 18, temp0)
 	GetTableValue(temp0, temp1, Player_KnuxSuperAltPal)
-	SetPaletteEntry(1, 28, temp0)
+	SetPaletteEntry(1, 18, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_KnuxSuperPal)
-	SetPaletteEntry(0, 29, temp0)
+	SetPaletteEntry(0, 19, temp0)
 	GetTableValue(temp0, temp1, Player_KnuxSuperAltPal)
-	SetPaletteEntry(1, 29, temp0)
+	SetPaletteEntry(1, 19, temp0)
 end function
 
 public function Player_HandleSuperPalette_Amy
@@ -948,39 +949,39 @@ public function Player_HandleSuperPalette_Amy
 	temp1 = Player_superBlendClr
 
 	GetTableValue(temp0, temp1, Player_AmySuperPal)
-	SetPaletteEntry(0, 79, temp0)
+	SetPaletteEntry(0, 20, temp0)
 	GetTableValue(temp0, temp1, Player_AmySuperAltPal)
-	SetPaletteEntry(1, 79, temp0)
+	SetPaletteEntry(1, 20, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_AmySuperPal)
-	SetPaletteEntry(0, 80, temp0)
+	SetPaletteEntry(0, 21, temp0)
 	GetTableValue(temp0, temp1, Player_AmySuperAltPal)
-	SetPaletteEntry(1, 80, temp0)
+	SetPaletteEntry(1, 21, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_AmySuperPal)
-	SetPaletteEntry(0, 81, temp0)
+	SetPaletteEntry(0, 22, temp0)
 	GetTableValue(temp0, temp1, Player_AmySuperAltPal)
-	SetPaletteEntry(1, 81, temp0)
+	SetPaletteEntry(1, 22, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_AmySuperPal)
-	SetPaletteEntry(0, 82, temp0)
+	SetPaletteEntry(0, 23, temp0)
 	GetTableValue(temp0, temp1, Player_AmySuperAltPal)
-	SetPaletteEntry(1, 82, temp0)
+	SetPaletteEntry(1, 23, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_AmySuperPal)
-	SetPaletteEntry(0, 83, temp0)
+	SetPaletteEntry(0, 24, temp0)
 	GetTableValue(temp0, temp1, Player_AmySuperAltPal)
-	SetPaletteEntry(1, 83, temp0)
+	SetPaletteEntry(1, 24, temp0)
 	temp1++
 
 	GetTableValue(temp0, temp1, Player_AmySuperPal)
-	SetPaletteEntry(0, 84, temp0)
+	SetPaletteEntry(0, 25, temp0)
 	GetTableValue(temp0, temp1, Player_AmySuperAltPal)
-	SetPaletteEntry(1, 84, temp0)
+	SetPaletteEntry(1, 25, temp0)
 #endplatform
 end function
 
@@ -2004,9 +2005,9 @@ public function Player_HandleWalkAnimSpeed
 	end if
 
 	// Do some maths
-	player.animationSpeed *= 60
+	player.animationSpeed *= 70
 	player.animationSpeed /= 0x60000
-	player.animationSpeed += 20
+	player.animationSpeed += 40
 end function
 
 
@@ -2021,7 +2022,7 @@ public function Player_HandleRunAnimSpeed
 	end if
 
 	// Do some (admittedly less complex) maths to get the final speed
-	player.animationSpeed *= 80
+	player.animationSpeed *= 120
 	player.animationSpeed /= 0x60000
 end function
 

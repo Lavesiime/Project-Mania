@@ -207,16 +207,17 @@ event ObjectStartup
 	CheckCurrentStageFolder("Zone01")
 	if checkResult == true
 		LoadSpriteSheet("GHZ/Objects2.gif")
-		SpriteFrame(-20, -20, 39, 39, 161, 1)
-		SpriteFrame(-19, -20, 39, 39, 201, 1)
-		SpriteFrame(-18, -20, 37, 38, 218, 126)
-		SpriteFrame(-18, -20, 37, 35, 218, 41)
-		SpriteFrame(-18, -20, 37, 27, 176, 41)
-		SpriteFrame(-15, -18, 36, 22, 1, 41)
-		SpriteFrame(-20, -18, 40, 19, 74, 57)
-		SpriteFrame(-20, -16, 40, 16, 38, 41)
-		SpriteFrame(-28, -9, 8, 8, 79, 41)
-		SpriteFrame(-34, -10, 14, 8, 88, 41)
+		SpriteFrame(-20, -20, 39, 39, 161, 1) // Idle right
+		SpriteFrame(-19, -20, 39, 39, 1, 77) // Idle left
+		SpriteFrame(-18, -20, 37, 38, 201, 1) // Falling 1
+		SpriteFrame(-18, -20, 37, 35, 218, 41) // Falling 2
+		SpriteFrame(-18, -20, 37, 27, 176, 41) // Falling 3
+		SpriteFrame(-15, -18, 36, 22, 1, 41) // Falling 4
+		SpriteFrame(-20, -18, 40, 19, 74, 57) // Falling 5
+		SpriteFrame(-20, -16, 40, 16, 38, 41) // Falling 6
+		
+		SpriteFrame(-28, -9, 8, 6, 97, 41) // Rocket exhaust 1
+		SpriteFrame(-34, -10, 14, 8, 5, 64) // Rocket exhaust 2
 	end if
 
 	CheckCurrentStageFolder("Zone07")

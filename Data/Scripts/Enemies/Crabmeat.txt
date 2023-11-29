@@ -219,29 +219,33 @@ end event
 event ObjectStartup
 	CheckCurrentStageFolder("Zone01")
 	if checkResult == true
-		LoadSpriteSheet("GHZ/Objects3.gif")
-		SpriteFrame(-21, -16, 42, 31, 1, 1)
-		SpriteFrame(-22, -16, 44, 31, 44, 1)
-		SpriteFrame(-22, -16, 44, 31, 89, 1)
-		SpriteFrame(-22, -16, 44, 31, 134, 1)
-		SpriteFrame(-22, -16, 44, 31, 180, 1)
-		SpriteFrame(-22, -16, 44, 31, 1, 33)
-		SpriteFrame(-22, -16, 44, 31, 46, 33)
-		SpriteFrame(-24, -15, 48, 30, 91, 34)
-		SpriteFrame(-24, -15, 48, 30, 140, 34)
-		SpriteFrame(-24, -14, 48, 29, 189, 35)
+		LoadSpriteSheet("GHZ/Objects2.gif")
+		SpriteFrame(-21, -16, 42, 31, 99, 77)
+		
+		SpriteFrame(-22, -16, 44, 31, 142, 77)
+		SpriteFrame(-22, -16, 44, 31, 187, 77)
+		SpriteFrame(-22, -16, 45, 31, 99, 109)
+		SpriteFrame(-23, -16, 45, 31, 145, 109)
+		SpriteFrame(-22, -16, 44, 31, 191, 109)
+		SpriteFrame(-22, -16, 44, 31, 1, 140)
+		
+		SpriteFrame(-24, -15, 48, 30, 46, 141)
+		SpriteFrame(-24, -15, 48, 30, 95, 141)
+		SpriteFrame(-24, -14, 48, 29, 144, 142)
 	end if
 
 	CheckCurrentStageFolder("Zone03")
 	if checkResult == true
 		LoadSpriteSheet("SYZ/Objects2.gif")
 		SpriteFrame(-21, -16, 42, 31, 157, 1)
+		
 		SpriteFrame(-22, -16, 44, 31, 200, 1)
 		SpriteFrame(-22, -16, 44, 31, 157, 33)
-		SpriteFrame(-22, -16, 44, 31, 202, 33)
-		SpriteFrame(-22, -16, 44, 31, 122, 74)
+		SpriteFrame(-22, -16, 45, 31, 202, 33)
+		SpriteFrame(-23, -16, 45, 31, 122, 74)
 		SpriteFrame(-22, -16, 44, 31, 167, 74)
 		SpriteFrame(-22, -16, 44, 31, 212, 74)
+		
 		SpriteFrame(-24, -15, 48, 30, 110, 106)
 		SpriteFrame(-24, -15, 48, 30, 159, 106)
 		SpriteFrame(-24, -14, 48, 29, 208, 107)

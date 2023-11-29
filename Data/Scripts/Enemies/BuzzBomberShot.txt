@@ -88,40 +88,43 @@ event ObjectStartup
 	CheckCurrentStageFolder("Zone01")
 	if checkResult == true
 		LoadSpriteSheet("GHZ/Objects.gif")
-		SpriteFrame(-8, -8, 16, 16, 160, 94)
-		SpriteFrame(-7, -7, 14, 14, 177, 94)
-		SpriteFrame(-6, -6, 12, 12, 160, 111)
-		SpriteFrame(-6, -6, 12, 12, 173, 111)
-		SpriteFrame(-8, -8, 16, 16, 160, 78)
-		SpriteFrame(-7, -7, 14, 14, 177, 78)
-		SpriteFrame(-6, -6, 12, 12, 160, 111)
-		SpriteFrame(-6, -6, 12, 12, 173, 111)
+		SpriteFrame(-8, -8, 16, 16, 153, 155)
+		SpriteFrame(-7, -7, 14, 14, 100, 235)
+		SpriteFrame(-6, -6, 12, 12, 175, 79)
+		SpriteFrame(-6, -6, 12, 12, 175, 92)
+		
+		SpriteFrame(-8, -8, 16, 16, 236, 212)
+		SpriteFrame(-7, -7, 14, 14, 236, 229)
+		SpriteFrame(-6, -6, 12, 12, 175, 79)
+		SpriteFrame(-6, -6, 12, 12, 175, 92)
 	end if
 
 	CheckCurrentStageFolder("Zone02")
 	if checkResult == true
-		LoadSpriteSheet("MZ/Objects.gif")
-		SpriteFrame(-8, -8, 16, 16, 1, 177)
-		SpriteFrame(-7, -7, 14, 14, 19, 178)
-		SpriteFrame(-6, -6, 12, 12, 37, 179)
-		SpriteFrame(-6, -6, 12, 12, 54, 179)
-		SpriteFrame(-8, -8, 16, 16, 474, 493)
-		SpriteFrame(-7, -7, 14, 14, 491, 493)
-		SpriteFrame(-6, -6, 12, 12, 37, 179)
-		SpriteFrame(-6, -6, 12, 12, 54, 179)
+		LoadSpriteSheet("MZ/Objects2.gif")
+		SpriteFrame(-8, -8, 16, 16, 105, 239)
+		SpriteFrame(-7, -7, 14, 14, 148, 238)
+		SpriteFrame(-6, -6, 12, 12, 27, 240)
+		SpriteFrame(-6, -6, 12, 12, 66, 240)
+		
+		SpriteFrame(-8, -8, 16, 16, 223, 213)
+		SpriteFrame(-7, -7, 14, 14, 223, 230)
+		SpriteFrame(-6, -6, 12, 12, 27, 227)
+		SpriteFrame(-6, -6, 12, 12, 66, 227)
 	end if
 
 	CheckCurrentStageFolder("Zone03")
 	if checkResult == true
 		LoadSpriteSheet("SYZ/Objects.gif")
-		SpriteFrame(-8, -8, 16, 16, 47, 81)
-		SpriteFrame(-7, -7, 14, 14, 65, 82)
-		SpriteFrame(-6, -6, 12, 12, 83, 83)
-		SpriteFrame(-6, -6, 12, 12, 100, 83)
-		SpriteFrame(-8, -8, 16, 16, 101, 1)
-		SpriteFrame(-7, -7, 14, 14, 102, 19)
-		SpriteFrame(-6, -6, 12, 12, 83, 83)
-		SpriteFrame(-6, -6, 12, 12, 100, 83)
+		SpriteFrame(-8, -8, 16, 16, 147, 196)
+		SpriteFrame(-7, -7, 14, 14, 145, 232)
+		SpriteFrame(-6, -6, 12, 12, 71, 82)
+		SpriteFrame(-6, -6, 12, 12, 107, 82)
+		
+		SpriteFrame(-8, -8, 16, 16, 33, 208)
+		SpriteFrame(-7, -7, 14, 14, 89, 227)
+		SpriteFrame(-6, -6, 12, 12, 208, 1)
+		SpriteFrame(-6, -6, 12, 12, 244, 1)
 	end if
 
 	CheckCurrentStageFolder("Zone07")
