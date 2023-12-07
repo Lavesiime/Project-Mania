@@ -92,8 +92,25 @@
     <color bank="0" index="90" r="255" g="0" b="255" />
     <color bank="0" index="91" r="255" g="0" b="255" />
   </palette>
-  <objects />
-  <variables />
+    <objects>
+    <object name="Monitor Shard" script="Global/MonitorShard.txt" forceLoad="false" />
+    <object name="Animal Prison Part" script="Global/AnimalPrisonPart.txt" forceLoad="false" />
+    <object name="Hammer" script="Global/Hammer.txt" forceLoad="false" />
+  </objects>
+  <variables>
+    <variable name="game.playMode" value="1" />
+    <variable name="ANI_CLIMB_IDLE" value="39" />
+    <variable name="ANI_CLIMB_DOWN" value="40" />
+    <variable name="ANI_JOGGING" value="44" />
+    <variable name="ANI_CORKSCREW_H" value="33" />
+    <variable name="ANI_BOUNCING_TWIRL" value="45" />
+    <variable name="ANI_DROPDASH" value="43" />
+    <variable name="ANI_DASH" value="39" />
+    <variable name="ANI_VICTORY" value="46" />
+    <variable name="options.encoreGraphics" value="0" />
+    <variable name="options.moveset" value="2" />
+    <variable name="options.fastRun" value="1" />
+  </variables>
   <sounds />
   <players />
   <presentationStages />

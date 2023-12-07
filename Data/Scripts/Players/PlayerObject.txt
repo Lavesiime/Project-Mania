@@ -362,6 +362,7 @@ reserve function Player_TryTransform
 reserve function Player_State_BubbleBounce
 reserve function Player_Action_DblJumpSonic
 reserve function Player_HandleFlyCarry
+reserve function Player_ReleaseDropDashSonic
 
 
 // ========================
@@ -571,6 +572,65 @@ end table
 // ========================
 // Function Definitions
 // ========================
+
+
+public function Player_ReleaseDropDashSonic
+	// Release the dropdash!
+	player.dropDashCharge = -1
+
+	player.timer = 0
+	player.state = Player_State_Roll
+	player.animation = ANI_JUMPING
+	player.iypos -= player.jumpOffset
+
+	currentPlayer = player.entityPos
+	if player.entityPos == camera[currentPlayer].target
+		player.scrollDelay = 15
+		camera[currentPlayer].style = CAMERASTYLE_HLOCKED
+	end if
+
+	Sin256(temp0, player.angle)
+	
+	if player.direction == FACING_RIGHT
+		if temp0 >= 0
+			temp0 <<= 12
+		else
+			temp0 <<= 11
+		end if
+	else
+		if temp0 >= 0
+			temp0 <<= 11
+		else
+			temp0 <<= 12
+		end if
+		FlipSign(temp0)
+	end if
+	temp0 >>= 2
+	
+	if Player_superState == SUPERSTATE_SUPER
+		temp0 += 0xC0000
+	else
+		temp0 += 0x80000
+	end if
+
+	if player.direction == 0
+		player.speed = temp0
+	else
+		player.speed = temp0
+		FlipSign(player.speed)
+	end if
+
+	StopSfx(SfxName[DropDash])
+	PlaySfx(SfxName[Release], false)
+	
+	CallFunction(Player_HandleOnGround)
+	
+	CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos) // DropDash Dust
+	object[tempObjectPos].state = 1
+	object[tempObjectPos].direction = player.direction
+	
+end function
+
 
 public function Player_HandleAmyHitbox
 #platform: USE_ORIGINS
@@ -3774,59 +3834,7 @@ public function Player_State_Air
 		if player.dropDashCharge > 19
 			switch player.character
 			case PLAYER_SONIC_A
-				// Release the dropdash!
-				player.dropDashCharge = -1
-
-				player.timer = 0
-				player.state = Player_State_Roll
-				player.animation = ANI_JUMPING
-				player.iypos -= player.jumpOffset
-
-				currentPlayer = player.entityPos
-				if player.entityPos == camera[currentPlayer].target
-					player.scrollDelay = 15
-					camera[currentPlayer].style = CAMERASTYLE_HLOCKED
-				end if
-
-				Sin256(temp0, player.angle)
-				
-				if player.direction == FACING_RIGHT
-					if temp0 >= 0
-						temp0 <<= 12
-					else
-						temp0 <<= 11
-					end if
-				else
-					if temp0 >= 0
-						temp0 <<= 11
-					else
-						temp0 <<= 12
-					end if
-					FlipSign(temp0)
-				end if
-				temp0 >>= 2
-				
-				if Player_superState == SUPERSTATE_SUPER
-					temp0 += 0xC0000
-				else
-					temp0 += 0x80000
-				end if
-
-				if player.direction == 0
-					player.speed = temp0
-				else
-					player.speed = temp0
-					FlipSign(player.speed)
-				end if
-
-				StopSfx(SfxName[DropDash])
-				PlaySfx(SfxName[Release], false)
-				
-				CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos) // DropDash Dust
-				object[tempObjectPos].state = 1
-				object[tempObjectPos].direction = player.direction
-				
-				CallFunction(Player_HandleOnGround)
+				//CallFunction(Player_ReleaseDropDashSonic) It's actually better to handle this somewhere else, see ObjectUpdate
 				break
 			case PLAYER_AMY_A
 				CallFunction(Player_Action_HammerDash)
@@ -6076,11 +6084,22 @@ event ObjectUpdate
 								if player.state != Player_State_BubbleBounce
 									if player.state != Player_State_Roll
 										if player.state != Player_State_TubeRoll
-											player.animation = ANI_WALKING
-											if player.entityPos == camera[0].target
-												camera[0].adjustY = 0
+											temp1 = true; if player.character != PLAYER_SONIC_A; temp1 = false; end if; if player.dropDashCharge < 20; temp1 = false; end if
+											if temp1 == true
+												if player.entityPos == camera[0].target
+													camera[0].adjustY = 0
+												end if
+												
+												CallFunction(Player_ReleaseDropDashSonic) // Important to call this before changing player.iypos
+												player.iypos += player.jumpOffset
+											else
+												player.animation = ANI_WALKING
+												if player.entityPos == camera[0].target
+													camera[0].adjustY = 0
+												end if
+												
+												player.iypos += player.jumpOffset
 											end if
-											player.iypos += player.jumpOffset
 										end if
 									end if
 								end if
@@ -6148,12 +6167,22 @@ event ObjectUpdate
 							if player.state != Player_State_BubbleBounce
 								if player.state != Player_State_Roll
 									if player.state != Player_State_TubeRoll
-										player.animation = ANI_WALKING
-										if player.entityPos == camera[0].target
-											camera[0].adjustY = 0
+										temp1 = true; if player.character != PLAYER_SONIC_A; temp1 = false; end if; if player.dropDashCharge < 20; temp1 = false; end if
+										if temp1 == true
+											if player.entityPos == camera[0].target
+												camera[0].adjustY = 0
+											end if
+											
+											CallFunction(Player_ReleaseDropDashSonic) // Important to call this before changing player.iypos
+											player.iypos += player.jumpOffset
+										else
+											player.animation = ANI_WALKING
+											if player.entityPos == camera[0].target
+												camera[0].adjustY = 0
+											end if
+											
+											player.iypos += player.jumpOffset
 										end if
-										
-										player.iypos += player.jumpOffset
 									end if
 								end if
 							end if
