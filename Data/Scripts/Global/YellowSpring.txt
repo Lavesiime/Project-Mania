@@ -669,26 +669,39 @@ event ObjectUpdate
 
 	if object.timer != 0
 		switch object.timer
-		case 2
 		case 1
+		case 2
 			object.frame += 8
 			break
 		case 3
 		case 4
+			object.frame += 48
+			break
 		case 5
+		case 6
 			object.frame += 24
 			break
-		case 6
 		case 7
 		case 8
+			object.frame += 32
+			break
 		case 9
+		case 10
 			object.frame += 16
 			break
-			
+		case 11
+		case 12
+			object.frame += 40
+			break
+		case 13
+		case 14
+			object.frame += 8
+			break
+		case 15
 		end switch
 
 		object.timer++
-		if object.timer >= 10
+		if object.timer >= 15
 			object.timer = 0
 		end if
 	end if
@@ -703,6 +716,9 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("Global/Items4.gif")
+
+	// Spring frames
+	//Base
 	SpriteFrame(-16, -8, 32, 16, 34, 1)
 	SpriteFrame(-8, -16, 16, 32, 67, 34)
 	SpriteFrame(-8, -16, 16, 32, 173, 223)
@@ -711,6 +727,8 @@ event ObjectStartup
 	SpriteFrame(-14, -14, 30, 30, 83, 206)
 	SpriteFrame(-16, -14, 30, 30, 67, 98)
 	SpriteFrame(-14, -14, 30, 30, 83, 206)
+
+	// Base Contract
 	SpriteFrame(-16, 0, 32, 8, 34, 1)
 	SpriteFrame(-8, -16, 8, 32, 75, 34)
 	SpriteFrame(0, -16, 8, 32, 173, 223)
@@ -719,6 +737,8 @@ event ObjectStartup
 	SpriteFrame(-16, -11, 27, 27, 203, 95)
 	SpriteFrame(-16, -11, 27, 27, 203, 95)
 	SpriteFrame(-16, -11, 27, 27, 203, 95)
+
+	// Base Extend
 	SpriteFrame(-16, -24, 32, 32, 34, 94)
 	SpriteFrame(-8, -16, 32, 32, 160, 34)
 	SpriteFrame(-8, -16, 32, 32, 160, 34)
@@ -727,7 +747,8 @@ event ObjectStartup
 	SpriteFrame(-16, -24, 40, 40, 42, 175)
 	SpriteFrame(-16, -24, 40, 40, 42, 175)
 	SpriteFrame(-16, -24, 40, 40, 42, 175)
-	// Smears
+
+	// Smear mid expand
 	SpriteFrame(-16, -23, 32, 31, 34, 29)
 	SpriteFrame(-8, -16, 31, 32, 95, 34)
 	SpriteFrame(-8, -16, 31, 32, 95, 34)
@@ -736,6 +757,36 @@ event ObjectStartup
 	SpriteFrame(-16, -20, 36, 36, 128, 104)
 	SpriteFrame(-16, -20, 36, 36, 128, 104)
 	SpriteFrame(-16, -20, 36, 36, 128, 104)
+
+	// Smear top expand
+	SpriteFrame(-16, -24, 32, 32, 34, 61)
+	SpriteFrame(-8, -16, 32, 32, 127, 34)
+	SpriteFrame(-8, -16, 32, 32, 127, 34)
+	SpriteFrame(-16, -24, 32, 32, 34, 61)
+	SpriteFrame(-16, -21, 37, 37, 165, 67)
+	SpriteFrame(-16, -21, 37, 37, 165, 67)
+	SpriteFrame(-16, -21, 37, 37, 165, 67)
+	SpriteFrame(-16, -21, 37, 37, 165, 67)
+
+	// Smear mid contract
+	SpriteFrame(-16, -21, 32, 29, 34, 127)
+	SpriteFrame(-8, -16, 29, 32, 193, 34)
+	SpriteFrame(-8, -16, 29, 32, 193, 34)
+	SpriteFrame(-16, -21, 32, 29, 34, 127)
+	SpriteFrame(-16, -24, 40, 40, 42, 216)
+	SpriteFrame(-16, -24, 40, 40, 42, 216)
+	SpriteFrame(-16, -24, 40, 40, 42, 216)
+	SpriteFrame(-16, -24, 40, 40, 42, 216)
+
+	// Smear bottom contract
+	SpriteFrame(-16, -2, 32, 10, 34, 18)
+	SpriteFrame(-8, -16, 10, 32, 84, 34)
+	SpriteFrame(-8, -16, 10, 32, 84, 34)
+	SpriteFrame(-16, -2, 32, 10, 34, 18)
+	SpriteFrame(-16, -13, 29, 29, 98, 98)
+	SpriteFrame(-16, -13, 29, 29, 98, 98)
+	SpriteFrame(-16, -13, 29, 29, 98, 98)
+	SpriteFrame(-16, -13, 29, 29, 98, 98)
 
 	temp0 = 0
 	YellowSpring_startDebugID = DebugMode_ObjCount
