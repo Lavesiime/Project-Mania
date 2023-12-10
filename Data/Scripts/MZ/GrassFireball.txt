@@ -159,13 +159,21 @@ event ObjectUpdate
 		end if
 	next
 
-	object.frame = object.animationTimer
-	object.frame /= 12
-	object.direction = object.animationTimer
-	object.direction /= 6
-	object.direction &= 1
 	object.animationTimer++
-	object.animationTimer %= 24
+	if object.animationTimer == 4
+		object.frame++
+		object.animationTimer = 0
+	end if
+	if object.frame < 4
+		object.direction = FACING_LEFT
+	end if
+	if object.frame > 3
+		object.direction = FACING_RIGHT
+	end if
+	if object.frame > 7
+		object.frame = 0
+		object.direction = FACING_LEFT
+	end if
 
 	arrayPos0 = object.parentSlot
 	if object[arrayPos0].outOfBounds == true
@@ -182,8 +190,31 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-7, -23, 15, 31, 52, 114)
-	SpriteFrame(-8, -24, 16, 32, 68, 114)
+	SpriteFrame(-8, -24, 16, 32, 289, 191)  // Vertical 1 - #0
+	SpriteFrame(-8, -24, 16, 32, 105, 15)  // Vertical 2 - #1
+	SpriteFrame(-7, -23, 15, 31, 289, 125)  // Vertical 3 - #2
+	SpriteFrame(-8, -24, 16, 32, 105, 48)  // Vertical 4 - #3
+	SpriteFrame(-8, -24, 16, 32, 289, 191)  // Vertical 1 - #4
+	SpriteFrame(-8, -24, 16, 32, 105, 15)  // Vertical 2 - #5
+	SpriteFrame(-7, -23, 15, 31, 289, 125)  // Vertical 3 - #6
+	SpriteFrame(-8, -24, 16, 32, 105, 48)  // Vertical 4 - #7
+
+	SpriteFrame(-24, -8, 32, 16, 102, 130) // Horizontal 1 - #8
+	SpriteFrame(-24, -8, 32, 16, 39, 65) // Horizontal 2 - #9
+	SpriteFrame(-24, -8, 32, 16, 72, 65) // Horizontal 3 - #10
+	SpriteFrame(-23, -7, 31, 15, 103, 114) // Horizontal 4 - #11
+	SpriteFrame(-24, -8, 32, 16, 102, 130) // Horizontal 1 - #12
+	SpriteFrame(-24, -8, 32, 16, 39, 65) // Horizontal 2 - #13
+	SpriteFrame(-24, -8, 32, 16, 72, 65) // Horizontal 3 - #14
+	SpriteFrame(-23, -7, 31, 15, 103, 114) // Horizontal 4 - #15
+
+	SpriteFrame(-7, -23, 15, 31, 290, 66)  // Vertical Dissipate - #16
+	SpriteFrame(-8, -15, 16, 23, 289, 224)  // Vertical Dissipate - #17
+	SpriteFrame(-8, -15, 16, 23, 289, 101)  // Vertical Dissipate - #18
+
+	SpriteFrame(-24, -8, 31, 15, 7, 65) // Horizontal Dissipate - #19
+	SpriteFrame(-15, -8, 23, 16, 135, 114) // Horizontal Dissipate - #20
+	SpriteFrame(-15, -8, 23, 16, 119, 174) // Horizontal Dissipate - #21
 end event
 
 

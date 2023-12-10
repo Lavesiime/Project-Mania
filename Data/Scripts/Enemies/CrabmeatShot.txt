@@ -21,10 +21,14 @@ event ObjectUpdate
 	object.ypos += object.yvel
 	object.yvel += 0x3800
 
-	object.frame = object.timer
-	object.frame >>= 1
-	object.timer++
-	object.timer &= 3
+	object.animationTimer++
+	if object.animationTimer >= 2
+		object.frame++
+		object.animationTimer = 0
+	end if
+	if object.frame > 5
+		object.frame = 0
+	end if
 
 	if object.outOfBounds == true
 		object.type = TypeName[Blank Object]
@@ -58,14 +62,22 @@ event ObjectStartup
 	CheckCurrentStageFolder("Zone01")
 	if checkResult == true
 		LoadSpriteSheet("GHZ/Objects.gif")
+		SpriteFrame(-6, -6, 12, 12, 149, 79)
+		SpriteFrame(-6, -6, 12, 12, 162, 79)
 		SpriteFrame(-6, -6, 12, 12, 175, 79)
+		SpriteFrame(-6, -6, 12, 12, 149, 92)
+		SpriteFrame(-6, -6, 12, 12, 162, 92)
 		SpriteFrame(-6, -6, 12, 12, 175, 92)
 	end if
 
 	CheckCurrentStageFolder("Zone03")
 	if checkResult == true
 		LoadSpriteSheet("SYZ/Objects.gif")
+		SpriteFrame(-6, -6, 12, 12, 184, 1)
+		SpriteFrame(-6, -6, 12, 12, 196, 1)
 		SpriteFrame(-6, -6, 12, 12, 208, 1)
+		SpriteFrame(-6, -6, 12, 12, 220, 1)
+		SpriteFrame(-6, -6, 12, 12, 232, 1)
 		SpriteFrame(-6, -6, 12, 12, 244, 1)
 	end if
 

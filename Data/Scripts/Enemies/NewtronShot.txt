@@ -19,10 +19,14 @@ private alias object.value0 : object.timer
 event ObjectUpdate
 	object.xpos += object.xvel
 
-	object.frame = object.timer
-	object.frame >>= 1
 	object.timer++
-	object.timer &= 3
+	if object.timer >= 2
+		object.frame++
+		object.timer = 0
+	end if
+	if object.frame > 5
+		object.frame = 0
+	end if
 
 	if object.outOfBounds == true
 		object.type = TypeName[Blank Object]
@@ -49,7 +53,11 @@ event ObjectStartup
 	if checkResult == true
 		LoadSpriteSheet("GHZ/Objects.gif")
 		SpriteFrame(-6, -6, 12, 12, 175, 105)
+		SpriteFrame(-6, -6, 12, 12, 165, 118)
+		SpriteFrame(-6, -6, 12, 12, 178, 118)
 		SpriteFrame(-6, -6, 12, 12, 165, 131)
+		SpriteFrame(-6, -6, 12, 12, 149, 105)
+		SpriteFrame(-6, -6, 12, 12, 162, 105)
 	end if
 
 	CheckCurrentStageFolder("Zone07")
