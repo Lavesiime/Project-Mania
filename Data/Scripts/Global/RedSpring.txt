@@ -683,10 +683,14 @@ event ObjectUpdate
 			object.frame += 8
 			break
 		case 15
+		case 16
+			object.frame += 56
+			break
+		case 17
 		end switch
 
 		object.timer++
-		if object.timer >= 15
+		if object.timer >= 17
 			object.timer = 0
 		end if
 	end if
@@ -701,7 +705,7 @@ end event
 
 event ObjectStartup
 
-	LoadSpriteSheet("Global/Items4.gif")
+	LoadSpriteSheet("Global/Items.gif")
 
 	foreach (TypeName[Red Spring], arrayPos0, ALL_ENTITIES)
 		temp0 = object[arrayPos0].propertyValue
@@ -715,74 +719,84 @@ event ObjectStartup
 
 	// Spring frames
 	//Base
-	SpriteFrame(-16, -8, 32, 16, 1, 1)
-	SpriteFrame(-8, -16, 16, 32, 67, 1)
-	SpriteFrame(-8, -16, 16, 32, 223, 1)
-	SpriteFrame(-16, -8, 32, 16, 107, 239)
-	SpriteFrame(-16, -14, 30, 30, 67, 67)
-	SpriteFrame(-14, -14, 30, 30, 83, 175)
-	SpriteFrame(-16, -14, 30, 30, 67, 67)
-	SpriteFrame(-14, -14, 30, 30, 83, 175)
+	SpriteFrame(-16, -8, 32, 16, 66, 496)
+	SpriteFrame(-8, -16, 16, 32, 0, 66)
+	SpriteFrame(-8, -16, 16, 32, 0, 0)
+	SpriteFrame(-16, -8, 32, 16, 0, 496)
+	SpriteFrame(-16, -14, 30, 30, 421, 124)
+	SpriteFrame(-14, -14, 30, 30, 419, 190)
+	SpriteFrame(-16, -14, 30, 30, 421, 124)
+	SpriteFrame(-14, -14, 30, 30, 419, 190)
 
 	// Base Contract
-	SpriteFrame(-16, 0, 32, 8, 1, 1)
-	SpriteFrame(-8, -16, 8, 32, 75, 1)
-	SpriteFrame(0, -16, 8, 32, 173, 190)
-	SpriteFrame(-16, -8, 32, 8, 107, 239)
-	SpriteFrame(-16, -11, 27, 27, 203, 67)
-	SpriteFrame(-16, -11, 27, 27, 203, 67)
-	SpriteFrame(-16, -11, 27, 27, 203, 67)
-	SpriteFrame(-16, -11, 27, 27, 203, 67)
+	SpriteFrame(-16, 0, 32, 8, 66, 496)
+	SpriteFrame(-8, -16, 8, 32, 8, 66)
+	SpriteFrame(0, -16, 8, 32, 0, 0)
+	SpriteFrame(-16, -8, 32, 8, 0, 504)
+	SpriteFrame(-16, -11, 27, 27, 450, 193)
+	SpriteFrame(-16, -11, 27, 27, 450, 193)
+	SpriteFrame(-16, -11, 27, 27, 450, 193)
+	SpriteFrame(-16, -11, 27, 27, 450, 193)
 
 	// Base Extend
-	SpriteFrame(-16, -24, 32, 32, 1, 94)
-	SpriteFrame(-8, -16, 32, 32, 160, 1)
-	SpriteFrame(-8, -16, 32, 32, 160, 1)
-	SpriteFrame(-16, -24, 32, 32, 1, 94)
-	SpriteFrame(-16, -24, 40, 40, 1, 175)
-	SpriteFrame(-16, -24, 40, 40, 1, 175)
-	SpriteFrame(-16, -24, 40, 40, 1, 175)
-	SpriteFrame(-16, -24, 40, 40, 1, 175)
+	SpriteFrame(-16, -24, 32, 32, 272, 244)
+	SpriteFrame(-8, -16, 32, 32, 448, 396)
+	SpriteFrame(-8, -16, 32, 32, 448, 396)
+	SpriteFrame(-16, -24, 32, 32, 272, 244)
+	SpriteFrame(-16, -24, 40, 40, 349, 472)
+	SpriteFrame(-16, -24, 40, 40, 349, 472)
+	SpriteFrame(-16, -24, 40, 40, 349, 472)
+	SpriteFrame(-16, -24, 40, 40, 349, 472)
 
 	// Smear mid expand
-	SpriteFrame(-16, -23, 32, 31, 1, 29)
-	SpriteFrame(-8, -16, 31, 32, 95, 1)
-	SpriteFrame(-8, -16, 31, 32, 95, 1)
-	SpriteFrame(-16, -23, 32, 31, 1, 29)
-	SpriteFrame(-16, -20, 36, 36, 128, 67)
-	SpriteFrame(-16, -20, 36, 36, 128, 67)
-	SpriteFrame(-16, -20, 36, 36, 128, 67)
-	SpriteFrame(-16, -20, 36, 36, 128, 67)
+	SpriteFrame(-16, -23, 32, 31, 118, 100)
+	SpriteFrame(-8, -16, 31, 32, 323, 162)
+	SpriteFrame(-8, -16, 31, 32, 323, 162)
+	SpriteFrame(-16, -23, 32, 31, 118, 100)
+	SpriteFrame(-16, -20, 36, 36, 400, 245)
+	SpriteFrame(-16, -20, 36, 36, 400, 245)
+	SpriteFrame(-16, -20, 36, 36, 400, 245)
+	SpriteFrame(-16, -20, 36, 36, 400, 245)
 
 	// Smear top expand
-	SpriteFrame(-16, -24, 32, 32, 1, 61)
-	SpriteFrame(-8, -16, 32, 32, 127, 1)
-	SpriteFrame(-8, -16, 32, 32, 127, 1)
-	SpriteFrame(-16, -24, 32, 32, 1, 61)
-	SpriteFrame(-16, -21, 37, 37, 165, 105)
-	SpriteFrame(-16, -21, 37, 37, 165, 105)
-	SpriteFrame(-16, -21, 37, 37, 165, 105)
-	SpriteFrame(-16, -21, 37, 37, 165, 105)
+	SpriteFrame(-16, -24, 32, 32, 355, 156)
+	SpriteFrame(-8, -16, 32, 32, 223, 206)
+	SpriteFrame(-8, -16, 32, 32, 223, 206)
+	SpriteFrame(-16, -24, 32, 32, 355, 156)
+	SpriteFrame(-16, -21, 37, 37, 475, 244)
+	SpriteFrame(-16, -21, 37, 37, 475, 244)
+	SpriteFrame(-16, -21, 37, 37, 475, 244)
+	SpriteFrame(-16, -21, 37, 37, 475, 244)
 
 	// Smear mid contract
-	SpriteFrame(-16, -21, 32, 29, 1, 127)
-	SpriteFrame(-8, -16, 29, 32, 193, 1)
-	SpriteFrame(-8, -16, 29, 32, 193, 1)
-	SpriteFrame(-16, -21, 32, 29, 1, 127)
-	SpriteFrame(-16, -24, 40, 40, 1, 216)
-	SpriteFrame(-16, -24, 40, 40, 1, 216)
-	SpriteFrame(-16, -24, 40, 40, 1, 216)
-	SpriteFrame(-16, -24, 40, 40, 1, 216)
+	SpriteFrame(-16, -21, 32, 29, 118, 71)
+	SpriteFrame(-8, -16, 29, 32, 481, 396)
+	SpriteFrame(-8, -16, 29, 32, 481, 396)
+	SpriteFrame(-16, -21, 32, 29, 118, 71)
+	SpriteFrame(-16, -24, 40, 40, 431, 472)
+	SpriteFrame(-16, -24, 40, 40, 431, 472)
+	SpriteFrame(-16, -24, 40, 40, 431, 472)
+	SpriteFrame(-16, -24, 40, 40, 431, 472)
 
 	// Smear bottom contract
-	SpriteFrame(-16, -2, 32, 10, 1, 18)
-	SpriteFrame(-8, -16, 10, 32, 84, 1)
-	SpriteFrame(-8, -16, 10, 32, 84, 1)
-	SpriteFrame(-16, -2, 32, 10, 1, 18)
-	SpriteFrame(-16, -13, 29, 29, 98, 67)
-	SpriteFrame(-16, -13, 29, 29, 98, 67)
-	SpriteFrame(-16, -13, 29, 29, 98, 67)
-	SpriteFrame(-16, -13, 29, 29, 98, 67)
+	SpriteFrame(-16, -2, 32, 10, 1, 254)
+	SpriteFrame(-8, -16, 10, 32, 502, 132)
+	SpriteFrame(-8, -16, 10, 32, 502, 132)
+	SpriteFrame(-16, -2, 32, 10, 1, 254)
+	SpriteFrame(-16, -13, 29, 29, 452, 124)
+	SpriteFrame(-16, -13, 29, 29, 452, 124)
+	SpriteFrame(-16, -13, 29, 29, 452, 124)
+	SpriteFrame(-16, -13, 29, 29, 452, 124)
+
+	// Semi base
+	SpriteFrame(-16, -8, 32, 16, 133, 495)
+	SpriteFrame(-8, -16, 16, 32, 133, 1)
+	SpriteFrame(-8, -16, 16, 32, 133, 1)
+	SpriteFrame(-16, -8, 32, 16, 133, 495)
+	SpriteFrame(-16, -15, 31, 31, 355, 189)
+	SpriteFrame(-16, -15, 31, 31, 355, 189)
+	SpriteFrame(-16, -15, 31, 31, 355, 189)
+	SpriteFrame(-16, -15, 31, 31, 355, 189)
 
 	temp0 = 0
 	RedSpring_startDebugID = DebugMode_ObjCount

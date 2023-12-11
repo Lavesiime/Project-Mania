@@ -148,11 +148,11 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Global/Items.gif")
-	SpriteFrame(-24, -24, 48, 48, 404, 132)
-	SpriteFrame(-24, -24, 48, 48, 453, 132)
-	SpriteFrame(-24, -24, 48, 48, 404, 181)
-	SpriteFrame(-24, -24, 48, 48, 453, 181)
+	LoadSpriteSheet("Players/Amy5.gif")
+	SpriteFrame(-24, -24, 48, 48, 49, 35)
+	SpriteFrame(-24, -24, 48, 48, 98, 35)
+	SpriteFrame(-24, -24, 48, 48, 49, 84)
+	SpriteFrame(-24, -24, 48, 48, 98, 84)
 end event
 
 

@@ -369,7 +369,7 @@ event ObjectStartup
 #platform: USE_ORIGINS
 	if game.coinMode == false
 		if stage.playerListPos == PLAYER_AMY
-			SpriteFrame(-8, -9, 16, 14, 166, 118) // 5 - MONITOR_1UP_SONIC, except it's actually Amy
+			SpriteFrame(-8, -9, 16, 14, 116, 0) // 5 - MONITOR_1UP_SONIC, except it's actually Amy
 		else
 			SpriteFrame(-8, -9, 16, 14, 51, 46) // 5 - MONITOR_1UP_SONIC, actually Sonic this time
 		end if

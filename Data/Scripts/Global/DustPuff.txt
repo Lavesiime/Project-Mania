@@ -110,16 +110,16 @@ event ObjectStartup
 	SpriteFrame(-32, -23, 32, 23, 289, 162) // 13
 	
 	// Drop Dash dust frames
-	SpriteFrame(-40, -30, 32, 40, 1, 457) // 14
-	SpriteFrame(-40, -30, 32, 40, 34, 457)
-	SpriteFrame(-40, -30, 32, 40, 67, 457)
-	SpriteFrame(-40, -30, 32, 40, 100, 457)
-	SpriteFrame(-40, -30, 32, 40, 133, 457)
-	SpriteFrame(-40, -30, 32, 40, 166, 457)
-	SpriteFrame(-40, -30, 32, 40, 199, 457)
-	SpriteFrame(-40, -30, 32, 40, 232, 457)
-	SpriteFrame(-40, -30, 32, 40, 265, 457)
-	SpriteFrame(-40, -30, 32, 40, 298, 457) // 23
+	SpriteFrame(-40, -30, 32, 40, 1, 456) // 14
+	SpriteFrame(-40, -30, 32, 40, 34, 456)
+	SpriteFrame(-40, -30, 32, 40, 67, 456)
+	SpriteFrame(-40, -30, 32, 40, 100, 456)
+	SpriteFrame(-40, -30, 32, 40, 133, 454)
+	SpriteFrame(-40, -30, 32, 40, 166, 454)
+	SpriteFrame(-40, -30, 32, 40, 199, 454)
+	SpriteFrame(-40, -30, 32, 40, 232, 454)
+	SpriteFrame(-40, -30, 32, 40, 265, 454)
+	SpriteFrame(-40, -30, 32, 40, 298, 454) // 23
 	
 	// Skid dust frames
 	SpriteFrame(-10, -16, 16, 20, 58, 244) // 24
