@@ -304,9 +304,17 @@ private function LZSetup_InitSuperSonicPal
 	SetTableValue(temp1, temp0, Player_SonicSuperAltPal)
 	temp0++
 
+	GetPaletteEntry(1, 6, temp1)
+	SetTableValue(temp1, temp0, Player_SonicSuperAltPal)
+	temp0++
+
+	GetPaletteEntry(1, 7, temp1)
+	SetTableValue(temp1, temp0, Player_SonicSuperAltPal)
+	temp0++
+
 	while temp0 < 64
-		GetPaletteEntry(0, 2, temp1) // Regular colour
-		GetPaletteEntry(1, 2, temp2) // Underwater colour
+		GetPaletteEntry(0, 3, temp1) // Regular colour
+		GetPaletteEntry(1, 3, temp2) // Underwater colour
 
 		CallFunction(LZSetup_getClrDivisor)
 
@@ -359,8 +367,8 @@ private function LZSetup_InitSuperSonicPal
 		temp0++
 
 		// Colour 2
-		GetPaletteEntry(0, 3, temp1) // Regular colour
-		GetPaletteEntry(1, 3, temp2) // Underwater colour
+		GetPaletteEntry(0, 2, temp1) // Regular colour
+		GetPaletteEntry(1, 2, temp2) // Underwater colour
 
 		CallFunction(LZSetup_getClrDivisor)
 
@@ -494,6 +502,96 @@ private function LZSetup_InitSuperSonicPal
 		temp1 += temp3
 		SetTableValue(temp1, temp0, Player_SonicSuperAltPal)
 		temp0++
+
+		// Colour 5
+		GetPaletteEntry(0, 6, temp1) // Regular colour
+		GetPaletteEntry(1, 6, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_SonicSuperPal)
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0x100
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0x100
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0x100
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_SonicSuperAltPal)
+		temp0++
+
+		// Colour 6
+		GetPaletteEntry(0, 7, temp1) // Regular colour
+		GetPaletteEntry(1, 7, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_SonicSuperPal)
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0x100
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0x100
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0x100
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_SonicSuperAltPal)
+		temp0++
 	loop
 end function
 
@@ -501,26 +599,34 @@ end function
 private function LZSetup_InitSuperTailsPal
 	temp0 = 0
 
+	GetPaletteEntry(1, 9, temp1)
+	SetTableValue(temp1, temp0, Player_TailsSuperAltPal)
+	temp0++
+
+	GetPaletteEntry(1, 8, temp1)
+	SetTableValue(temp1, temp0, Player_TailsSuperAltPal)
+	temp0++
+
+	GetPaletteEntry(1, 11, temp1)
+	SetTableValue(temp1, temp0, Player_TailsSuperAltPal)
+	temp0++
+
+	GetPaletteEntry(1, 12, temp1)
+	SetTableValue(temp1, temp0, Player_TailsSuperAltPal)
+	temp0++
+
 	GetPaletteEntry(1, 13, temp1)
 	SetTableValue(temp1, temp0, Player_TailsSuperAltPal)
 	temp0++
 
-	GetPaletteEntry(1, 17, temp1)
+	GetPaletteEntry(1, 10, temp1)
 	SetTableValue(temp1, temp0, Player_TailsSuperAltPal)
 	temp0++
 
-	GetPaletteEntry(1, 18, temp1)
-	SetTableValue(temp1, temp0, Player_TailsSuperAltPal)
-	temp0++
-
-	GetPaletteEntry(1, 16, temp1)
-	SetTableValue(temp1, temp0, Player_TailsSuperAltPal)
-	temp0++
-
-	while temp0 < 24
+	while temp0 < 60
 		// Colour 1
-		GetPaletteEntry(0, 13, temp1)
-		GetPaletteEntry(1, 13, temp2)
+		GetPaletteEntry(0, 9, temp1)
+		GetPaletteEntry(1, 9, temp2)
 
 		CallFunction(LZSetup_getClrDivisor)
 
@@ -565,8 +671,8 @@ private function LZSetup_InitSuperTailsPal
 		temp0++
 
 		// Colour 2
-		GetPaletteEntry(0, 17, temp1)
-		GetPaletteEntry(1, 17, temp2)
+		GetPaletteEntry(0, 8, temp1)
+		GetPaletteEntry(1, 8, temp2)
 
 		CallFunction(LZSetup_getClrDivisor)
 
@@ -611,8 +717,8 @@ private function LZSetup_InitSuperTailsPal
 		temp0++
 		
 		// Colour 3
-		GetPaletteEntry(0, 18, temp1)
-		GetPaletteEntry(1, 18, temp2)
+		GetPaletteEntry(0, 11, temp1)
+		GetPaletteEntry(1, 11, temp2)
 
 		CallFunction(LZSetup_getClrDivisor)
 
@@ -657,8 +763,104 @@ private function LZSetup_InitSuperTailsPal
 		temp0++
 		
 		// Colour 4
-		GetPaletteEntry(0, 16, temp1)
-		GetPaletteEntry(1, 16, temp2)
+		GetPaletteEntry(0, 12, temp1)
+		GetPaletteEntry(1, 12, temp2)
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_TailsSuperPal)
+
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0x100
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0x100
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0x100
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_TailsSuperAltPal)
+		temp0++
+
+		// Colour 5
+		GetPaletteEntry(0, 13, temp1)
+		GetPaletteEntry(1, 13, temp2)
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_TailsSuperPal)
+
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0x100
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0x100
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0x100
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_TailsSuperAltPal)
+		temp0++
+
+		// Colour 6
+		GetPaletteEntry(0, 10, temp1)
+		GetPaletteEntry(1, 10, temp2)
 
 		CallFunction(LZSetup_getClrDivisor)
 
@@ -710,78 +912,623 @@ end function
 private function LZSetup_InitSuperKnuxPal
 	temp0 = 0
 
-	GetPaletteEntry(1, 26, temp1)
+	// First Set of colours is just the regular underwater palette
+	GetPaletteEntry(1, 14, temp1)
 	SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
 	temp0++
 
-	GetPaletteEntry(1, 27, temp1)
+	GetPaletteEntry(1, 15, temp1)
 	SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
 	temp0++
 
-	GetPaletteEntry(1, 28, temp1)
+	GetPaletteEntry(1, 16, temp1)
 	SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
 	temp0++
+
+	GetPaletteEntry(1, 17, temp1)
+	SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
+	temp0++
+
+	GetPaletteEntry(1, 18, temp1)
+	SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
+	temp0++
+
+	GetPaletteEntry(1, 19, temp1)
+	SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
+	temp0++
+
+	while temp0 < 60
+		GetPaletteEntry(0, 14, temp1) // Regular colour
+		GetPaletteEntry(1, 14, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_KnuxSuperPal)
+
+		// Get the green in the color
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+		
+		// Get the blue in the color
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		// Get the red in the color
+		temp1 >>= 16
+
+		temp1 *= 0xE0
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0xE0
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0xE0
+		temp3 /= object.clrDivisor_B
+
+		// Max of 0xE0
+		//  -> Note that this game uses the "raw" colors from the original game rather than
+		//     "corrected" colors seen in many emulators
+		//     With this system, the brighest a color can be is E0E0E0, with all
+		//     the reds, greens, and blues having a max of 224, or E0
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
+		temp0++
+
+		// Colour 2
+		GetPaletteEntry(0, 15, temp1) // Regular colour
+		GetPaletteEntry(1, 15, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_KnuxSuperPal)
+
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0xE4
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0xE4
+		temp2 /= object.clrDivisor_G
+		
+		temp3 *= 0xE4
+		temp3 /= object.clrDivisor_B
+		
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
+		temp0++
+
+		// Colour 3
+		GetPaletteEntry(0, 16, temp1) // Regular colour
+		GetPaletteEntry(1, 16, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_KnuxSuperPal)
+
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+		
+		temp1 *= 0xF8
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0xF8
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0xF8
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
+		temp0++
+
+		// Colour 4
+		GetPaletteEntry(0, 17, temp1) // Regular colour
+		GetPaletteEntry(1, 17, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_KnuxSuperPal)
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0x100
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0x100
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0x100
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
+		temp0++
+
+		// Colour 5
+		GetPaletteEntry(0, 18, temp1) // Regular colour
+		GetPaletteEntry(1, 18, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_KnuxSuperPal)
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0xE0
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0xE0
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0xE0
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xE0
+		temp2 &= 0xE0
+		temp3 &= 0xE0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
+		temp0++
+
+		// Colour 6
+		GetPaletteEntry(0, 19, temp1) // Regular colour
+		GetPaletteEntry(1, 19, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_KnuxSuperPal)
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0x120
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0x120
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0x120
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_KnuxSuperAltPal)
+		temp0++
+	loop
 end function
 
 private function LZSetup_InitSuperAmyPal
 #platform: USE_ORIGINS
 	temp0 = 0
-	GetPaletteEntry(1, 66, temp1)
+
+	// First Set of colours is just the regular underwater palette
+	GetPaletteEntry(1, 20, temp1)
 	SetTableValue(temp1, temp0, Player_AmySuperAltPal)
 	temp0++
-	GetPaletteEntry(1, 67, temp1)
+
+	GetPaletteEntry(1, 21, temp1)
 	SetTableValue(temp1, temp0, Player_AmySuperAltPal)
 	temp0++
-	GetPaletteEntry(1, 68, temp1)
+
+	GetPaletteEntry(1, 22, temp1)
 	SetTableValue(temp1, temp0, Player_AmySuperAltPal)
 	temp0++
-	GetPaletteEntry(1, 64, temp1)
+
+	GetPaletteEntry(1, 23, temp1)
 	SetTableValue(temp1, temp0, Player_AmySuperAltPal)
 	temp0++
-	GetPaletteEntry(1, 65, temp1)
+
+	GetPaletteEntry(1, 24, temp1)
 	SetTableValue(temp1, temp0, Player_AmySuperAltPal)
 	temp0++
-	while temp0 < 30
-		temp4 = temp0
-		temp4 -= 5
-		GetTableValue(temp1, temp4, Player_AmySuperAltPal)
+
+	GetPaletteEntry(1, 25, temp1)
+	SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+	temp0++
+
+	while temp0 < 60
+		GetPaletteEntry(0, 20, temp1) // Regular colour
+		GetPaletteEntry(1, 20, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_AmySuperPal)
+
+		// Get the green in the color
 		temp2 = temp1
 		temp2 >>= 8
-		temp2 &= 255
+		temp2 &= 0xFF
+		
+		// Get the blue in the color
 		temp3 = temp1
-		temp3 &= 255
+		temp3 &= 0xFF
+
+		// Get the red in the color
 		temp1 >>= 16
-		temp1 += 32
-		if temp1 > 255
-			temp1 = 255
+
+		temp1 *= 0xC0
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0xC0
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0xC0
+		temp3 /= object.clrDivisor_B
+
+		// Max of 0xE0
+		//  -> Note that this game uses the "raw" colors from the original game rather than
+		//     "corrected" colors seen in many emulators
+		//     With this system, the brighest a color can be is E0E0E0, with all
+		//     the reds, greens, and blues having a max of 224, or E0
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
 		end if
-		temp2 += 32
-		if temp2 > 255
-			temp2 = 255
+		if temp2 > 0xE0
+			temp2 = 0xE0
 		end if
-		temp3 += 32
-		if temp3 > 255
-			temp3 = 255
+		if temp3 > 0xE0
+			temp3 = 0xE0
 		end if
+
 		temp1 <<= 16
 		temp2 <<= 8
 		temp1 += temp2
 		temp1 += temp3
 		SetTableValue(temp1, temp0, Player_AmySuperAltPal)
 		temp0++
-	loop
-	temp6 = 25
-	while temp0 < 50
-		temp5 = 0
-		while temp5 < 5
-			temp4 = temp6
-			temp4 += temp5
-			GetTableValue(temp1, temp4, Player_AmySuperAltPal)
-			SetTableValue(temp1, temp0, Player_AmySuperAltPal)
-			temp0++
-			temp5++
-		loop
-		temp6 -= 5
+
+		// Colour 2
+		GetPaletteEntry(0, 21, temp1) // Regular colour
+		GetPaletteEntry(1, 21, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_AmySuperPal)
+
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0xD0
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0xD0
+		temp2 /= object.clrDivisor_G
+		
+		temp3 *= 0xD0
+		temp3 /= object.clrDivisor_B
+		
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+		temp0++
+
+		// Colour 3
+		GetPaletteEntry(0, 22, temp1) // Regular colour
+		GetPaletteEntry(1, 22, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_AmySuperPal)
+
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+		
+		temp1 *= 0xE0
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0xE0
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0xE0
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+		temp0++
+
+		// Colour 4
+		GetPaletteEntry(0, 23, temp1) // Regular colour
+		GetPaletteEntry(1, 23, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_AmySuperPal)
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0xD0
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0xD0
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0xD0
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+		temp0++
+
+		// Colour 5
+		GetPaletteEntry(0, 24, temp1) // Regular colour
+		GetPaletteEntry(1, 24, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_AmySuperPal)
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0xD8
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0xD8
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0xD8
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+		temp0++
+
+		// Colour 6
+		GetPaletteEntry(0, 25, temp1) // Regular colour
+		GetPaletteEntry(1, 25, temp2) // Underwater colour
+
+		CallFunction(LZSetup_getClrDivisor)
+
+		GetTableValue(temp1, temp0, Player_AmySuperPal)
+		temp2 = temp1
+		temp2 >>= 8
+		temp2 &= 0xFF
+
+		temp3 = temp1
+		temp3 &= 0xFF
+
+		temp1 >>= 16
+
+		temp1 *= 0x120
+		temp1 /= object.clrDivisor_R
+
+		temp2 *= 0x120
+		temp2 /= object.clrDivisor_G
+
+		temp3 *= 0x120
+		temp3 /= object.clrDivisor_B
+
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
+		if temp1 > 0xE0
+			temp1 = 0xE0
+		end if
+		if temp2 > 0xE0
+			temp2 = 0xE0
+		end if
+		if temp3 > 0xE0
+			temp3 = 0xE0
+		end if
+
+		temp1 <<= 16
+		temp2 <<= 8
+		temp1 += temp2
+		temp1 += temp3
+		SetTableValue(temp1, temp0, Player_AmySuperAltPal)
+		temp0++
 	loop
 #endplatform
 end function
