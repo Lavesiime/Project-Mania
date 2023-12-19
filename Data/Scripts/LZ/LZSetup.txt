@@ -957,13 +957,13 @@ private function LZSetup_InitSuperKnuxPal
 		// Get the red in the color
 		temp1 >>= 16
 
-		temp1 *= 0xE0
+		temp1 *= 0xD0
 		temp1 /= object.clrDivisor_R
 
-		temp2 *= 0xE0
+		temp2 *= 0xD0
 		temp2 /= object.clrDivisor_G
 
-		temp3 *= 0xE0
+		temp3 *= 0xD0
 		temp3 /= object.clrDivisor_B
 
 		// Max of 0xE0
@@ -1008,13 +1008,13 @@ private function LZSetup_InitSuperKnuxPal
 
 		temp1 >>= 16
 
-		temp1 *= 0xE4
+		temp1 *= 0xD4
 		temp1 /= object.clrDivisor_R
 
-		temp2 *= 0xE4
+		temp2 *= 0xD4
 		temp2 /= object.clrDivisor_G
 		
-		temp3 *= 0xE4
+		temp3 *= 0xD4
 		temp3 /= object.clrDivisor_B
 		
 		temp1 &= 0xF0
@@ -1054,18 +1054,18 @@ private function LZSetup_InitSuperKnuxPal
 
 		temp1 >>= 16
 		
-		temp1 *= 0xF8
+		temp1 *= 0xDA
 		temp1 /= object.clrDivisor_R
 
-		temp2 *= 0xF8
+		temp2 *= 0xDA
 		temp2 /= object.clrDivisor_G
 
-		temp3 *= 0xF8
+		temp3 *= 0xDA
 		temp3 /= object.clrDivisor_B
 
-		temp1 &= 0xF0
-		temp2 &= 0xF0
-		temp3 &= 0xF0
+		temp1 &= 0xE0
+		temp2 &= 0xE0
+		temp3 &= 0xE0
 		if temp1 > 0xE0
 			temp1 = 0xE0
 		end if
@@ -1099,13 +1099,13 @@ private function LZSetup_InitSuperKnuxPal
 
 		temp1 >>= 16
 
-		temp1 *= 0x100
+		temp1 *= 0xE0
 		temp1 /= object.clrDivisor_R
 
-		temp2 *= 0x100
+		temp2 *= 0xE0
 		temp2 /= object.clrDivisor_G
 
-		temp3 *= 0x100
+		temp3 *= 0xE0
 		temp3 /= object.clrDivisor_B
 
 		temp1 &= 0xF0
@@ -1144,18 +1144,18 @@ private function LZSetup_InitSuperKnuxPal
 
 		temp1 >>= 16
 
-		temp1 *= 0xE0
+		temp1 *= 0xD8
 		temp1 /= object.clrDivisor_R
 
-		temp2 *= 0xE0
+		temp2 *= 0xD8
 		temp2 /= object.clrDivisor_G
 
-		temp3 *= 0xE0
+		temp3 *= 0xD8
 		temp3 /= object.clrDivisor_B
 
-		temp1 &= 0xE0
-		temp2 &= 0xE0
-		temp3 &= 0xE0
+		temp1 &= 0xF0
+		temp2 &= 0xF0
+		temp3 &= 0xF0
 		if temp1 > 0xE0
 			temp1 = 0xE0
 		end if
