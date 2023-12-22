@@ -111,7 +111,7 @@ event ObjectUpdate
 		if object.timer == 120
 			object.timer = 0
 			object.state = BOSSFIREBALL_DISSIPATE
-			object.frame = 8
+			object.frame = 16
 			object.direction = FACING_RIGHT
 		else
 			CallFunction(BossFireball_ProcessAnimation)
@@ -200,7 +200,7 @@ event ObjectUpdate
 		if object.timer == 120
 			object.timer = 0
 			object.state = BOSSFIREBALL_DISSIPATE
-			object.frame = 8
+			object.frame = 16
 			object.direction = FACING_RIGHT
 
 		else
@@ -234,16 +234,15 @@ event ObjectUpdate
 		break
 
 	case BOSSFIREBALL_DISSIPATE
-		object.timer++
 		object.animationTimer++
+		if object.frame < 16
+			object.frame = 16
+		end if
 		if object.animationTimer > 2
 			object.frame++
 			object.animationTimer = 0
 		end if
-		if object.frame < 19
-			object.frame = 19
-		end if
-		if object.timer == 8
+		if object.frame > 18
 			object.type = TypeName[Blank Object]
 		end if
 		break
