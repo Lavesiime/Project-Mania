@@ -22,6 +22,7 @@ private alias object.value9 : object.starTilesFrameC
 private alias object.value10 : object.starTilesTimerC
 private alias object.value11 : object.starTilesFrameD
 private alias object.value12 : object.starTilesTimerD
+private alias object.value13 : object.timer
 
 // Tracks
 private alias 0 : TRACK_STAGE
@@ -334,23 +335,54 @@ event ObjectUpdate
 	end if
 
 	// Star Animations
-	if object.starTilesTimerA == 0
-		object.starTilesFrameA++
-		
-		if object.starTilesFrameA == 3
-			object.starTilesTimerA = 64
-			Copy16x16Tile(963, 0)
-			temp2++
-
-		else
-			object.starTilesTimerA = 6
-			temp2 = object.starTilesFrameA
-			temp2 += 967
-			Copy16x16Tile(963, temp2)
-			temp2++
+	temp2 = object.starTilesTimerA
+	temp2 >>= 3
+	temp2 <<= 1
+	temp2 += 967
+	temp3 = object.starTilesTimerB
+	temp3 >>= 3
+	temp3 <<= 1
+	temp3 += 967
+	temp4 = object.starTilesTimerC
+	temp4 >>= 3
+	temp4 <<= 1
+	temp4 += 971
+	temp5 = object.starTilesTimerD
+	temp5 >>= 3
+	temp5 <<= 1
+	temp5 += 971
+	Copy16x16Tile(963, temp2)
+	temp2++
+	Copy16x16Tile(964, temp3)
+	temp3++
+	Copy16x16Tile(965, temp4)
+	temp4++
+	Copy16x16Tile(966, temp5)
+	temp4++
+	object.timer++
+	if object.timer > 56
+		object.starTilesTimerA += 1
+		if object.starTilesTimerA == 31
+			object.starTilesTimerA = 0
+		end if
+		object.starTilesTimerC += 1
+		if object.starTilesTimerC == 31
+			object.starTilesTimerC = 0
+		end if
+		if object.timer > 86
+			object.timer = 0
 		end if
 	end if
-	object.starTilesTimerA--
+	if object.timer > 56
+		object.starTilesTimerB += 1
+		if object.starTilesTimerB == 31
+			object.starTilesTimerB = 1
+		end if
+		object.starTilesTimerD += 1
+		if object.starTilesTimerD == 31
+			object.starTilesTimerD = 1
+		end if
+	end if
 end event
 
 

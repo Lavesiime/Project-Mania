@@ -277,7 +277,11 @@ end function
 
 
 private function SBZSetup_BGEffectsAct2
-	RotatePalette(0, 172, 174, true)
+	object.palRotateTimerAct1++
+	if object.palRotateTimerAct1 == 2
+		object.palRotateTimerAct1 = 0
+		RotatePalette(0, 172, 174, true)
+	end if
 
 	object.palTimerG++
 	if object.palTimerG == 10
