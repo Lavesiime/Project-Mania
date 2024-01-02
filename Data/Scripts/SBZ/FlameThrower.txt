@@ -43,7 +43,7 @@ end table
 
 private function FlameThrower_DebugDraw
 	temp0 = object.direction
-	temp0 *= 11
+	temp0 *= 15
 	object.direction <<= 1
 	DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
 	object.direction >>= 1
@@ -57,11 +57,11 @@ private function FlameThrower_DebugSpawn
 	object[tempObjectPos].offTime = 128
 	if object.direction == FLIP_NONE
 		object[tempObjectPos].loopPoint = 0
-		object[tempObjectPos].lastFrame = 11
+		object[tempObjectPos].lastFrame = 15
 	else
-		object[tempObjectPos].loopPoint = 11
-		object[tempObjectPos].lastFrame = 22
-		object[tempObjectPos].frame = 11
+		object[tempObjectPos].loopPoint = 15
+		object[tempObjectPos].lastFrame = 30
+		object[tempObjectPos].frame = 15
 		object[tempObjectPos].direction = FLIP_Y
 	end if
 	object[tempObjectPos].frameCount = object[tempObjectPos].loopPoint
@@ -91,11 +91,11 @@ event ObjectUpdate
 	if object.animation == 0
 		if object.frame < object.lastFrame
 			object.animationTimer++
-			if object.animationTimer >= 4
+			if object.animationTimer >= 3
 				object.animationTimer = 0
 				object.frame++
 				if object.frame == object.lastFrame
-					object.frame -= 2
+					object.frame -= 3
 				end if
 			end if
 		end if
@@ -108,8 +108,8 @@ event ObjectUpdate
 	if object.frame >= object.frameCount
 		temp4 = object.frame
 		temp4 -= object.frameCount
-		temp4 <<= 1
 		temp4 &= 252
+		temp4 += 4
 		GetTableValue(temp0, temp4, FlameThrower_hitboxTable)
 		temp4++
 		GetTableValue(temp1, temp4, FlameThrower_hitboxTable)
@@ -139,34 +139,67 @@ end event
 
 
 event ObjectDraw
-	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	temp0 = object.frame
+	if temp0 == 0
+		temp1 = object.timer
+		temp1 >>= 2
+		temp1 %= 3
+		temp0 = temp1
+	end if
+	if temp0 == 15
+		temp1 = object.timer
+		temp1 >>= 2
+		temp1 %= 3
+		temp1 += 15
+		temp0 = temp1
+	end if
+	DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
 end event
 
 
 event ObjectStartup
 	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-5, 40, 16, 16, 77, 460)
+	// Pipes 1
+	SpriteFrame(-5, 32, 16, 24, 77, 452)
 	SpriteFrame(-5, 32, 16, 24, 94, 452)
 	SpriteFrame(-5, 32, 16, 24, 111, 452)
+
 	SpriteFrame(-8, 17, 19, 39, 128, 437)
 	SpriteFrame(-7, 17, 18, 39, 148, 437)
+	SpriteFrame(-7, 17, 18, 39, 60, 412)
+
 	SpriteFrame(-8, 9, 19, 47, 167, 429)
 	SpriteFrame(-7, 9, 18, 47, 187, 429)
+	SpriteFrame(-7, 9, 18, 47, 35, 464)
+
 	SpriteFrame(-11, -6, 22, 62, 207, 414)
 	SpriteFrame(-11, -6, 22, 62, 230, 414)
+	SpriteFrame(-11, -6, 22, 62, 51, 325)
+
 	SpriteFrame(-11, -22, 22, 78, 253, 398)
 	SpriteFrame(-11, -23, 22, 79, 276, 397)
-	SpriteFrame(-7, 40, 16, 16, 299, 460)
+	SpriteFrame(-11, -23, 22, 79, 74, 308)
+
+	// Pipes 2
+	SpriteFrame(-7, 32, 16, 24, 299, 452)
 	SpriteFrame(-7, 32, 16, 24, 316, 452)
 	SpriteFrame(-7, 32, 16, 24, 333, 452)
+
 	SpriteFrame(-8, 17, 17, 39, 350, 437)
 	SpriteFrame(-7, 17, 16, 39, 368, 437)
+	SpriteFrame(-7, 17, 16, 39, 79, 413)
+
 	SpriteFrame(-8, 9, 17, 47, 385, 429)
 	SpriteFrame(-7, 9, 16, 47, 403, 429)
+	SpriteFrame(-7, 9, 16, 47, 97, 340)
+
 	SpriteFrame(-11, -6, 22, 62, 420, 414)
 	SpriteFrame(-11, -6, 22, 62, 443, 414)
+	SpriteFrame(-11, -6, 22, 62, 114, 325)
+
 	SpriteFrame(-11, -22, 22, 78, 466, 398)
 	SpriteFrame(-11, -23, 22, 79, 489, 397)
+	SpriteFrame(-11, -23, 22, 79, 137, 308)
 
 	foreach (TypeName[Flame Thrower], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].drawOrder = 5
@@ -179,11 +212,11 @@ event ObjectStartup
 		GetBit(temp0, object[arrayPos0].direction, 1)
 		if temp0 == FLIP_NONE
 			object[arrayPos0].loopPoint = 0
-			object[arrayPos0].lastFrame = 11
+			object[arrayPos0].lastFrame = 15
 		else
-			object[arrayPos0].loopPoint = 11
-			object[arrayPos0].lastFrame = 22
-			object[arrayPos0].frame = 11
+			object[arrayPos0].loopPoint = 15
+			object[arrayPos0].lastFrame = 30
+			object[arrayPos0].frame = 15
 		end if
 		object[arrayPos0].frameCount = object[arrayPos0].loopPoint
 		object[arrayPos0].frameCount += 3

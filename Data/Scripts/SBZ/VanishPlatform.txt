@@ -148,8 +148,8 @@ event ObjectStartup
 	SpriteFrame(-10, -8, 20, 32, 492, 165) // Frame 10
 	SpriteFrame(-11, -8, 22, 32, 470, 165) // Frame 11
 	SpriteFrame(-12, -8, 24, 32, 445, 165) // Frame 12
-	SpriteFrame(-13, -8, 26, 32, 249, 159) // Frame 13
-	SpriteFrame(-14, -8, 28, 32, 220, 159) // Frame 14
+	SpriteFrame(-13, -8, 26, 32, 189, 258) // Frame 13
+	SpriteFrame(-14, -8, 28, 32, 189, 225) // Frame 14
 	SpriteFrame(-15, -8, 30, 32, 189, 159) // Frame 15
 	SpriteFrame(-16, -8, 32, 32, 457, 231) // Frame 16
 
