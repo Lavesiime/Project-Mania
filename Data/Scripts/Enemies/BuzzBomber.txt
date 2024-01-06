@@ -254,8 +254,8 @@ event ObjectStartup
 		SpriteFrame(-23, -9, 45, 19, 1, 175)
 		SpriteFrame(-23, -9, 44, 19, 47, 175)
 		SpriteFrame(-23, -9, 44, 20, 93, 175)
-		SpriteFrame(-23, -9, 40, 27, 138, 175)
-		SpriteFrame(-23, -9, 35, 28, 179, 175)
+		SpriteFrame(-23, -9, 40, 27, 216, 221)
+		SpriteFrame(-23, -9, 35, 28, 138, 174)
 		SpriteFrame(-23, -9, 36, 29, 1, 195)
 		
 		SpriteFrame(-17, -15, 35, 8, 38, 196)

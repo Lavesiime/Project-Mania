@@ -11,6 +11,9 @@
 
 private alias object.value0 : object.contentsPos.y
 private alias object.value1 : object.timer
+private alias object.value2 : object.lineFrame
+private alias object.value3 : object.staticFrame
+private alias object.value4 : object.lineTimer
 
 // States
 private alias 0 : MONITOR_STATE_IDLE
@@ -331,25 +334,32 @@ end event
 
 event ObjectDraw
 	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	DrawSpriteFX(object.propertyValue, FX_FLIP, object.xpos, object.ypos)
+	DrawSpriteFX(object.lineFrame, FX_INK, object.xpos, object.ypos)
+	object.inkeffect = INK_ALPHA
+	object.alpha = 0x10
+	DrawSpriteFX(object.staticFrame, FX_FLIP, object.xpos, object.ypos)
+	object.timer++
+	object.lineTimer++
+	object.lineFrame++
+	if object.lineFrame < 18
+		object.lineFrame = 18
+	end if
+	if object.lineFrame > 19
+		object.lineFrame = 18
+	end if
+	if object.timer < 2048
+		if object.staticFrame < 20
+			object.staticFrame = 20
+		end if
+		object.animationTimer++
+		object.staticFrame++
+		if object.staticFrame > 43
+			object.timer = 0
+			object.staticFrame = 20
+		end if
+	end if
 
-	switch StageSetup_monitorOverlayFrame
-	case 0
-	case 1
-		break
-
-	case 6
-	case 7
-		DrawSpriteFX(18, FX_FLIP, object.xpos, object.ypos)
-		break
-
-	case 12
-	case 13
-		DrawSpriteFX(19, FX_FLIP, object.xpos, object.ypos)
-		break
-
-	default
-		DrawSpriteFX(object.propertyValue, FX_FLIP, object.xpos, object.ypos)
-	end switch
 end event
 
 
@@ -396,8 +406,34 @@ event ObjectStartup
 	SpriteFrame(-8, -9, 16, 14, 117, 41) // 15 - MONITOR_DEBUG_SHIELD
 	SpriteFrame(-8, -9, 16, 14, 117, 56) // 16 - MONITOR_DEBUG_EMERALDS
 	SpriteFrame(-8, -9, 16, 14, 117, 71) // 17 - unknown, it points to a Goggles sprite but it was probably an actual icon in earlier vers of the sheet
-	SpriteFrame(-8, -9, 16, 14, 51, 1) // 18 - Static 1
-	SpriteFrame(-8, -9, 16, 14, 68, 1) // 19 - Static 2
+	SpriteFrame(-8, -9, 16, 14, 51, 1) // 18 - Lines 1
+	SpriteFrame(-8, -9, 16, 14, 68, 1) // 19 - Lines 2
+
+	// Static Frames
+	SpriteFrame(-8, -9, 0, 0, 68, 1) // 20
+	SpriteFrame(-8, -9, 0, 0, 68, 1) // 21
+	SpriteFrame(-8, -9, 16, 14, 304, 397) // 22
+	SpriteFrame(-8, -9, 16, 14, 321, 397) // 23
+	SpriteFrame(-8, -9, 16, 14, 338, 397) // 24
+	SpriteFrame(-8, -9, 16, 14, 355, 397) // 25
+	SpriteFrame(-8, -9, 0, 0, 68, 1) // 26
+	SpriteFrame(-8, -9, 16, 14, 304, 397) // 27
+	SpriteFrame(-8, -9, 16, 14, 321, 397) // 28
+	SpriteFrame(-8, -9, 16, 14, 338, 397) // 29
+	SpriteFrame(-8, -9, 16, 14, 355, 397) // 30
+	SpriteFrame(-8, -9, 16, 14, 372, 397) // 31
+	SpriteFrame(-8, -9, 16, 14, 389, 397) // 32
+	SpriteFrame(-8, -9, 16, 14, 406, 397) // 33
+	SpriteFrame(-8, -9, 16, 14, 304, 412) // 34
+	SpriteFrame(-8, -9, 16, 14, 321, 412) // 35
+	SpriteFrame(-8, -9, 16, 14, 338, 412) // 36
+	SpriteFrame(-8, -9, 16, 14, 355, 412) // 37
+	SpriteFrame(-8, -9, 16, 14, 372, 412) // 38
+	SpriteFrame(-8, -9, 0, 0, 68, 1) // 30
+	SpriteFrame(-8, -9, 16, 14, 304, 397) // 40
+	SpriteFrame(-8, -9, 16, 14, 321, 397) // 41
+	SpriteFrame(-8, -9, 0, 0, 68, 1) // 42
+	SpriteFrame(-8, -9, 0, 0, 68, 1) // 43
 	
 	Monitor_startDebugID = DebugMode_ObjCount
 	Monitor_startDebugID--

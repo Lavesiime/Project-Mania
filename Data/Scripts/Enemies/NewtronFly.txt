@@ -208,7 +208,7 @@ event ObjectStartup
 	if checkResult == true
 		LoadSpriteSheet("GHZ/Objects2.gif")
 		SpriteFrame(-20, -20, 39, 39, 161, 1) // Idle right
-		SpriteFrame(-19, -20, 39, 39, 1, 77) // Idle left
+		SpriteFrame(-19, -20, 39, 39, 176, 173) // Idle left
 		SpriteFrame(-18, -20, 37, 38, 201, 1) // Falling 1
 		SpriteFrame(-18, -20, 37, 35, 218, 41) // Falling 2
 		SpriteFrame(-18, -20, 37, 27, 176, 41) // Falling 3

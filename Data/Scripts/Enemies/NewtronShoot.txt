@@ -214,9 +214,9 @@ event ObjectStartup
 		SpriteFrame(-20, -20, 39, 39, 216, 141) // 0 - Idle facing right frame
 		SpriteFrame(-19, -20, 39, 39, 1, 1) // 1 - Idle facing left frame
 		SpriteFrame(-20, -20, 39, 39, 216, 181) // 2 - Shooting facing right frame 1
-		SpriteFrame(-20, -20, 39, 39, 176, 204) // 3 - Shooting facing right frame 2 
+		SpriteFrame(-20, -20, 39, 39, 176, 217) // 3 - Shooting facing right frame 2 
 		SpriteFrame(-20, -20, 39, 39, 136, 203) // 4 - Shooting facing right frame 3
-		SpriteFrame(-20, -20, 39, 39, 176, 204) // 3 - Shooting facing right frame 2
+		SpriteFrame(-20, -20, 39, 39, 176, 217) // 3 - Shooting facing right frame 2
 		SpriteFrame(-20, -20, 39, 39, 216, 181) // 2 - Shooting facing right frame 1
 		SpriteFrame(-20, -20, 39, 39, 216, 141) // 0 - Idle facing right frame
 		SpriteFrame(-19, -20, 39, 39, 41, 1) // 5 - Shooting facing left frame 1

@@ -23,6 +23,7 @@ private alias object.value43 :	player.hyperRingActive
 
 private alias object.value0 : object.contentsPos.y
 private alias object.value1 : object.timer
+private alias object.value2 : object.vanishFrame
 
 // Monitor type aliases
 private alias 0  : MONITOR_BLANK
@@ -47,6 +48,7 @@ private alias 16 : MONITOR_DEBUG_EMERALDS
 private alias 0 : MONITOR_STATE_RISE
 private alias 1 : MONITOR_STATE_FADE
 private alias 2 : MONITOR_STATE_IDLE
+private alias 3 : MONITOR_STATE_VANISH
 
 // Shields
 private alias 0 : SHIELD_NONE
@@ -398,8 +400,16 @@ event ObjectUpdate
 				object.priority = PRIORITY_BOUNDS
 			end if
 		else
+			object.propertyValue = MONITOR_BLANK
 			if object.timer > 14
-				object.alpha -= 16
+				object.alpha = 0
+			end if
+			object.vanishFrame++
+			if object.vanishFrame < 17
+				object.vanishFrame = 17
+			end if
+			if object.vanishFrame > 30
+				object.alpha = 0
 			end if
 		end if
 		break
@@ -416,6 +426,9 @@ event ObjectDraw
 
 	if object.propertyValue > MONITOR_BLANK
 		DrawSpriteFX(object.propertyValue, FX_INK, object.xpos, object.contentsPos.y)
+	end if
+	if object.state == MONITOR_STATE_FADE
+		DrawSpriteFX(object.vanishFrame, FX_INK, object.xpos, object.contentsPos.y)
 	end if
 end event
 
@@ -456,6 +469,22 @@ event ObjectStartup
 	SpriteFrame(-8, -9, 16, 14, 117, 26) // 14 - MONITOR_DEBUG_SPIKES
 	SpriteFrame(-8, -9, 16, 14, 117, 41) // 15 - MONITOR_DEBUG_SHIELD
 	SpriteFrame(-8, -9, 16, 14, 117, 56) // 16 - MONITOR_DEBUG_EMERALDS
+
+	// Disappearing Frames
+	SpriteFrame(-8, -9, 16, 14, 304, 427) // 17
+	SpriteFrame(-8, -9, 16, 14, 321, 427) // 18
+	SpriteFrame(-8, -9, 16, 14, 338, 427) // 19
+	SpriteFrame(-8, -9, 16, 14, 355, 427) // 20
+	SpriteFrame(-8, -9, 16, 14, 372, 427) // 21
+	SpriteFrame(-8, -9, 16, 14, 389, 412) // 22
+	SpriteFrame(-8, -1, 16, 2, 91, 447) // 23
+	SpriteFrame(-8, -1, 16, 2, 108, 447) // 24
+	SpriteFrame(-6, -1, 12, 2, 91, 450) // 25
+	SpriteFrame(-2, -2, 4, 4, 104, 450) // 26
+	SpriteFrame(-3, -3, 6, 6, 109, 450) // 27
+	SpriteFrame(-2, -2, 4, 4, 116, 450) // 28
+	SpriteFrame(-1, -1, 2, 2, 121, 450) // 29
+	SpriteFrame(-1, -1, 0, 0, 121, 450) // 30
 	
 	BrokenMonitor_ResetDrownMusic = BrokenMonitor_Blank
 end event

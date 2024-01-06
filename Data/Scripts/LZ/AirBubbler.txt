@@ -170,11 +170,9 @@ end event
 
 event ObjectDraw
 	if object.iypos >= stage.waterLevel
-		temp0 = object.frame
-
-		
-		object.inkEffect = INK_ALPHA
-		object.alpha = 180
+		temp0 = object.frame		
+		object.inkEffect = INK_ADD
+		object.alpha = 0xC0
 		DrawSpriteFX(temp0, FX_INK, object.xpos, object.ypos)
 		
 	end if

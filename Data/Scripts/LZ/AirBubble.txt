@@ -231,10 +231,8 @@ end event
 
 
 event ObjectDraw
-	object.inkEffect = INK_ALPHA
-	if object.propertyValue != 0
-		object.alpha = 180
-	end if
+	object.inkEffect = INK_ADD
+	object.alpha = 0xC0
 	DrawSpriteFX(object.frame, FX_INK, object.xpos, object.ypos)
 end event
 
