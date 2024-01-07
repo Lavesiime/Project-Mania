@@ -98,8 +98,8 @@ event ObjectUpdate
 		object.starAngle0 = 180
 		object.starAngle1 = 0
 		object.isSetup = true
-		object.inkEffect = INK_ALPHA
-		object.alpha = 255
+		object.inkEffect = INK_ADD
+		object.alpha = 180
 		object.drawOrder = DRAWORDER_PLAYER
 	end if
 	
