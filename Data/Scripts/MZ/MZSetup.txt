@@ -15,6 +15,10 @@ private alias object.value3 : object.lavaAnimTimer
 private alias object.value4 : object.candleAnimTimer
 private alias object.value5 : object.paletteTimer
 private alias object.value6 : object.paletteIndex
+private alias object.value7 : object.flowerTimerA
+private alias object.value8 : object.flowerTimerB
+private alias object.value9 : object.flowerTimerC
+private alias object.value10 : object.timer
 
 // Player Aliases
 private alias object.xpos : player.xpos
@@ -625,6 +629,47 @@ event ObjectUpdate
 	object.candleAnimTimer += 1
 	if object.candleAnimTimer == 53
 		object.candleAnimTimer = 0
+	end if
+
+	// FlowerTiles A
+	temp2 = object.flowerTimerA
+	temp2 >>= 2
+	temp2 <<= 1
+	temp2 /= 2
+	temp2 += 331
+	Copy16x16Tile(327, temp2)
+	temp2++
+	temp3 = object.flowerTimerB
+	temp3 >>= 2
+	temp3 <<= 1
+	temp3 /= 4
+	temp3 += 335
+	Copy16x16Tile(328, temp3)
+	temp3++
+	temp4 = object.flowerTimerC
+	temp4 >>= 2
+	temp4 <<= 1
+	temp4 /= 4
+	temp4 += 339
+	Copy16x16Tile(330, temp4)
+	temp4++
+	object.timer++
+	if object.timer > 56
+		object.flowerTimerA += 1
+		if object.flowerTimerA == 16
+			object.flowerTimerA = 0
+		end if
+		if object.timer > 71
+			object.timer = 0
+		end if
+	end if
+	object.flowerTimerB += 1
+	if object.flowerTimerB == 32
+		object.flowerTimerB = 0
+	end if
+	object.flowerTimerC += 1
+	if object.flowerTimerC == 48
+		object.flowerTimerC = 0
 	end if
 
 	// Lava tiles
