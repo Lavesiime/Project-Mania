@@ -136,7 +136,6 @@ private alias 3 : TRACK_CONTINUE
 private alias 4 : TRACK_BOSS
 private alias 5 : TRACK_GAMEOVER
 private alias 6 : TRACK_DROWNING
-private alias 7 : TRACK_SUPER
 
 // This isn't a global variable, so let's fake it here - it's an unused (and broken) animation, left over from Sonic Nexus
 private alias 34 : ANI_CORKSCREW_V
@@ -1128,7 +1127,7 @@ public function Player_HandleSuperForm
 			LoadAnimation("Sonic.ani")
 		end if
 
-		if music.currentTrack == TRACK_SUPER
+		if music.currentTrack == TRACK_INVINCIBLE
 			PlayMusic(0)
 		end if
 
@@ -2649,7 +2648,7 @@ public function Player_TryTransform
 		object[arrayPos0].priority = PRIORITY_ACTIVE
 
 		PlaySfx(SfxName[Transform], false)
-		PlayMusic(7) // Super music
+		PlayMusic(2) // Super music
 		Player_superState = SUPERSTATE_SUPER
 		player[currentPlayer].invincibleTimer = 60
 		player[currentPlayer].blinkTimer = 0
