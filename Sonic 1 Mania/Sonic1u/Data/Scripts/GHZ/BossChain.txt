@@ -1,0 +1,81 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: Boss Chain Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+private alias object.value1 : object.lastXpos
+private alias object.value2 : object.lastYpos
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+	if object.state == 0
+		temp0 = object.xpos
+		temp0 -= object.lastXpos
+		temp1 = object.ypos
+		temp1 -= object.lastYpos
+		
+		temp0 /= 2
+		temp1 /= 2
+		
+		Rand(temp6, 32)
+		temp6 -= 16
+		temp6 <<= 13
+		temp0 += temp6
+		Rand(temp6, 32)
+		temp6 -= 30
+		temp6 <<= 13
+		temp1 += temp6
+		
+		object.xvel = temp0
+		object.yvel = temp1
+		
+		object.lastXpos = object.xpos
+		object.lastYpos = object.ypos
+	end if
+	if object.state == 1
+		object.ypos += object.yvel
+		object.xpos += object.xvel
+		object.yvel += 0x03000
+	end if
+	object.timer++
+end event
+
+
+event ObjectDraw
+	DrawSprite(0)
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("GHZ/Objects.gif")
+
+	// Chain frames - only a single sprite
+	SpriteFrame(-8, -8, 16, 16, 101, 1)
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("GHZ/Objects.gif")
+	SpriteFrame(-8, -8, 16, 16, 101, 1)
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

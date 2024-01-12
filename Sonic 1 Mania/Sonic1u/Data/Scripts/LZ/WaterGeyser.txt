@@ -1,0 +1,147 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Water Geyser Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// Aliases
+private alias 61 : TYPE_WATERGEYSER
+
+private alias object.value0 : object.timer
+private alias object.value1 : object.startPos.y
+private alias object.value2 : object.maxHeight
+private alias object.value3 : object.drawPos.y
+private alias object.value4 : object.collisionOffset.y
+
+// Static Values
+
+private alias 0	: Case 0
+private alias 1	: Case 1
+private alias 2	: Case 2
+private alias 3	: Case 3
+
+// Platform
+private alias object.value0 : object.amplitude.x
+private alias object.value1 : object.amplitude.y
+
+// Player Aliases
+private alias object.state : player.state
+private alias object.xpos : player.xpos
+private alias object.ypos : player.ypos
+private alias object.xvel : player.xvel
+private alias object.yvel : player.yvel
+private alias object.speed : player.speed
+private alias object.gravity : player.gravity
+private alias object.animation : player.animation
+
+private alias object.value1 : player.timer
+
+// Tables
+
+// ========================
+// Function Declarations
+// ========================
+
+reserve function WaterGeyser_DebugDraw
+reserve function WaterGeyser_DebugSpawn
+
+private function WaterGeyser_DebugDraw
+	DrawSprite(2)
+	DrawSprite(0)
+end function
+
+
+private function PipeValve_DebugSpawn
+	CreateTempObject(TypeName[Water Geyser], 0, object.xpos, object.ypos)
+	object[tempObjectPos].drawOrder = 4
+end function
+
+
+// ========================
+// Events
+// ========================
+
+
+event ObjectUpdate
+	object.angle = oscillation
+	object.angle <<= 2
+	Sin(object.collisionOffset.y, object.angle)
+	object.collisionOffset.y *= 0x200
+	object.collisionOffset.y += object.ypos
+	object.collisionOffset.y &= 0xFFFF0000
+	object.collisionOffset.y -= object.drawPos.y
+	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+		BoxCollisionTest(C_TOUCH, object.entityPos, -2, -16, 2, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+	
+		if checkResult == true
+			object[currentPlayer].state = Player_State_Air
+			object[currentPlayer].gravity = GRAVITY_AIR
+			object[currentPlayer].animation = ANI_WATERSLIDE
+			object[currentPlayer].yvel = -0x0B0000
+			object[currentPlayer].speed = 0
+			object[currentPlayer].xvel = 0
+			object[currentPlayer].value1 = 0
+			if object.state == 0
+				object.state = 1
+				CreateTempObject(TypeName[Water Geyser], 0, object.xpos, object.ypos)
+				PlaySfx(SfxName[Water Geyser], 0)
+			end if
+			if object.timer < 20
+				object.ypos -= 0x0B0000
+				object.ypos -= object.yvel
+			end if
+		else
+			if object.timer > 0
+				object.ypos += 0x080000
+				object.ypos += object.yvel
+				if object.timer > 35
+					object.type = TypeName[Blank Object]
+				end if
+			end if
+		end if
+	next
+	if object.state == 1
+		object.timer++
+		if object.timer == 64
+			object.timer = 0
+		end if
+		StopSfx(SfxName[Water Splash])
+	end if
+end event
+
+event ObjectDraw
+	Sin(object.drawPos.y, object.angle)
+	object.drawPos.y *= 0x200
+	object.drawPos.y += object.ypos
+	object.drawPos.y &= 0xFFFF0000
+
+	DrawSpriteXY(0, object.xpos, object.drawPos.y)
+	DrawSpriteXY(1, object.xpos, object.drawPos.y)
+end event
+
+event ObjectStartup
+	LoadSpriteSheet("LZ/Objects3.gif")
+	SpriteFrame(-14, 0, 28, 256, 203, 0)
+	SpriteFrame(-24, -20, 48, 24, 1, 231)
+
+	foreach (TypeName[Water Geyser], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].drawOrder = 4
+	next
+
+	SetTableValue(TypeName[Water Geyser], DebugMode_ObjCount, DebugMode_TypesTable)
+	SetTableValue(WaterGeyser_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)
+	SetTableValue(WaterGeyser_DebugSpawn, DebugMode_ObjCount, DebugMode_SpawnTable)
+	DebugMode_ObjCount++
+end event
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143)
+end event

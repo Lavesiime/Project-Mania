@@ -1,0 +1,984 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: Eggman Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// Using LZEggman as a prefix here because there's like 12 "Eggman" objects in the game so its less confusing this way
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0  : object.originPos.x
+private alias object.value1  : object.originPos.y
+private alias object.value2  : object.defeated
+private alias object.value3  : object.oscillateAngle.y
+private alias object.value4  : object.oscillateAngle.x
+private alias object.value5  : object.timer
+private alias object.value6  : object.flameAnim
+private alias object.value7  : object.flameAnimTimer
+private alias object.value8  : object.health
+private alias object.value9  : object.invincibilityTimer
+private alias object.value10 : object.gotHit
+private alias object.value11 : object.eggmanFrame
+private alias object.value12 : object.mobileAnimTimer
+private alias object.value13 : object.flameFrame
+
+// Eggman States
+private alias 0 : LZEGGMAN_AWAITPLAYER
+private alias 1 : LZEGGMAN_NODE1
+private alias 2 : LZEGGMAN_NODE2
+private alias 3 : LZEGGMAN_NODE3
+private alias 4 : LZEGGMAN_NODE4
+private alias 5 : LZEGGMAN_LASTNODE
+private alias 6 : LZEGGMAN_REACHEDEND
+private alias 7 : LZEGGMAN_ESCAPE
+
+// Eggman Animations
+private alias 0 : LZEGGANI_INVISIBLE
+private alias 1 : LZEGGANI_IDLE
+private alias 2 : LZEGGANI_LAUGH
+private alias 3 : LZEGGANI_HIT
+private alias 4 : LZEGGANI_DEFEATED
+private alias 5 : LZEGGANI_TOASTED
+private alias 6 : LZEGGANI_PANIC
+
+// Flame Animations
+private alias 0 : FLAME_INACTIVE
+private alias 1 : FLAME_ACTIVE
+private alias 2 : FLAME_EXPLODE
+
+// Music Events
+private alias 26 : SLOT_MUSICEVENT_BOSS
+
+private alias 0 : MUSICEVENT_FADETOBOSS
+private alias 1 : MUSICEVENT_FADETOSTAGE
+private alias 2 : MUSICEVENT_TRANSITION
+
+// Player Aliases
+private alias object.xpos : player.xpos
+private alias object.ypos : player.ypos
+private alias object.xvel : player.xvel
+private alias object.speed : player.speed
+private alias object.animation : player.animation
+
+private alias object.value40 : player.hitboxLeft
+private alias object.value38 : player.hitboxTop
+private alias object.value41 : player.hitboxRight
+private alias object.value39 : player.hitboxBottom
+
+
+// ========================
+// Function Declarations
+// ========================
+
+reserve function LZEggman_Oscillate
+reserve function LZEggman_HandleMovement
+
+
+// ========================
+// Tables
+// ========================
+
+private table LZEggman_nodePositionTable[10]
+
+
+// ========================
+// Function Definitions
+// ========================
+
+private function LZEggman_Oscillate
+	Sin256(temp0, object.oscillateAngle.y)
+	temp0 <<= 10
+	object.ypos += temp0
+
+	object.oscillateAngle.y += 2
+	object.oscillateAngle.y &= 0xFF
+end function
+
+
+private function LZEggman_HandleMovement
+	object.originPos.x += object.xvel
+	object.originPos.y += object.yvel
+
+	object.xpos = object.originPos.x
+	object.ypos = object.originPos.y
+end function
+
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+#platform: USE_ORIGINS
+	// cool stuff
+	CallNativeFunction2(NotifyCallback, NOTIFY_DEBUGPRINT, object.state)
+#endplatform
+	
+	switch object.state
+	case LZEGGMAN_AWAITPLAYER
+		GetTableValue(temp0, 0, LZEggman_nodePositionTable)
+		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+			if player[currentPlayer].xpos >= temp0
+				object.xvel = 0x6000
+				object.yvel = -0x18000
+				object.originPos.y = object.ypos
+				object.oscillateAngle.y = 0
+				object.state++
+				object.priority = PRIORITY_ACTIVE
+				ResetObjectEntity(SLOT_MUSICEVENT_BOSS, TypeName[Music Event], MUSICEVENT_FADETOBOSS, 0, 0)
+				// 26 = SLOT_MUSICEVENT_BOSS
+				object[26].priority = PRIORITY_ACTIVE
+			end if
+		next
+		CallFunction(LZEggman_HandleMovement)
+
+		if object.state == LZEGGMAN_AWAITPLAYER
+			CallFunction(LZEggman_Oscillate)
+		end if
+		break
+
+	case LZEGGMAN_NODE1
+		temp1 = -2
+
+		GetTableValue(temp0, 1, LZEggman_nodePositionTable)
+		if object.originPos.x >= temp0
+			object.originPos.x = temp0
+			object.xvel = 0
+			temp1++
+		end if
+
+		GetTableValue(temp0, 2, LZEggman_nodePositionTable)
+		if object.originPos.y <= temp0
+			object.originPos.y = temp0
+			object.yvel = 0
+			temp1++
+		end if
+
+		if temp1 == 0
+			object.xvel = 0x14000
+			object.yvel = -0x20000
+			object.state++
+		end if
+		CallFunction(LZEggman_HandleMovement)
+		break
+
+	case LZEGGMAN_NODE2
+		temp1 = -2
+
+		GetTableValue(temp0, 3, LZEggman_nodePositionTable)
+		if object.originPos.x >= temp0
+			object.originPos.x = temp0
+			object.xvel = 0
+			temp1++
+		end if
+
+		GetTableValue(temp0, 4, LZEggman_nodePositionTable)
+		if object.originPos.y <= temp0
+			object.originPos.y = temp0
+			object.yvel = 0
+			temp1++
+		end if
+
+		if temp1 == 0
+			object.yvel = -0x18000
+			object.state++
+		end if
+
+		CallFunction(LZEggman_HandleMovement)
+		break
+
+	case LZEGGMAN_NODE3
+		GetTableValue(temp0, 5, LZEggman_nodePositionTable)
+		if object.originPos.y <= temp0
+			object.originPos.y = temp0
+			if object.defeated == false
+				object.xvel = 0x14000
+				object.yvel--
+			else
+				object.xvel = 0x28000
+				object.yvel--
+			end if
+			object.direction = FACING_LEFT
+			object.originPos.x = object.xpos
+			object.state++
+			CallFunction(LZEggman_HandleMovement)
+		else
+			object.oscillateAngle.x += 2
+			object.oscillateAngle.x &= 0xFF
+			Cos256(temp0, object.oscillateAngle.x)
+			if temp0 > 0
+				object.direction = FACING_LEFT
+			else
+				object.direction = FACING_RIGHT
+			end if
+			Sin256(object.xpos, object.oscillateAngle.x)
+			object.xpos <<= 12
+			object.xpos += object.originPos.x
+
+			temp0 = object.yvel
+			temp1 = 0x7FFFFFFF
+			foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+				if player[currentPlayer].ypos < temp1
+					temp1 = player[currentPlayer].ypos
+				end if
+			next
+
+			temp1 -= object.originPos.y
+			if temp1 >= 0
+				temp1 -= 0x480000
+				if temp1 >= 0
+					temp0 >>= 1
+					temp1 -= 0x280000
+					if temp1 >= 0
+						temp0 >>= 1
+						temp1 -= 0x280000
+						if temp1 >= 0
+							temp0 = 0
+						end if
+					end if
+				end if
+			end if
+
+			if object.defeated == true
+				temp0 <<= 1
+			end if
+
+			if temp0 == 0
+				object.ypos = object.originPos.y
+				CallFunction(LZEggman_Oscillate)
+			else
+				object.originPos.y = object.ypos
+				object.oscillateAngle.y = 0
+				object.originPos.y += temp0
+				object.ypos = object.originPos.y
+			end if
+		end if
+		break
+
+	case LZEGGMAN_NODE4
+		temp1 = -2
+
+		GetTableValue(temp0, 6, LZEggman_nodePositionTable)
+		if object.originPos.x >= temp0
+			object.originPos.x = temp0
+			object.xvel = 0
+			temp1++
+		end if
+
+		GetTableValue(temp0, 7, LZEggman_nodePositionTable)
+		if object.originPos.y <= temp0
+			object.originPos.y = temp0
+			object.yvel = 0
+			temp1++
+		end if
+
+		if temp1 == 0
+			if object.defeated == false
+				object.direction = FACING_RIGHT
+			end if
+			object.oscillateAngle.y = 0
+			object.state++
+		end if
+
+		CallFunction(LZEggman_HandleMovement)
+		break
+
+	case LZEGGMAN_LASTNODE
+		temp2 = 0
+		if object.defeated == false
+			// Check if player excaped to the top
+			GetTableValue(temp0, 8, LZEggman_nodePositionTable)
+			GetTableValue(temp1, 9, LZEggman_nodePositionTable)
+			foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+				if player[currentPlayer].xpos >= temp0
+					if player[currentPlayer].ypos <= temp1
+						temp2 = true
+						object.timer = 50
+						object.animation = LZEGGANI_DEFEATED
+						object.animationTimer = 32
+					end if
+				end if
+			next
+		else
+			temp2 = true
+			object.timer = 1
+		end if
+
+		if temp2 == true
+			ResetObjectEntity(SLOT_MUSICEVENT_BOSS, TypeName[Music Event], MUSICEVENT_FADETOSTAGE, 0, 0)
+			// 26 = SLOT_MUSICEVENT_BOSS
+			object[26].priority = PRIORITY_ACTIVE
+			object.state++
+		end if
+
+		CallFunction(LZEggman_HandleMovement)
+		CallFunction(LZEggman_Oscillate)
+		break
+
+	case LZEGGMAN_REACHEDEND
+		object.timer--
+		if object.timer == 0
+			object.timer = 0
+			object.xvel = 0x40000
+			object.yvel = -0x4000
+			object.priority = PRIORITY_ACTIVE
+			object.animation = LZEGGANI_PANIC
+			object.animationTimer = 0
+			object.flameAnim = FLAME_EXPLODE
+			object.originPos.y = object.ypos
+			object.state++
+			if stage.debugMode == false
+				if object.gotHit == false
+					CallNativeFunction2(SetAchievement, 6, 100)
+				end if
+			end if
+#platform: USE_ORIGINS
+			CallNativeFunction2(NotifyCallback, NOTIFY_KILL_BOSS, 0)
+			CallNativeFunction2(NotifyCallback, NOTIFY_BOSS_END, true)
+#endplatform
+		else
+			if object.timer == 24
+				object.animation = LZEGGANI_IDLE
+				object.animationTimer = 0
+				object.direction = FACING_LEFT
+			end if
+		end if
+
+		CallFunction(LZEggman_HandleMovement)
+
+		if object.state == LZEGGMAN_REACHEDEND
+			CallFunction(LZEggman_Oscillate)
+		end if
+		break
+
+	case LZEGGMAN_ESCAPE
+		if object.outOfBounds == true
+			ResetObjectEntity(object.entityPos, TypeName[Blank Object], 0, 0, 0)
+			object.defeated = false
+		else
+			CallFunction(LZEggman_HandleMovement)
+		end if
+		break
+		
+	end switch
+
+	if object.health != 0
+		if object.invincibilityTimer > 0
+			object.invincibilityTimer--
+		end if
+
+		// Check interaction with players
+		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+			if object.invincibilityTimer == 0
+
+				// CHeck if the player is in one of the following animations
+				CheckEqual(player[currentPlayer].animation, ANI_HURT)
+				temp0 = checkResult
+				CheckEqual(player[currentPlayer].animation, ANI_DYING)
+				temp0 |= checkResult
+				CheckEqual(player[currentPlayer].animation, ANI_DROWNING)
+				temp0 |= checkResult
+
+				if temp0 != 0
+					// Player is in one of those animations, start laughing at them
+					if object.animation != LZEGGANI_LAUGH
+						object.animation = LZEGGANI_LAUGH
+						object.animationTimer = 0
+					end if
+
+					if currentPlayer == 0
+						object.gotHit = true
+					end if
+				end if
+
+				// Check player collision
+				BoxCollisionTest(C_TOUCH, object.entityPos, -20, -16, 20, 16, currentPlayer, player[currentPlayer].hitboxLeft, player[currentPlayer].hitboxTop, player[currentPlayer].hitboxRight, player[currentPlayer].hitboxBottom)
+				if checkResult == true
+					
+					// See if the player should be hit or is attacking
+					CallFunction(Player_CheckHit)
+
+					if checkResult == true
+						object.health--
+						if object.health == 0
+#platform: USE_ORIGINS
+							CallNativeFunction2(NotifyCallback, NOTIFY_KILL_BOSS, 0)
+							CallNativeFunction2(NotifyCallback, NOTIFY_BOSS_END, 1)
+#endplatform
+							// Final hit, increase score and start exploding
+							player.score += 1000
+							object.animation = LZEGGANI_DEFEATED
+							object.animationTimer = 0
+							object.defeated = true
+						else
+							// Simply got hit, do the hit stuff
+							object.animation = LZEGGANI_HIT
+							object.animationTimer = 0
+							object.invincibilityTimer = 32
+							PlaySfx(SfxName[Boss Hit], false)
+						end if
+					end if
+				end if
+			end if
+		next
+	end if
+
+	if object.defeated == true
+		temp0 = oscillation
+		temp0 &= 7
+		if temp0 == 0
+			Rand(temp0, 96)
+			temp0 -= 48
+			temp0 <<= 16
+			temp0 += object.xpos
+			Rand(temp1, 48)
+			temp1 -= 24
+			temp1 <<= 16
+			temp1 += object.ypos
+			CreateTempObject(TypeName[Explosion], 0, temp0, temp1)
+			PlaySfx(SfxName[Explosion], false)
+		end if
+	end if
+end event
+
+
+event ObjectDraw
+	switch object.animation
+	default
+	case LZEGGANI_INVISIBLE
+		break
+
+	case LZEGGANI_IDLE
+		object.animationTimer++
+		object.eggmanFrame++
+		if object.eggmanFrame < 3
+			object.eggmanFrame = 3
+		end if
+		if object.eggmanFrame > 11
+			object.eggmanFrame = 3
+		end if
+		DrawSpriteFX(2, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(object.eggmanFrame, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(0, FX_FLIP, object.xpos, object.ypos)
+		break
+
+	case LZEGGANI_LAUGH
+		object.animationTimer++
+		object.eggmanFrame++
+		if object.eggmanFrame < 12
+			object.eggmanFrame = 12
+		end if
+		if object.eggmanFrame > 108
+			object.animation = LZEGGANI_IDLE
+		end if
+		if object.eggmanFrame > 107
+			if object[0].animation != ANI_DYING
+				object.animation = LZEGGANI_IDLE
+			end if
+		end if
+		DrawSpriteFX(2, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(object.eggmanFrame, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(0, FX_FLIP, object.xpos, object.ypos)
+		break
+
+	case LZEGGANI_HIT
+		object.animationTimer++
+		object.eggmanFrame++
+		object.mobileAnimTimer++
+		object.flameAnim = FLAME_ACTIVE
+		if object.mobileAnimTimer > 1
+			object.frame++
+			object.mobileAnimTimer = 0
+		end if
+		if object.frame < 0
+			object.frame = 0
+		end if
+		if object.frame > 1
+			object.frame = 0
+		end if
+		if object.eggmanFrame < 109
+			object.eggmanFrame = 109
+		end if
+		if object.eggmanFrame > 139
+			object.eggmanFrame = 109
+		end if
+		if object.animationTimer == 30
+			object.animationTimer = 0
+			object.animation = LZEGGANI_IDLE
+		end if
+		DrawSpriteFX(2, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(object.eggmanFrame, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+		break
+
+	case LZEGGANI_DEFEATED
+		object.animationTimer++
+		object.eggmanFrame++
+		if object.eggmanFrame < 109
+			object.eggmanFrame = 109
+		end if
+		if object.eggmanFrame > 137
+			object.eggmanFrame = 109
+		end if
+		DrawSpriteFX(2, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(object.eggmanFrame, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(0, FX_FLIP, object.xpos, object.ypos)
+		break
+
+	case LZEGGANI_TOASTED
+		object.animationTimer++
+		object.eggmanFrame++
+		if object.eggmanFrame < 140
+			object.eggmanFrame = 140
+		end if
+		if object.eggmanFrame > 175
+			object.eggmanFrame = 140
+		end if
+		DrawSpriteFX(2, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(object.eggmanFrame, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(0, FX_FLIP, object.xpos, object.ypos)
+		break
+
+	case LZEGGANI_PANIC
+		object.animationTimer++
+		object.eggmanFrame++
+		if object.eggmanFrame < 176
+			object.eggmanFrame = 176
+		end if
+		if object.eggmanFrame > 193
+			object.eggmanFrame = 176
+		end if
+		DrawSpriteFX(2, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(object.eggmanFrame, FX_FLIP, object.xpos, object.ypos)
+		DrawSpriteFX(0, FX_FLIP, object.xpos, object.ypos)
+		break
+		
+	end switch
+
+	switch object.flameAnim
+	default
+	case FLAME_INACTIVE
+		break
+
+	case FLAME_ACTIVE
+		object.flameAnimTimer++
+		if object.flameAnimTimer > 1
+			object.flameFrame++
+			object.flameAnimTimer = 0
+		end if
+		if object.flameFrame < 194
+			object.flameFrame = 194
+		end if
+		if object.flameFrame > 198
+			object.flameFrame = 194
+		end if
+		DrawSpriteFX(object.flameFrame, FX_FLIP, object.xpos, object.ypos)
+		break
+
+	case FLAME_EXPLODE
+		object.flameAnimTimer++
+		if object.flameAnimTimer > 1
+			object.flameFrame++
+			object.flameAnimTimer = 0
+		end if
+		if object.flameFrame < 199
+			object.flameFrame = 199
+		end if
+		if object.flameFrame > 211
+			object.flameFrame = 207
+		end if
+		DrawSpriteFX(object.flameFrame, FX_FLIP, object.xpos, object.ypos)
+		break
+
+	end switch
+end event
+
+
+event ObjectStartup
+	if stage.listPos != 17
+		switch stage.playerListPos
+		case PLAYER_SONIC_A
+			LoadSpriteSheet("Global/Eggman.gif")
+			break
+
+		case PLAYER_TAILS_A
+			LoadSpriteSheet("Global/Eggman.gif")
+			break
+
+		case PLAYER_KNUCKLES_A
+			LoadSpriteSheet("Global/EggRobo.gif")
+			break
+
+		case PLAYER_AMY_A
+			LoadSpriteSheet("Global/Eggman.gif")
+			break
+		end switch
+	end if
+	// Empty Egg Mobile
+	SpriteFrame(-28, -32, 64, 56, 255, 126) // Frame 0
+	SpriteFrame(-28, -32, 64, 56, 255, 183) // Frame 1
+
+	// Egg Mobile Seat
+	SpriteFrame(-28, -32, 64, 24, 128, 231) // Frame 2
+
+	// Eggman Idle
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 3
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 4
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 5
+	SpriteFrame(-28, -32, 64, 24, 1, 25) // Frame 6
+	SpriteFrame(-28, -32, 64, 24, 1, 25) // Frame 7
+	SpriteFrame(-28, -32, 64, 24, 1, 25) // Frame 8
+	SpriteFrame(-28, -32, 64, 24, 1, 50) // Frame 9
+	SpriteFrame(-28, -32, 64, 24, 1, 50) // Frame 10
+	SpriteFrame(-28, -32, 64, 24, 1, 50) // Frame 11
+
+	//Eggman Laugh
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 12
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 13
+
+	SpriteFrame(-28, -32, 64, 24, 1, 75) // Frame 14
+	SpriteFrame(-28, -32, 64, 24, 1, 75) // Frame 15
+	SpriteFrame(-28, -32, 64, 24, 1, 75) // Frame 16
+	SpriteFrame(-28, -32, 64, 24, 1, 75) // Frame 17
+
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 18
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 19
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 20
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 21
+
+	SpriteFrame(-28, -32, 64, 24, 1, 150) // Frame 22
+	SpriteFrame(-28, -32, 64, 24, 1, 150) // Frame 23
+	SpriteFrame(-28, -32, 64, 24, 1, 150) // Frame 24
+	SpriteFrame(-28, -32, 64, 24, 1, 150) // Frame 25
+
+	SpriteFrame(-28, -32, 64, 24, 1, 125) // Frame 26
+	SpriteFrame(-28, -32, 64, 24, 1, 125) // Frame 27
+	SpriteFrame(-28, -32, 64, 24, 1, 125) // Frame 28
+	SpriteFrame(-28, -32, 64, 24, 1, 125) // Frame 29
+
+	SpriteFrame(-28, -32, 64, 24, 1, 150) // Frame 30
+	SpriteFrame(-28, -32, 64, 24, 1, 150) // Frame 31
+	SpriteFrame(-28, -32, 64, 24, 1, 150) // Frame 32
+	SpriteFrame(-28, -32, 64, 24, 1, 150) // Frame 33
+
+	SpriteFrame(-28, -32, 64, 24, 1, 125) // Frame 34
+	SpriteFrame(-28, -32, 64, 24, 1, 125) // Frame 35
+	SpriteFrame(-28, -32, 64, 24, 1, 125) // Frame 36
+	SpriteFrame(-28, -32, 64, 24, 1, 125) // Frame 37
+
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 38
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 39
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 40
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 41
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 42
+
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 43
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 44
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 45
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 46
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 47
+
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 48
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 49
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 50
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 51
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 52
+
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 53
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 54
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 55
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 56
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 57
+
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 58
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 59
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 60
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 61
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 62
+
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 63
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 64
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 65
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 66
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 67
+
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 68
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 69
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 70
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 71
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 72
+
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 73
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 74
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 75
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 76
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 77
+
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 78
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 79
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 80
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 81
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 82
+
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 83
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 84
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 85
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 86
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 87
+
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 88
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 89
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 90
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 91
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 92
+
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 93
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 94
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 95
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 96
+	SpriteFrame(-28, -32, 64, 24, 1, 100) // Frame 97
+
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 98
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 99
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 10
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 101
+	SpriteFrame(-28, -32, 64, 24, 66, 0) // Frame 102
+
+	SpriteFrame(-28, -32, 64, 24, 1, 75) // Frame 103
+	SpriteFrame(-28, -32, 64, 24, 1, 75) // Frame 104
+	SpriteFrame(-28, -32, 64, 24, 1, 75) // Frame 105
+	SpriteFrame(-28, -32, 64, 24, 1, 75) // Frame 106
+
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 107
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 108
+
+	// Eggman Hurt
+	SpriteFrame(-28, -32, 64, 24, 66, 25) // Frame 109
+	SpriteFrame(-28, -32, 64, 24, 66, 25) // Frame 110
+
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 111
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 112
+
+	SpriteFrame(-28, -32, 64, 24, 66, 75) // Frame 113
+	SpriteFrame(-28, -32, 64, 24, 66, 75) // Frame 114
+
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 115
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 116
+
+	SpriteFrame(-28, -32, 64, 24, 66, 100) // Frame 117
+	SpriteFrame(-28, -32, 64, 24, 66, 100) // Frame 118
+
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 119
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 120
+
+	SpriteFrame(-28, -32, 64, 24, 66, 125) // Frame 121
+	SpriteFrame(-28, -32, 64, 24, 66, 125) // Frame 122
+
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 123
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 124
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 125
+
+	SpriteFrame(-28, -32, 64, 24, 66, 150) // Frame 126
+	SpriteFrame(-28, -32, 64, 24, 66, 150) // Frame 127
+	SpriteFrame(-28, -32, 64, 24, 66, 150) // Frame 128
+
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 129
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 130
+	SpriteFrame(-28, -32, 64, 24, 66, 50) // Frame 131
+
+	SpriteFrame(-28, -32, 64, 24, 64, 175) // Frame 132
+	SpriteFrame(-28, -32, 64, 24, 64, 175) // Frame 133
+	SpriteFrame(-28, -32, 64, 24, 64, 175) // Frame 134
+	SpriteFrame(-28, -32, 64, 24, 64, 175) // Frame 135
+	SpriteFrame(-28, -32, 64, 24, 64, 175) // Frame 136
+	SpriteFrame(-28, -32, 64, 24, 64, 175) // Frame 137
+
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 138
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 139
+
+	// Eggman Toasted
+	SpriteFrame(-28, -32, 64, 24, 64, 200) // Frame 140
+	SpriteFrame(-28, -32, 64, 24, 64, 200) // Frame 141
+	SpriteFrame(-28, -32, 64, 24, 64, 200) // Frame 142
+	SpriteFrame(-28, -32, 64, 24, 64, 200) // Frame 143
+	SpriteFrame(-28, -32, 64, 24, 64, 200) // Frame 144
+	SpriteFrame(-28, -32, 64, 24, 64, 200) // Frame 145
+	SpriteFrame(-28, -32, 64, 24, 131, 58) // Frame 146
+	SpriteFrame(-28, -32, 64, 24, 131, 58) // Frame 147
+	SpriteFrame(-28, -32, 64, 24, 131, 58) // Frame 148
+	SpriteFrame(-28, -32, 64, 24, 131, 58) // Frame 149
+	SpriteFrame(-28, -32, 64, 24, 131, 58) // Frame 150
+	SpriteFrame(-28, -32, 64, 24, 131, 58) // Frame 151
+	SpriteFrame(-28, -32, 64, 24, 131, 83) // Frame 152
+	SpriteFrame(-28, -32, 64, 24, 131, 83) // Frame 153
+	SpriteFrame(-28, -32, 64, 24, 131, 83) // Frame 154
+	SpriteFrame(-28, -32, 64, 24, 131, 83) // Frame 155
+	SpriteFrame(-28, -32, 64, 24, 131, 83) // Frame 156
+	SpriteFrame(-28, -32, 64, 24, 131, 83) // Frame 157
+	SpriteFrame(-28, -32, 64, 24, 130, 151) // Frame 158
+	SpriteFrame(-28, -32, 64, 24, 130, 151) // Frame 159
+	SpriteFrame(-28, -32, 64, 24, 130, 151) // Frame 160
+	SpriteFrame(-28, -32, 64, 24, 130, 151) // Frame 161
+	SpriteFrame(-28, -32, 64, 24, 130, 151) // Frame 162
+	SpriteFrame(-28, -32, 64, 24, 130, 151) // Frame 163
+	SpriteFrame(-28, -32, 64, 24, 255, 1) // Frame 164
+	SpriteFrame(-28, -32, 64, 24, 255, 1) // Frame 165
+	SpriteFrame(-28, -32, 64, 24, 255, 1) // Frame 166
+	SpriteFrame(-28, -32, 64, 24, 255, 1) // Frame 167
+	SpriteFrame(-28, -32, 64, 24, 255, 1) // Frame 168
+	SpriteFrame(-28, -32, 64, 24, 255, 1) // Frame 169
+	SpriteFrame(-28, -32, 64, 24, 255, 26) // Frame 170
+	SpriteFrame(-28, -32, 64, 24, 255, 26) // Frame 171
+	SpriteFrame(-28, -32, 64, 24, 255, 26) // Frame 172
+	SpriteFrame(-28, -32, 64, 24, 255, 26) // Frame 173
+	SpriteFrame(-28, -32, 64, 24, 255, 26) // Frame 174
+	SpriteFrame(-28, -32, 64, 24, 255, 26) // Frame 175
+
+	// Eggman Sweat
+	SpriteFrame(-28, -32, 64, 24, 255, 51) // Frame 176
+	SpriteFrame(-28, -32, 64, 24, 255, 51) // Frame 177
+	SpriteFrame(-28, -32, 64, 24, 255, 51) // Frame 178
+	SpriteFrame(-28, -32, 64, 24, 255, 76) // Frame 179
+	SpriteFrame(-28, -32, 64, 24, 255, 76) // Frame 180
+	SpriteFrame(-28, -32, 64, 24, 255, 76) // Frame 181
+	SpriteFrame(-28, -32, 64, 24, 255, 101) // Frame 182
+	SpriteFrame(-28, -32, 64, 24, 255, 101) // Frame 183
+	SpriteFrame(-28, -32, 64, 24, 255, 101) // Frame 184
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 185
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 186
+	SpriteFrame(-28, -32, 64, 24, 1, 0) // Frame 187
+	SpriteFrame(-28, -32, 64, 24, 1, 25) // Frame 188
+	SpriteFrame(-28, -32, 64, 24, 1, 25) // Frame 189
+	SpriteFrame(-28, -32, 64, 24, 1, 25) // Frame 190
+	SpriteFrame(-28, -32, 64, 24, 1, 50) // Frame 191
+	SpriteFrame(-28, -32, 64, 24, 1, 50) // Frame 192
+	SpriteFrame(-28, -32, 64, 24, 1, 50) // Frame 193
+
+	// Jet
+	SpriteFrame(34, 1, 10, 9, 196, 2) // Frame 194
+	SpriteFrame(33, 0, 15, 11, 196, 12) // Frame 195
+	SpriteFrame(33, 1, 10, 9, 196, 52) // Frame 196
+	SpriteFrame(33, 1, 13, 9, 196, 105) // Frame 197
+	SpriteFrame(33, 0, 25, 11, 210, 104) // Frame 198
+
+	// Jet Burst
+	SpriteFrame(34, -1, 22, 14, 213, 1) // Frame 199
+	SpriteFrame(34, -1, 22, 14, 213, 1) // Frame 200
+	SpriteFrame(34, -8, 32, 26, 213, 16) // Frame 201
+	SpriteFrame(34, -8, 32, 26, 213, 16) // Frame 202
+	SpriteFrame(34, -8, 32, 26, 205, 169) // Frame 203
+	SpriteFrame(34, -8, 32, 26, 205, 169) // Frame 204
+	SpriteFrame(34, -8, 32, 26, 205, 196) // Frame 205
+	SpriteFrame(34, -1, 22, 14, 213, 1) // Frame 206
+	SpriteFrame(34, 1, 10, 9, 196, 2) // Frame 207
+	SpriteFrame(33, 0, 15, 11, 196, 12) // Frame 208
+	SpriteFrame(33, 1, 10, 9, 196, 52) // Frame 209
+	SpriteFrame(33, 1, 13, 9, 196, 105) // Frame 210
+	SpriteFrame(33, 0, 25, 11, 210, 104) // Frame 211
+
+	// Setup values
+	foreach (TypeName[Eggman], arrayPos0, ALL_ENTITIES)
+
+		// Set position points for changing behaviours
+		// (Think of how he turns after reaching a certain point, etc.)
+
+		// First Node (X only)
+		temp0 = -0x700000
+		temp0 += object[arrayPos0].xpos
+		SetTableValue(temp0, 0, LZEggman_nodePositionTable)
+
+		// Node 1 (X & Y)
+		temp0 = 0x380000
+		temp0 += object[arrayPos0].xpos
+		SetTableValue(temp0, 1, LZEggman_nodePositionTable)
+
+		temp0 = -0xC00000
+		temp0 += object[arrayPos0].ypos
+		SetTableValue(temp0, 2, LZEggman_nodePositionTable)
+
+		// Node 2 (X & Y)
+		temp0 = 0x600000
+		temp0 += object[arrayPos0].xpos
+		SetTableValue(temp0, 3, LZEggman_nodePositionTable)
+
+		temp0 = -0x1000000
+		temp0 += object[arrayPos0].ypos
+		SetTableValue(temp0, 4, LZEggman_nodePositionTable)
+
+		// Node 3 (Y only)
+		temp0 = -0x4C00000
+		temp0 += object[arrayPos0].ypos
+		SetTableValue(temp0, 5, LZEggman_nodePositionTable)
+
+		// Node 4 (X & Y)
+		temp0 = 0x13C0000
+		temp0 += object[arrayPos0].xpos
+		SetTableValue(temp0, 6, LZEggman_nodePositionTable)
+
+		temp0 = -0x5000000
+		temp0 += object[arrayPos0].ypos
+		SetTableValue(temp0, 7, LZEggman_nodePositionTable)
+
+		// Last Node (X & Y)
+		temp0 = 0xB80000
+		temp0 += object[arrayPos0].xpos
+		SetTableValue(temp0, 8, LZEggman_nodePositionTable)
+
+		temp0 = -0x4D00000
+		temp0 += object[arrayPos0].ypos
+		SetTableValue(temp0, 9, LZEggman_nodePositionTable)
+
+		// Store the starting position
+		object[arrayPos0].originPos.x = object[arrayPos0].xpos
+		object[arrayPos0].originPos.y = object[arrayPos0].ypos
+
+		// Make it in the first animation state
+		object[arrayPos0].animation = LZEGGANI_IDLE
+	
+#platform: USE_ORIGINS
+		if game.bossOneLife == false
+			// It takes 8 hits to drown this egg
+			object[arrayPos0].health = 8
+		else
+			// It takes 2 hits now?
+			// Normally this cheat only makes it 1, wonder what's up with that...
+			object[arrayPos0].health = 2
+		end if
+#endplatform
+
+#platform: USE_STANDALONE
+		// It takes 8 hits to drown this egg
+		object[arrayPos0].health = 8
+#endplatform
+	next
+
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+	
+	if editor.showGizmos == true
+		editor.drawingOverlay = true
+		
+		// TODO: draw node path, that'd be cool
+		
+		editor.drawingOverlay = false
+	end if
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Eggman.gif")
+	SpriteFrame(-28, -32, 64, 56, 1, 1)
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

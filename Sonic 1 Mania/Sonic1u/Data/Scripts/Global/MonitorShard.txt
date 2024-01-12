@@ -1,0 +1,53 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: Monitor Shard Object
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+
+	object.xpos += object.xvel
+	object.ypos += object.yvel
+	object.yvel += 0x03000
+	
+	if object.timer == 4
+		object.frame++
+		object.frame %= 10
+		object.timer = 0
+	end if
+	object.timer++
+	
+	if object.outOfBounds == true
+		object.type = TypeName[Blank Object]
+	end if
+	
+end event
+
+
+event ObjectDraw
+	DrawSprite(object.frame)
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("Global/Items.gif")
+	SpriteFrame(-4, -4, 8, 8, 1, 447)
+	SpriteFrame(-4, -4, 8, 8, 10, 447)
+	SpriteFrame(-4, -4, 8, 8, 19, 447)
+	SpriteFrame(-4, -4, 8, 8, 28, 447)
+	SpriteFrame(-4, -4, 8, 8, 37, 447)
+	SpriteFrame(-4, -4, 8, 8, 46, 447)
+	SpriteFrame(-4, -4, 8, 8, 55, 447)
+	SpriteFrame(-4, -4, 8, 8, 64, 447)
+	SpriteFrame(-4, -4, 8, 8, 73, 447)
+	SpriteFrame(-4, -4, 8, 8, 82, 447)
+end event

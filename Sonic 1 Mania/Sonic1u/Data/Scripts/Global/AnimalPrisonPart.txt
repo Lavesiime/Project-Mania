@@ -1,0 +1,58 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: Monitor Shard Object
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+
+	object.xpos += object.xvel
+	object.ypos += object.yvel
+	object.yvel += 0x03000
+	
+	object.timer++
+	
+	if object.frame == 0
+		object.rotation -= 3
+	end if
+	if object.frame == 1
+		object.rotation += 3
+	end if
+	
+	if object.outOfBounds == true
+		object.type = TypeName[Blank Object]
+	end if
+	
+end event
+
+
+event ObjectDraw
+	object.drawOrder = 5
+	temp0 = object.timer
+	temp0 %= 2
+	if temp0 == 0
+		DrawSpriteFX(object.frame, FX_ROTATE, object.xpos, object.ypos)
+	else
+		if object.timer < 30
+			//DrawSpriteFX(object.frame, FX_ROTATE, object.xpos, object.ypos)
+		end if
+	end if
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("Global/Items.gif")
+	SpriteFrame(-16, -20, 32, 41, 256, 202)
+	SpriteFrame(-16, -20, 32, 41, 289, 202)
+	SpriteFrame(-11, -48, 22, 16, 84, 166) // Button
+	SpriteFrame(3, -10, 16, 16, 256, 244) // Window
+end event

@@ -1,0 +1,935 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: SignPost2 Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.spinCount
+private alias object.value1 : object.timer
+private alias object.value2 : object.centerOffset	 // x center offset, set from editor
+private alias object.value3 : object.enableMoveRight // should player move right when done spinning? (set from editor too)
+private alias object.value4 : object.fallbackTimer	 // Added in Origins 2.01
+
+private alias 0 : SIGNPOST2_AWAITPLAYER
+private alias 1 : SIGNPOST2_SPINNING
+private alias 2 : SIGNPOST2_HANDLEACTFINISH
+private alias 3 : SIGNPOST2_EXITSTAGERIGHT
+private alias 4 : SIGNPOST2_FINISHED
+private alias 5 : SIGNPOST_WINK
+
+// Tracks
+private alias 1 : TRACK_ACTFINISH
+
+// Player Aliases
+private alias 1 : SUPERSTATE_SUPER
+private alias 2 : SUPERSTATE_UNTRANSFORM
+
+private alias object.type 			: player.type
+private alias object.xpos 			: player.xpos
+private alias object.ypos 			: player.ypos
+private alias object.ixpos 			: player.ixpos
+private alias object.xvel 			: player.xvel
+private alias object.yvel 			: player.yvel
+private alias object.speed 			: player.speed
+private alias object.gravity 		: player.gravity
+private alias object.up 			: player.up
+private alias object.down 			: player.down
+private alias object.left 			: player.left
+private alias object.right 			: player.right
+private alias object.jumpPress 		: player.jumpPress
+private alias object.jumpHold 		: player.jumpHold
+private alias object.interaction 	: player.interaction
+private alias object.controlMode 	: player.controlMode
+private alias object.value7 		: player.invincibleTimer
+private alias object.animation		: player.animation
+
+// Reserved Object Slot Aliases
+private alias 30 : SLOT_ACTFINISH
+
+// Achievement Aliases
+private alias 1 : ACHIEVEMENT_BLASTPROCESSING
+
+// Face Aliases
+private alias 0 : FACE_TEXTURED_3D
+private alias 1 : FACE_TEXTURED_2D
+private alias 2 : FACE_COLOURED_3D
+private alias 3 : FACE_COLOURED_2D
+private alias 4 : FACE_FADED
+private alias 5 : FACE_TEXTURED_C
+private alias 6 : FACE_TEXTURED_D
+private alias 7 : FACE_SPRITE3D
+
+private alias object.value11: object.XCenter
+private alias object.value12: object.YCenter
+private alias object.value13: object.ZCenter
+
+private alias object.value14: object.rectAlpha
+private alias object.value15: object.debugToggle
+private alias object.value16: object.cartAlpha
+private alias object.value17: object.ZLock
+
+private alias object.value18: object.logoXPos
+private alias object.value19: object.boxTopTex
+private alias object.value20: object.boxBotTex
+
+private alias object.value21: object.XVectorPoint
+private alias object.value22: object.YVectorPoint
+private alias object.value23: object.ZVectorPoint
+
+private alias object.value24: object.pointerX
+private alias object.value25: object.pointerY
+private alias object.value26: object.pointerZ
+private alias object.value27: object.pointerXInc
+private alias object.value28: object.pointerYInc
+private alias object.value30: object.pointerZInc
+private alias object.value31: object.invertRot
+private alias object.value32: object.zpos
+
+private alias object.value33 : object.pointX
+private alias object.value34 : object.pointY
+private alias object.value35 : object.pointZ
+
+private alias object.value36 : object.xpos3D
+
+// Function declarations
+reserve function MainCover_GetBoxCenter
+
+reserve function MainCover_DrawTopBotFaces
+reserve function MainCover_DrawBackFace
+reserve function MainCover_DrawFrontFace
+reserve function MainCover_DrawLeftFace
+reserve function MainCover_DrawRightFace
+
+// Static Values
+
+// Tables
+private table MainCover_VectorPoint
+	0, 0, -80
+	10, 0, -80
+	10, 58, -80
+	0, 58, -80
+
+	0, 0, 80
+	10, 0, 80
+	10, 58, 80
+	0, 58, 80
+end table
+
+
+private table MainCover_VectorX[8]
+private table MainCover_VectorY[8]
+private table MainCover_VectorZ[8]
+
+// ========================
+// Function Declarations
+// ========================
+
+reserve function SignPost2_DebugDraw
+reserve function SignPost2_DebugSpawn
+
+
+// ========================
+// Static Values
+// ========================
+
+public value SignPost2_initFallback = 0
+public value SignPost2_fallbackCheck = 0
+
+
+// ========================
+// Function Definitions
+// ========================
+
+private function SignPost2_DebugDraw
+	DrawSprite(0)
+	DrawSprite(1)
+end function
+
+
+private function SignPost2_DebugSpawn
+	CreateTempObject(TypeName[SignPost2], 0, object.xpos, object.ypos)
+	object[tempObjectPos].frame = 1
+	object[tempObjectPos].spinCount = 16
+end function
+
+private function MainCover_GetBoxCenter
+	// Get the center of the object
+	object.XCenter = 0
+	object.YCenter = 0
+	object.ZCenter = 0
+	
+	ArrayPos0 = 0
+	while ArrayPos0 < 8
+		temp0  = arrayPos0
+		temp0 *= 3
+		GetTableValue(object.XVectorPoint, temp0, MainCover_VectorPoint)
+		temp0++
+		GetTableValue(object.YVectorPoint, temp0, MainCover_VectorPoint)
+		temp0++
+		GetTableValue(object.ZVectorPoint, temp0, MainCover_VectorPoint)
+		object.XCenter += object.XVectorPoint
+		object.YCenter += object.YVectorPoint
+		object.ZCenter += object.ZVectorPoint
+		ArrayPos0++
+	loop
+	object.XCenter /= 8
+	object.YCenter /= 8
+	object.ZCenter /= 8
+end function
+
+private function MainCover_GetRotation
+	arrayPos0 = 0
+	while arrayPos0 < 8
+		temp0  = arrayPos0
+		temp0 *= 3
+		GetTableValue(object.XVectorPoint, temp0, MainCover_VectorPoint)
+		temp0++
+		GetTableValue(object.YVectorPoint, temp0, MainCover_VectorPoint)
+		temp0++
+		GetTableValue(object.ZVectorPoint, temp0, MainCover_VectorPoint)
+		object.pointX = object.XVectorPoint
+		object.pointY = object.YVectorPoint
+		object.pointZ = object.ZVectorPoint
+
+		// Rotate X
+		// X
+		temp0   = object.pointX
+		temp0  -= object.XCenter
+		cos(object.angle, object.pointerZ)
+		temp0  *= object.angle
+
+		temp1   = object.pointY
+		temp1  -= object.YCenter
+		sin(object.angle, object.pointerZ)
+		temp1  *= object.angle
+		object.XVectorPoint  = temp0
+		object.XVectorPoint -= temp1
+
+		// Y
+		temp0   = object.pointX
+		temp0  -= object.XCenter
+		Sin(object.angle, object.pointerZ)
+		temp0  *= object.angle
+
+		temp1   = object.pointY
+		temp1  -= object.YCenter
+		Cos(object.angle, object.pointerZ)
+		temp1  *= object.angle
+		object.YVectorPoint  = temp0
+		object.YVectorPoint += temp1
+
+
+		object.XVectorPoint += object.XCenter
+		object.YVectorPoint += object.YCenter
+		//object.ZVectorPoint += object.ZCenter
+		object.XVectorPoint >>= 8
+		object.YVectorPoint >>= 8
+		//object.ZVectorPoint >>= 8
+		SetTableValue(object.XVectorPoint, arrayPos0, MainCover_VectorX)
+		SetTableValue(object.YVectorPoint, arrayPos0, MainCover_VectorY)
+		//SetTableValue(object.ZVectorPoint, arrayPos0, MainCover_VectorZ)
+		
+		ArrayPos0++
+	loop
+end function
+
+private function MainCover_DrawTopBotFaces
+	arrayPos0 = 0
+	while arrayPos0 < 8
+		temp0  = arrayPos0
+		temp0 *= 3
+		GetTableValue(object.XVectorPoint, temp0, MainCover_VectorPoint)
+		temp0++
+		GetTableValue(object.YVectorPoint, temp0, MainCover_VectorPoint)
+		temp0++
+		GetTableValue(object.ZVectorPoint, temp0, MainCover_VectorPoint)
+		VertexBuffer[arrayPos0].x = object.XCenter
+		VertexBuffer[arrayPos0].y = object.YCenter
+		VertexBuffer[arrayPos0].z = object.ZVectorPoint
+		GetTableValue(object.XVectorPoint, arrayPos0, MainCover_VectorX)
+		GetTableValue(object.YVectorPoint, arrayPos0, MainCover_VectorY)
+		//GetTableValue(object.ZVectorPoint, arrayPos0, MainCover_VectorZ)
+		VertexBuffer[arrayPos0].x += object.XVectorPoint
+		VertexBuffer[arrayPos0].y += object.YVectorPoint
+		//VertexBuffer[arrayPos0].z += object.ZVectorPoint
+		
+		arrayPos0++
+	loop
+end function
+
+private function MainCover_DrawBackFace
+		VertexBuffer[8].x = VertexBuffer[0].x
+		VertexBuffer[8].y = VertexBuffer[0].y
+		VertexBuffer[8].z = VertexBuffer[0].z
+
+		VertexBuffer[9].x = VertexBuffer[4].x
+		VertexBuffer[9].y = VertexBuffer[4].y
+		VertexBuffer[9].z = VertexBuffer[4].z
+
+		VertexBuffer[10].x = VertexBuffer[5].x
+		VertexBuffer[10].y = VertexBuffer[5].y
+		VertexBuffer[10].z = VertexBuffer[5].z
+
+		VertexBuffer[11].x = VertexBuffer[1].x
+		VertexBuffer[11].y = VertexBuffer[1].y
+		VertexBuffer[11].z = VertexBuffer[1].z
+end function
+
+private function MainCover_DrawFrontFace
+		VertexBuffer[12].x = VertexBuffer[3].x
+		VertexBuffer[12].y = VertexBuffer[3].y
+		VertexBuffer[12].z = VertexBuffer[3].z
+
+		VertexBuffer[13].x = VertexBuffer[2].x
+		VertexBuffer[13].y = VertexBuffer[2].y
+		VertexBuffer[13].z = VertexBuffer[2].z
+
+		VertexBuffer[14].x = VertexBuffer[6].x
+		VertexBuffer[14].y = VertexBuffer[6].y
+		VertexBuffer[14].z = VertexBuffer[6].z
+
+		VertexBuffer[15].x = VertexBuffer[7].x
+		VertexBuffer[15].y = VertexBuffer[7].y
+		VertexBuffer[15].z = VertexBuffer[7].z
+end function
+
+private function MainCover_DrawLeftFace
+		VertexBuffer[16].x = VertexBuffer[1].x
+		VertexBuffer[16].y = VertexBuffer[1].y
+		VertexBuffer[16].z = VertexBuffer[1].z
+
+		VertexBuffer[17].x = VertexBuffer[5].x
+		VertexBuffer[17].y = VertexBuffer[5].y
+		VertexBuffer[17].z = VertexBuffer[5].z
+
+		VertexBuffer[18].x = VertexBuffer[6].x
+		VertexBuffer[18].y = VertexBuffer[6].y
+		VertexBuffer[18].z = VertexBuffer[6].z
+
+		VertexBuffer[19].x = VertexBuffer[2].x
+		VertexBuffer[19].y = VertexBuffer[2].y
+		VertexBuffer[19].z = VertexBuffer[2].z
+end function
+
+private function MainCover_DrawRightFace
+		VertexBuffer[20].x = VertexBuffer[0].x
+		VertexBuffer[20].y = VertexBuffer[0].y
+		VertexBuffer[20].z = VertexBuffer[0].z
+
+		VertexBuffer[21].x = VertexBuffer[3].x
+		VertexBuffer[21].y = VertexBuffer[3].y
+		VertexBuffer[21].z = VertexBuffer[3].z
+
+		VertexBuffer[22].x = VertexBuffer[7].x
+		VertexBuffer[22].y = VertexBuffer[7].y
+		VertexBuffer[22].z = VertexBuffer[7].z
+
+		VertexBuffer[23].x = VertexBuffer[4].x
+		VertexBuffer[23].y = VertexBuffer[4].y
+		VertexBuffer[23].z = VertexBuffer[4].z
+end function
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+	switch object.state
+	case SIGNPOST2_AWAITPLAYER
+		object.fallbackTimer++
+		
+		temp0 = object.ypos
+		temp0 += 0x400000
+		if player[0].ypos < temp0
+			if object.centerOffset > 0
+				// These two lines used to use ixpos, but Plus changed them to xpos
+				temp0 = object.xpos
+				temp0 -= player[0].xpos
+				temp0 >>= 16
+				
+				CheckGreater(temp0, 0)
+				temp1 = checkResult
+				CheckLower(temp0, object.centerOffset)
+				checkResult &= temp1
+				if checkResult == true
+					stage.newXBoundary1 = object.ixpos
+					stage.newXBoundary1 -= object.centerOffset
+					stage.newXBoundary2 = object.xpos
+					stage.newXBoundary2 >>= 16
+					stage.newXBoundary2 += screen.xcenter
+				end if
+			else
+				stage.newXBoundary1 = object.xpos
+				stage.newXBoundary1 >>= 16
+				stage.newXBoundary1 -= screen.xcenter
+				stage.newXBoundary1 -= screen.xcenter
+				stage.newXBoundary2 = object.xpos
+				stage.newXBoundary2 >>= 16
+				stage.newXBoundary2 += screen.xcenter
+			end if
+			
+			if player[0].xpos > object.xpos
+				stage.newXBoundary1 = object.xpos
+				stage.newXBoundary1 >>= 16
+				stage.newXBoundary1 -= screen.xcenter
+				if stage.debugMode == false
+					if stage.listPos == 0
+						if stage.minutes == 0
+							if stage.seconds < 30
+								CallNativeFunction2(SetAchievement, ACHIEVEMENT_BLASTPROCESSING, 100)
+							end if
+						end if
+					end if
+				end if
+
+				CallNativeFunction2(NotifyCallback, NOTIFY_TOUCH_SIGNPOST, 0)
+				stage.timeEnabled = false
+				object.state = SIGNPOST2_SPINNING
+				SignPost2_initFallback = object.fallbackTimer
+				PlaySfx(SfxName[Sign Post], false)
+				if Player_superState == SUPERSTATE_SUPER
+					Player_superState = SUPERSTATE_UNTRANSFORM
+				end if
+			end if
+		end if
+		break
+
+	case SIGNPOST2_SPINNING
+		music.volume--
+		object.timer++
+		if object.timer == 1
+			object.timer = 0
+			object.frame++
+			if object.frame == 10
+				object.frame = 1
+				Rand(temp0, 48)
+				temp0 <<= 16
+				temp0 += object.xpos
+				temp0 -= 0x180000
+				Rand(temp1, 32)
+				temp1 <<= 16
+				temp1 += object.ypos
+				temp1 -= 0x140000
+				CreateTempObject(TypeName[Ring Sparkle], 0, temp0, temp1)
+
+				object.spinCount--
+				if object.pointerZ == 127 // On front face?
+					if object.spinCount <= 0
+						if player[0].type == TypeName[Blank Object]
+							object.state = SIGNPOST2_FINISHED
+							if object.propertyValue < 3
+								PlayMusic(TRACK_ACTFINISH)
+							else
+								if object.outOfBounds == false
+									PlayMusic(TRACK_ACTFINISH)
+								end if
+							end if
+
+							object[SLOT_ACTFINISH].type 		= TypeName[Act Finish]
+							object[SLOT_ACTFINISH].drawOrder 	= 6
+							object[SLOT_ACTFINISH].priority 	= PRIORITY_ACTIVE
+
+							player[0].controlMode 	= CONTROLMODE_NONE
+							player[0].interaction 	= false
+
+							if stage.player2Enabled == true
+								player[1].interaction 	= false
+								player[1].controlMode 	= CONTROLMODE_NONE
+								player[1].up 			= false
+								player[1].down 			= false
+								player[1].left 			= false
+								player[1].jumpPress 	= false
+								player[1].jumpHold 		= false
+							end if
+						else
+							player[0].controlMode 	= CONTROLMODE_NONE
+							player[0].interaction 	= false
+							player[0].up 			= false
+							player[0].down 			= false
+							player[0].left 			= false
+							player[0].jumpPress 	= false
+							player[0].jumpHold 		= false
+
+							if stage.player2Enabled == true
+								player[1].controlMode 	= CONTROLMODE_NONE
+								player[1].interaction 	= false
+								player[1].up 			= false
+								player[1].down 			= false
+								player[1].left 			= false
+								player[1].jumpPress 	= false
+								player[1].jumpHold 		= false
+							end if
+							object.state = SIGNPOST2_HANDLEACTFINISH
+						end if
+					end if
+				end if
+			end if
+		end if
+
+		temp0 = 40
+		temp0 += screen.xcenter
+		temp0 <<= 16
+		temp0 += object.xpos
+		if player[0].xpos > temp0
+			player[0].xpos = temp0
+			player[0].speed = 0
+			player[0].xvel = 0
+		end if
+
+		if stage.player2Enabled == true
+			if player[1].xpos > temp0
+				player[1].xpos = temp0
+				player[1].speed = 0
+				player[1].xvel = 0
+			end if
+		end if
+		break
+
+	case SIGNPOST2_HANDLEACTFINISH
+		object.fallbackTimer++
+		SignPost2_fallbackCheck = object.fallbackTimer
+		SignPost2_fallbackCheck -= SignPost2_initFallback
+		if SignPost2_fallbackCheck > 200
+			PlayMusic(TRACK_ACTFINISH)
+			object[SLOT_ACTFINISH].type = TypeName[Act Finish]
+			object[SLOT_ACTFINISH].drawOrder = 6
+			object[SLOT_ACTFINISH].priority = PRIORITY_ACTIVE
+			object.state = SIGNPOST2_FINISHED
+		end if
+		
+		if player[0].type == TypeName[Blank Object]
+			object.state = SIGNPOST2_FINISHED
+
+			if object.propertyValue < 3
+				PlayMusic(TRACK_ACTFINISH)
+			else
+				if object.outOfBounds == false
+					PlayMusic(TRACK_ACTFINISH)
+				end if
+			end if
+
+			object[SLOT_ACTFINISH].type 		= TypeName[Act Finish]
+			object[SLOT_ACTFINISH].drawOrder 	= 6
+			object[SLOT_ACTFINISH].priority 	= PRIORITY_ACTIVE
+		else
+			if player[0].animation == ANI_PUSHING
+				PlayMusic(TRACK_ACTFINISH)
+				object.state = SIGNPOST2_FINISHED
+				object[SLOT_ACTFINISH].type = TypeName[Act Finish]
+				object[SLOT_ACTFINISH].drawOrder = 6
+				object[SLOT_ACTFINISH].priority = PRIORITY_ACTIVE
+			end if
+		end if
+
+		if object.enableMoveRight != false
+			if player[0].controlMode == CONTROLMODE_NONE
+				player[0].right = true
+			end if
+		end if
+
+		if stage.player2Enabled == true
+			player[1].controlMode = player[0].controlMode
+			if player[1].controlMode == CONTROLMODE_NONE
+				if player[1].left == false
+					player[1].right = true
+				end if
+			end if
+		end if
+
+		temp0 = screen.xcenter
+		temp0 <<= 16
+		temp0 += object.xpos
+		CheckGreater(player[0].xpos, temp0)
+		temp1 = checkResult
+		CheckEqual(object.enableMoveRight, false)
+		checkResult |= temp1
+		if checkResult == true
+			if object.propertyValue < 3
+				PlayMusic(TRACK_ACTFINISH)
+			else
+				if object.outOfBounds == false
+					PlayMusic(TRACK_ACTFINISH)
+				end if
+			end if
+
+			object.state = SIGNPOST2_EXITSTAGERIGHT
+			object[SLOT_ACTFINISH].type = TypeName[Act Finish]
+			object[SLOT_ACTFINISH].drawOrder = 6
+			object[SLOT_ACTFINISH].priority = PRIORITY_ACTIVE
+		end if
+		break
+
+	case SIGNPOST2_EXITSTAGERIGHT
+		if object.enableMoveRight != false
+			if player[0].controlMode == CONTROLMODE_NONE
+				player[0].right = true
+			end if
+		end if
+
+		temp0 = 40
+		temp0 += screen.xcenter
+		temp0 <<= 16
+		temp0 += object.xpos
+		if player[0].xpos > temp0
+			player[0].xpos = temp0
+			player[0].speed = 0
+			player[0].xvel = 0
+		end if
+
+		if stage.player2Enabled == true
+			if player[1].controlMode == CONTROLMODE_NONE
+				player[1].right = true
+			end if
+
+			if player[1].xpos > temp0
+				player[1].xpos = temp0
+				player[1].speed = 0
+				player[1].xvel = 0
+			end if
+		end if
+		break
+
+	case SIGNPOST2_FINISHED
+		if stage.player2Enabled == true
+			temp0 = 40
+			temp0 += screen.xcenter
+			temp0 <<= 16
+			temp0 += object.xpos
+
+			player[1].right = true
+			player[1].controlMode = CONTROLMODE_NONE
+			if player[1].xpos > temp0
+				player[1].xpos 	= temp0
+				player[1].speed = 0
+				player[1].xvel 	= 0
+			end if
+		end if
+		break
+		
+	end switch
+
+	if object.state > SIGNPOST2_AWAITPLAYER
+		player[0].invincibleTimer = 80
+	end if
+end event
+
+
+event ObjectDraw
+
+	//object.state = SIGNPOST_SPINNING
+	//object.spinCount = 18
+
+	switch object.state
+	
+	case SIGNPOST_AWAITPLAYER
+		DrawSprite(0)
+		DrawSprite(1)
+		DrawSprite(2)
+		break
+	case SIGNPOST_SPINNING
+		CallFunction(MainCover_GetBoxCenter)
+
+		temp0 = object.spinCount
+		temp0 *= 2
+		temp0 /= 8
+		temp0 *= 8
+		if temp0 > 8
+			object.pointerZ += temp0
+		else
+			object.pointerZ += 8
+		end if
+		//object.pointerZ = 0
+		//object.pointerZ = 127
+		//object.pointerZ = 255
+		//object.pointerZ = 383
+		
+		//object.pointerX /= 8
+		//object.pointerY /= 8
+		object.pointerZ &= 0x1FF
+		CheckEqual(object.invertRot, true)
+		temp0 = checkResult
+		CheckLower(object.pointerZ, 129)
+		temp0 &= checkResult
+		CheckGreater(object.pointerZ, 120)
+		temp0 &= checkResult
+		if temp0 == true
+			object.pointerZ = 128
+			object.ZLock = true
+		end if
+
+		// Rotate the points
+		CallFunction(MainCover_GetRotation)
+
+		CallFunction(MainCover_DrawTopBotFaces)
+		CallFunction(MainCover_DrawBackFace)
+		CallFunction(MainCover_DrawFrontFace)
+		CallFunction(MainCover_DrawLeftFace)
+		CallFunction(MainCover_DrawRightFace)
+
+		// I couldn't tell you why this exact arithmetic gets the correct vertical scrolling speed for the signs, but it does.
+		temp0 = camera[0].xpos
+		temp0 -= object.ixpos
+		temp0 *= 640
+		temp0 /= 265
+		temp0 -= 3
+		
+		temp2 = object.iypos
+		temp2 -= camera[0].ypos
+		temp2 += screen.ycenter
+		temp2 -= 135
+		temp2 *= 640
+		temp2 /= 120
+		
+		MatrixTranslateXYZ(MAT_WORLD, temp0, -0xfffff, temp2)
+		MatrixRotateXYZ(MAT_VIEW, -128, 0, 256)
+
+		DrawSprite(0)
+		DrawSprite(1)
+		Draw3DScene()
+		break
+	
+	case SIGNPOST_WINK
+		DrawSprite(0)
+		DrawSprite(1)
+		DrawSprite(object.frame)
+		break
+		
+	default
+		DrawSprite(0)
+		DrawSprite(1)
+		DrawSprite(3)
+		break
+		
+	end switch
+end event
+
+
+event ObjectStartup
+#platform: USE_STANDALONE
+	LoadSpriteSheet("Global/Items.gif")
+#endplatform
+#platform: USE_ORIGINS
+	if stage.playerListPos == PLAYER_AMY
+		LoadSpriteSheet("Global/Items.gif")
+	else
+		LoadSpriteSheet("Global/Items.gif")
+	end if
+#endplatform
+	
+	SpriteFrame(-24, 16, 48, 16, 246, 396)
+	switch stage.playerListPos
+	case PLAYER_SONIC_A
+		SpriteFrame(-24, -16, 48, 32, 246, 364)
+		SpriteFrame(-20, -16, 40, 32, 336, 397)
+		SpriteFrame(-16, -16, 32, 32, 377, 397)
+		SpriteFrame(-12, -16, 24, 32, 410, 397)
+		SpriteFrame(-8, -16, 16, 32, 435, 397)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 452, 397)
+		SpriteFrame(-12, -16, 24, 32, 469, 397)
+		SpriteFrame(-16, -16, 32, 32, 331, 430)
+		SpriteFrame(-20, -16, 40, 32, 364, 430)
+
+		SpriteFrame(-24, -16, 48, 32, 405, 430)
+		SpriteFrame(-20, -16, 40, 32, 336, 397)
+		SpriteFrame(-16, -16, 32, 32, 377, 397)
+		SpriteFrame(-12, -16, 24, 32, 410, 397)
+		SpriteFrame(-8, -16, 16, 32, 435, 397)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 452, 397)
+		SpriteFrame(-12, -16, 24, 32, 469, 397)
+		SpriteFrame(-16, -16, 32, 32, 331, 430)
+		SpriteFrame(-20, -16, 40, 32, 364, 430)
+
+		//Wink Frames
+		SpriteFrame(-24, -16, 48, 32, 257, 0)
+		SpriteFrame(-24, -16, 48, 32, 306, 0)
+		SpriteFrame(-24, -16, 48, 32, 355, 0)
+		SpriteFrame(-24, -16, 48, 32, 404, 0)
+		SpriteFrame(-24, -16, 48, 32, 355, 0)
+		SpriteFrame(-24, -16, 48, 32, 306, 0)
+		SpriteFrame(-24, -16, 48, 32, 257, 0)
+		SpriteFrame(-24, -16, 48, 32, 405, 430)
+		break
+		
+	case PLAYER_TAILS_A
+		SpriteFrame(-24, -16, 48, 32, 246, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		SpriteFrame(-24, -16, 48, 32, 330, 463)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		//Wink Frames
+		SpriteFrame(-24, -16, 48, 32, 453, 0)
+		SpriteFrame(-24, -16, 48, 32, 257, 33)
+		SpriteFrame(-24, -16, 48, 32, 306, 33)
+		SpriteFrame(-24, -16, 48, 32, 355, 33)
+		SpriteFrame(-24, -16, 48, 32, 306, 33)
+		SpriteFrame(-24, -16, 48, 32, 257, 33)
+		SpriteFrame(-24, -16, 48, 32, 453, 0)
+		SpriteFrame(-24, -16, 48, 32, 330, 463)
+		break
+		
+	case PLAYER_KNUCKLES_A
+		SpriteFrame(-24, -16, 48, 32, 246, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		SpriteFrame(-24, -16, 48, 32, 379, 463)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		//Wink Frames
+		SpriteFrame(-24, -16, 48, 32, 404, 33)
+		SpriteFrame(-24, -16, 48, 32, 453, 33)
+		SpriteFrame(-24, -16, 48, 32, 355, 66)
+		SpriteFrame(-24, -16, 48, 32, 404, 66)
+		SpriteFrame(-24, -16, 48, 32, 355, 66)
+		SpriteFrame(-24, -16, 48, 32, 453, 33)
+		SpriteFrame(-24, -16, 48, 32, 404, 33)
+		SpriteFrame(-24, -16, 48, 32, 379, 463)
+		break
+		
+#platform: USE_ORIGINS
+	case PLAYER_AMY_A
+		SpriteFrame(-24, -16, 48, 32, 246, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		SpriteFrame(-24, -16, 48, 32, 428, 463)
+		SpriteFrame(-20, -16, 40, 32, 295, 364)
+		SpriteFrame(-16, -16, 32, 32, 336, 364)
+		SpriteFrame(-12, -16, 24, 32, 369, 364)
+		SpriteFrame(-8, -16, 16, 32, 394, 364)
+		SpriteFrame(-4, -16, 8, 32, 411, 364)
+		SpriteFrame(-8, -16, 16, 32, 420, 364)
+		SpriteFrame(-12, -16, 24, 32, 437, 364)
+		SpriteFrame(-16, -16, 32, 32, 462, 364)
+		SpriteFrame(-20, -16, 40, 32, 295, 397)
+
+		//Wink Frames
+		SpriteFrame(-24, -16, 48, 32, 453, 66)
+		SpriteFrame(-24, -16, 48, 32, 355, 99)
+		SpriteFrame(-24, -16, 48, 32, 404, 99)
+		SpriteFrame(-24, -16, 48, 32, 453, 99)
+		SpriteFrame(-24, -16, 48, 32, 404, 99)
+		SpriteFrame(-24, -16, 48, 32, 355, 99)
+		SpriteFrame(-24, -16, 48, 32, 453, 66)
+		SpriteFrame(-24, -16, 48, 32, 428, 463)
+		break
+#endplatform
+	end switch
+
+	foreach (TypeName[SignPost2], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].centerOffset = object[arrayPos0].value0
+		object[arrayPos0].centerOffset <<= 4
+		object[arrayPos0].spinCount = 0
+		object[arrayPos0].enableMoveRight = object[arrayPos0].value1
+		object[arrayPos0].timer = 0
+
+		object[arrayPos0].frame = 1
+		object[arrayPos0].spinCount = 16
+		object[arrayPos0].priority = PRIORITY_XBOUNDS
+	next
+	
+	SetTableValue(TypeName[SignPost2], DebugMode_ObjCount, DebugMode_TypesTable)
+	SetTableValue(SignPost2_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)
+	SetTableValue(SignPost2_DebugSpawn, DebugMode_ObjCount, DebugMode_SpawnTable)
+	DebugMode_ObjCount++
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKEdit
+	if editor.returnVariable == true
+		switch editor.variableID
+		case EDIT_VAR_PROPVAL // property value
+			checkResult = object.propertyValue
+			break
+			
+		case 0 // type
+			checkResult = object.propertyValue
+			break
+			
+		end switch
+	else
+		switch editor.variableID
+		case EDIT_VAR_PROPVAL // property value
+			object.propertyValue = editor.variableValue
+			break
+			
+		case 0 // type
+			object.propertyValue = editor.variableValue
+			break
+			
+		end switch
+	end if
+end event
+
+
+event RSDKDraw
+	DrawSprite(0)
+	DrawSprite(1)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Items2.gif")
+	SpriteFrame(-24, 16, 48, 16, 34, 214)
+	SpriteFrame(-24, -16, 48, 32, 34, 182)
+	
+	AddEditorVariable("type")
+	SetActiveVariable("type")
+	AddEnumVariable("Normal", 0)
+	AddEnumVariable("Follow Bounds", 3)
+	
+	SetVariableAlias(ALIAS_VAR_VAL0, "centerOffset")
+	SetVariableAlias(ALIAS_VAR_VAL1, "enableMoveRight")
+	SetVariableAlias(ALIAS_VAR_VAL2, "unused")
+	SetVariableAlias(ALIAS_VAR_VAL3, "unused")
+end event
