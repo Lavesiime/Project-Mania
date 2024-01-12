@@ -160,7 +160,7 @@ event ObjectStartup
 	SpriteFrame(-28, -32, 56, 64, 163, 0) // Frame 2
 	SpriteFrame(-26, -32, 52, 64, 38, 64) // Frame 3
 	SpriteFrame(-24, -32, 48, 64, 91, 64) // Frame 4
-	SpriteFrame(-20, -32, 40, 64, 140, 64) // Frame 5
+	SpriteFrame(-20, -32, 40, 64, 17, 128) // Frame 5
 	SpriteFrame(-16, -32, 32, 64, 181, 64) // Frame 6
 	SpriteFrame(-14, -32, 28, 64, 226, 64) // Frame 7
 	SpriteFrame(-12, -32, 24, 64, 220, 0) // Frame 8
@@ -169,7 +169,7 @@ event ObjectStartup
 	// Flip
 	SpriteFrame(-14, -32, 28, 64, 226, 64) // Frame 9
 	SpriteFrame(-16, -32, 32, 64, 181, 64) // Frame 10
-	SpriteFrame(-20, -32, 40, 64, 140, 64) // Frame 11
+	SpriteFrame(-20, -32, 40, 64, 17, 128) // Frame 11
 	SpriteFrame(-24, -32, 48, 64, 91, 64) // Frame 12
 	SpriteFrame(-28, -32, 56, 64, 163, 0) // Frame 13
 	SpriteFrame(-30, -32, 60, 64, 102, 0) // Frame 14
