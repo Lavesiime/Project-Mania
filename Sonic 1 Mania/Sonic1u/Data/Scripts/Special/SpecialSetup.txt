@@ -289,6 +289,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 8
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0xA0
 			object.bgClr.b = 0xA0
@@ -304,6 +305,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0x60
 			object.bgClr.b = 0x80
@@ -316,6 +318,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0x40
 			object.bgClr.b = 0x60
@@ -328,6 +331,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0x00
 			object.bgClr.b = 0x40
@@ -340,7 +344,8 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
-			stage.activeLayer[0] = 1
+			stage.activeLayer[0] = 6
+			stage.activeLayer[1] = 1
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0x00
 			object.bgClr.b = 0x40
@@ -360,6 +365,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 8
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			temp1 = 104
 			temp2 = 152
 			CallFunction(SpecialSetup_CopyAniTiles)
@@ -375,7 +381,8 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 8
 			object.timer = 0
-			stage.activeLayer[1] = 4
+			stage.activeLayer[0] = 6
+			stage.activeLayer[2] = 4
 			hParallax[0].scrollSpeed = -0x10000
 			object.state++
 		end if
@@ -385,7 +392,8 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 1020
 			object.timer = 0
-			stage.activeLayer[1] = 3
+			stage.activeLayer[0] = 6
+			stage.activeLayer[2] = 3
 			hParallax[0].scrollSpeed = 0
 			object.state++
 		end if
@@ -399,7 +407,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 8
 			object.timer = 0
-
+			stage.activeLayer[0] = 6
 			temp1 = 104
 			temp2 = 136
 			CallFunction(SpecialSetup_CopyAniTiles)
@@ -415,6 +423,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 8
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0x00
 			object.bgClr.b = 0x40
@@ -430,6 +439,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0x40
 			object.bgClr.b = 0x60
@@ -442,6 +452,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0x60
 			object.bgClr.b = 0x80
@@ -454,6 +465,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0xA0
 			object.bgClr.b = 0xA0
@@ -466,8 +478,8 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.a = 0x00
-
 			temp1 = 184
 			temp2 = 200
 			CallFunction(SpecialSetup_CopyAniTiles)
@@ -479,6 +491,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 8
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x60
 			object.bgClr.g = 0xC0
 			object.bgClr.b = 0x40
@@ -494,6 +507,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x40
 			object.bgClr.g = 0x80
 			object.bgClr.b = 0x40
@@ -506,6 +520,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x20
 			object.bgClr.g = 0x40
 			object.bgClr.b = 0x40
@@ -518,6 +533,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0x00
 			object.bgClr.b = 0x40
@@ -530,7 +546,8 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
-			stage.activeLayer[0] = 2
+			stage.activeLayer[0] = 6
+			stage.activeLayer[1] = 2
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0x00
 			object.bgClr.b = 0x40
@@ -552,7 +569,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 8
 			object.timer = 0
-
+			stage.activeLayer[0] = 6
 			temp1 = 184
 			temp2 = 232
 			CallFunction(SpecialSetup_CopyAniTiles)
@@ -569,7 +586,8 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 8
 			object.timer = 0
-			stage.activeLayer[1] = 5
+			stage.activeLayer[0] = 6
+			stage.activeLayer[2] = 5
 			hParallax[0].scrollSpeed = 0x10000
 			object.state++
 		end if
@@ -580,7 +598,8 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 1020
 			object.timer = 0
-			stage.activeLayer[1] = 3
+			stage.activeLayer[0] = 6
+			stage.activeLayer[2] = 3
 			hParallax[0].scrollSpeed = 0
 			object.state++
 		end if
@@ -595,7 +614,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 8
 			object.timer = 0
-
+			stage.activeLayer[0] = 6
 			temp1 = 184
 			temp2 = 216
 			CallFunction(SpecialSetup_CopyAniTiles)
@@ -612,6 +631,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 8
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x00
 			object.bgClr.g = 0x00
 			object.bgClr.b = 0x40
@@ -628,6 +648,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x20
 			object.bgClr.g = 0x40
 			object.bgClr.b = 0x40
@@ -640,6 +661,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x40
 			object.bgClr.g = 0x80
 			object.bgClr.b = 0x40
@@ -652,6 +674,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.r = 0x60
 			object.bgClr.g = 0xC0
 			object.bgClr.b = 0x40
@@ -664,6 +687,7 @@ event ObjectUpdate
 		object.timer++
 		if object.timer == 4
 			object.timer = 0
+			stage.activeLayer[0] = 6
 			object.bgClr.a = 0x00
 			temp1 = 104
 			temp2 = 120
@@ -719,6 +743,71 @@ event ObjectStartup
 		stage.timeEnabled = true
 #endplatform
 	end if
+	switch stage.actNum
+	case 1
+		SetPaletteEntry(1, 160, 0x3C2818)
+		SetPaletteEntry(1, 167, 0x684804)
+		SetPaletteEntry(1, 168, 0x886800)
+		SetPaletteEntry(1, 169, 0xA4848C)
+		SetPaletteEntry(1, 170, 0xE0A460)
+		SetPaletteEntry(1, 171, 0xECC890)
+		SetPaletteEntry(1, 172, 0xE8E0D8)
+		break
+	case 2
+		SetPaletteEntry(0, 160, 0x3C2818)
+		SetPaletteEntry(0, 167, 0x684804)
+		SetPaletteEntry(0, 168, 0x886800)
+		SetPaletteEntry(0, 169, 0xA4848C)
+		SetPaletteEntry(0, 170, 0xE0A460)
+		SetPaletteEntry(0, 171, 0xECC890)
+		SetPaletteEntry(0, 172, 0xE8E0D8)
+		break
+	case 3
+		SetPaletteEntry(0, 160, 0x2C0840)
+		SetPaletteEntry(0, 167, 0x540080)
+		SetPaletteEntry(0, 168, 0x742894)
+		SetPaletteEntry(0, 169, 0x9420C0)
+		SetPaletteEntry(0, 170, 0x9C74E4)
+		SetPaletteEntry(0, 171, 0xACA0E0)
+		SetPaletteEntry(0, 172, 0xD0D8E8)
+		break
+	case 4
+		SetPaletteEntry(0, 160, 0x004C48)
+		SetPaletteEntry(0, 167, 0x108034)
+		SetPaletteEntry(0, 168, 0x1CA454)
+		SetPaletteEntry(0, 169, 0x20C098)
+		SetPaletteEntry(0, 170, 0x60E0B4)
+		SetPaletteEntry(0, 171, 0xACE0D4)
+		SetPaletteEntry(0, 172, 0xD8ECE8)
+		break
+	case 5
+		SetPaletteEntry(0, 160, 0x480C50)
+		SetPaletteEntry(0, 167, 0x800064)
+		SetPaletteEntry(0, 168, 0xA42C68)
+		SetPaletteEntry(0, 169, 0xC04C20)
+		SetPaletteEntry(0, 170, 0xE09460)
+		SetPaletteEntry(0, 171, 0xECB4B4)
+		SetPaletteEntry(0, 172, 0xF4D8DC)
+		break
+	case 6
+		SetPaletteEntry(0, 160, 0x302440)
+		SetPaletteEntry(0, 167, 0x404060)
+		SetPaletteEntry(0, 168, 0x586474)
+		SetPaletteEntry(0, 169, 0x7C7CA0)
+		SetPaletteEntry(0, 170, 0x98A8C0)
+		SetPaletteEntry(0, 171, 0xB4CCCC)
+		SetPaletteEntry(0, 172, 0xDCE4E4)
+		break
+	case 7
+		SetPaletteEntry(0, 160, 0x143C44)
+		SetPaletteEntry(0, 167, 0x005C88)
+		SetPaletteEntry(0, 168, 0x107C7C)
+		SetPaletteEntry(0, 169, 0x209CC0)
+		SetPaletteEntry(0, 170, 0x60C4E0)
+		SetPaletteEntry(0, 171, 0xA0E0D0)
+		SetPaletteEntry(0, 172, 0xD4ECE0)
+		break
+	end switch
 
 #platform: USE_ORIGINS
 	stage.timeEnabled = true
@@ -732,9 +821,9 @@ event ObjectStartup
 	object[20].priority = PRIORITY_ACTIVE
 
 	stage.activeLayer[0] = 9
-	stage.activeLayer[1] = 3
-	stage.activeLayer[2] = 9
-	stage.activeLayer[3] = 9
+	stage.activeLayer[1] = 9
+	stage.activeLayer[2] = 3
+	stage.activeLayer[3] = 3
 	
 	if options.attractMode == false
 #platform: USE_ORIGINS
