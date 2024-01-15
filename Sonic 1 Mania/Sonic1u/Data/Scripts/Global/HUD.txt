@@ -113,10 +113,15 @@ private function HUD_Draw_Standard
 #endplatform
 
 			if object[0].value43 == 1						// Hyper Ring state
-				LoadSpriteSheet("Global/Display2.gif")
-				DrawNumbers(0, 80, 45, player[0].rings, 3, 8, false)
-
-				DrawSpriteScreenXY(46, 88, 42)
+				LoadSpriteSheet("Global/Display.gif")
+#platform: USE_STANDALONE
+				DrawNumbers(39, 80, 45, player[0].rings, 3, 8, false)
+				DrawSpriteScreenXY(38, 89, 43)
+#endplatform
+#platform: USE_ORIGINS
+				DrawNumbers(47, 80, 45, player[0].rings, 3, 8, false)
+				DrawSpriteScreenXY(46, 89, 43)
+#endplatform
 				LoadSpriteSheet("Global/Display.gif")
 			else
 				DrawNumbers(0, 80, 45, player[0].rings, 3, 8, false)
@@ -230,7 +235,7 @@ private function HUD_Draw_Mobile
 
 	if player[0].rings == 0
 		if object.flashTimer > 7
-			DrawSpriteScreenXY(12, 17, 41)
+			DrawSpriteScreenXY(12, 117, 41)
 		end if
 	end if
 
@@ -429,7 +434,17 @@ event ObjectStartup
 	SpriteFrame(0, 0, 39, 7, 182, 158)  // XX/45 - Coins name tag
 #endplatform
 
-	SpriteFrame(0, 0, 16, 16, 182, 158) // 46 - Hyper Ring
+	SpriteFrame(0, 0, 14, 14, 7, 291) // 46 - Hyper Ring
+	SpriteFrame(0, 0, 8, 11, 1, 306) 	//  0/ 0 - Number 0
+	SpriteFrame(0, 0, 8, 11, 10, 306) 	//  1/ 1 - Number 1
+	SpriteFrame(0, 0, 8, 11, 19, 306) 	//  2/ 2 - Number 2
+	SpriteFrame(0, 0, 8, 11, 28, 306) 	//  3/ 3 - Number 3
+	SpriteFrame(0, 0, 8, 11, 1, 318) 	//  4/ 4 - Number 4
+	SpriteFrame(0, 0, 8, 11, 10, 318) 	//  5/ 5 - Number 5
+	SpriteFrame(0, 0, 8, 11, 19, 318) 	//  6/ 6 - Number 6
+	SpriteFrame(0, 0, 8, 11, 28, 318) 	//  7/ 7 - Number 7
+	SpriteFrame(0, 0, 8, 11, 1, 330) 	//  8/ 8  - Number 8
+	SpriteFrame(0, 0, 8, 11, 10, 330) 	//  9/ 9  - Number 9
 
 	foreach (TypeName[HUD], arrayPos0, ALL_ENTITIES)
 		if engine.deviceType == STANDARD

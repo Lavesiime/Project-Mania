@@ -173,10 +173,10 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Global/Items2.gif")
-	SpriteFrame(-8, -8, 16, 16, 83, 91)
-	SpriteFrame(-8, -8, 16, 15, 83, 108)
-	SpriteFrame(-7, -12, 16, 24, 83, 66)
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-8, -8, 16, 16, 339, 347)
+	SpriteFrame(-8, -8, 16, 15, 339, 364)
+	SpriteFrame(-7, -12, 16, 24, 339, 322)
 
 	foreach (TypeName[Rocky], arrayPos0, ALL_ENTITIES)
 		if object[arrayPos0].propertyValue == 1
@@ -249,8 +249,8 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("Global/Items2.gif")
-	SpriteFrame(-7, -12, 16, 24, 83, 66)
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-7, -12, 16, 24, 339, 322)
 	
 	AddEditorVariable("behavior")
 	SetActiveVariable("behavior")

@@ -166,10 +166,6 @@ event ObjectUpdate
 			object[tempObjectPos].xvel = 0x10000
 			object[tempObjectPos].yvel = -0x16000
 			object[tempObjectPos].frame = 2
-			//CreateTempObject(TypeName[Animal Prison Part], 0, object.xpos, object.ypos)
-			//object[tempObjectPos].xvel = -0x10000
-			//object[tempObjectPos].yvel = -0x16000
-			//object[tempObjectPos].frame = 3
 			
 		end if
 		object.frame = object.animationTimer

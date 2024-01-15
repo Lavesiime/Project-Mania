@@ -150,50 +150,50 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Global/Display2.gif")
+	LoadSpriteSheet("Global/Display.gif")
 
 	// Sprite frames
 
 	// Special Ring Spinning - #0-22
-	SpriteFrame(-32, -32, 64, 64, 37, 0) // Frame 0
-	SpriteFrame(-30, -32, 60, 64, 102, 0) // Frame 1
-	SpriteFrame(-28, -32, 56, 64, 163, 0) // Frame 2
-	SpriteFrame(-26, -32, 52, 64, 38, 64) // Frame 3
-	SpriteFrame(-24, -32, 48, 64, 91, 64) // Frame 4
-	SpriteFrame(-20, -32, 40, 64, 17, 128) // Frame 5
-	SpriteFrame(-16, -32, 32, 64, 181, 64) // Frame 6
-	SpriteFrame(-14, -32, 28, 64, 226, 64) // Frame 7
-	SpriteFrame(-12, -32, 24, 64, 220, 0) // Frame 8
+	SpriteFrame(-32, -32, 64, 64, 37, 256) // Frame 0
+	SpriteFrame(-30, -32, 60, 64, 102, 256) // Frame 1
+	SpriteFrame(-28, -32, 56, 64, 163, 256) // Frame 2
+	SpriteFrame(-26, -32, 52, 64, 38, 320) // Frame 3
+	SpriteFrame(-24, -32, 48, 64, 91, 320) // Frame 4
+	SpriteFrame(-20, -32, 40, 64, 17, 384) // Frame 5
+	SpriteFrame(-16, -32, 32, 64, 181, 320) // Frame 6
+	SpriteFrame(-14, -32, 28, 64, 226, 320) // Frame 7
+	SpriteFrame(-12, -32, 24, 64, 220, 256) // Frame 8
 
 	
 	// Flip
-	SpriteFrame(-14, -32, 28, 64, 226, 64) // Frame 9
-	SpriteFrame(-16, -32, 32, 64, 181, 64) // Frame 10
-	SpriteFrame(-20, -32, 40, 64, 17, 128) // Frame 11
-	SpriteFrame(-24, -32, 48, 64, 91, 64) // Frame 12
-	SpriteFrame(-28, -32, 56, 64, 163, 0) // Frame 13
-	SpriteFrame(-30, -32, 60, 64, 102, 0) // Frame 14
+	SpriteFrame(-14, -32, 28, 64, 226, 320) // Frame 9
+	SpriteFrame(-16, -32, 32, 64, 181, 320) // Frame 10
+	SpriteFrame(-20, -32, 40, 64, 17, 384) // Frame 11
+	SpriteFrame(-24, -32, 48, 64, 91, 320) // Frame 12
+	SpriteFrame(-28, -32, 56, 64, 163, 256) // Frame 13
+	SpriteFrame(-30, -32, 60, 64, 102, 256) // Frame 14
 
 	// Special Ring Warping - #23-38
-	SpriteFrame(0, -32, 32, 64, 58, 128) // Frame 15
-	SpriteFrame(-16, -32, 48, 64, 90, 128) // Frame 16
-	SpriteFrame(-12, -32, 44, 64, 138, 128) // Frame 17
-	SpriteFrame(-24, -32, 56, 64, 199, 128) // Frame 18
-	SpriteFrame(-24, -32, 56, 64, 21, 192) // Frame 19
-	SpriteFrame(-24, -32, 56, 64, 78, 192) // Frame 20
-	SpriteFrame(-24, -32, 56, 64, 135, 192) // Frame 21
+	SpriteFrame(0, -32, 32, 64, 58, 384) // Frame 15
+	SpriteFrame(-16, -32, 48, 64, 90, 384) // Frame 16
+	SpriteFrame(-12, -32, 44, 64, 138, 384) // Frame 17
+	SpriteFrame(-24, -32, 56, 64, 199, 384) // Frame 18
+	SpriteFrame(-24, -32, 56, 64, 21, 448) // Frame 19
+	SpriteFrame(-24, -32, 56, 64, 78, 448) // Frame 20
+	SpriteFrame(-24, -32, 56, 64, 135, 448) // Frame 21
 
-	SpriteFrame(0, -32, 32, 64, 224, 192) // Frame 22
+	SpriteFrame(0, -32, 32, 64, 224, 448) // Frame 22
 
-	SpriteFrame(-24, -32, 56, 64, 135, 192) // Frame 23
-	SpriteFrame(-24, -32, 56, 64, 78, 192) // Frame 24
-	SpriteFrame(-24, -32, 56, 64, 21, 192) // Frame 25
-	SpriteFrame(-24, -32, 56, 64, 199, 128) // Frame 26
-	SpriteFrame(-12, -32, 44, 64, 138, 128) // Frame 27
-	SpriteFrame(-16, -32, 48, 64, 90, 128) // Frame 28
-	SpriteFrame(0, -32, 32, 64, 58, 128) // Frame 29
+	SpriteFrame(-24, -32, 56, 64, 135, 448) // Frame 23
+	SpriteFrame(-24, -32, 56, 64, 78, 448) // Frame 24
+	SpriteFrame(-24, -32, 56, 64, 21, 448) // Frame 25
+	SpriteFrame(-24, -32, 56, 64, 199, 384) // Frame 26
+	SpriteFrame(-12, -32, 44, 64, 138, 384) // Frame 27
+	SpriteFrame(-16, -32, 48, 64, 90, 384) // Frame 28
+	SpriteFrame(0, -32, 32, 64, 58, 384) // Frame 29
 
-	SpriteFrame(-32, -32, 32, 64, 192, 192) // Frame 30
+	SpriteFrame(-32, -32, 32, 64, 192, 448) // Frame 30
 
 	// Find max emerald count
 	if options.superStates == false

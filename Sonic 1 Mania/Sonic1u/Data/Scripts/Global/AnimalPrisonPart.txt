@@ -36,14 +36,14 @@ end event
 
 
 event ObjectDraw
-	object.drawOrder = 5
+	object.drawOrder = 3
 	temp0 = object.timer
 	temp0 %= 2
 	if temp0 == 0
 		DrawSpriteFX(object.frame, FX_ROTATE, object.xpos, object.ypos)
 	else
 		if object.timer < 30
-			//DrawSpriteFX(object.frame, FX_ROTATE, object.xpos, object.ypos)
+			DrawSpriteFX(object.frame, FX_ROTATE, object.xpos, object.ypos)
 		end if
 	end if
 end event
