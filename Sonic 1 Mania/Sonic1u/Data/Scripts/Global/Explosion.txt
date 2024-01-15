@@ -32,22 +32,22 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Global/Items2.gif")
+	LoadSpriteSheet("Global/Display.gif")
 
 	// Explosion frames
-	SpriteFrame(-16, -8, 32, 16, 99, 115)
-	SpriteFrame(-16, -8, 32, 16, 1, 1)
-	SpriteFrame(-16, -16, 32, 32, 1, 84)
-	SpriteFrame(-16, -16, 32, 32, 99, 82)
-	SpriteFrame(-16, -16, 32, 32, 132, 82)
-	SpriteFrame(-16, -16, 32, 32, 165, 82)
-	SpriteFrame(-16, -16, 32, 32, 1, 117)
-	SpriteFrame(-16, -16, 32, 32, 224, 42)
-	SpriteFrame(-20, -20, 40, 40, 198, 1)
-	SpriteFrame(-20, -20, 40, 40, 157, 1)
-	SpriteFrame(-20, -20, 40, 40, 100, 42)
-	SpriteFrame(-20, -20, 40, 40, 141, 42)
-	SpriteFrame(-20, -20, 40, 40, 133, 114)
+	SpriteFrame(-16, -8, 32, 16, 355, 371)
+	SpriteFrame(-16, -8, 32, 16, 257, 257)
+	SpriteFrame(-16, -16, 32, 32, 257, 340)
+	SpriteFrame(-16, -16, 32, 32, 355, 338)
+	SpriteFrame(-16, -16, 32, 32, 388, 338)
+	SpriteFrame(-16, -16, 32, 32, 421, 338)
+	SpriteFrame(-16, -16, 32, 32, 257, 373)
+	SpriteFrame(-16, -16, 32, 32, 480, 298)
+	SpriteFrame(-20, -20, 40, 40, 454, 257)
+	SpriteFrame(-20, -20, 40, 40, 413, 257)
+	SpriteFrame(-20, -20, 40, 40, 356, 298)
+	SpriteFrame(-20, -20, 40, 40, 397, 298)
+	SpriteFrame(-20, -20, 40, 40, 389, 370)
 end event
 
 
