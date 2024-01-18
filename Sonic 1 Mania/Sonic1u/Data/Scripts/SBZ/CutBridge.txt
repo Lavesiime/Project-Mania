@@ -151,11 +151,11 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-16, -8, 32, 32, 457, 231)
-	SpriteFrame(-8, -8, 16, 16, 457, 231)
-	SpriteFrame(-8, -8, 16, 16, 473, 231)
-	SpriteFrame(-8, -8, 16, 16, 457, 247)
-	SpriteFrame(-8, -8, 16, 16, 473, 247)
+	SpriteFrame(-16, -8, 32, 32, 170, 478)
+	SpriteFrame(-8, -8, 16, 16, 170, 478)
+	SpriteFrame(-8, -8, 16, 16, 186, 478)
+	SpriteFrame(-8, -8, 16, 16, 170, 494)
+	SpriteFrame(-8, -8, 16, 16, 186, 494)
 end event
 
 
@@ -169,8 +169,8 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-16, -8, 32, 32, 457, 231)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-16, -8, 32, 32, 67, 124)
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
 end event

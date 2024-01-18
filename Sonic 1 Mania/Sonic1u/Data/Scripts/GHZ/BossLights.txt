@@ -31,8 +31,8 @@ event ObjectStartup
 	LoadSpriteSheet("Global/Eggman.gif")
 
 	// Light frames
-	SpriteFrame(-8, -5, 16, 13, 196, 24)
-	SpriteFrame(-8, -5, 16, 13, 196, 38)
+	SpriteFrame(-8, -5, 16, 13, 151, 229)
+	SpriteFrame(-8, -5, 16, 13, 168, 229)
 end event
 
 

@@ -154,15 +154,15 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("LZ/Objects3.gif")
+	LoadSpriteSheet("LZ/Objects2.gif")
 	
 	// Harpoon frames
 	SpriteFrame(-8, -4, 16, 8, 196, 129)
 	SpriteFrame(-8, -4, 32, 8, 158, 163)
 	SpriteFrame(-8, -4, 48, 8, 94, 115)
 
-	SpriteFrame(-5, -4, 42, 8, 50, 1) // Smooth movement frames
-	SpriteFrame(-8, -4, 6, 8, 43, 1)
+	SpriteFrame(-5, -4, 42, 8, 214, 115) // Smooth movement frames
+	SpriteFrame(-8, -4, 6, 8, 207, 115)
 
 	// Add this object to the debug item list
 	SetTableValue(TypeName[Harpoon H], DebugMode_ObjCount, DebugMode_TypesTable)

@@ -376,11 +376,11 @@ event ObjectStartup
 	SpriteFrame(0, 0, 43, 24, 138, 1)	// #29 - Act 2 text
 	SpriteFrame(0, 0, 43, 24, 182, 1)	// #30 - Act 3 text
 
-	SpriteFrame(0, 0, 56, 56, 257, 1)	// #31 - Big Orange circle
+	SpriteFrame(0, 0, 56, 56, 41, 1)	// #31 - Big Orange circle
 
-	SpriteFrame(0, 0, 56, 56, 314, 1)	// #32 - Big Red circle
+	SpriteFrame(0, 0, 56, 56, 41, 1)	// #32 - Big Red circle
 #platform: USE_ORIGINS
-	SpriteFrame(0, 0, 56, 56, 371, 1)	// #33 - Big Pink circle
+	SpriteFrame(0, 0, 56, 56, 41, 1)	// #33 - Big Pink circle
 #endplatform
 	// Cycle through all objects and filter out title cards
 	// (Pretend this is a foreach, this object was made before foreaches were brought into existence)

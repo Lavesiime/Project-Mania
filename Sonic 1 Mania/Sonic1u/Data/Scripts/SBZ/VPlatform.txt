@@ -72,8 +72,8 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-32, -12, 64, 24, 318, 140)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-32, -12, 64, 24, 62, 213)
 
 	SetTableValue(TypeName[V Platform], DebugMode_ObjCount, DebugMode_TypesTable)
 	SetTableValue(VPlatform_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)
@@ -92,8 +92,8 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-32, -12, 64, 24, 318, 140)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-32, -12, 64, 24, 62, 213)
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
 end event

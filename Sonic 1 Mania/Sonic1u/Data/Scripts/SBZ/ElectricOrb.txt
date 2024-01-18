@@ -141,6 +141,7 @@ end event
 
 
 event ObjectDraw
+	DrawSpriteFX(0, FX_FLIP, object.xpos, object.ypos)
 	switch object.interval
 	default
 		DrawSpriteFX(SBZSetup_electricOrbFrame, FX_FLIP, object.xpos, object.ypos)
@@ -168,10 +169,10 @@ event ObjectStartup
 	// Orb frames
 	SpriteFrame(-8, -8, 16, 32, 58, 479)
 	SpriteFrame(-8, -8, 16, 32, 75, 479)
-	SpriteFrame(-36, -10, 76, 34, 92, 477)
-	SpriteFrame(-36, -10, 76, 34, 169, 477)
-	SpriteFrame(-64, -10, 132, 34, 246, 477)
-	SpriteFrame(-64, -10, 132, 34, 379, 477)
+	SpriteFrame(-36, -10, 76, 17, 92, 477)
+	SpriteFrame(-36, -10, 76, 17, 92, 494)
+	SpriteFrame(-64, -10, 132, 17, 51, 336)
+	SpriteFrame(-64, -10, 132, 17, 51, 318)
 	SpriteFrame(-8, -8, 16, 32, 58, 479)
 	SpriteFrame(-8, -8, 16, 32, 58, 479)
 	SpriteFrame(-8, -8, 16, 32, 58, 479)

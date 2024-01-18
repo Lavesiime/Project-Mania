@@ -4,17 +4,13 @@
 // Script Author: Christian Whitehead/Simon Thomley
 // Unpacked by Rubberduckycooly's script unpacker
 // ----------------------------------
-
 // This Eggman object is used for the SBZ2 end cutscene
 // For the boss, see FZEggman instead
-
 // ========================
 // Aliases
 // ========================
-
 private alias object.value0 : object.timer
 private alias object.value1 : object.invincibilityTimer
-
 // States
 private alias 0 : SBZEGGMAN_WAITING
 private alias 1 : SBZEGGMAN_LAUGH
@@ -22,21 +18,16 @@ private alias 2 : SBZEGGMAN_JUMP
 private alias 3 : SBZEGGMAN_INAIR
 private alias 4 : SBZEGGMAN_LAND
 private alias 5 : SBZEGGMAN_FINISHED
-
 // Animations
 private alias 0 : SBZEGGMAN_ANI_IDLE
 private alias 1 : SBZEGGMAN_ANI_LAUGH
 private alias 2 : SBZEGGMAN_ANI_JUMP
 private alias 3 : SBZEGGMAN_ANI_HIT
-
-
 // Music Events
 private alias 26 : SLOT_MUSICEVENT_BOSS
-
 private alias 0 : MUSICEVENT_FADETOBOSS
 private alias 1 : MUSICEVENT_FADETOSTAGE
 private alias 2 : MUSICEVENT_TRANSITION
-
 event ObjectUpdate
 	// Handle States
 	switch object.state
@@ -49,7 +40,6 @@ event ObjectUpdate
 			object.animation = SBZEGGMAN_ANI_LAUGH
 		end if
 		break
-
 	case SBZEGGMAN_LAUGH
 		object.timer--
 		if object.timer < 0
@@ -58,7 +48,6 @@ event ObjectUpdate
 			object.animation = SBZEGGMAN_ANI_JUMP
 		end if
 		break
-
 	case SBZEGGMAN_JUMP
 		object.timer--
 		if object.timer < 0
@@ -67,7 +56,6 @@ event ObjectUpdate
 			object.yvel = -0x3C000
 		end if
 		break
-
 	case SBZEGGMAN_INAIR
 		object.xpos += object.xvel
 		object.ypos += object.yvel
@@ -77,7 +65,6 @@ event ObjectUpdate
 			object.state++
 		end if
 		break
-
 	case SBZEGGMAN_LAND
 		object.animation = SBZEGGMAN_ANI_LAUGH
 		object.state++
@@ -87,13 +74,11 @@ event ObjectUpdate
 		break
 		
 	end switch
-
 	// Handle Animations
 	switch object.animation
 	case SBZEGGMAN_ANI_IDLE
 		object.frame = 2
 		break
-
 	case SBZEGGMAN_ANI_LAUGH
 		object.animationTimer++
 		object.frame++
@@ -104,7 +89,6 @@ event ObjectUpdate
 			object.frame = 44
 		end if
 		break
-
 	case SBZEGGMAN_ANI_JUMP
 		object.animationTimer++
 		object.frame++
@@ -115,7 +99,6 @@ event ObjectUpdate
 			object.frame = 171
 		end if
 		break
-
 	case SBZEGGMAN_ANI_HIT
 		object.animationTimer++
 		object.frame++
@@ -126,14 +109,11 @@ event ObjectUpdate
 			object.frame = 77
 		end if
 		break
-
 	end switch
-
 	// Player Interactions
 	if object.invincibilityTimer != 0
 		object.invincibilityTimer--
 	end if
-
 	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
 		BoxCollisionTest(C_TOUCH, object.entityPos, -14, -20, 14, 16, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 		if checkResult == true
@@ -151,14 +131,10 @@ event ObjectUpdate
 		end if
 	next
 end event
-
-
 event ObjectDraw
 	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
 	object.direction = FLIP_X
 end event
-
-
 event ObjectStartup
 	switch stage.playerListPos
 	case PLAYER_SONIC_A
@@ -178,195 +154,191 @@ event ObjectStartup
 		break
 	end switch
 	// Flash Hit
-	SpriteFrame(0, 0, 0, 0, 470, 419) // Frame 0
-	SpriteFrame(-22, -32, 42, 64, 470, 419) // Frame 1
-
+	SpriteFrame(0, 0, 0, 0, 214, 657) // Frame 0
+	SpriteFrame(-22, -32, 42, 64, 214, 657) // Frame 1
 	// Standing
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 2
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 2
 
 	// Laughing
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 3
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 4
-	SpriteFrame(-17, -23, 38, 51, 40, 257) // Frame 5
-	SpriteFrame(-17, -23, 38, 51, 40, 257) // Frame 6
-	SpriteFrame(-17, -23, 38, 51, 40, 257) // Frame 7
-	SpriteFrame(-17, -23, 38, 51, 40, 257) // Frame 8
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 9
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 10
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 11
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 12
-	SpriteFrame(-17, -24, 38, 52, 118, 256) // Frame 13
-	SpriteFrame(-17, -24, 38, 52, 118, 256) // Frame 14
-	SpriteFrame(-17, -24, 38, 52, 118, 256) // Frame 15
-	SpriteFrame(-17, -24, 38, 52, 118, 256) // Frame 16
-	SpriteFrame(-17, -24, 38, 52, 157, 256) // Frame 17
-	SpriteFrame(-17, -24, 38, 52, 157, 256) // Frame 18
-	SpriteFrame(-17, -24, 38, 52, 157, 256) // Frame 19
-	SpriteFrame(-17, -24, 38, 52, 157, 256) // Frame 20
-	SpriteFrame(-17, -24, 38, 52, 118, 256) // Frame 21
-	SpriteFrame(-17, -24, 38, 52, 118, 256) // Frame 22
-	SpriteFrame(-17, -24, 38, 52, 118, 256) // Frame 23
-	SpriteFrame(-17, -24, 38, 52, 118, 256) // Frame 24
-	SpriteFrame(-17, -24, 38, 52, 157, 256) // Frame 25
-	SpriteFrame(-17, -24, 38, 52, 157, 256) // Frame 26
-	SpriteFrame(-17, -24, 38, 52, 157, 256) // Frame 27
-	SpriteFrame(-17, -24, 38, 52, 157, 256) // Frame 28
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 29
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 30
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 31
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 32
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 33
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 34
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 35
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 36
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 37
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 38
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 39
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 40
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 41
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 42
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 43
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 44
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 45
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 46
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 47
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 48
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 49
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 50
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 51
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 52
-	SpriteFrame(-17, -23, 38, 51, 196, 257) // Frame 53
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 54
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 55
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 56
-	SpriteFrame(-17, -24, 38, 52, 79, 256) // Frame 57
-	SpriteFrame(-17, -23, 38, 51, 40, 257) // Frame 58
-	SpriteFrame(-17, -23, 38, 51, 40, 257) // Frame 59
-	SpriteFrame(-17, -23, 38, 51, 40, 257) // Frame 60
-	SpriteFrame(-17, -23, 38, 51, 40, 257) // Frame 61
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 62
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 63
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 3
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 4
+	SpriteFrame(-17, -23, 38, 51, 40, 336) // Frame 5
+	SpriteFrame(-17, -23, 38, 51, 40, 336) // Frame 6
+	SpriteFrame(-17, -23, 38, 51, 40, 336) // Frame 7
+	SpriteFrame(-17, -23, 38, 51, 40, 336) // Frame 8
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 9
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 10
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 11
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 12
+	SpriteFrame(-17, -24, 38, 52, 118, 335) // Frame 13
+	SpriteFrame(-17, -24, 38, 52, 118, 335) // Frame 14
+	SpriteFrame(-17, -24, 38, 52, 118, 335) // Frame 15
+	SpriteFrame(-17, -24, 38, 52, 118, 335) // Frame 16
+	SpriteFrame(-17, -24, 38, 52, 157, 335) // Frame 17
+	SpriteFrame(-17, -24, 38, 52, 157, 335) // Frame 18
+	SpriteFrame(-17, -24, 38, 52, 157, 335) // Frame 19
+	SpriteFrame(-17, -24, 38, 52, 157, 335) // Frame 20
+	SpriteFrame(-17, -24, 38, 52, 118, 335) // Frame 21
+	SpriteFrame(-17, -24, 38, 52, 118, 335) // Frame 22
+	SpriteFrame(-17, -24, 38, 52, 118, 335) // Frame 23
+	SpriteFrame(-17, -24, 38, 52, 118, 335) // Frame 24
+	SpriteFrame(-17, -24, 38, 52, 157, 335) // Frame 25
+	SpriteFrame(-17, -24, 38, 52, 157, 335) // Frame 26
+	SpriteFrame(-17, -24, 38, 52, 157, 335) // Frame 27
+	SpriteFrame(-17, -24, 38, 52, 157, 335) // Frame 28
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 29
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 30
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 31
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 32
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 33
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 34
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 35
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 36
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 37
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 38
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 39
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 40
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 41
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 42
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 43
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 44
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 45
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 46
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 47
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 48
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 49
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 50
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 51
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 52
+	SpriteFrame(-17, -23, 38, 51, 196, 336) // Frame 53
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 54
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 55
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 56
+	SpriteFrame(-17, -24, 38, 52, 79, 335) // Frame 57
+	SpriteFrame(-17, -23, 38, 51, 40, 336) // Frame 58
+	SpriteFrame(-17, -23, 38, 51, 40, 336) // Frame 59
+	SpriteFrame(-17, -23, 38, 51, 40, 336) // Frame 60
+	SpriteFrame(-17, -23, 38, 51, 40, 336) // Frame 61
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 62
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 63
 
 	// Hurt
-	SpriteFrame(-21, -25, 42, 53, 274, 257) // Frame 64
-	SpriteFrame(-21, -25, 42, 53, 274, 257) // Frame 65
-	SpriteFrame(-17, -24, 38, 52, 317, 257) // Frame 66
-	SpriteFrame(-17, -24, 38, 52, 317, 257) // Frame 67
-	SpriteFrame(-17, -25, 38, 53, 356, 257) // Frame 68
-	SpriteFrame(-17, -25, 38, 53, 356, 257) // Frame 69
-	SpriteFrame(-17, -24, 38, 52, 317, 257) // Frame 70
-	SpriteFrame(-17, -24, 38, 52, 317, 257) // Frame 71
-	SpriteFrame(-17, -24, 38, 52, 395, 257) // Frame 72
-	SpriteFrame(-17, -24, 38, 52, 395, 257) // Frame 73
-	SpriteFrame(-17, -24, 38, 52, 317, 257) // Frame 74
-	SpriteFrame(-17, -24, 38, 52, 317, 257) // Frame 75
-	SpriteFrame(-17, -24, 38, 52, 317, 257) // Frame 76
-	SpriteFrame(-17, -24, 38, 52, 434, 257) // Frame 77
-	SpriteFrame(-17, -24, 38, 52, 434, 257) // Frame 78
-	SpriteFrame(-17, -24, 38, 52, 434, 257) // Frame 79
-	SpriteFrame(-17, -24, 38, 52, 317, 257) // Frame 80
-	SpriteFrame(-17, -24, 38, 52, 317, 257) // Frame 81
-	SpriteFrame(-17, -24, 38, 52, 317, 257) // Frame 82
+	SpriteFrame(-21, -25, 42, 53, 3, 661) // Frame 64
+	SpriteFrame(-21, -25, 42, 53, 3, 661) // Frame 65
+	SpriteFrame(-17, -24, 38, 52, 46, 661) // Frame 66
+	SpriteFrame(-17, -24, 38, 52, 46, 661) // Frame 67
+	SpriteFrame(-17, -25, 38, 53, 85, 661) // Frame 68
+	SpriteFrame(-17, -25, 38, 53, 85, 661) // Frame 69
+	SpriteFrame(-17, -24, 38, 52, 46, 661) // Frame 70
+	SpriteFrame(-17, -24, 38, 52, 46, 661) // Frame 71
+	SpriteFrame(-17, -24, 38, 52, 124, 661) // Frame 72
+	SpriteFrame(-17, -24, 38, 52, 124, 661) // Frame 73
+	SpriteFrame(-17, -24, 38, 52, 46, 661) // Frame 74
+	SpriteFrame(-17, -24, 38, 52, 46, 661) // Frame 75
+	SpriteFrame(-17, -24, 38, 52, 46, 661) // Frame 76
+	SpriteFrame(-17, -24, 38, 52, 163, 661) // Frame 77
+	SpriteFrame(-17, -24, 38, 52, 163, 661) // Frame 78
+	SpriteFrame(-17, -24, 38, 52, 163, 661) // Frame 79
+	SpriteFrame(-17, -24, 38, 52, 46, 661) // Frame 80
+	SpriteFrame(-17, -24, 38, 52, 46, 661) // Frame 81
+	SpriteFrame(-17, -24, 38, 52, 46, 661) // Frame 82
 
 	// Jumping
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 83
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 84
-	SpriteFrame(-20, -22, 37, 50, 434, 314) // Frame 85
-	SpriteFrame(-20, -22, 37, 50, 434, 314) // Frame 86
-	SpriteFrame(-21, -19, 38, 47, 472, 317) // Frame 87
-	SpriteFrame(-21, -19, 38, 47, 472, 317) // Frame 88
-	SpriteFrame(-21, -19, 38, 47, 472, 317) // Frame 89
-	SpriteFrame(-22, -17, 39, 45, 1, 362) // Frame 90
-	SpriteFrame(-22, -17, 39, 45, 1, 362) // Frame 91
-	SpriteFrame(-22, -17, 39, 45, 1, 362) // Frame 92
-	SpriteFrame(-22, -17, 39, 45, 1, 362) // Frame 93
-	SpriteFrame(-22, -17, 39, 45, 1, 362) // Frame 94
-	SpriteFrame(-23, -16, 40, 44, 41, 362) // Frame 95
-	SpriteFrame(-23, -16, 40, 44, 41, 362) // Frame 96
-	SpriteFrame(-23, -16, 40, 44, 41, 362) // Frame 97
-	SpriteFrame(-23, -16, 40, 44, 41, 362) // Frame 98
-	SpriteFrame(-23, -16, 40, 44, 41, 362) // Frame 99
-	SpriteFrame(-20, -24, 40, 57, 82, 362) // Frame 100
-	SpriteFrame(-20, -24, 40, 57, 82, 362) // Frame 101
-	SpriteFrame(-18, -21, 38, 48, 123, 362) // Frame 102
-	SpriteFrame(-18, -21, 38, 48, 123, 362) // Frame 103
-	SpriteFrame(-18, -21, 38, 48, 123, 362) // Frame 104
-	SpriteFrame(-18, -21, 38, 48, 123, 362) // Frame 105
-	SpriteFrame(-18, -21, 38, 48, 123, 362) // Frame 106
-	SpriteFrame(-18, -21, 38, 48, 123, 362) // Frame 107
-	SpriteFrame(-19, -20, 39, 46, 162, 362) // Frame 108
-	SpriteFrame(-19, -20, 39, 46, 162, 362) // Frame 109
-	SpriteFrame(-19, -20, 39, 46, 162, 362) // Frame 110
-	SpriteFrame(-19, -20, 39, 46, 162, 362) // Frame 111
-	SpriteFrame(-19, -20, 39, 46, 162, 362) // Frame 112
-	SpriteFrame(-19, -20, 39, 46, 162, 362) // Frame 113
-	SpriteFrame(-19, -20, 39, 46, 162, 362) // Frame 114
-	SpriteFrame(-19, -20, 39, 46, 162, 362) // Frame 115
-	SpriteFrame(-19, -25, 40, 50, 202, 362) // Frame 116
-	SpriteFrame(-19, -25, 40, 50, 202, 362) // Frame 117
-	SpriteFrame(-19, -25, 40, 50, 202, 362) // Frame 118
-	SpriteFrame(-19, -25, 40, 50, 202, 362) // Frame 119
-	SpriteFrame(-19, -25, 40, 50, 202, 362) // Frame 120
-	SpriteFrame(-19, -25, 40, 50, 202, 362) // Frame 121
-	SpriteFrame(-19, -25, 40, 50, 202, 362) // Frame 122
-	SpriteFrame(-19, -25, 40, 50, 202, 362) // Frame 123
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 124
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 125
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 126
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 127
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 128
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 129
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 130
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 131
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 132
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 133
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 134
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 135
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 136
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 137
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 138
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 139
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 140
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 141
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 142
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 143
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 144
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 145
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 146
-	SpriteFrame(-19, -25, 36, 53, 274, 311) // Frame 147
-	SpriteFrame(-18, -20, 39, 48, 314, 316) // Frame 148
-	SpriteFrame(-18, -20, 39, 48, 314, 316) // Frame 149
-	SpriteFrame(-18, -20, 39, 48, 314, 316) // Frame 150
-	SpriteFrame(-18, -20, 39, 48, 314, 316) // Frame 151
-	SpriteFrame(-19, -21, 38, 49, 354, 315) // Frame 152
-	SpriteFrame(-19, -21, 38, 49, 354, 315) // Frame 153
-	SpriteFrame(-19, -21, 38, 49, 354, 315) // Frame 154
-	SpriteFrame(-19, -21, 38, 49, 354, 315) // Frame 155
-	SpriteFrame(-19, -21, 38, 49, 354, 315) // Frame 156
-	SpriteFrame(-17, -22, 37, 50, 394, 314) // Frame 157
-	SpriteFrame(-17, -22, 37, 50, 394, 314) // Frame 158
-	SpriteFrame(-17, -22, 37, 50, 394, 314) // Frame 159
-	SpriteFrame(-17, -22, 37, 50, 394, 314) // Frame 160
-	SpriteFrame(-17, -22, 37, 50, 394, 314) // Frame 161
-	SpriteFrame(-17, -22, 37, 50, 394, 314) // Frame 162
-	SpriteFrame(-17, -22, 37, 50, 394, 314) // Frame 163
-	SpriteFrame(-17, -22, 37, 50, 394, 314) // Frame 164
-	SpriteFrame(-17, -22, 37, 50, 394, 314) // Frame 165
-	SpriteFrame(-17, -22, 37, 50, 394, 314) // Frame 166
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 167
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 168
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 169
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 170
-	SpriteFrame(-17, -23, 38, 51, 1, 257) // Frame 171
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 83
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 84
+	SpriteFrame(-20, -22, 37, 50, 163, 718) // Frame 85
+	SpriteFrame(-20, -22, 37, 50, 163, 718) // Frame 86
+	SpriteFrame(-21, -19, 38, 47, 201, 721) // Frame 87
+	SpriteFrame(-21, -19, 38, 47, 201, 721) // Frame 88
+	SpriteFrame(-21, -19, 38, 47, 201, 721) // Frame 89
+	SpriteFrame(-22, -17, 39, 45, 1, 388) // Frame 90
+	SpriteFrame(-22, -17, 39, 45, 1, 388) // Frame 91
+	SpriteFrame(-22, -17, 39, 45, 1, 388) // Frame 92
+	SpriteFrame(-22, -17, 39, 45, 1, 388) // Frame 93
+	SpriteFrame(-22, -17, 39, 45, 1, 388) // Frame 94
+	SpriteFrame(-23, -16, 40, 44, 41, 388) // Frame 95
+	SpriteFrame(-23, -16, 40, 44, 41, 388) // Frame 96
+	SpriteFrame(-23, -16, 40, 44, 41, 388) // Frame 97
+	SpriteFrame(-23, -16, 40, 44, 41, 388) // Frame 98
+	SpriteFrame(-23, -16, 40, 44, 41, 388) // Frame 99
+	SpriteFrame(-20, -24, 40, 57, 82, 388) // Frame 100
+	SpriteFrame(-20, -24, 40, 57, 82, 388) // Frame 101
+	SpriteFrame(-18, -21, 38, 48, 123, 388) // Frame 102
+	SpriteFrame(-18, -21, 38, 48, 123, 388) // Frame 103
+	SpriteFrame(-18, -21, 38, 48, 123, 388) // Frame 104
+	SpriteFrame(-18, -21, 38, 48, 123, 388) // Frame 105
+	SpriteFrame(-18, -21, 38, 48, 123, 388) // Frame 106
+	SpriteFrame(-18, -21, 38, 48, 123, 388) // Frame 107
+	SpriteFrame(-19, -20, 39, 46, 162, 388) // Frame 108
+	SpriteFrame(-19, -20, 39, 46, 162, 388) // Frame 109
+	SpriteFrame(-19, -20, 39, 46, 162, 388) // Frame 110
+	SpriteFrame(-19, -20, 39, 46, 162, 388) // Frame 111
+	SpriteFrame(-19, -20, 39, 46, 162, 388) // Frame 112
+	SpriteFrame(-19, -20, 39, 46, 162, 388) // Frame 113
+	SpriteFrame(-19, -20, 39, 46, 162, 388) // Frame 114
+	SpriteFrame(-19, -20, 39, 46, 162, 388) // Frame 115
+	SpriteFrame(-19, -25, 40, 50, 202, 388) // Frame 116
+	SpriteFrame(-19, -25, 40, 50, 202, 388) // Frame 117
+	SpriteFrame(-19, -25, 40, 50, 202, 388) // Frame 118
+	SpriteFrame(-19, -25, 40, 50, 202, 388) // Frame 119
+	SpriteFrame(-19, -25, 40, 50, 202, 388) // Frame 120
+	SpriteFrame(-19, -25, 40, 50, 202, 388) // Frame 121
+	SpriteFrame(-19, -25, 40, 50, 202, 388) // Frame 122
+	SpriteFrame(-19, -25, 40, 50, 202, 388) // Frame 123
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 124
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 125
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 126
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 127
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 128
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 129
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 130
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 131
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 132
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 133
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 134
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 135
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 136
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 137
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 138
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 139
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 140
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 141
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 142
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 143
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 144
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 145
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 146
+	SpriteFrame(-19, -25, 36, 53, 3, 715) // Frame 147
+	SpriteFrame(-18, -20, 39, 48, 43, 720) // Frame 148
+	SpriteFrame(-18, -20, 39, 48, 43, 720) // Frame 149
+	SpriteFrame(-18, -20, 39, 48, 43, 720) // Frame 150
+	SpriteFrame(-18, -20, 39, 48, 43, 720) // Frame 151
+	SpriteFrame(-19, -21, 38, 49, 83, 719) // Frame 152
+	SpriteFrame(-19, -21, 38, 49, 83, 719) // Frame 153
+	SpriteFrame(-19, -21, 38, 49, 83, 719) // Frame 154
+	SpriteFrame(-19, -21, 38, 49, 83, 719) // Frame 155
+	SpriteFrame(-19, -21, 38, 49, 83, 719) // Frame 156
+	SpriteFrame(-17, -22, 37, 50, 123, 718) // Frame 157
+	SpriteFrame(-17, -22, 37, 50, 123, 718) // Frame 158
+	SpriteFrame(-17, -22, 37, 50, 123, 718) // Frame 159
+	SpriteFrame(-17, -22, 37, 50, 123, 718) // Frame 160
+	SpriteFrame(-17, -22, 37, 50, 123, 718) // Frame 161
+	SpriteFrame(-17, -22, 37, 50, 123, 718) // Frame 162
+	SpriteFrame(-17, -22, 37, 50, 123, 718) // Frame 163
+	SpriteFrame(-17, -22, 37, 50, 123, 718) // Frame 164
+	SpriteFrame(-17, -22, 37, 50, 123, 718) // Frame 165
+	SpriteFrame(-17, -22, 37, 50, 123, 718) // Frame 166
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 167
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 168
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 169
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 170
+	SpriteFrame(-17, -23, 38, 51, 1, 336) // Frame 171
 
 end event
-
 
 event RSDKDraw
 	DrawSprite(0)
 end event
-
-
 event RSDKLoad
 	LoadSpriteSheet("SBZ/Objects.gif")
 	SpriteFrame(-22, -23, 38, 51, 1, 209)

@@ -135,23 +135,23 @@ event ObjectStartup
 	LoadSpriteSheet("SBZ/Objects.gif")
 
 	// Platform frames
-	SpriteFrame(0, 0, 0, 0, 449, 198) // Frame 0
-	SpriteFrame(-1, -8, 2, 32, 507, 198) // Frame 1
-	SpriteFrame(-2, -8, 4, 32, 507, 231) // Frame 2
-	SpriteFrame(-3, -8, 6, 32, 500, 198) // Frame 3
-	SpriteFrame(-4, -8, 8, 32, 491, 198) // Frame 4
-	SpriteFrame(-5, -8, 10, 32, 480, 198) // Frame 5
-	SpriteFrame(-6, -8, 12, 32, 444, 231) // Frame 6
-	SpriteFrame(-7, -8, 14, 32, 465, 198) // Frame 7
-	SpriteFrame(-8, -8, 16, 32, 490, 231) // Frame 8
-	SpriteFrame(-9, -8, 18, 32, 446, 198) // Frame 9
-	SpriteFrame(-10, -8, 20, 32, 492, 165) // Frame 10
-	SpriteFrame(-11, -8, 22, 32, 470, 165) // Frame 11
-	SpriteFrame(-12, -8, 24, 32, 445, 165) // Frame 12
-	SpriteFrame(-13, -8, 26, 32, 189, 258) // Frame 13
-	SpriteFrame(-14, -8, 28, 32, 189, 225) // Frame 14
-	SpriteFrame(-15, -8, 30, 32, 189, 159) // Frame 15
-	SpriteFrame(-16, -8, 32, 32, 457, 231) // Frame 16
+	SpriteFrame(0, 0, 0, 0, 216, 355 // Frame 0
+	SpriteFrame(-1, -8, 2, 32, 216, 355) // Frame 1
+	SpriteFrame(-1, -8, 2, 32, 211, 355) // Frame 2
+	SpriteFrame(-2, -8, 4, 32, 204, 355) // Frame 3
+	SpriteFrame(-3, -8, 6, 32, 195, 355) // Frame 4
+	SpriteFrame(-4, -8, 8, 32, 184, 355) // Frame 5
+	SpriteFrame(-6, -8, 12, 32, 171, 355) // Frame 6
+	SpriteFrame(-7, -8, 14, 32, 156, 355) // Frame 7
+	SpriteFrame(-8, -8, 16, 32, 139, 355) // Frame 8
+	SpriteFrame(-9, -8, 18, 32, 120, 355) // Frame 9
+	SpriteFrame(-10, -8, 20, 32, 99, 355) // Frame 10
+	SpriteFrame(-11, -8, 22, 32, 76, 355) // Frame 11
+	SpriteFrame(-12, -8, 24, 32, 51, 355) // Frame 12
+	SpriteFrame(-13, -8, 26, 32, 155, 284) // Frame 13
+	SpriteFrame(-14, -8, 28, 32, 126, 284) // Frame 14
+	SpriteFrame(-15, -8, 30, 32, 203, 478) // Frame 15
+	SpriteFrame(-16, -8, 32, 32, 170, 478) // Frame 16
 
 	// Do setup for every vanish platform object
 	foreach (TypeName[Vanish Platform], arrayPos0, ALL_ENTITIES)

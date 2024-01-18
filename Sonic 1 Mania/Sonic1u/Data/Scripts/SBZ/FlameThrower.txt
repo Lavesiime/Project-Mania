@@ -154,6 +154,9 @@ event ObjectDraw
 		temp0 = temp1
 	end if
 	DrawSpriteFX(temp0, FX_FLIP, object.xpos, object.ypos)
+	if temp0 >= 15
+		DrawSpriteFX(30, FX_FLIP, object.xpos, object.ypos)
+	end if
 end event
 
 
@@ -174,32 +177,34 @@ event ObjectStartup
 
 	SpriteFrame(-11, -6, 22, 62, 207, 414)
 	SpriteFrame(-11, -6, 22, 62, 230, 414)
-	SpriteFrame(-11, -6, 22, 62, 51, 325)
+	SpriteFrame(-11, -6, 22, 62, 98, 100)
 
-	SpriteFrame(-11, -22, 22, 78, 253, 398)
-	SpriteFrame(-11, -23, 22, 79, 276, 397)
-	SpriteFrame(-11, -23, 22, 79, 74, 308)
+	SpriteFrame(-11, -22, 22, 78, 78, 240)
+	SpriteFrame(-11, -23, 22, 79, 101, 239)
+	SpriteFrame(-11, -23, 22, 79, 55, 239)
 
 	// Pipes 2
-	SpriteFrame(-7, 32, 16, 24, 299, 452)
-	SpriteFrame(-7, 32, 16, 24, 316, 452)
-	SpriteFrame(-7, 32, 16, 24, 333, 452)
+	SpriteFrame(-5, 32, 16, 8, 77, 452)
+	SpriteFrame(-5, 32, 16, 8, 94, 452)
+	SpriteFrame(-5, 32, 16, 8, 111, 452)
 
-	SpriteFrame(-8, 17, 17, 39, 350, 437)
-	SpriteFrame(-7, 17, 16, 39, 368, 437)
-	SpriteFrame(-7, 17, 16, 39, 79, 413)
+	SpriteFrame(-8, 17, 19, 23, 128, 437)
+	SpriteFrame(-7, 17, 18, 23, 148, 437)
+	SpriteFrame(-7, 17, 18, 23, 60, 412)
 
-	SpriteFrame(-8, 9, 17, 47, 385, 429)
-	SpriteFrame(-7, 9, 16, 47, 403, 429)
-	SpriteFrame(-7, 9, 16, 47, 97, 340)
+	SpriteFrame(-8, 9, 19, 31, 167, 429)
+	SpriteFrame(-7, 9, 18, 31, 187, 429)
+	SpriteFrame(-7, 9, 18, 31, 35, 464)
 
-	SpriteFrame(-11, -6, 22, 62, 420, 414)
-	SpriteFrame(-11, -6, 22, 62, 443, 414)
-	SpriteFrame(-11, -6, 22, 62, 114, 325)
+	SpriteFrame(-11, -6, 22, 46, 207, 414)
+	SpriteFrame(-11, -6, 22, 46, 230, 414)
+	SpriteFrame(-11, -6, 22, 46, 98, 100)
 
-	SpriteFrame(-11, -22, 22, 78, 466, 398)
-	SpriteFrame(-11, -23, 22, 79, 489, 397)
-	SpriteFrame(-11, -23, 22, 79, 137, 308)
+	SpriteFrame(-11, -22, 22, 62, 78, 240)
+	SpriteFrame(-11, -23, 22, 63, 101, 239)
+	SpriteFrame(-11, -23, 22, 63, 55, 239)
+
+	SpriteFrame(-7, 40, 16, 16, 54, 455)
 
 	foreach (TypeName[Flame Thrower], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].drawOrder = 5

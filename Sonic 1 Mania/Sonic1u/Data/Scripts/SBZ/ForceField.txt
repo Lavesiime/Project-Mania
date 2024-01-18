@@ -159,14 +159,14 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("SBZ/Objects.gif")
+	LoadSpriteSheet("SBZ/Objects2.gif")
 
 	// Force Field frames
-	SpriteFrame(-8, -72, 2, 144, 382, 266)
-	SpriteFrame(-6, -72, 3, 144, 384, 266)
-	SpriteFrame(-3, -72, 6, 144, 387, 266)
-	SpriteFrame(3, -72, 3, 144, 393, 266)
-	SpriteFrame(6, -72, 2, 144, 396, 266)
+	SpriteFrame(-8, -72, 2, 144, 126, 10)
+	SpriteFrame(-6, -72, 3, 144, 128, 10)
+	SpriteFrame(-3, -72, 6, 144, 131, 10)
+	SpriteFrame(3, -72, 3, 144, 137, 10)
+	SpriteFrame(6, -72, 2, 144, 139, 10)
 
 	// Set up values for every Force Field object
 	foreach (TypeName[Force Field], arrayPos0, ALL_ENTITIES)
@@ -254,12 +254,12 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-8, -72, 2, 144, 382, 266)
-	SpriteFrame(-6, -72, 3, 144, 384, 266)
-	SpriteFrame(-3, -72, 6, 144, 387, 266)
-	SpriteFrame(3, -72, 3, 144, 393, 266)
-	SpriteFrame(6, -72, 2, 144, 396, 266)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-8, -72, 2, 144, 126, 10)
+	SpriteFrame(-6, -72, 3, 144, 128, 10)
+	SpriteFrame(-3, -72, 6, 144, 131, 10)
+	SpriteFrame(3, -72, 3, 144, 137, 10)
+	SpriteFrame(6, -72, 2, 144, 139, 10)
 
 	AddEditorVariable("type")
 	SetActiveVariable("type")

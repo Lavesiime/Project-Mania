@@ -32,22 +32,22 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("Global/Display.gif")
+	LoadSpriteSheet("Global/Items2.gif")
 
 	// Puff frames
-	SpriteFrame(-16, -8, 32, 16, 364, 484)
-	SpriteFrame(-16, -8, 32, 16, 257, 257)
-	SpriteFrame(-16, -16, 32, 32, 257, 274)
-	SpriteFrame(-16, -16, 32, 32, 364, 451)
-	SpriteFrame(-16, -16, 32, 32, 397, 451)
-	SpriteFrame(-16, -16, 32, 32, 430, 451)
-	SpriteFrame(-16, -16, 32, 32, 257, 307)
-	SpriteFrame(-16, -16, 32, 32, 463, 451)
-	SpriteFrame(-20, -20, 40, 40, 331, 257)
-	SpriteFrame(-20, -20, 40, 40, 290, 257)
-	SpriteFrame(-20, -20, 40, 40, 290, 298)
-	SpriteFrame(-20, -20, 40, 40, 372, 257)
-	SpriteFrame(-20, -20, 40, 40, 372, 410)
+	SpriteFrame(-16, -8, 32, 16, 108, 228)
+	SpriteFrame(-16, -8, 32, 16, 1, 1)
+	SpriteFrame(-16, -16, 32, 32, 1, 18)
+	SpriteFrame(-16, -16, 32, 32, 108, 195)
+	SpriteFrame(-16, -16, 32, 32, 141, 195)
+	SpriteFrame(-16, -16, 32, 32, 174, 195)
+	SpriteFrame(-16, -16, 32, 32, 1, 51)
+	SpriteFrame(-16, -16, 32, 32, 207, 195)
+	SpriteFrame(-20, -20, 40, 40, 75, 1)
+	SpriteFrame(-20, -20, 40, 40, 34, 1)
+	SpriteFrame(-20, -20, 40, 40, 34, 42)
+	SpriteFrame(-20, -20, 40, 40, 116, 1)
+	SpriteFrame(-20, -20, 40, 40, 116, 154)
 
 end event
 
