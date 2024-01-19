@@ -10,6 +10,7 @@
 // ========================
 
 private alias object.type			 : player.type
+private alias object.entityPos		 : player.entityPos
 private alias object.groupID		 : player.groupID
 private alias object.state			 : player.state
 private alias object.visible		 : player.visible
@@ -677,6 +678,9 @@ end function
 // ========================
 
 event ObjectUpdate
+#platform: USE_ORIGINS
+	currentPlayer = player.entityPos // Added here in Origins 2.02, fixes the issue regarding crashing with Tails.
+#endplatform
 	CallFunction(Player2_ProcessUpdateP2)
 	CallFunction(player.state)
 	ProcessAnimation()

@@ -143,25 +143,25 @@ event ObjectStartup
 	if checkResult == true
 		LoadSpriteSheet("SBZ/Objects.gif")
 		//Idle Frames
-		SpriteFrame(-11, -17, 22, 37, 1, 170) // Frame 0
-		SpriteFrame(-11, -17, 22, 37, 399, 231) // Frame 1
+		SpriteFrame(-11, -17, 22, 37, 1, 163) // Frame 0
+		SpriteFrame(-11, -17, 22, 37, 72, 201) // Frame 1
 
 		// Open/Close Frames
-		SpriteFrame(-11, -17, 22, 37, 300, 404) // Frame 2
-		SpriteFrame(-11, -17, 22, 37, 24, 170) // Frame 3
-		SpriteFrame(-11, -17, 22, 37, 323, 404) // Frame 4
-		SpriteFrame(-11, -17, 22, 37, 24, 170) // Frame 5
-		SpriteFrame(-11, -17, 22, 37, 300, 404) // Frame 6
-		SpriteFrame(-11, -17, 22, 37, 1, 170) // Frame 7
+		SpriteFrame(-11, -17, 22, 37, 49, 201) // Frame 2
+		SpriteFrame(-11, -17, 22, 37, 219, 350) // Frame 3
+		SpriteFrame(-11, -17, 22, 37, 24, 163) // Frame 4
+		SpriteFrame(-11, -17, 22, 37, 219, 350) // Frame 5
+		SpriteFrame(-11, -17, 22, 37, 49, 201) // Frame 6
+		SpriteFrame(-11, -17, 22, 37, 1, 163) // Frame 7
 
 		// Jump Frames
-		SpriteFrame(-11, -17, 22, 37, 422, 231) // Frame 8
-		SpriteFrame(-12, -17, 24, 37, 268, 339) // Frame 9
-		SpriteFrame(-12, -17, 24, 37, 47, 170) // Frame 10
-		SpriteFrame(-12, -17, 24, 37, 292, 339) // Frame 11
-		SpriteFrame(-11, -17, 22, 41, 72, 166) // Frame 12
-		SpriteFrame(-11, -12, 22, 37, 95, 170) // Frame 13
-		SpriteFrame(-13, -12, 24, 36, 189, 94) // Frame 14
+		SpriteFrame(-11, -17, 22, 37, 95, 201) // Frame 8
+		SpriteFrame(-12, -17, 24, 37, 0, 201) // Frame 9
+		SpriteFrame(-12, -17, 24, 37, 47, 163) // Frame 10
+		SpriteFrame(-12, -17, 24, 37, 24, 201) // Frame 11
+		SpriteFrame(-11, -17, 22, 41, 72, 159) // Frame 12
+		SpriteFrame(-11, -12, 22, 37, 95, 163) // Frame 13
+		SpriteFrame(-13, -12, 24, 36, 79, 415) // Frame 14
 	end if
 	
 	CheckCurrentStageFolder("Zone07")

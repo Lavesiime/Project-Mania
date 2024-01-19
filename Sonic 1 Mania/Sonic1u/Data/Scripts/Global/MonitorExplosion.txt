@@ -1,0 +1,64 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: Monitor Explosion Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+
+
+event ObjectUpdate
+	object.timer++
+	if object.timer > 2
+		object.timer = 0
+		
+		object.frame++
+		if object.frame > 12
+			object.type = TypeName[Blank Object]
+			object.frame = 0
+		end if
+	end if
+end event
+
+
+event ObjectDraw
+	DrawSprite(object.frame)
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("Global/Items2.gif")
+
+	// Explosion frames
+	SpriteFrame(-16, -8, 32, 16, 34, 83)
+	SpriteFrame(-16, -8, 32, 16, 1, 1)
+	SpriteFrame(-16, -16, 32, 32, 1, 150)
+	SpriteFrame(-16, -16, 32, 32, 1, 183)
+	SpriteFrame(-16, -16, 32, 32, 34, 100)
+	SpriteFrame(-16, -16, 32, 32, 34, 133)
+	SpriteFrame(-16, -16, 32, 32, 34, 166)
+	SpriteFrame(-16, -16, 32, 32, 34, 199)
+	SpriteFrame(-20, -20, 40, 40, 67, 133)
+	SpriteFrame(-20, -20, 40, 40, 157, 154)
+	SpriteFrame(-20, -20, 40, 40, 34, 42)
+	SpriteFrame(-20, -20, 40, 40, 116, 1)
+	SpriteFrame(-20, -20, 40, 40, 116, 154)
+end event
+
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Items2.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 84)
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event
