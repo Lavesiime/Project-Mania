@@ -867,8 +867,8 @@ event ObjectStartup
 	SpriteFrame(33, 0, 25, 11, 219, 229) // Frame 211
 
 	// Shooter
-	SpriteFrame(-12, 17, 24, 16, 213, 43) // Frame 212
-	SpriteFrame(-12, 17, 24, 16, 213, 135) // Frame 213
+	SpriteFrame(-12, 16, 24, 16, 99, 293) // Frame 212
+	SpriteFrame(-12, 16, 24, 16, 123, 293) // Frame 213
 
 	foreach (TypeName[Eggman], arrayPos0, ALL_ENTITIES)
 		if object[arrayPos0].type == TypeName[Eggman]
