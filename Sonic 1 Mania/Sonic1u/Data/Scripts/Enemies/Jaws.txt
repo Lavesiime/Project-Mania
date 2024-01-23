@@ -145,18 +145,18 @@ event ObjectStartup
 	// Load sheet and sprites depending on which zone the player is currently in
 	CheckCurrentStageFolder("Zone04")
 	if checkResult == true
-		LoadSpriteSheet("LZ/Objects3.gif")
-		SpriteFrame(-16, -12, 48, 24, 0, 67)
-		SpriteFrame(-16, -12, 45, 24, 45, 142)
-		SpriteFrame(-16, -12, 42, 24, 48, 67)
-		SpriteFrame(-16, -12, 45, 24, 0, 92)
-		SpriteFrame(-16, -12, 45, 24, 0, 167)
+		LoadSpriteSheet("LZ/Objects2.gif")
+		SpriteFrame(-16, -12, 32, 24, 70, 80)
+		SpriteFrame(-16, -12, 32, 24, 103, 80)
+		SpriteFrame(-16, -12, 32, 24, 136, 80)
+		SpriteFrame(-16, -12, 32, 24, 169, 80)
+		SpriteFrame(-16, -12, 32, 24, 173, 360)
 
-		SpriteFrame(-16, -12, 48, 24, 0, 117)
-		SpriteFrame(-16, -12, 45, 24, 45, 92)
-		SpriteFrame(-16, -12, 42, 24, 48, 117)
-		SpriteFrame(-16, -12, 45, 24, 0, 142)
-		SpriteFrame(-16, -12, 45, 24, 45, 167)
+		SpriteFrame(-16, -12, 32, 24, 70, 80)
+		SpriteFrame(-16, -12, 32, 24, 103, 80)
+		SpriteFrame(-16, -12, 32, 24, 136, 80)
+		SpriteFrame(-16, -12, 32, 24, 169, 80)
+		SpriteFrame(-16, -12, 32, 24, 173, 360)
 	end if
 
 	CheckCurrentStageFolder("Zone07")

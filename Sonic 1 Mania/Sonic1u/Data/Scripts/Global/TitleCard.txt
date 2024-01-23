@@ -283,13 +283,31 @@ event ObjectDraw
 		end if
 		if stage.playerListPos == PLAYER_TAILS_A
 			DrawSpriteScreenXY(31, temp0, 76)
+			SetPaletteEntry(0, 2, 0x800000)
+			SetPaletteEntry(0, 3, 0xB44018)
+			SetPaletteEntry(0, 4, 0xD4601C)
+			SetPaletteEntry(0, 5, 0xE08000)
+			SetPaletteEntry(0, 6, 0xEC9C00)
+			SetPaletteEntry(0, 7, 0xFCB400)
 		end if
 		if stage.playerListPos == PLAYER_KNUCKLES_A
 			DrawSpriteScreenXY(32, temp0, 76)
+			SetPaletteEntry(0, 2, 0x600020)
+			SetPaletteEntry(0, 3, 0x980030)
+			SetPaletteEntry(0, 4, 0xC00020)
+			SetPaletteEntry(0, 5, 0xD8284C)
+			SetPaletteEntry(0, 6, 0xE04060)
+			SetPaletteEntry(0, 7, 0xF08088)
 		end if
 #platform: USE_ORIGINS
 		if stage.playerListPos == PLAYER_AMY_A
 			DrawSpriteScreenXY(33, temp0, 76)
+			SetPaletteEntry(0, 2, 0x80105C)
+			SetPaletteEntry(0, 3, 0xB03890)
+			SetPaletteEntry(0, 4, 0xE050C8)
+			SetPaletteEntry(0, 5, 0xF470EC)
+			SetPaletteEntry(0, 6, 0xFC9CF0)
+			SetPaletteEntry(0, 7, 0xFCBCE4)
 		end if
 #endplatform
 
@@ -376,11 +394,11 @@ event ObjectStartup
 	SpriteFrame(0, 0, 43, 24, 138, 1)	// #29 - Act 2 text
 	SpriteFrame(0, 0, 43, 24, 182, 1)	// #30 - Act 3 text
 
-	SpriteFrame(0, 0, 56, 56, 257, 1)	// #31 - Big Orange circle
+	SpriteFrame(0, 0, 56, 56, 41, 1)	// #31 - Big Orange circle
 
-	SpriteFrame(0, 0, 56, 56, 314, 1)	// #32 - Big Red circle
+	SpriteFrame(0, 0, 56, 56, 41, 1)	// #32 - Big Red circle
 #platform: USE_ORIGINS
-	SpriteFrame(0, 0, 56, 56, 371, 1)	// #33 - Big Pink circle
+	SpriteFrame(0, 0, 56, 56, 41, 1)	// #33 - Big Pink circle
 #endplatform
 	// Cycle through all objects and filter out title cards
 	// (Pretend this is a foreach, this object was made before foreaches were brought into existence)

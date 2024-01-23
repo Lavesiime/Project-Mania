@@ -133,8 +133,8 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-64, -12, 128, 24, 383, 140)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-64, -12, 128, 24, 127, 231)
 	
 	foreach (TypeName[Girder Door], arrayPos0, ALL_ENTITIES)
 		switch object[arrayPos0].propertyValue
@@ -205,8 +205,8 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-64, -12, 128, 24, 383, 140)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-64, -12, 128, 24, 127, 231)
 
 	AddEditorVariable("type")
 	SetActiveVariable("type")

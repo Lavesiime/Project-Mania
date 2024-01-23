@@ -147,8 +147,8 @@ event ObjectStartup
 	SpriteFrame(-13, -16, 25, 32, 449, 198)
 	SpriteFrame(-7, -16, 14, 32, 480, 198)
 	
-	SpriteFrame(-16, -8, 32, 14, 466, 50) // Smooth rotation sprites
-	SpriteFrame(-3, -3, 6, 6, 466, 67)
+	SpriteFrame(-16, -8, 32, 14, 215, 262) // Smooth rotation sprites
+	SpriteFrame(-3, -3, 6, 6, 215, 278)
 	
 	foreach (TypeName[Spin Platform], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].smoothRotation = true

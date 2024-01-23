@@ -2429,7 +2429,7 @@ public function Player_HandleAirMovement
 	// This results in various issues as of Origins 2.01, such as crashes, Tails losing gravity, etc.
 	// Who knew one little line could cause so much chaos?
 	
-	if player[currentPlayer].disableGravity == false
+	if player[0].disableGravity == false
 		player.yvel += player.gravityStrength
 	end if
 #endplatform

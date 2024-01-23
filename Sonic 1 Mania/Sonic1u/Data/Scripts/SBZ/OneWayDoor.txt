@@ -118,9 +118,9 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-8, -32, 16, 32, 449, 50)
-	SpriteFrame(-8, 0, 16, 32, 449, 82)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-8, -32, 16, 32, 45, 191)
+	SpriteFrame(-8, 0, 16, 32, 45, 223)
 	foreach (TypeName[One Way Door], arrayPos0, ALL_ENTITIES)
 		if object[arrayPos0].propertyValue == 1
 			object[arrayPos0].direction = FACING_LEFT
@@ -176,9 +176,9 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-8, -32, 16, 32, 449, 50)
-	SpriteFrame(-8, 0, 16, 32, 449, 82)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-8, -32, 16, 32, 45, 191)
+	SpriteFrame(-8, 0, 16, 32, 45, 223)
 
 	AddEditorVariable("type")
 	SetActiveVariable("type")

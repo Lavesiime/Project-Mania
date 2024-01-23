@@ -16,8 +16,8 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-64, -4, 128, 8, 2, 388)
-	SpriteFrame(-64, -4, 128, 8, 130, 388)
+	SpriteFrame(-64, -4, 128, 8, 0, 388)
+	SpriteFrame(-64, -4, 128, 8, 128, 388)
 
 	foreach (TypeName[Roof Cover], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].drawOrder = 5

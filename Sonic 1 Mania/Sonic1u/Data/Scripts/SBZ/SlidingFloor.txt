@@ -134,8 +134,8 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-64, -12, 128, 24, 383, 115)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-64, -12, 128, 24, 127, 206)
 	
 	foreach (TypeName[Sliding Floor], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].propertyValue &= 1
@@ -193,8 +193,8 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-64, -12, 128, 24, 383, 115)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-64, -12, 128, 24, 127, 206)
 
 	AddEditorVariable("direction")
 	SetActiveVariable("direction")

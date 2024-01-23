@@ -179,7 +179,7 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("LZ/Objects2.gif")
-	SpriteFrame(-128, -64, 256, 125, 0, 0)
+	SpriteFrame(-128, -64, 256, 125, 0, 384)
 
 	SetTableValue(TypeName[Sliding Floor], DebugMode_ObjCount, DebugMode_TypesTable)
 	SetTableValue(SlidingFloor_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)

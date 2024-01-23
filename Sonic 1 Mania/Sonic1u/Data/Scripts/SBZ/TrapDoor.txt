@@ -121,10 +121,10 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("SBZ/Objects.gif")
+	LoadSpriteSheet("SBZ/Objects2.gif")
 
 	// Trap door frames
-	SpriteFrame(0, -12, 64, 24, 318, 115)
+	SpriteFrame(0, -12, 64, 24, 62, 206)
 
 	// Setup every trap door object
 	foreach (TypeName[Trap Door], arrayPos0, ALL_ENTITIES)
@@ -190,10 +190,10 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("SBZ/Objects.gif")
+	LoadSpriteSheet("SBZ/Objects2.gif")
 
 	// Trap door frames
-	SpriteFrame(0, -12, 64, 24, 318, 115)
+	SpriteFrame(0, -12, 64, 24, 62, 206)
 
 	AddEditorVariable("delay")
 	SetActiveVariable("delay")

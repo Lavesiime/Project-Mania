@@ -180,8 +180,8 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-96, -24, 192, 48, 319, 1)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-96, -24, 192, 48, 63, 156)
 
 	foreach (TypeName[H Crush Girder], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].startPos.x = object[arrayPos0].xpos
@@ -205,8 +205,8 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-96, -24, 192, 48, 319, 1)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-96, -24, 192, 48, 63, 156)
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
 end event

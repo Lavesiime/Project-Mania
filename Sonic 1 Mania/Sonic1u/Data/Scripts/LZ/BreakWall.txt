@@ -135,7 +135,7 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("LZ/Objects3.gif")
+	LoadSpriteSheet("LZ/Objects2.gif")
 	SpriteFrame(-24, -40, 48, 80, 207, 1)
 	SpriteFrame(-8, -8, 16, 16, 207, 1)
 	SpriteFrame(-8, -8, 16, 16, 223, 1)

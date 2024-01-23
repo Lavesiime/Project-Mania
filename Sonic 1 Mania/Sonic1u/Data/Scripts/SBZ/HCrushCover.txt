@@ -15,9 +15,9 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("SBZ/Objects.gif")
-	SpriteFrame(-8, -48, 16, 96, 107, 62)
-	SpriteFrame(-16, -16, 32, 32, 50, 261)
+	LoadSpriteSheet("SBZ/Objects2.gif")
+	SpriteFrame(-8, -48, 16, 96, 0, 159)
+	SpriteFrame(-16, -16, 32, 32, 0, 0)
 
 	foreach (TypeName[H Crush Cover], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].drawOrder = 5
