@@ -656,41 +656,38 @@ event ObjectUpdate
 		switch object.timer
 		case 1
 		case 2
-			object.frame += 8
+			object.frame += 48
 			break
 		case 3
 		case 4
-			object.frame += 48
+			object.frame += 24
 			break
 		case 5
 		case 6
-			object.frame += 24
+			object.frame += 32
 			break
 		case 7
 		case 8
-			object.frame += 32
+			object.frame += 16
 			break
 		case 9
 		case 10
-			object.frame += 16
+			object.frame += 40
 			break
 		case 11
 		case 12
-			object.frame += 40
+			object.frame += 8
 			break
 		case 13
 		case 14
-			object.frame += 8
-			break
-		case 15
-		case 16
 			object.frame += 56
 			break
-		case 17
+		case 15
+
 		end switch
 
 		object.timer++
-		if object.timer >= 17
+		if object.timer >= 15
 			object.timer = 0
 		end if
 	end if
