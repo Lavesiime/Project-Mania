@@ -67,6 +67,16 @@ private table YellowSpring_directionTable
 	0, 1, 2, 3
 	0, 0, 1, 2
 	0, 1, 2, 3
+	0, 0, 1, 2
+	0, 1, 2, 3
+	0, 0, 1, 2
+	0, 1, 2, 3
+	0, 0, 1, 2
+	0, 1, 2, 3
+	0, 0, 1, 2
+	0, 1, 2, 3
+	0, 0, 1, 2
+	0, 1, 2, 3
 end table
 
 private table YellowSpring_heightsTable
@@ -736,7 +746,7 @@ event ObjectStartup
 	SpriteFrame(-16, -8, 32, 8, 33, 504)
 	SpriteFrame(-16, -11, 27, 27, 88, 0)
 	SpriteFrame(-16, -11, 27, 27, 88, 0)
-	SpriteFrame(-16, -11, 27, 27, 88, 05)
+	SpriteFrame(-16, -11, 27, 27, 88, 0)
 	SpriteFrame(-16, -11, 27, 27, 88, 0)
 
 	// Base Extend
