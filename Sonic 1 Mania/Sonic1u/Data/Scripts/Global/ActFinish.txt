@@ -662,7 +662,6 @@ event ObjectDraw
 	temp0 += object.ringPos
 	DrawSpriteScreenXY(11, temp0, 149) // "Rings" text
 	DrawSpriteScreenXY(12, temp0, 149) // "Bonus" text
-	end if
 
 	temp0 += 151
 	DrawNumbers(13, temp0, 149, object.ringBonus, 5, 8, false)

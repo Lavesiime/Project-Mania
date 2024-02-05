@@ -118,9 +118,7 @@ event ObjectUpdate
 	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
 		BoxCollisionTest(C_TOUCH, object.entityPos, temp0, 7, temp1, 5, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 		if checkResult == true
-			if player[currentPlayer].shield != SHIELD_FIRE
-				CallFunction(Player_Hit)
-			end if
+			CallFunction(Player_FireHit)
 		end if
 	next
 

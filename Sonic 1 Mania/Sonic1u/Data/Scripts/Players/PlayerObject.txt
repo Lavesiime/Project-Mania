@@ -8,7 +8,6 @@
 // ========================
 // Aliases
 // ========================
-
 public alias 0x100		: GROUP_PLAYERS
 public alias arrayPos6 	: currentPlayer
 public alias arrayPos7 	: playerCount
@@ -6522,7 +6521,7 @@ event ObjectStartup
 
 
 	options.moveset = 3
-	options.shieldType = 3
+
 
 	goggleType = TypeName[Blank Object]
 end event

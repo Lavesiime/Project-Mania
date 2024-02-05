@@ -108,6 +108,9 @@ event ObjectUpdate
 
 	case BOSSFIREBALL_IDLE
 		object.timer++
+		if object.timer == 8
+			PlaySfx(SfxName[Fire Burn], false)
+		end if
 		if object.timer == 120
 			object.timer = 0
 			object.state = BOSSFIREBALL_DISSIPATE
@@ -120,7 +123,9 @@ event ObjectUpdate
 
 	case BOSSFIREBALL_HITFLOOR
 		object.xpos += object.xvel
-
+		if object.timer == 8
+			PlaySfx(SfxName[Fire Burn], false)
+		end if
 		if object.xvel > 0
 			if object.xpos >= object.moveDistance
 				object.xvel = 0
@@ -133,7 +138,6 @@ event ObjectUpdate
 				object[tempObjectPos].xvel = 0xA000
 				object[tempObjectPos].state = BOSSFIREBALL_MOVE_AND_SPAWN
 				object[tempObjectPos].drawOrder = 5
-
 			end if
 		else
 			if object.xpos <= object.moveDistance
@@ -147,7 +151,6 @@ event ObjectUpdate
 				object[tempObjectPos].xvel = -0xA000
 				object[tempObjectPos].state = BOSSFIREBALL_MOVE_AND_SPAWN
 				object[tempObjectPos].drawOrder = 5
-
 			end if
 		end if
 
@@ -156,7 +159,9 @@ event ObjectUpdate
 
 	case BOSSFIREBALL_MOVE_AND_SPAWN
 		object.xpos += object.xvel
-
+		if object.timer == 8
+			PlaySfx(SfxName[Fire Burn], false)
+		end if
 		if object.xvel > 0
 			if object.xpos >= object.moveDistance
 				object.xpos = object.moveDistance
@@ -186,7 +191,9 @@ event ObjectUpdate
 
 	case BOSSFIREBALL_SPAWNER
 		object.timer++
-
+		if object.timer == 8
+			PlaySfx(SfxName[Fire Burn], false)
+		end if
 		temp0 = object.timer
 		temp0 %= 48
 		if temp0 == 0
@@ -210,7 +217,6 @@ event ObjectUpdate
 
 	case BOSSFIREBALL_MOVE_HORIZONTAL
 		object.xpos += object.xvel
-
 		if object.gravity == 0
 			ObjectTileGrip(CSIDE_FLOOR, 0, 4, PATH_A)
 			object.gravity = checkResult
@@ -229,7 +235,6 @@ event ObjectUpdate
 		if object.timer == 90
 			object.type = TypeName[Blank Object]
 		end if
-
 		CallFunction(BossFireball_ProcessAnimation)
 		break
 

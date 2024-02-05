@@ -92,7 +92,7 @@ event ObjectUpdate
 		break
 		
 	case WRECKINGBALL_DEBRIS
-	object.timer++
+		object.timer++
 		object.xpos += object.xvel
 		object.ypos += object.yvel
 		object.yvel += 0x03000

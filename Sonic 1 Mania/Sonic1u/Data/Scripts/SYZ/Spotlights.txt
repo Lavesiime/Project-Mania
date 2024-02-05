@@ -14,7 +14,9 @@ private alias object.value2			:	object.primaryBaseColor
 private alias object.value3			:	object.secondaryBaseColor
 private alias object.value4			:	object.primaryDisplayColor
 private alias object.value5			:	object.secondaryDisplayColor
-private alias object.value6			:	object.Checkpoint
+private alias object.value6			:	object.tertiaryBaseColor
+private alias object.value7			:	object.tertiaryDisplayColor
+private alias object.value8			:	object.Checkpoint
 
 
 // There are several different types of spotlights that appear in the stage
@@ -30,6 +32,9 @@ private alias object.value0			:	object.spotlightType
 // 4 - Pair of primary and secondary
 //     - Using SSZ1A's, the pair of a small green one with a big yellow one
 // Then it loops back
+
+private alias scene3d.vertexCount	:	scene3d.lightVertexCount
+private alias scene3d.faceCount	:	scene3d.lightFaceCount
 
 // Player Aliases
 private alias object.xpos    : player.xpos
@@ -102,7 +107,11 @@ event objectUpdate
 	object.secondaryDisplayColor = temp2
 	object.secondaryDisplayColor <<= 24
 	object.secondaryDisplayColor += object.secondaryBaseColor
-	
+
+	object.tertiaryDisplayColor = temp2
+	object.tertiaryDisplayColor <<= 24
+	object.tertiaryDisplayColor += object.tertiaryBaseColor
+
 	// Check if the current spotlight type should be switched
 	
 	temp0 = screen.xoffset
@@ -150,15 +159,15 @@ event objectUpdate
 		object.drawOrder = 5
 		
 		// 2 rectangles means 8 vertices and 2 faces
-		scene3D.vertexCount = 8
-		scene3d.faceCount = 2
+		scene3d.lightVertexCount = 8
+		scene3d.lightFaceCount = 2
 		
 		// 1st Spotlight offset - move it a bit to the left
 		object.xpos -= 48
 		
 		// Mirror the face color to match the targetted color
 		FaceBuffer[0].Color = object.primaryDisplayColor
-		FaceBuffer[1].Color = object.primaryDisplayColor
+		FaceBuffer[1].Color = object.tertiaryDisplayColor
 		
 		
 		// First do spotlight 1 (the left one)
@@ -248,8 +257,8 @@ event objectUpdate
 		object.drawOrder = 2
 		
 		// 1 rectangle means 4 vertices and 1 face
-		scene3D.vertexCount = 4
-		scene3d.faceCount = 1
+		scene3d.lightVertexCount = 4
+		scene3d.lightFaceCount = 1
 		
 		// Set its color to what it should be
 		FaceBuffer[0].Color = object.primaryDisplayColor
@@ -295,18 +304,18 @@ event objectUpdate
 		object.drawOrder = 5
 		
 		// 2 spotlight rectangles means 8 vertices and 2 faces
-		scene3D.vertexCount = 8
-		scene3d.faceCount = 2
+		scene3d.lightVertexCount = 8
+		scene3d.lightFaceCount = 2
 		
 		// Set the display colors...
-		FaceBuffer[0].Color = object.secondaryDisplayColor
+		FaceBuffer[0].Color = object.tertiaryDisplayColor
 		FaceBuffer[1].Color = object.secondaryDisplayColor
 		
 		// ...and then apply the spotlight offset...
 		object.xpos -= 48
 		
 		// ..but then set the colors again? Why is this done twice?
-		FaceBuffer[0].Color = object.secondaryDisplayColor
+		FaceBuffer[0].Color = object.tertiaryDisplayColor
 		FaceBuffer[1].Color = object.secondaryDisplayColor
 		
 		// Make the spotlight move
@@ -387,8 +396,8 @@ event objectUpdate
 		object.drawOrder = 5
 		
 		// 1 spotlight rectangle has four corners and one face
-		scene3D.vertexCount = 4
-		scene3d.faceCount = 1
+		scene3d.lightVertexCount = 4
+		scene3d.lightFaceCount = 1
 		
 		FaceBuffer[0].Color = object.primaryDisplayColor
 		
@@ -433,8 +442,8 @@ event objectUpdate
 		object.drawOrder = 2
 		
 		// 2 rectangles means that there should be 8 vertices and 2 faces
-		scene3D.vertexCount = 8
-		scene3d.faceCount = 2
+		scene3d.lightVertexCount = 8
+		scene3d.lightFaceCount = 2
 		
 		object.xpos -= 48
 		
@@ -546,6 +555,13 @@ event objectStartup
 	FaceBuffer[1].c = 6
 	FaceBuffer[1].d = 7
 	FaceBuffer[1].Flag = FACE_FLAG_COLOURED_2D
+
+	// Setup the third spotlight
+	FaceBuffer[2].a = 8
+	FaceBuffer[2].b = 9
+	FaceBuffer[2].c = 10
+	FaceBuffer[2].d = 11
+	FaceBuffer[2].Flag = FACE_FLAG_COLOURED_2D
 	
 	// Loop through all obejcts in the stage and setup all Spotlights objects
 	arrayPos0 = 32
@@ -560,24 +576,85 @@ event objectStartup
 			
 			// And set up the initial starting checkpoint value as well
 			object[arrayPos0].Checkpoint = screen.xcenter
-			
-			// Setup the Spotlight's colors based on the current time period
-			// Present gets standard colors - set the primary spotlight to green
-			object[arrayPos0].primaryBaseColor = 128
-			object[arrayPos0].primaryBaseColor <<= 16
-			temp0 = 224
-			temp0 <<= 8
-			object[arrayPos0].primaryBaseColor += temp0
-			object[arrayPos0].primaryBaseColor += 128
-			
-			// Set the secondary spotlight to yellow
-			object[arrayPos0].secondaryBaseColor = 224
-			object[arrayPos0].secondaryBaseColor <<= 16
-			temp0 = 224
-			temp0 <<= 8
-			object[arrayPos0].secondaryBaseColor += temp0
-			object[arrayPos0].secondaryBaseColor += 0
-			
+
+			if stage.actNum == 1
+				// Setup the Spotlight's colors based on the current time period
+				// Present gets standard colors - set the primary spotlight to green
+				object[arrayPos0].primaryBaseColor = 128
+				object[arrayPos0].primaryBaseColor <<= 16
+				temp0 = 224
+				temp0 <<= 8
+				object[arrayPos0].primaryBaseColor += temp0
+				object[arrayPos0].primaryBaseColor += 128
+
+				// Set the secondary spotlight to yellow
+				object[arrayPos0].secondaryBaseColor = 224
+				object[arrayPos0].secondaryBaseColor <<= 16
+				temp0 = 224
+				temp0 <<= 8
+				object[arrayPos0].secondaryBaseColor += temp0
+				object[arrayPos0].secondaryBaseColor += 0
+
+				// Set the tertiary spotlight to blue
+				object[arrayPos0].tertiaryBaseColor = 0
+				object[arrayPos0].tertiaryBaseColor <<= 16
+				temp0 = 192
+				temp0 <<= 8
+				object[arrayPos0].tertiaryBaseColor += temp0
+				object[arrayPos0].tertiaryBaseColor += 224
+			end if
+			if stage.actNum == 2
+				// Setup the Spotlight's colors based on the current time period
+				// Present gets standard colors - set the primary spotlight to pink
+				object[arrayPos0].primaryBaseColor = 224
+				object[arrayPos0].primaryBaseColor <<= 16
+				temp0 = 64
+				temp0 <<= 8
+				object[arrayPos0].primaryBaseColor += temp0
+				object[arrayPos0].primaryBaseColor += 128
+
+				// Set the secondary spotlight to purple
+				object[arrayPos0].secondaryBaseColor = 224
+				object[arrayPos0].secondaryBaseColor <<= 16
+				temp0 = 128
+				temp0 <<= 8
+				object[arrayPos0].secondaryBaseColor += temp0
+				object[arrayPos0].secondaryBaseColor += 192
+
+				// Set the tertiary spotlight to brown
+				object[arrayPos0].tertiaryBaseColor = 192
+				object[arrayPos0].tertiaryBaseColor <<= 16
+				temp0 = 128
+				temp0 <<= 8
+				object[arrayPos0].tertiaryBaseColor += temp0
+				object[arrayPos0].tertiaryBaseColor += 0
+			end if
+			if stage.actNum == 3
+				// Setup the Spotlight's colors based on the current time period
+				// Present gets standard colors - set the primary spotlight to orange
+				object[arrayPos0].primaryBaseColor = 224
+				object[arrayPos0].primaryBaseColor <<= 16
+				temp0 = 128
+				temp0 <<= 8
+				object[arrayPos0].primaryBaseColor += temp0
+				object[arrayPos0].primaryBaseColor += 64
+
+				// Set the secondary spotlight to blue
+				object[arrayPos0].secondaryBaseColor = 128
+				object[arrayPos0].secondaryBaseColor <<= 16
+				temp0 = 128
+				temp0 <<= 8
+				object[arrayPos0].secondaryBaseColor += temp0
+				object[arrayPos0].secondaryBaseColor += 224
+
+				// Set the tertiary spotlight to red
+				object[arrayPos0].tertiaryBaseColor = 224
+				object[arrayPos0].tertiaryBaseColor <<= 16
+				temp0 = 92
+				temp0 <<= 8
+				object[arrayPos0].tertiaryBaseColor += temp0
+				object[arrayPos0].tertiaryBaseColor += 160
+			end if
 		end if
 		
 		arrayPos0++
