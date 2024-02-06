@@ -208,9 +208,10 @@ public function Player_ProcessUpdate
 	if options.attractMode == false
 #platform: USE_STANDALONE
 		if options.touchControls == true
+#platform: MOBILE	// Skip it on Non-Mobile platforms
 			if player.controlMode == CONTROLMODE_P1
 				// Update virtual stick inputs
-#platform: MOBILE		// Skip it on Non-Mobile platforms
+
 				CheckTouchRect(0, 96, screen.xcenter, screen.ysize)
 				if checkResult > -1
 					arrayPos0 = checkResult
@@ -285,8 +286,8 @@ public function Player_ProcessUpdate
 					engine.state = 5
 				end if
 			end if
-#endplatform
 		end if
+#endplatform
 #endplatform
 
 #platform: USE_ORIGINS
