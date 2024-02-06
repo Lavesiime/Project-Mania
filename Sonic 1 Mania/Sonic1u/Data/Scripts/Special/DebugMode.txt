@@ -239,6 +239,7 @@ end function
 event ObjectUpdate
 #platform: USE_STANDALONE
 	if options.touchControls == true
+#platform: MOBILE
 		if object.controlMode == CONTROLMODE_P1
 			CheckTouchRect(0, 96, screen.xcenter, screen.ysize)
 
@@ -348,6 +349,7 @@ event ObjectUpdate
 				engine.state = 5
 			end if
 		end if
+#endplatform
 	end if
 #endplatform
 
@@ -447,10 +449,11 @@ event ObjectDraw
 
 	// Switch back
 	object.type = TypeName[Debug Mode]
-
+#platform: MOBILE // Not needed on non-mobile platforms
 	// +/-
 	DrawSpriteScreenXY(6, screen.xcenter, 16)
 	DrawSpriteScreenXY(7, screen.xcenter, 16)
+#endplatform
 end event
 
 
