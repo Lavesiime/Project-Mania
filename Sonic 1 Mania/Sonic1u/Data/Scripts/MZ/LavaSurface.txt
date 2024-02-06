@@ -121,12 +121,10 @@ event ObjectUpdate
 			CallFunction(Player_FireHit)
 		end if
 	next
-
 end event
 
 
 event ObjectDraw
-
 	temp0 = object.propertyValue
 	temp2 = temp0
 	temp0 <<= 20
@@ -149,9 +147,9 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -8, 32, 16, 1, 177)
-	SpriteFrame(-16, -8, 32, 16, 34, 177)
-	SpriteFrame(-16, -8, 32, 16, 474, 493)
+	SpriteFrame(-16, -8, 32, 16, 1, 173)
+	SpriteFrame(-16, -8, 32, 16, 34, 173)
+	SpriteFrame(-16, -8, 32, 16, 203, 208)
 
 	foreach (TypeName[LavaSurface], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].startPos = object[arrayPos0].length

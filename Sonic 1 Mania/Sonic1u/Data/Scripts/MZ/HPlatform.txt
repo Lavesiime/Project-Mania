@@ -73,7 +73,7 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-48, -16, 96, 32, 159, 322)
+	SpriteFrame(-48, -16, 96, 32, 493, 175)
 
 	foreach (TypeName[H Platform], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].centerPos.x = object[arrayPos0].xpos

@@ -311,9 +311,9 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-64, -48, 128, 80, 1, 324)
-	SpriteFrame(-64, -64, 128, 96, 317, 396)
-	SpriteFrame(-32, -48, 64, 96, 446, 396)
+	SpriteFrame(-64, -48, 128, 80, 122, 0)
+	SpriteFrame(-64, -64, 128, 96, 512, 0)
+	SpriteFrame(-32, -48, 64, 96, 430, 49)
 
 	foreach (TypeName[Large Platform], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].frame = object[arrayPos0].propertyValue

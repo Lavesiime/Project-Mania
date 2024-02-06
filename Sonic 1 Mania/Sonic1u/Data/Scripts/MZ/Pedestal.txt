@@ -47,10 +47,10 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("MZ/Objects2.gif")
-	SpriteFrame(-16, -80, 32, 80, 224, 1)
-	SpriteFrame(-16, -32, 32, 32, 224, 81)
-	SpriteFrame(-28, -32, 56, 32, 0, 194)
+	LoadSpriteSheet("MZ/Objects.gif")
+	SpriteFrame(-16, -80, 32, 80, 736, 1)
+	SpriteFrame(-16, -32, 32, 32, 736, 81)
+	SpriteFrame(-28, -32, 56, 32, 512, 208)
 
 	// Flames
 	
@@ -76,8 +76,8 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("MZ/Objects2.gif")
-	SpriteFrame(-16, -80, 32, 80, 224, 1)
+	LoadSpriteSheet("MZ/Objects.gif")
+	SpriteFrame(-16, -80, 32, 80, 736, 1)
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
 end event

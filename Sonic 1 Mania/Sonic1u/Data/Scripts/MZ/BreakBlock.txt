@@ -202,8 +202,8 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -16, 32, 32, 317, 363)
-	SpriteFrame(-8, -8, 16, 16, 317, 363)
+	SpriteFrame(-16, -16, 32, 32, 428, 146)
+	SpriteFrame(-8, -8, 16, 16, 428, 146)
 
 	SetTableValue(TypeName[Break Block], DebugMode_ObjCount, DebugMode_TypesTable)
 	SetTableValue(BreakBlock_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)
@@ -223,7 +223,7 @@ end event
 
 event RSDKLoad
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -16, 32, 32, 317, 363)
+	SpriteFrame(-16, -16, 32, 32, 428, 146)
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
 end event

@@ -517,11 +517,11 @@ end event
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
 	SpriteFrame(-16, -52, 32, 32, 256, 76)
-	SpriteFrame(-56, -20, 112, 32, 143, 180)
-	SpriteFrame(-48, -20, 96, 32, 159, 147)
+	SpriteFrame(-56, -20, 112, 32, 143, 176)
+	SpriteFrame(-48, -20, 96, 32, 159, 144)
 	SpriteFrame(-16, -20, 32, 32, 256, 109)
-	SpriteFrame(-44, 12, 87, 32, 199, 256)
-	SpriteFrame(-4, -206, 8, 188, 308, 69)
+	SpriteFrame(-44, 12, 87, 32, 168, 224)
+	SpriteFrame(-4, -206, 8, 188, 308, 68)
 
 	foreach (TypeName[Chained Crusher], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].useButton = object[arrayPos0].propertyValue
@@ -790,11 +790,11 @@ end event
 event RSDKLoad
 	LoadSpriteSheet("MZ/Objects.gif")
 	SpriteFrame(-16, -52, 32, 32, 256, 76)
-	SpriteFrame(-56, -20, 112, 32, 143, 180)
-	SpriteFrame(-48, -20, 96, 32, 159, 147)
+	SpriteFrame(-56, -20, 112, 32, 143, 176)
+	SpriteFrame(-48, -20, 96, 32, 159, 144)
 	SpriteFrame(-16, -20, 32, 32, 256, 109)
-	SpriteFrame(-44, 12, 87, 32, 199, 256)
-	SpriteFrame(-4, -206, 8, 188, 308, 69)
+	SpriteFrame(-44, 12, 87, 32, 168, 224)
+	SpriteFrame(-4, -206, 8, 188, 308, 68)
 
 	AddEditorVariable("useButton")
 	SetActiveVariable("useButton")

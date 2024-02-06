@@ -74,7 +74,7 @@ end event
 
 event RSDKLoad
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -16, 32, 32, 159, 322)
+	SpriteFrame(-16, -16, 32, 32, 494, 136)
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
 end event

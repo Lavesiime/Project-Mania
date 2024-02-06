@@ -44,9 +44,9 @@ end event
 
 
 event ObjectStartup
-	LoadSpriteSheet("MZ/Objects2.gif")
-	SpriteFrame(-8, 0, 16, 48, 206, 198)
-	SpriteFrame(-8, 0, 16, 64, 240, 180)	
+	LoadSpriteSheet("MZ/Objects.gif")
+	SpriteFrame(-8, 0, 16, 48, 718, 198)
+	SpriteFrame(-8, 0, 16, 64, 752, 192)	
 	
 	foreach (TypeName[ChainDecor], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].drawOrder = 5
@@ -69,8 +69,8 @@ end event
 
 
 event RSDKLoad
-	LoadSpriteSheet("MZ/Objects2.gif")
-	SpriteFrame(-8, 0, 16, 48, 206, 198)
+	LoadSpriteSheet("MZ/Objects.gif")
+	SpriteFrame(-8, 0, 16, 48, 718, 198)
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
 end event

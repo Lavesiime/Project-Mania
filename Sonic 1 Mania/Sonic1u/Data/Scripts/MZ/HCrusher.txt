@@ -399,7 +399,7 @@ event ObjectStartup
 	SpriteFrame(36, -16, 8, 32, 289, 158)
 	SpriteFrame(-12, -32, 32, 64, 256, 142)
 	SpriteFrame(-43, -24, 31, 48, 256, 207)
-	SpriteFrame(-92, -8, 184, 16, 132, 388)
+	SpriteFrame(-92, -8, 184, 16, 512, 240)
 
 	foreach (TypeName[Horiz Crusher], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].useButton = object[arrayPos0].propertyValue
@@ -578,7 +578,7 @@ event RSDKLoad
 	SpriteFrame(36, -16, 8, 32, 289, 158)
 	SpriteFrame(-12, -32, 32, 64, 256, 142)
 	SpriteFrame(-43, -24, 31, 48, 256, 207)
-	SpriteFrame(-92, -8, 184, 16, 132, 388)
+	SpriteFrame(-92, -8, 184, 16, 512, 240)
 
 	AddEditorVariable("useButton")
 	SetActiveVariable("useButton")

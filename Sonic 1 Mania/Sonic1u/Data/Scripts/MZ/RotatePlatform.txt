@@ -384,9 +384,9 @@ end event
 
 event RSDKLoad
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-8, -8, 16, 16, 76, 160)
-	SpriteFrame(-8, -8, 16, 16, 93, 160)
-	SpriteFrame(-24, -8, 48, 16, 69, 177)
+	SpriteFrame(-8, -8, 16, 16, 76, 156)
+	SpriteFrame(-8, -8, 16, 16, 93, 156)
+	SpriteFrame(-24, -8, 48, 16, 69, 173)
 
 	AddEditorVariable("angle")
 	SetActiveVariable("angle")

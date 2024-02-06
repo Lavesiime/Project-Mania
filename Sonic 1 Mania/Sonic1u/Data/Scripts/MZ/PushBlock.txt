@@ -505,13 +505,16 @@ end event
 
 event ObjectDraw
 	DrawSpriteXY(object.frame, object.drawPos.x, object.ypos)
+	if object.frame == 1
+		object.xpos += 64
+	end if
 end event
 
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -16, 32, 32, 159, 322)
-	SpriteFrame(-64, -16, 128, 32, 159, 322)
+	SpriteFrame(-16, -16, 32, 32, 494, 136)
+	SpriteFrame(-64, -16, 128, 32, 494, 136)
 
 	foreach (TypeName[Push Block], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].frame = object[arrayPos0].propertyValue
@@ -599,8 +602,8 @@ end event
 
 event RSDKLoad
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -16, 32, 32, 159, 322)
-	SpriteFrame(-64, -16, 128, 32, 159, 322)
+	SpriteFrame(-16, -16, 32, 32, 494, 136)
+	SpriteFrame(-64, -16, 128, 32, 494, 136)
 	
 	AddEditorVariable("frameID")
 	SetActiveVariable("frameID")
