@@ -167,54 +167,54 @@ end event
 event ObjectStartup
 	CheckCurrentStageFolder("Zone02")
 	if checkResult == true
-		LoadSpriteSheet("MZ/Objects2.gif")
-		SpriteFrame(-20, -20, 40, 38, 97, 1) // Frame Set 1
-		SpriteFrame(-20, -20, 40, 38, 97, 120)
+		LoadSpriteSheet("MZ/Objects.gif")
+		SpriteFrame(-20, -20, 40, 38, 641, 0) // Frame Set 1
+		SpriteFrame(-20, -20, 40, 38, 625, 115)
 
-		SpriteFrame(-21, -20, 41, 38, 138, 1) // Frame Set 2
-		SpriteFrame(-21, -20, 41, 38, 138, 120)
+		SpriteFrame(-21, -20, 41, 38, 682, 0) // Frame Set 2
+		SpriteFrame(-21, -20, 41, 38, 666, 115)
 
-		SpriteFrame(-22, -20, 42, 38, 180, 1) // Frame Set 3
-		SpriteFrame(-22, -20, 42, 38, 180, 120)
+		SpriteFrame(-22, -20, 42, 38, 642, 38) // Frame Set 3
+		SpriteFrame(-22, -20, 42, 38, 708, 115)
 
-		SpriteFrame(-22, -20, 42, 38, 100, 40) // Frame Set 4
-		SpriteFrame(-22, -20, 42, 38, 100, 159)
+		SpriteFrame(-22, -20, 42, 38, 686, 38) // Frame Set 4
+		SpriteFrame(-22, -20, 42, 38, 645, 154)
 
-		SpriteFrame(-20, -20, 40, 39, 143, 40) // Frame Set 5
-		SpriteFrame(-20, -20, 40, 39, 143, 159)
+		SpriteFrame(-20, -20, 40, 39, 641, 76) // Frame Set 5
+		SpriteFrame(-20, -20, 40, 39, 688, 154)
 
-		SpriteFrame(-22, -20, 42, 38, 100, 40) // Frame Set 4
-		SpriteFrame(-22, -20, 42, 38, 100, 159)
+		SpriteFrame(-22, -20, 42, 38, 686, 38) // Frame Set 4
+		SpriteFrame(-22, -20, 42, 38, 645, 154)
 
-		SpriteFrame(-22, -20, 42, 38, 180, 1) // Frame Set 3
-		SpriteFrame(-22, -20, 42, 38, 180, 120)
+		SpriteFrame(-22, -20, 42, 38, 642, 38) // Frame Set 3
+		SpriteFrame(-22, -20, 42, 38, 708, 115)
 
-		SpriteFrame(-21, -20, 41, 38, 138, 1) // Frame Set 2
-		SpriteFrame(-21, -20, 41, 38, 138, 120)
+		SpriteFrame(-21, -20, 41, 38, 682, 0) // Frame Set 2
+		SpriteFrame(-21, -20, 41, 38, 666, 115)
 
-		SpriteFrame(-20, -20, 40, 38, 97, 1) // Frame Set 1
-		SpriteFrame(-20, -20, 40, 38, 97, 120)
+		SpriteFrame(-20, -20, 40, 38, 641, 0) // Frame Set 1
+		SpriteFrame(-20, -20, 40, 38, 625, 115)
 
-		SpriteFrame(-19, -20, 39, 38, 184, 40) // Frame Set 6
-		SpriteFrame(-19, -20, 39, 38, 184, 159)
+		SpriteFrame(-19, -20, 39, 38, 682, 76) // Frame Set 6
+		SpriteFrame(-19, -20, 39, 38, 729, 154)
 
-		SpriteFrame(-17, -20, 37, 38, 97, 80) // Frame Set 7
-		SpriteFrame(-17, -20, 37, 38, 97, 199)
+		SpriteFrame(-17, -20, 37, 38, 512, 97) // Frame Set 7
+		SpriteFrame(-17, -20, 37, 38, 609, 199)
 
-		SpriteFrame(-15, -20, 35, 38, 135, 80) // Frame Set 8
-		SpriteFrame(-15, -20, 35, 38, 135, 199)
+		SpriteFrame(-15, -20, 35, 38, 550, 97) // Frame Set 8
+		SpriteFrame(-15, -20, 35, 38, 647, 199)
 
-		SpriteFrame(-15, -20, 35, 38, 171, 80) // Frame Set 9
-		SpriteFrame(-15, -20, 35, 38, 171, 199)
+		SpriteFrame(-15, -20, 35, 38, 586, 97) // Frame Set 9
+		SpriteFrame(-15, -20, 35, 38, 683, 199)
 
-		SpriteFrame(-15, -20, 35, 38, 135, 80) // Frame Set 8
-		SpriteFrame(-15, -20, 35, 38, 135, 199)
+		SpriteFrame(-15, -20, 35, 38, 550, 97) // Frame Set 8
+		SpriteFrame(-15, -20, 35, 38, 647, 199)
 
-		SpriteFrame(-17, -20, 37, 38, 97, 80) // Frame Set 7
-		SpriteFrame(-17, -20, 37, 38, 97, 199)
+		SpriteFrame(-17, -20, 37, 38, 512, 97) // Frame Set 7
+		SpriteFrame(-17, -20, 37, 38, 609, 199)
 
-		SpriteFrame(-19, -20, 39, 38, 184, 40) // Frame Set 6
-		SpriteFrame(-19, -20, 39, 38, 184, 159)
+		SpriteFrame(-19, -20, 39, 38, 682, 76) // Frame Set 6
+		SpriteFrame(-19, -20, 39, 38, 729, 154)
 	end if
 
 	CheckCurrentStageFolder("Zone03")

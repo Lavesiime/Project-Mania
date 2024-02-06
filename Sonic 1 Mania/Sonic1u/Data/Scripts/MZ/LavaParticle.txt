@@ -40,6 +40,6 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-4, -4, 8, 8, 290, 405)
-	SpriteFrame(-4, -4, 8, 8, 290, 414)
+	SpriteFrame(-4, -4, 8, 8, 298, 157)
+	SpriteFrame(-4, -4, 8, 8, 298, 166)
 end event
