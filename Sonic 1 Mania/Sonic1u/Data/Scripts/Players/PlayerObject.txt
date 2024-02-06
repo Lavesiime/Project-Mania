@@ -1714,6 +1714,7 @@ public function Player_ProcessUpdate
 	if options.attractMode == false
 		if player.controlMode == CONTROLMODE_P1
 #platform: USE_STANDALONE
+#platform: MOBILE
 			CheckTouchRect(0, 96, screen.xcenter, screen.ysize)
 
 			if checkResult > -1
@@ -1783,7 +1784,7 @@ public function Player_ProcessUpdate
 				StopSfx(SfxName[Jump])
 				engine.state = 5
 			end if
-
+#endplatform
 			if keyPress[1].start == true
 				// Pause the game if the start button was pressed
 				PlaySfx(SfxName[Menu Back], false)
