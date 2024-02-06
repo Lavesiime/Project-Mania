@@ -440,15 +440,17 @@ event ObjectUpdate
 	
 	// This object's state never changes...
 	if object.state < 5
-		object.paletteTimer++
-		if object.paletteTimer == 6
-			object.paletteTimer = 0
-			RotatePalette(0, 168, 171, true)
+		object.paletteTimer += 42
+		if object.paletteTimer >= 0x100
+			object.paletteTimer -= 0x100
+			RotatePalette(1, 168, 171, true)
+			RotatePalette(2, 168, 171, true)
 			
 			GHZSetup_spikeLogsCounter++
 			GHZSetup_spikeLogsCounter &= 15
 		end if
 	end if
+	SetPaletteFade(0, 1, 2, object.paletteTimer, 168, 172)
 
 	if object.sunFlowerTimer == 0
 		temp0 = 0x1F6
@@ -529,6 +531,9 @@ event ObjectStartup
 	SetMusicTrack("GreenHill.ogg", TRACK_STAGE, MUSIC_LOOP_GHZ)
 	SpeedUpMusic = GHZSetup_SpeedUpMusic
 	SlowDownMusic = GHZSetup_SlowDownMusic
+
+	CopyPalette(0, 0, 1, 0, 256)
+	CopyPalette(0, 0, 2, 0, 256)
 
 	animalType1 = TypeName[Pocky]
 	animalType2 = TypeName[Flicky]
