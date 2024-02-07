@@ -99,7 +99,7 @@ event ObjectUpdate
 		object.angle = oscillation
 		object.angle <<= 1
 		Sin(object.shinePos.y, object.angle)
-		object.shinePos.y *= object.shineAmplitude.y
+		object.shinePos.y <<= 12
 		object.shinePos.y += object.ypos
 		object.shinePos.y &= 0xFFFF0000
 		break
@@ -155,13 +155,12 @@ end event
 
 
 event ObjectDraw
-	switch object.propertyValue
-	case GLASSPILLAR_SMALL
-		temp0 = 7
+	switch object.state
+	case 0
+		temp0 = 5
 		temp2 = temp0
-		temp0 <<= 10
+		temp0 <<= 5
 		temp0 += object.drawPos.y
-		temp0 += 0x80000
 		temp1 = 0
 		DrawSpriteXY(0, object.xpos, object.drawPos.y)
 		while temp1 < temp2
@@ -172,8 +171,9 @@ event ObjectDraw
 		DrawSpriteXY(2, object.xpos, object.drawPos.y)
 		DrawSpriteXY(6, object.xpos, object.shinePos.y)
 		break
-	case GLASSPILLAR_LARGE
-		temp0 = 7
+	case 1
+	case 2
+		temp0 = 11
 		temp2 = temp0
 		temp0 <<= 10
 		temp0 += object.drawPos.y
@@ -181,7 +181,7 @@ event ObjectDraw
 		temp1 = 4
 		DrawSpriteXY(3, object.xpos, object.drawPos.y)
 		while temp1 < temp2
-			DrawSpriteXY(1, object.xpos, temp0)
+			DrawSpriteXY(4, object.xpos, temp0)
 			temp0 += 0x100000
 			temp1++
 		loop
@@ -194,12 +194,12 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-32, -72, 64, 16, 430, 0)
-	SpriteFrame(-32, -64, 64, 16, 430, 16)
-	SpriteFrame(-32, 56, 64, 16, 430, 32)
 	SpriteFrame(-32, -56, 64, 16, 430, 0)
 	SpriteFrame(-32, -40, 64, 16, 430, 16)
 	SpriteFrame(-32, 40, 64, 16, 430, 32)
+	SpriteFrame(-32, -72, 64, 16, 430, 0)
+	SpriteFrame(-32, -64, 64, 16, 430, 16)
+	SpriteFrame(-32, 56, 64, 16, 430, 32)
 	SpriteFrame(-16, -16, 31, 32, 159, 112)
 
 	foreach (TypeName[Glass Pillar], arrayPos0, ALL_ENTITIES)

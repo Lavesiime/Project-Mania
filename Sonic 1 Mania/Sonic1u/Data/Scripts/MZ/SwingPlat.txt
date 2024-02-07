@@ -183,9 +183,9 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-8, -8, 16, 16, 76, 156)	// connection joint - #0
-	SpriteFrame(-8, -8, 16, 16, 93, 156)	// chain link 		- #1
-	SpriteFrame(-24, -8, 48, 16, 69, 173) 	// platform 		- #2
+	SpriteFrame(-8, -8, 16, 16, 495, 34)	// connection joint - #0
+	SpriteFrame(-8, -8, 16, 16, 495, 51)	// chain link 		- #1
+	SpriteFrame(-24, -8, 48, 16, 143, 208) 	// platform 		- #2
 
 	temp0 = 0
 	SwingPlatform_startDebugID = DebugMode_ObjCount
@@ -301,9 +301,9 @@ end event
 
 event RSDKLoad
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-8, -8, 16, 16, 76, 156)	// connection joint - #0
-	SpriteFrame(-8, -8, 16, 16, 93, 156)	// chain link 		- #1
-	SpriteFrame(-24, -8, 48, 16, 69, 173) 	// platform 		- #2
+	SpriteFrame(-8, -8, 16, 16, 495, 34)	// connection joint - #0
+	SpriteFrame(-8, -8, 16, 16, 495, 51)	// chain link 		- #1
+	SpriteFrame(-24, -8, 48, 16, 143, 208) 	// platform 		- #2
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "length")
 end event

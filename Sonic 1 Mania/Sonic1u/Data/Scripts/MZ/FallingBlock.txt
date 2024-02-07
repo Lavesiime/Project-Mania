@@ -243,7 +243,7 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -16, 32, 32, 493, 175)
+	SpriteFrame(-16, -16, 32, 32, 493, 176)
 
 	foreach (TypeName[Falling Block], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].state = object[arrayPos0].propertyValue
@@ -328,7 +328,7 @@ end event
 
 event RSDKLoad
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -16, 32, 32, 493, 175)
+	SpriteFrame(-16, -16, 32, 32, 493, 176)
 
 	AddEditorVariable("type")
 	SetActiveVariable("type")

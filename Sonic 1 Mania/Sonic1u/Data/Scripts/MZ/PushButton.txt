@@ -91,7 +91,7 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -8, 32, 16, 135, 208)
+	SpriteFrame(-16, -8, 32, 16, 1, 77)
 	SpriteFrame(-16, -8, 32, 16, 589, 168)
 
 	SetTableValue(TypeName[Push Button], DebugMode_ObjCount, DebugMode_TypesTable)

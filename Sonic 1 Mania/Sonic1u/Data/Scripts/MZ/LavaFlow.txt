@@ -11,6 +11,11 @@
 
 private alias object.value1 : object.startPos.x
 private alias object.value2 : object.spriteSprX
+private alias object.value3 : object.lavaAFrame
+private alias object.value4 : object.lavaBFrame
+private alias object.value5 : object.lavaTimer
+private alias object.value6 : object.flowTimer
+private alias object.value7 : object.lavaCFrame
 
 private alias 0 : LAVAFLOW_AWAITPLAYER
 private alias 1 : LAVAFLOW_FLOWING
@@ -145,33 +150,24 @@ event ObjectUpdate
 	object.spriteSprX &= 31
 	object.spriteSprX++
 
-	object.frame = object.animationTimer
-	object.frame /= 10
-	object.frame += 4
-	object.animationTimer++
-	object.animationTimer %= 40
-
 	// Lava is synced across the entire stage, via the [MZ Setup] Object's frame
 	switch object[SLOT_ZONESETUP].frame
 	case 0
-		EditFrame(0, -160, -32, 160, 32, object.spriteSprX, 405)
-		EditFrame(1, 0, -32, 124, 32, object.spriteSprX, 405)
-		EditFrame(2, -160, 0, 160, 32, object.spriteSprX, 405)
-		EditFrame(3, 0, 0, 156, 32, object.spriteSprX, 405)
+		EditFrame(0, -160, -32, 32, 32, object.spriteSprX, 158)
+		EditFrame(1, -160, 0, 32, 32, object.spriteSprX, 158)
+		EditFrame(2, 128, 0, 24, 32, object.spriteSprX, 158)
 		break
 
 	case 1
-		EditFrame(0, -160, -32, 160, 32, object.spriteSprX, 438)
-		EditFrame(1, 0, -32, 124, 32, object.spriteSprX, 438)
-		EditFrame(2, -160, 0, 160, 32, object.spriteSprX, 438)
-		EditFrame(3, 0, 0, 156, 32, object.spriteSprX, 438)
+		EditFrame(0, -160, -32, 32, 32, object.spriteSprX, 191)
+		EditFrame(1, -160, 0, 32, 32, object.spriteSprX, 191)
+		EditFrame(2, 128, 0, 24, 32, object.spriteSprX, 191)
 		break
 
 	case 2
-		EditFrame(0, -160, -32, 160, 32, object.spriteSprX, 471)
-		EditFrame(1, 0, -32, 124, 32, object.spriteSprX, 471)
-		EditFrame(2, -160, 0, 160, 32, object.spriteSprX, 471)
-		EditFrame(3, 0, 0, 156, 32, object.spriteSprX, 471)
+		EditFrame(0, -160, -32, 32, 32, object.spriteSprX, 224)
+		EditFrame(1, -160, 0, 32, 32, object.spriteSprX, 224)
+		EditFrame(2, 128, 0, 24, 32, object.spriteSprX, 224)
 		break
 		
 	end switch
@@ -179,24 +175,74 @@ end event
 
 
 event ObjectDraw
-	DrawSprite(0)
-	DrawSprite(1)
-	DrawSprite(2)
-	DrawSprite(3)
-	DrawSprite(object.frame)
+	object.lavaTimer++
+	object.flowTimer++
+	if object.lavaCFrame < 11
+		object.lavaCFrame = 11
+	end if
+	if object.lavaAFrame < 3
+		object.lavaAFrame = 3
+	end if
+	if object.lavaBFrame < 7
+		object.lavaBFrame = 7
+	end if
+	if object.lavaTimer >= 20
+		object.lavaCFrame++
+		object.lavaTimer = 0
+	end if
+	if object.flowTimer > 8
+		object.lavaAFrame++
+		object.lavaBFrame++
+		object.flowTimer = 0
+	end if
+	if object.lavaAFrame > 6
+		object.lavaAFrame = 3
+	end if
+	if object.lavaBFrame > 10
+		object.lavaBFrame = 7
+	end if
+	if object.lavaCFrame > 13
+		object.lavaCFrame = 11
+	end if
+	temp0 = 9
+	temp2 = temp0
+	temp0 <<= 0
+	temp0 += object.xpos
+	temp1 = 0
+	while temp1 < temp2
+		DrawSpriteXY(0, temp0, object.ypos)
+		DrawSpriteXY(1, temp0, object.ypos)
+		DrawSpriteXY(2, object.xpos, object.ypos)
+		DrawSpriteXY(object.lavaCFrame, temp0, object.ypos)
+		temp0 += 0x200000
+		temp1++
+	loop
+	DrawSpriteXY(object.lavaAFrame, object.xpos, object.ypos)
+	DrawSpriteXY(object.lavaBFrame, object.xpos, object.ypos)
 end event
 
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-128, -32, 128, 32, 1, 405)
-	SpriteFrame(0, -32, 128, 32, 1, 405)
-	SpriteFrame(-128, 0, 256, 32, 1, 405)
-	SpriteFrame(0, 0, 256, 32, 1, 405)
-	SpriteFrame(124, -32, 60, 64, 1, 194)
-	SpriteFrame(124, -32, 60, 64, 62, 194)
-	SpriteFrame(124, -32, 60, 64, 1, 259)
-	SpriteFrame(124, -32, 60, 64, 62, 259)
+	SpriteFrame(-160, -32, 32, 32, 1, 158)
+	SpriteFrame(-160, 0, 32, 32, 1, 158)
+	SpriteFrame(128, 0, 24, 32, 1, 158)
+
+	// Lava Ooze
+	SpriteFrame(116, -32, 40, 32, 122, 80)
+	SpriteFrame(116, -32, 40, 32, 163, 80)
+	SpriteFrame(116, -32, 40, 32, 204, 80)
+	SpriteFrame(116, -32, 40, 32, 191, 112)
+
+	SpriteFrame(144, 0, 40, 32, 204, 80)
+	SpriteFrame(144, 0, 40, 32, 191, 112)
+	SpriteFrame(144, 0, 40, 32, 122, 80)
+	SpriteFrame(144, 0, 40, 32, 163, 80)
+
+	// Lava Surface
+	SpriteFrame(-160, -40, 32, 16, 697, 240)
+	SpriteFrame(-160, -40, 32, 16, 40, 142)
+	SpriteFrame(-160, -40, 32, 16, 223, 208)
 
 	foreach (TypeName[Lava Flow], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].startPos.x = object[arrayPos0].xpos
@@ -227,6 +273,7 @@ event RSDKLoad
 	LoadSpriteSheet("MZ/Objects.gif")
 	SpriteFrame(-128, -32, 128, 32, 1, 405)
 	SpriteFrame(0, -32, 128, 32, 1, 405)
+
 	SpriteFrame(-128, 0, 256, 32, 1, 405)
 	SpriteFrame(0, 0, 256, 32, 1, 405)
 	SpriteFrame(124, -32, 60, 64, 1, 194)

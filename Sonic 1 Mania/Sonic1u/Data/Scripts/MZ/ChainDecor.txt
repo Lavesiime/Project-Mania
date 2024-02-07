@@ -45,7 +45,7 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-8, 0, 16, 48, 718, 198)
+	SpriteFrame(-8, 0, 16, 40, 718, 198)
 	SpriteFrame(-8, 0, 16, 64, 752, 192)	
 	
 	foreach (TypeName[ChainDecor], arrayPos0, ALL_ENTITIES)

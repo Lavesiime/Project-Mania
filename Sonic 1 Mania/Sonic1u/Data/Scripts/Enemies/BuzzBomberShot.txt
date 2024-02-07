@@ -147,7 +147,7 @@ event ObjectStartup
 		SpriteFrame(-6, -6, 12, 12, 439, 244)
 		SpriteFrame(-6, -6, 12, 12, 452, 244)
 		SpriteFrame(-6, -6, 12, 12, 465, 244)
-		SpriteFrame(-6, -6, 12, 12, 400, 244)
+		SpriteFrame(-6, -6, 12, 12, 478, 244)
 		SpriteFrame(-6, -6, 12, 12, 413, 244)
 		
 		SpriteFrame(-10, -9, 8, 8, 158, 246)
@@ -161,7 +161,7 @@ event ObjectStartup
 		SpriteFrame(-6, -6, 12, 12, 439, 244)
 		SpriteFrame(-6, -6, 12, 12, 452, 244)
 		SpriteFrame(-6, -6, 12, 12, 465, 244)
-		SpriteFrame(-6, -6, 12, 12, 400, 244)
+		SpriteFrame(-6, -6, 12, 12, 478, 244)
 		SpriteFrame(-6, -6, 12, 12, 413, 244)
 	end if
 

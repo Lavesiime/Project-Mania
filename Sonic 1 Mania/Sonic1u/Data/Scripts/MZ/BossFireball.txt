@@ -299,7 +299,7 @@ event ObjectStartup
 
 	SpriteFrame(-24, -8, 31, 15, 7, 61) // Horizontal Dissipate - #19
 	SpriteFrame(-15, -8, 23, 16, 135, 114) // Horizontal Dissipate - #20
-	SpriteFrame(-15, -8, 23, 16, 119, 174) // Horizontal Dissipate - #21
+	SpriteFrame(-15, -8, 23, 16, 119, 173) // Horizontal Dissipate - #21
 end event
 
 

@@ -134,7 +134,7 @@ event ObjectDraw
 
 	temp1 = 0
 	while temp1 < temp2
-		DrawSpriteXY(object.frame, temp0, object.ypos)
+		DrawSpriteXY(0, temp0, object.ypos)
 		temp0 += 0x200000
 		temp1++
 	loop
@@ -147,9 +147,9 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -8, 32, 16, 1, 173)
-	SpriteFrame(-16, -8, 32, 16, 34, 173)
-	SpriteFrame(-16, -8, 32, 16, 203, 208)
+	SpriteFrame(-16, -8, 32, 16, 697, 240)
+	SpriteFrame(-16, -8, 32, 16, 40, 142)
+	SpriteFrame(-16, -8, 32, 16, 223, 208)
 
 	foreach (TypeName[LavaSurface], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].startPos = object[arrayPos0].length
@@ -190,14 +190,9 @@ end event
 
 event RSDKLoad
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-128, -32, 128, 32, 1, 405)
-	SpriteFrame(0, -32, 128, 32, 1, 405)
-	SpriteFrame(-128, 0, 256, 32, 1, 405)
-	SpriteFrame(0, 0, 256, 32, 1, 405)
-	SpriteFrame(124, -32, 60, 64, 1, 194)
-	SpriteFrame(124, -32, 60, 64, 62, 194)
-	SpriteFrame(124, -32, 60, 64, 1, 259)
-	SpriteFrame(124, -32, 60, 64, 62, 259)
+	SpriteFrame(-16, -8, 32, 16, 697, 240)
+	SpriteFrame(-16, -8, 32, 16, 40, 142)
+	SpriteFrame(-16, -8, 32, 16, 223, 208)
 	
 	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
 end event

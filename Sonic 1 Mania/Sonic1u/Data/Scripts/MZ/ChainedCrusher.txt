@@ -516,7 +516,7 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -52, 32, 32, 256, 76)
+	SpriteFrame(-16, -52, 32, 32, 317, 204)
 	SpriteFrame(-56, -20, 112, 32, 143, 176)
 	SpriteFrame(-48, -20, 96, 32, 159, 144)
 	SpriteFrame(-16, -20, 32, 32, 256, 109)
@@ -789,7 +789,7 @@ end event
 
 event RSDKLoad
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-16, -52, 32, 32, 256, 76)
+	SpriteFrame(-16, -52, 32, 32, 317, 204)
 	SpriteFrame(-56, -20, 112, 32, 143, 176)
 	SpriteFrame(-48, -20, 96, 32, 159, 144)
 	SpriteFrame(-16, -20, 32, 32, 256, 109)

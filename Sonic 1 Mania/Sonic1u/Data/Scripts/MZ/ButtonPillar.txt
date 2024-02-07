@@ -12,6 +12,7 @@
 private alias object.value0 : object.timer
 private alias object.value1 : object.startPos.y
 private alias object.value2 : object.shinePos.y
+private alias object.value3 : object.drawPos.y
 
 private alias 0 : BUTTONPILLAR_AWAITBUTTON
 private alias 1 : BUTTONPILLAR_MOVING
@@ -106,15 +107,28 @@ end event
 
 
 event ObjectDraw
-	DrawSprite(0)
-	DrawSpriteXY(1, object.xpos, object.shinePos.y)
+	temp0 = 5
+	temp2 = temp0
+	temp0 <<= 5
+	temp0 += object.ypos
+	temp1 = 0
+	DrawSpriteXY(0, object.xpos, object.ypos)
+	while temp1 < temp2
+		DrawSpriteXY(1, object.xpos, temp0)
+		temp0 += 0x100000
+		temp1++
+	loop
+	DrawSpriteXY(2, object.xpos, object.ypos)
+	DrawSpriteXY(3, object.xpos, object.shinePos.y)
 end event
 
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-32, -56, 64, 112, 126, 1)
-	SpriteFrame(-16, -16, 31, 32, 159, 114)
+	SpriteFrame(-32, -56, 64, 16, 430, 0)
+	SpriteFrame(-32, -40, 64, 16, 430, 16)
+	SpriteFrame(-32, 40, 64, 16, 430, 32)
+	SpriteFrame(-16, -16, 31, 32, 159, 112)
 
 	foreach (TypeName[Button Pillar], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].startPos.y = object[arrayPos0].ypos
