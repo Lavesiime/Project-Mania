@@ -112,7 +112,16 @@ end event
 
 event ObjectDraw
 	if object.propertyValue > 0
-		DrawSprite(object.frame)
+		temp0 = 8
+		temp2 = temp0
+		temp0 <<= 5
+		temp0 += object.ypos
+		temp1 = 0
+		while temp1 < temp2
+			DrawSpriteXY(object.frame, object.xpos, temp0)
+			temp0 += 0x200000
+			temp1++
+		loop
 		DrawSprite(object.splashFrame)
 
 		object.direction = FLIP_Y
@@ -126,10 +135,10 @@ event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
 
 	// Lava frames
-	SpriteFrame(-32, -128, 64, 256, 317, 1)  // Falling Lava - #0
-	SpriteFrame(-32, -128, 64, 256, 382, 1)  // Falling Lava - #1
-	SpriteFrame(-32, -144, 64, 32, 382, 363) // Lava Splash  - #2
-	SpriteFrame(-32, -144, 64, 32, 447, 363) // Lava Splash  - #3
+	SpriteFrame(-32, -128, 64, 32, 66, 191)  // Falling Lava - #0
+	SpriteFrame(-32, -128, 64, 32, 66, 224)  // Falling Lava - #1
+	SpriteFrame(-32, -144, 64, 32, 428, 179) // Lava Splash  - #2
+	SpriteFrame(-32, -144, 64, 32, 415, 212) // Lava Splash  - #3
 
 	// Add Lava to the debug mode item list
 	SetTableValue(TypeName[Falling Lava], DebugMode_ObjCount, DebugMode_TypesTable)

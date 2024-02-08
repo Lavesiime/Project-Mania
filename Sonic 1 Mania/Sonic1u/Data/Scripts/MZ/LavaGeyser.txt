@@ -14,6 +14,7 @@ private alias object.value1 : object.drawPos.y
 private alias object.value2 : object.eruptAnimTimer
 private alias object.value3 : object.plumeFrame
 private alias object.value4 : object.eruptFrame
+private alias object.value5 : object.lavaDrawOrder
 
 private alias 0 : LAVAGEYSER_AWAITBLOCK
 private alias 1 : LAVAGEYSER_STARTERUPT
@@ -192,18 +193,19 @@ event ObjectDraw
 		break
 
 	case LAVAGEYSER_ERUPTING
-		temp0 = object.drawPos.y
-		temp0 -= object.ypos
-		temp0 >>= 16
-		temp1 = temp0
-		FlipSign(temp1)
-		if object.frame == 0
-			EditFrame(0, -32, temp1, 64, temp0, 317, 1)
-		else
-			EditFrame(1, -32, temp1, 64, temp0, 382, 1)
-		end if
-		
-		DrawSpriteXY(object.frame, object.xpos, object.drawPos.y)
+		temp2 = 6
+		temp4 = temp2
+		temp2 <<= 18
+		FlipSign(temp2)
+		temp2 += object.ypos
+		temp2 += 0x900000
+		temp3 = 0
+		object.drawOrder = 3
+		while temp3 < temp4
+			DrawSpriteXY(object.frame, object.xpos, temp2)
+			temp2 += 0x200000
+			temp3++
+		loop
 		DrawSprite(object.plumeFrame)
 		DrawSpriteXY(object.eruptFrame, object.xpos, object.drawPos.y)
 		break
@@ -215,23 +217,22 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
-	SpriteFrame(-32, -128, 64, 256, 317, 1)
-	SpriteFrame(-32, -128, 64, 256, 382, 1)
+	SpriteFrame(-32, -128, 64, 32, 66, 191)
+	SpriteFrame(-32, -128, 64, 32, 66, 224)
 
-	SpriteFrame(-56, -18, 112, 30, 288, 332)
-	SpriteFrame(-55, -18, 110, 30, 401, 332)
+	SpriteFrame(-56, -18, 112, 30, 317, 72)
+	SpriteFrame(-55, -18, 110, 30, 318, 174)
 
 	SpriteFrame(-24, -18, 48, 30, 268, 1)
 	SpriteFrame(-23, -18, 46, 30, 270, 32)
 
-	SpriteFrame(-56, -22, 112, 34, 288, 297)
-	SpriteFrame(-55, -22, 110, 34, 401, 297)
-	SpriteFrame(-56, -26, 112, 38, 288, 258)
-	SpriteFrame(-55, -26, 110, 38, 401, 258)
+	SpriteFrame(-56, -22, 112, 34, 318, 38)
+	SpriteFrame(-55, -22, 110, 34, 317, 140)
+	SpriteFrame(-56, -26, 112, 38, 317, 0)
+	SpriteFrame(-55, -26, 110, 38, 318, 102)
 
 	foreach (TypeName[Lava Geyser], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].drawPos.y = object[arrayPos0].ypos
-		object[arrayPos0].drawOrder = 5
 	next
 
 	SetTableValue(TypeName[Lava Geyser], DebugMode_ObjCount, DebugMode_TypesTable)
