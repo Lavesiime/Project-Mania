@@ -134,7 +134,7 @@ event ObjectDraw
 
 	temp1 = 0
 	while temp1 < temp2
-		DrawSpriteXY(0, temp0, object.ypos)
+		DrawSpriteXY(object.frame, temp0, object.ypos)
 		temp0 += 0x200000
 		temp1++
 	loop

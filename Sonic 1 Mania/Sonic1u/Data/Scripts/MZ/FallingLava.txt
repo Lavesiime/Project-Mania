@@ -98,14 +98,18 @@ event ObjectUpdate
 
 		object.splashFrame = object.splashAnimTimer
 		object.splashFrame /= 3
-		object.splashFrame += 2
+		object.splashFrame += 4
 		object.splashAnimTimer++
 		object.splashAnimTimer %= 6
 
-		object.frame = object.animationTimer
-		object.frame >>= 3
 		object.animationTimer++
-		object.animationTimer &= 15
+		if object.animationTimer > 4
+			object.frame++
+			object.animationTimer = 0
+		end if
+		if object.frame > 3
+			object.frame = 0
+		end if
 	end if
 end event
 
@@ -135,8 +139,10 @@ event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
 
 	// Lava frames
-	SpriteFrame(-32, -128, 64, 32, 66, 191)  // Falling Lava - #0
-	SpriteFrame(-32, -128, 64, 32, 66, 224)  // Falling Lava - #1
+	SpriteFrame(-32, -128, 64, 32, 66, 191)
+	SpriteFrame(-32, -128, 64, 32, 66, 224)
+	SpriteFrame(-32, -128, 64, 32, 525, 176)
+	SpriteFrame(-32, -128, 64, 32, 66, 224)
 	SpriteFrame(-32, -144, 64, 32, 428, 179) // Lava Splash  - #2
 	SpriteFrame(-32, -144, 64, 32, 415, 212) // Lava Splash  - #3
 

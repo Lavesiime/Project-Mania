@@ -15,6 +15,7 @@ private alias object.value2 : object.eruptAnimTimer
 private alias object.value3 : object.plumeFrame
 private alias object.value4 : object.eruptFrame
 private alias object.value5 : object.lavaDrawOrder
+private alias object.value6 : object.drawIndex
 
 private alias 0 : LAVAGEYSER_AWAITBLOCK
 private alias 1 : LAVAGEYSER_STARTERUPT
@@ -58,7 +59,7 @@ event ObjectUpdate
 					object.state = LAVAGEYSER_STARTERUPT
 					object.animationTimer = 0
 					object.eruptAnimTimer = 0
-					object.eruptFrame = 4
+					object.eruptFrame = 6
 				end if
 			next
 		else
@@ -67,7 +68,7 @@ event ObjectUpdate
 				object.state = LAVAGEYSER_STARTERUPT
 				object.animationTimer = 0
 				object.eruptAnimTimer = 0
-				object.eruptFrame = 4
+				object.eruptFrame = 6
 				object.timer = 0
 			end if
 		end if
@@ -77,7 +78,7 @@ event ObjectUpdate
 	case LAVAGEYSER_STARTERUPT
 		object.eruptFrame = object.eruptAnimTimer
 		object.eruptFrame /= 3
-		object.eruptFrame += 4
+		object.eruptFrame += 6
 		object.eruptAnimTimer++
 		object.eruptAnimTimer %= 6
 
@@ -91,7 +92,7 @@ event ObjectUpdate
 	case LAVAGEYSER_SHOWPLUME
 		object.eruptFrame = object.eruptAnimTimer
 		object.eruptFrame /= 3
-		object.eruptFrame += 6
+		object.eruptFrame += 8
 		object.eruptAnimTimer++
 		object.eruptAnimTimer %= 6
 
@@ -99,7 +100,7 @@ event ObjectUpdate
 		if object.timer == 12
 			object.timer = 0
 			object.frame = 0
-			object.plumeFrame = 8
+			object.plumeFrame = 10
 			object.yvel = -0x54000
 			object.state++
 			PlaySfx(SfxName[Fire Burn], false)
@@ -131,14 +132,18 @@ event ObjectUpdate
 		object.eruptFrame = object.eruptAnimTimer
 		object.eruptFrame /= 3
 		object.plumeFrame = object.eruptFrame
-		object.eruptFrame += 2
-		object.plumeFrame += 8
+		object.eruptFrame += 4
+		object.plumeFrame += 10
 		object.eruptAnimTimer++
 		object.eruptAnimTimer %= 6
-		object.frame = object.animationTimer
-		object.frame >>= 3
 		object.animationTimer++
-		object.animationTimer &= 15
+		if object.animationTimer > 4
+			object.frame++
+			object.animationTimer = 0
+		end if
+		if object.frame > 3
+			object.frame = 0
+		end if
 
 		temp0 = object.drawPos.y
 		temp0 -= object.ypos
@@ -154,7 +159,7 @@ event ObjectUpdate
 	case LAVAGEYSER_ERUPTED
 		object.eruptFrame = object.eruptAnimTimer
 		object.eruptFrame /= 3
-		object.eruptFrame += 2
+		object.eruptFrame += 4
 		object.eruptAnimTimer++
 		object.eruptAnimTimer %= 6
 
@@ -168,7 +173,7 @@ event ObjectUpdate
 	case LAVAGEYSER_HANDLEFINISH
 		object.eruptFrame = object.eruptAnimTimer
 		object.eruptFrame /= 3
-		object.eruptFrame += 4
+		object.eruptFrame += 6
 		object.eruptAnimTimer++
 		object.eruptAnimTimer %= 6
 		object.timer++
@@ -193,23 +198,27 @@ event ObjectDraw
 		break
 
 	case LAVAGEYSER_ERUPTING
-		temp2 = 6
-		temp4 = temp2
-		temp2 <<= 18
-		FlipSign(temp2)
-		temp2 += object.ypos
-		temp2 += 0x900000
-		temp3 = 0
-		object.drawOrder = 3
-		while temp3 < temp4
-			DrawSpriteXY(object.frame, object.xpos, temp2)
-			temp2 += 0x200000
-			temp3++
-		loop
-		DrawSprite(object.plumeFrame)
-		DrawSpriteXY(object.eruptFrame, object.xpos, object.drawPos.y)
+		if object.drawIndex == 0
+			temp2 = 6
+			temp4 = temp2
+			temp2 <<= 18
+			FlipSign(temp2)
+			temp2 += object.ypos
+			temp2 += 0x900000
+			temp3 = 0
+			while temp3 < temp4
+				DrawSpriteXY(object.frame, object.xpos, temp2)
+				temp2 += 0x200000
+				temp3++
+			loop
+			AddDrawListEntityRef(5, object.entityPos)
+		else
+			DrawSprite(object.plumeFrame)
+			AddDrawListEntityRef(0, object.entityPos)
+			DrawSpriteXY(object.eruptFrame, object.xpos, object.drawPos.y)
+		end if
+		object.drawIndex ^= 1
 		break
-		
 	end switch
 	
 end event
@@ -218,6 +227,8 @@ end event
 event ObjectStartup
 	LoadSpriteSheet("MZ/Objects.gif")
 	SpriteFrame(-32, -128, 64, 32, 66, 191)
+	SpriteFrame(-32, -128, 64, 32, 66, 224)
+	SpriteFrame(-32, -128, 64, 32, 525, 176)
 	SpriteFrame(-32, -128, 64, 32, 66, 224)
 
 	SpriteFrame(-56, -18, 112, 30, 317, 72)
