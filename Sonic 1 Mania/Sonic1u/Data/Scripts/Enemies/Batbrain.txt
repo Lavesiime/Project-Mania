@@ -255,10 +255,7 @@ event ObjectStartup
 		LoadSpriteSheet("MZ/Objects.gif")
 		SpriteFrame(-7, -12, 14, 24, 37, 94)
 		SpriteFrame(-16, -14, 32, 30, 41, 31)
-
 		SpriteFrame(-12, -17, 27, 32, 74, 29)
-
-
 		SpriteFrame(-16, -14, 32, 30, 52, 77)
 		SpriteFrame(-16, -10, 33, 26, 34, 1)
 		SpriteFrame(-19, -5, 35, 20, 1, 102)

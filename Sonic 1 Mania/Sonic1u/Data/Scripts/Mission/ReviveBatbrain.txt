@@ -289,16 +289,16 @@ event ObjectStartup
 	end if
 	if temp0 == true
 		LoadSpriteSheet("MZ/Objects.gif")
-		SpriteFrame(-7, -12, 14, 24, 37, 98)
+		SpriteFrame(-7, -12, 14, 24, 37, 94)
 		SpriteFrame(-16, -14, 32, 30, 41, 31)
 		SpriteFrame(-12, -17, 27, 32, 74, 29)
-		SpriteFrame(-16, -14, 32, 30, 52, 81)
+		SpriteFrame(-16, -14, 32, 30, 52, 77)
 		SpriteFrame(-16, -10, 33, 26, 34, 1)
-		SpriteFrame(-19, -5, 35, 20, 1, 106)
+		SpriteFrame(-19, -5, 35, 20, 1, 102)
 		SpriteFrame(-15, -6, 35, 27, 68, 1)
-		SpriteFrame(-15, -6, 36, 28, 85, 81)
+		SpriteFrame(-15, -6, 36, 28, 85, 77)
 		SpriteFrame(-17, -6, 34, 26, 1, 34)
-		SpriteFrame(-19, -5, 35, 20, 1, 106)
+		SpriteFrame(-19, -5, 35, 20, 1, 102)
 		SpriteFrame(-8, -17, 32, 32, 1, 1)
 	end if
 	
