@@ -127,8 +127,7 @@ event ObjectUpdate
 				
 #platform: USE_ORIGINS
 			case PLAYER_AMY_A
-				object.frame = 45
-				object.frame += 1
+				object.frame = 60
 				break
 #endplatform
 			end switch
@@ -169,7 +168,6 @@ event ObjectUpdate
 				
 #platform: USE_ORIGINS
 			case PLAYER_AMY_A
-				object.frame++
 				object.ixpos = camera[0].xpos
 				object.iypos = camera[0].ypos
 				break
@@ -208,8 +206,7 @@ event ObjectUpdate
 				
 #platform: USE_ORIGINS
 			case PLAYER_AMY_A
-				object.frame = 45
-				object.frame += 3
+				object.frame = 61
 				break
 #endplatform
 			end switch
@@ -610,7 +607,7 @@ event ObjectDraw
 				temp1 += stage.playerListPos
 			else
 				if stage.playerListPos == PLAYER_AMY
-					temp1 = 45
+					temp1 = 58
 					temp1 += 10
 				end if
 			end if
@@ -718,15 +715,15 @@ event ObjectStartup
 	SpriteFrame(-16, -20, 29, 39, 182, 256) // 57
 
 #platform: USE_ORIGINS
-	// 50 - Amy's Normal Ending Animation Frame
+	// 58 - Amy's Normal Ending Animation Frame
 	SpriteFrame(-10, -16, 21, 35, 421, 211)
 
-	// 51-53 - Amy's Final Pose Animation Frames
+	// 59-61 - Amy's Final Pose Animation Frames
 	SpriteFrame(-12, -15, 28, 34, 407, 175)
 	SpriteFrame(-30, -42, 67, 67, 353, 211)
 	SpriteFrame(-31, -73, 124, 144, 3, 256)
 
-	// 54-59 - Amy's Good Ending Animation Frames
+	// 62-67 - Amy's Good Ending Animation Frames
 	SpriteFrame(-8, -16, 21, 35, 353, 139)
 	SpriteFrame(-8, -16, 21, 35, 353, 139)
 	SpriteFrame(-12, -16, 25, 35, 375, 139)
@@ -734,7 +731,7 @@ event ObjectStartup
 	SpriteFrame(-13, -16, 26, 35, 353, 175)
 	SpriteFrame(-13, -16, 26, 35, 380, 175)
 	
-	// 60 - "Amy Rose in Sonic the Hedgehog"
+	// 68 - "Amy Rose in Sonic the Hedgehog"
 	SpriteFrame(-48, -17, 96, 48, 256, 240)
 #endplatform
 end event

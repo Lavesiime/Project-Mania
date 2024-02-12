@@ -6495,7 +6495,7 @@ event ObjectStartup
 		case PLAYER_AMY_A
 			CheckCurrentStageFolder("Ending")
 			if checkResult == true
-				LoadAnimation("KnucklesEnding.ani")
+				LoadAnimation("AmyEnding.ani")
 			else
 				LoadAnimation("Amy.ani")
 			end if

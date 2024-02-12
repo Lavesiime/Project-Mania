@@ -165,7 +165,8 @@ event ObjectUpdate
 									break
 #platform: USE_ORIGINS
 								case PLAYER_AMY_A
-									object[currentPlayer].frame = 45
+									object[tempObjectPos].frame = 58
+									object[currentPlayer].animation = ANI_WAITING
 									break
 #endplatform
 									
@@ -191,8 +192,8 @@ event ObjectUpdate
 									break
 #platform: USE_ORIGINS
 								case PLAYER_AMY_A
-									object[currentPlayer].frame += 45
-									object[currentPlayer].frame += 4
+									object[tempObjectPos].frame = 62
+									object[currentPlayer].animation = ANI_WAITING
 									break
 #endplatform
 								end switch
