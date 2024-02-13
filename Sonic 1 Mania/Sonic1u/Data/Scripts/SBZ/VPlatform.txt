@@ -73,7 +73,7 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("SBZ/Objects2.gif")
-	SpriteFrame(-32, -12, 64, 24, 62, 213)
+	SpriteFrame(-32, -12, 64, 24, 62, 231)
 
 	SetTableValue(TypeName[V Platform], DebugMode_ObjCount, DebugMode_TypesTable)
 	SetTableValue(VPlatform_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)
