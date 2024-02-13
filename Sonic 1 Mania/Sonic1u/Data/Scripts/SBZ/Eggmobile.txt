@@ -317,7 +317,13 @@ event ObjectUpdate
 									if object[currentPlayer].propertyValue == PLAYER_SONIC_A
 										player[currentPlayer].animation = ANI_VICTORY
 									end if
+									if object[currentPlayer].propertyValue == PLAYER_TAILS_A
+										player[currentPlayer].animation = ANI_WAITING
+									end if
 									if object[currentPlayer].propertyValue == PLAYER_KNUCKLES_A
+										player[currentPlayer].animation = ANI_VICTORY
+									end if
+									if object[currentPlayer].propertyValue == PLAYER_AMY_A
 										player[currentPlayer].animation = ANI_VICTORY
 									end if
 								else
