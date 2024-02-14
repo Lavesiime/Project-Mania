@@ -525,14 +525,22 @@ event objectUpdate
 		break
 		
 	end switch
-	
 end event
 
 
 event objectDraw
 	// The spotlights are all 3d, so instead of drawing sprites, draw the entire 3d scene instead
-	Draw3DScene()
+	// This can interfere with the signpost, so stop drawing them right around these positions in Act 1 and 2
+	temp0 = 100000
+	if stage.actNum == 1
+		temp0 = 8500
+	else ; if stage.actnum == 2
+		temp 0 = 10000
+	end if ; end if
 	
+	if camera[0].xpos < temp0
+		Draw3DScene()
+	end if
 end event
 
 
@@ -556,12 +564,13 @@ event objectStartup
 	FaceBuffer[1].d = 7
 	FaceBuffer[1].Flag = FACE_FLAG_COLOURED_2D
 
+	// Unused
 	// Setup the third spotlight
-	FaceBuffer[2].a = 8
-	FaceBuffer[2].b = 9
-	FaceBuffer[2].c = 10
-	FaceBuffer[2].d = 11
-	FaceBuffer[2].Flag = FACE_FLAG_COLOURED_2D
+	//FaceBuffer[2].a = 8
+	//FaceBuffer[2].b = 9
+	//FaceBuffer[2].c = 10
+	//FaceBuffer[2].d = 11
+	//FaceBuffer[2].Flag = FACE_FLAG_COLOURED_2D
 	
 	// Loop through all obejcts in the stage and setup all Spotlights objects
 	arrayPos0 = 32

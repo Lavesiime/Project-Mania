@@ -703,6 +703,8 @@ event ObjectDraw
 		
 		MatrixTranslateXYZ(MAT_WORLD, temp0, -0xfffff, temp2)
 		MatrixRotateXYZ(MAT_VIEW, -128, 0, 256)
+		scene3D.vertexCount = 24
+		scene3D.faceCount   = 6
 
 		DrawSprite(0)
 		DrawSprite(1)
