@@ -1,0 +1,115 @@
+// ----------------------------------
+// RSDK Project: Sonic 2
+// Script Description: Blue Shield Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+private alias object.value1 : object.outerFrame
+
+private alias -1 : DRAWORDER_PLAYER
+
+// Player aliases
+private alias object.state : player.state
+private alias object.xpos : player.xpos
+private alias object.ypos : player.ypos
+
+// Super States
+private alias 1 : SUPERSTATE_SUPER
+
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+	object.drawOrder = DRAWORDER_PLAYER
+
+	// Dead player shouldn't have any shields
+	if player[-playerCount].state == Player_State_Death
+		object.type = TypeName[Blank Object]
+	end if
+
+	// No shields here, either
+	if player[-playerCount].state == Player_State_Drown
+		object.type = TypeName[Blank Object]
+	end if
+
+	// Update the object's animation
+	object.animationTimer++
+	temp0 = 225
+	temp0 /= 96
+	if object.animationTimer >= temp0
+		object.frame++
+		object.outerFrame++
+		object.animationTimer = 0
+	end if
+	if object.frame > 7
+		object.frame = 0
+	end if
+	if object.outerFrame < 8
+		object.outerFrame = 8
+	end if
+	if object.outerFrame > 17
+		object.outerFrame = 8
+	end if
+end event
+
+
+event ObjectDraw
+	// Super characters shouldn't have shields
+	if Player_superState != SUPERSTATE_SUPER
+			object.alpha = 100
+		DrawSpriteFX(object.frame, FX_INK, player[-playerCount].xpos, player[-playerCount].ypos)
+		DrawSpriteFX(object.outerFrame, FX_INK, player[-playerCount].xpos, player[-playerCount].ypos)
+	end if
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("Global/Items.gif")
+
+	// Shield frames
+	SpriteFrame(-16, -16, 32, 32, 190, 50)  // 0
+	SpriteFrame(-16, -16, 32, 32, 174, 166)  // 1
+	SpriteFrame(-16, -16, 32, 32, 223, 50)  // 2
+	SpriteFrame(-16, -16, 32, 32, 190, 83)  // 3
+	SpriteFrame(-16, -16, 32, 32, 223, 83)  // 4
+	SpriteFrame(-16, -16, 32, 32, 190, 116)  // 5
+	SpriteFrame(-16, -16, 32, 32, 157, 199)  // 6
+	SpriteFrame(-16, -16, 32, 32, 190, 199)  // 7
+	SpriteFrame(-24, -24, 48, 48, 151, 1) // Center circle thing that always gets drawn
+	SpriteFrame(-24, -24, 48, 48, 151, 1)
+	SpriteFrame(-24, -24, 48, 48, 151, 1)
+	SpriteFrame(-24, -24, 48, 48, 289, 66)
+	SpriteFrame(-24, -24, 48, 48, 289, 66)
+	SpriteFrame(-24, -24, 48, 48, 338, 66)
+	SpriteFrame(-24, -24, 48, 48, 338, 66)
+	SpriteFrame(-24, -24, 48, 48, 338, 66)
+	SpriteFrame(-24, -24, 48, 48, 289, 66)
+	SpriteFrame(-24, -24, 48, 48, 289, 66)
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+	DrawSprite(1)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Items.gif")
+	SpriteFrame(-16, -16, 32, 32, 18, 34)
+	SpriteFrame(-24, -24, 48, 48, 35, 117)
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

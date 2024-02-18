@@ -1,0 +1,377 @@
+// ----------------------------------
+// RSDK Project: Sonic 2
+// Script Description: Bubble Shield Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+private alias object.value1 : object.sheenFrame
+
+private alias 0 : BUBBLESHIELD_IDLE_SETUP
+private alias 1 : BUBBLESHIELD_IDLE
+private alias 2 : BUBBLESHIELD_BOUNCE_SETUP
+private alias 3 : BUBBLESHIELD_BOUNCE
+private alias 4 : BUBBLESHIELD_RECOIL_SETUP
+private alias 5 : BUBBLESHIELD_RECOIL
+
+private alias -1 : DRAWORDER_PLAYER
+
+// Player aliases
+private alias object.state : player.state
+private alias object.xpos : player.xpos
+private alias object.ypos : player.ypos
+
+private alias 1 : SUPERSTATE_SUPER
+
+
+// ========================
+// Tables
+// ========================
+
+private table BubbleShield_frameTable
+	2, 0, 2, 0, 2, 0, 3, 1, 3, 1, 3, 1, 4, 0, 4, 0
+	4, 0, 5, 1, 5, 1, 5, 1, 6, 0, 6, 0, 6, 0, 5, 1
+	5, 1, 5, 1, 4, 0, 4, 0, 4, 0, 3, 1, 3, 1, 3, 1
+	2, 0, 2, 0, 2, 0
+end table
+
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+	// Remove the shield if the player shouldn't have it
+	if player[-playerCount].state == Player_State_Death
+		object.type = TypeName[Blank Object]
+	end if
+
+	if player[-playerCount].state == Player_State_Drown
+		object.type = TypeName[Blank Object]
+	end if
+
+	object.drawOrder = DRAWORDER_PLAYER
+
+	
+	switch object.state
+	case BUBBLESHIELD_IDLE_SETUP
+		object.animationTimer = 0
+		object.timer = 0
+		object.frame = 0
+		object.sheenFrame = 133
+		object.state++
+		// [FallThrough]
+	case BUBBLESHIELD_IDLE
+		object.animationTimer++
+		object.frame++
+		object.sheenFrame++
+		if object.frame > 33
+			object.frame = 0
+		end if
+		if object.sheenFrame < 34
+			object.sheenFrame = 34
+		end if
+		if object.sheenFrame > 81
+			object.sheenFrame = 34
+		end if
+		break
+
+	case BUBBLESHIELD_BOUNCE_SETUP
+		object.animationTimer = 0
+		object.timer = 0
+		object.frame = 133
+		object.sheenFrame = 104
+		object.state++
+		// [FallThrough]
+	case BUBBLESHIELD_BOUNCE
+
+		object.sheenFrame++
+		if object.sheenFrame > 133
+			object.timer++
+			object.sheenFrame = 104
+		end if
+	
+		if object.timer == 0
+			object.animationTimer++
+			if object.frame < 82
+				object.frame = 82
+			end if
+			object.frame++
+			if object.frame > 103
+				object.timer++
+				object.frame = 92
+			end if
+		else
+			object.animationTimer++
+			if object.animationTimer >= 19
+				if object.frame >= 104
+					object.frame = 104
+				end if
+				object.frame--
+				if object.frame == 82
+					object.state = BUBBLESHIELD_IDLE_SETUP
+				end if
+			end if
+		end if
+		break
+
+	case BUBBLESHIELD_RECOIL_SETUP
+		object.animationTimer = 0
+		object.frame = 133
+		object.timer = 0
+		object.sheenFrame = 133
+		object.state++
+		// [FallThrough]
+	case BUBBLESHIELD_RECOIL
+		if object.timer == 0
+			object.animationTimer++
+			object.sheenFrame = 133
+			if object.frame < 134
+				object.frame = 134
+			end if
+			object.frame++
+			if object.frame > 171
+				object.timer++
+				object.frame = 161
+			end if
+		else
+			object.animationTimer++
+			if object.animationTimer >= 7
+				object.state = BUBBLESHIELD_IDLE_SETUP
+			end if
+		end if
+		break
+
+	end switch
+end event
+
+
+event ObjectDraw
+	if Player_superState != SUPERSTATE_SUPER
+		object.direction = FACING_RIGHT
+		if object.timer >= 30
+			if object.frame > 1
+				object.direction = FLIP_Y
+			end if
+		end if
+
+		// Draw at the player's position
+		DrawSpriteFX(object.frame, FX_INK, player[-playerCount].xpos, player[-playerCount].ypos)
+		object.inkeffect = INK_BLEND
+		DrawSpriteFX(object.sheenFrame, FX_INK, player[-playerCount].xpos, player[-playerCount].ypos)
+		object.inkeffect = INK_ADD
+		object.alpha = 0xC0
+	end if
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("Global/Items3.gif")
+
+	// Bubble Shield Add Frames
+	SpriteFrame(-23, -24, 46, 48, 1, 50) // Frame 0
+	SpriteFrame(-23, -24, 46, 48, 1, 50) // Frame 1
+	SpriteFrame(-23, -24, 46, 48, 1, 50) // Frame 2
+	SpriteFrame(-23, -24, 46, 48, 1, 50) // Frame 3
+	SpriteFrame(-23, -24, 46, 48, 48, 50) // Frame 4
+	SpriteFrame(-23, -24, 46, 48, 48, 50) // Frame 5
+	SpriteFrame(-23, -24, 46, 48, 48, 50) // Frame 6
+	SpriteFrame(-24, -24, 48, 48, 95, 50) // Frame 7
+	SpriteFrame(-24, -24, 48, 48, 95, 50) // Frame 8
+	SpriteFrame(-24, -24, 48, 48, 144, 50) // Frame 9
+	SpriteFrame(-24, -24, 48, 48, 144, 50) // Frame 10
+	SpriteFrame(-24, -24, 48, 48, 193, 50) // Frame 11
+	SpriteFrame(-24, -24, 48, 48, 193, 50) // Frame 12
+	SpriteFrame(-24, -24, 48, 48, 193, 50) // Frame 13
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 14
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 15
+	SpriteFrame(-24, -24, 48, 48, 193, 50) // Frame 16
+	SpriteFrame(-24, -24, 48, 48, 193, 50) // Frame 17
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 18
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 19
+	SpriteFrame(-24, -24, 48, 48, 193, 50) // Frame 20
+	SpriteFrame(-24, -24, 48, 48, 193, 50) // Frame 21
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 22
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 23
+	SpriteFrame(-24, -23, 48, 46, 336, 50) // Frame 24
+	SpriteFrame(-24, -23, 48, 46, 336, 50) // Frame 25
+	SpriteFrame(-24, -23, 48, 46, 336, 50) // Frame 26
+	SpriteFrame(-23, -24, 46, 48, 289, 50) // Frame 27
+	SpriteFrame(-23, -24, 46, 48, 289, 50) // Frame 28
+	SpriteFrame(-23, -24, 46, 48, 289, 50) // Frame 29
+	SpriteFrame(-23, -24, 46, 48, 385, 50) // Frame 30
+	SpriteFrame(-23, -24, 46, 48, 385, 50) // Frame 31
+	SpriteFrame(-23, -24, 46, 48, 385, 50) // Frame 32
+	SpriteFrame(-23, -24, 46, 48, 385, 50) // Frame 33
+
+	// Bubble Shield Frames
+	SpriteFrame(-24, -24, 48, 3, 432, 50) // Frame 34
+	SpriteFrame(-24, -24, 48, 3, 432, 50) // Frame 35
+	SpriteFrame(-24, -24, 48, 3, 432, 50) // Frame 36
+	SpriteFrame(-24, -24, 48, 3, 432, 50) // Frame 37
+	SpriteFrame(-24, -24, 48, 6, 432, 54) // Frame 38
+	SpriteFrame(-24, -24, 48, 6, 432, 54) // Frame 39
+	SpriteFrame(-24, -24, 48, 6, 432, 54) // Frame 40
+	SpriteFrame(-24, -24, 48, 6, 432, 54) // Frame 41
+	SpriteFrame(-24, -24, 48, 16, 432, 61 // Frame 42
+	SpriteFrame(-24, -24, 48, 16, 432, 61) // Frame 43
+	SpriteFrame(-24, -24, 48, 16, 432, 61) // Frame 44
+	SpriteFrame(-24, -24, 48, 29, 432, 78) // Frame 45
+	SpriteFrame(-24, -24, 48, 29, 432, 78) // Frame 46
+	SpriteFrame(-24, -24, 48, 29, 432, 78) // Frame 47
+	SpriteFrame(-24, -24, 48, 48, 1, 99) // Frame 48
+	SpriteFrame(-24, -24, 48, 48, 1, 99) // Frame 49
+	SpriteFrame(-24, -24, 48, 48, 1, 99) // Frame 50
+	SpriteFrame(-24, -24, 48, 48, 50, 99) // Frame 51
+	SpriteFrame(-24, -24, 48, 48, 50, 99) // Frame 52
+	SpriteFrame(-24, -24, 48, 48, 99, 99) // Frame 53
+	SpriteFrame(-24, -24, 48, 48, 99, 99) // Frame 54
+	SpriteFrame(-24, -24, 48, 48, 148, 99) // Frame 55
+	SpriteFrame(-24, -24, 48, 48, 148, 99) // Frame 56
+	SpriteFrame(-24, -24, 48, 48, 197, 99) // Frame 57
+	SpriteFrame(-24, -24, 48, 48, 197, 99) // Frame 58
+	SpriteFrame(-23, -11, 46, 35, 246, 101) // Frame 59
+	SpriteFrame(-23, -11, 46, 35, 246, 101) // Frame 60
+	SpriteFrame(-23, -8, 46, 32, 293, 99) // Frame 61
+	SpriteFrame(-23, -8, 46, 32, 293, 99) // Frame 62
+	SpriteFrame(-23, -2, 46, 26, 340, 99) // Frame 63
+	SpriteFrame(-23, -2, 46, 26, 340, 99) // Frame 64
+	SpriteFrame(-22, -1, 44, 25, 387, 99) // Frame 65
+	SpriteFrame(-22, -1, 44, 25, 387, 99) // Frame 66
+	SpriteFrame(-22, -1, 44, 25, 387, 99) // Frame 67
+	SpriteFrame(-21, 9, 42, 15, 432, 108) // Frame 68
+	SpriteFrame(-21, 9, 42, 15, 432, 108) // Frame 69
+	SpriteFrame(-21, 9, 42, 15, 432, 108) // Frame 70
+	SpriteFrame(-21, 12, 42, 12, 432, 124) // Frame 71
+	SpriteFrame(-21, 12, 42, 12, 432, 124) // Frame 72
+	SpriteFrame(-21, 12, 42, 12, 432, 124) // Frame 73
+	SpriteFrame(-18, 16, 36, 8, 432, 137) // Frame 74
+	SpriteFrame(-18, 16, 36, 8, 432, 137) // Frame 75
+	SpriteFrame(-18, 16, 36, 8, 432, 137) // Frame 76
+	SpriteFrame(-18, 16, 36, 8, 432, 137) // Frame 77
+	SpriteFrame(0, 0, 0, 0, 432, 50) // Frame 78
+	SpriteFrame(0, 0, 0, 0, 432, 50) // Frame 79
+	SpriteFrame(0, 0, 0, 0, 432, 50) // Frame 80
+	SpriteFrame(0, 0, 0, 0, 432, 50) // Frame 81
+
+	// Bubble Shield Attack Down Add Frames
+	SpriteFrame(-24, -24, 48, 48, 95, 50) // Frame 82
+	SpriteFrame(-24, -24, 48, 48, 95, 50) // Frame 83
+	SpriteFrame(-25, -22, 50, 44, 1, 148) // Frame 84
+	SpriteFrame(-25, -22, 50, 44, 1, 148) // Frame 85
+	SpriteFrame(-27, -21, 54, 42, 52, 148) // Frame 86
+	SpriteFrame(-27, -21, 54, 42, 52, 148) // Frame 87
+	SpriteFrame(-28, -20, 56, 40, 107, 148) // Frame 88
+	SpriteFrame(-28, -20, 56, 40, 107, 148) // Frame 89
+	SpriteFrame(-34, -17, 68, 35, 229, 148) // Frame 90
+	SpriteFrame(-34, -17, 68, 35, 229, 148) // Frame 91
+	// Loop
+	SpriteFrame(-35, -17, 70, 34, 298, 132) // Frame 92
+	SpriteFrame(-35, -17, 70, 34, 298, 132) // Frame 93
+	SpriteFrame(-35, -17, 70, 34, 298, 132) // Frame 94
+	SpriteFrame(-37, -17, 74, 34, 298, 167) // Frame 95
+	SpriteFrame(-37, -17, 74, 34, 298, 167) // Frame 96
+	SpriteFrame(-37, -17, 74, 34, 298, 167) // Frame 97
+	SpriteFrame(-37, -16, 74, 32, 373, 146) // Frame 98
+	SpriteFrame(-37, -16, 74, 32, 373, 146) // Frame 99
+	SpriteFrame(-37, -16, 74, 32, 373, 146) // Frame 100
+	SpriteFrame(-37, -17, 74, 34, 298, 167) // Frame 101
+	SpriteFrame(-37, -17, 74, 34, 298, 167) // Frame 102
+	SpriteFrame(-37, -17, 74, 34, 298, 167) // Frame 103
+
+	// Bubble Shield Attack Down Frames
+	SpriteFrame(-37, -16, 0, 0, 1, 1) // Frame 104
+	SpriteFrame(-37, -16, 0, 0, 1, 1) // Frame 105
+	SpriteFrame(-37, -16, 0, 0, 1, 1) // Frame 106
+	SpriteFrame(-37, -16, 0, 0, 1, 1) // Frame 107
+	SpriteFrame(-37, -16, 0, 0, 1, 1) // Frame 108
+	SpriteFrame(-37, -16, 0, 0, 1, 1) // Frame 109
+	SpriteFrame(-37, -16, 0, 0, 1, 1) // Frame 110
+	SpriteFrame(-37, -16, 0, 0, 1, 1) // Frame 111
+	SpriteFrame(-37, -16, 0, 0, 1, 1) // Frame 112
+	SpriteFrame(-37, -16, 0, 0, 1, 1) // Frame 113
+	SpriteFrame(-37, -16, 74, 32, 1, 202) // Frame 114
+	SpriteFrame(-37, -16, 74, 32, 1, 202) // Frame 115
+	SpriteFrame(-37, -16, 74, 32, 76, 202) // Frame 116
+	SpriteFrame(-37, -16, 74, 32, 76, 202) // Frame 117
+	SpriteFrame(-37, -16, 74, 32, 151, 202) // Frame 118
+	SpriteFrame(-37, -16, 74, 32, 151, 202) // Frame 119
+	SpriteFrame(-37, -16, 74, 32, 226, 202) // Frame 120
+	SpriteFrame(-37, -16, 74, 32, 301, 202) // Frame 121
+	SpriteFrame(-37, -16, 74, 32, 376, 202) // Frame 122
+	SpriteFrame(-37, -16, 74, 32, 1, 235) // Frame 123
+	SpriteFrame(-37, -16, 74, 32, 76, 235) // Frame 124
+	SpriteFrame(-37, -16, 74, 32, 151, 235) // Frame 125
+	SpriteFrame(-37, -16, 74, 32, 151, 235) // Frame 126
+	SpriteFrame(-37, -16, 74, 32, 226, 235) // Frame 127
+	SpriteFrame(-37, -16, 74, 32, 226, 235) // Frame 128
+	SpriteFrame(-37, -16, 74, 32, 301, 235) // Frame 129
+	SpriteFrame(-37, -16, 74, 32, 301, 235) // Frame 130
+	SpriteFrame(0, 0, 0, 0, 1, 1) // Frame 131
+	SpriteFrame(0, 0, 0, 0, 1, 1) // Frame 132
+	SpriteFrame(0, 0, 0, 0, 1, 1) // Frame 133
+
+	// Bubble Shield Attack Up Add Frames
+	SpriteFrame(-35, -17, 70, 34, 298, 132) // Frame 134
+	SpriteFrame(-35, -17, 70, 34, 298, 132) // Frame 135
+	SpriteFrame(-34, -17, 68, 35, 229, 148) // Frame 136
+	SpriteFrame(-28, -20, 56, 40, 107, 148) // Frame 137
+	SpriteFrame(-27, -21, 54, 42, 52, 148) // Frame 138
+	SpriteFrame(-25, -22, 50, 44, 1, 148) // Frame 139
+	SpriteFrame(-25, -22, 50, 44, 1, 148) // Frame 140
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 141
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 142
+	SpriteFrame(-25, -22, 50, 44, 1, 148) // Frame 143
+	SpriteFrame(-25, -22, 50, 44, 1, 148) // Frame 144
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 145
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 146
+	SpriteFrame(-27, -21, 54, 42, 52, 148) // Frame 147
+	SpriteFrame(-27, -21, 54, 42, 52, 148) // Frame 148
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 149
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 150
+	SpriteFrame(-25, -22, 50, 44, 1, 148) // Frame 151
+	SpriteFrame(-25, -22, 50, 44, 1, 148) // Frame 152
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 153
+	SpriteFrame(-23, -25, 46, 50, 242, 50) // Frame 154
+	SpriteFrame(-24, -24, 48, 48, 193, 50) // Frame 155
+	SpriteFrame(-24, -24, 48, 48, 193, 50) // Frame 156
+	SpriteFrame(-23, -24, 46, 48, 289, 50) // Frame 157
+	SpriteFrame(-23, -24, 46, 48, 289, 50) // Frame 158
+	SpriteFrame(-24, -24, 48, 48, 144, 50) // Frame 159
+	SpriteFrame(-24, -24, 48, 48, 144, 50) // Frame 160
+	// Loop
+	SpriteFrame(-23, -24, 46, 48, 289, 50) // Frame 161
+	SpriteFrame(-23, -24, 46, 48, 289, 50) // Frame 162
+	SpriteFrame(-24, -24, 48, 48, 95, 50) // Frame 163
+	SpriteFrame(-24, -24, 48, 48, 95, 50) // Frame 164
+	SpriteFrame(-23, -24, 46, 48, 289, 50) // Frame 165
+	SpriteFrame(-23, -24, 46, 48, 289, 50) // Frame 166
+	SpriteFrame(-23, -24, 46, 48, 289, 50) // Frame 167
+	SpriteFrame(-23, -24, 46, 48, 48, 50) // Frame 168
+	SpriteFrame(-23, -24, 46, 48, 48, 50) // Frame 169
+	SpriteFrame(-23, -24, 46, 48, 48, 50) // Frame 170
+	SpriteFrame(-23, -24, 46, 48, 1, 50) // Frame 171
+
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143)
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

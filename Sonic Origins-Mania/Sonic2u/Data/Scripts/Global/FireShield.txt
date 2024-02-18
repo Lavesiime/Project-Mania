@@ -1,0 +1,299 @@
+// ----------------------------------
+// RSDK Project: Sonic 2
+// Script Description: Fire Shield Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0  : object.timer
+private alias object.value1  : object.backFrame
+private alias object.value2 : object.drawIndex
+private alias object.value18 : object.sortedDrawOrder
+
+private alias -1 : DRAWORDER_PLAYER
+
+private alias object.state : player.state
+private alias object.xpos  : player.xpos
+private alias object.ypos  : player.ypos
+
+// Flame shield states
+private alias 0 : FIRESHIELD_IDLE_SETUP
+private alias 1 : FIRESHIELD_IDLE
+private alias 2 : FIRESHIELD_DASH_SETUP
+private alias 3 : FIRESHIELD_DASH
+
+// Super States
+private alias 1 : SUPERSTATE_SUPER
+
+
+// ========================
+// Tables
+// ========================
+
+// Passive/idle ver - just staying around the player normally
+private table FireShield_idleFrameTable
+	0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36
+end table
+
+private table FireShield_backFrameTable
+	1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37
+end table
+
+// Active - During flame dash
+private table FireShield_dashFrameTable
+	10, 11, 12, 10, 12, 13, 10, 11, 12, 10, 12, 13, 0
+end table
+
+// ========================
+// Editor Events
+// ========================
+
+event ObjectUpdate
+
+	// Unload if the player shouldn't have a shield
+	if player[-playerCount].state == Player_State_Death
+		object.type = TypeName[Blank Object]
+	end if
+	if player[-playerCount].state == Player_State_Drown
+		object.type = TypeName[Blank Object]
+	end if
+
+	switch object.state
+	case FIRESHIELD_IDLE_SETUP
+		object.animationTimer = 0
+		object.timer = 0
+		object.direction = FACING_RIGHT
+		object.state++
+		// [Fallthrough]
+	case FIRESHIELD_IDLE
+		object.animationTimer++
+		object.frame++
+		if object.frame == 0
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 1
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 2
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 3
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 4
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 5
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 6
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 7
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 8
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 9
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 10
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 11
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 12
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 13
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 14
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 15
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 16
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 17
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 18
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 19
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 20
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 21
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 22
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 23
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 24
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 25
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 26
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 27
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 28
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 29
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 30
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 31
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 32
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 33
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 34
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 35
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame == 36
+			object.sortedDrawOrder = 0
+		end if
+		if object.frame == 37
+			object.sortedDrawOrder = 3
+		end if
+		if object.frame > 37
+			object.frame = 0
+		end if
+		break
+
+	case FIRESHIELD_DASH_SETUP
+		object.animationTimer = 0
+		object.timer = 0
+		object.state++
+		// [Fallthrough]
+	case FIRESHIELD_DASH
+		object.animationTimer++
+		object.frame++
+		object.sortedDrawOrder = 0
+		if object.frame < 38
+			object.frame = 38
+		end if
+		if object.frame > 49
+			object.frame = 38
+		end if
+		object.timer++
+		if object.timer >= 24
+			object.state = FIRESHIELD_IDLE_SETUP
+		end if
+		break
+
+	end switch
+end event
+
+
+event ObjectDraw
+	if Player_superState != SUPERSTATE_SUPER
+		DrawSpriteFX(object.frame, FX_FLIP, player[-playerCount].xpos, player[-playerCount].ypos)
+	end if
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("Global/Items3.gif")
+
+	// Flame Shield Front Frames
+	SpriteFrame(-24, 19, 48, 5, 1, 268) // Frame 0
+	SpriteFrame(-24, -24, 48, 5, 1, 274) // Frame 1
+	SpriteFrame(-24, 19, 48, 5, 1, 268) // Frame 2
+	SpriteFrame(-24, -24, 48, 5, 1, 274) // Frame 3
+	SpriteFrame(-24, 12, 48, 12, 1, 280) // Frame 4
+	SpriteFrame(-24, -24, 48, 12, 1, 293) // Frame 5
+	SpriteFrame(-24, 12, 48, 12, 1, 280) // Frame 6
+	SpriteFrame(-24, -24, 48, 12, 1, 293) // Frame 7
+	SpriteFrame(-24, 5, 48, 19, 50, 268) // Frame 8
+	SpriteFrame(-24, -24, 48, 19, 50, 288) // Frame 9
+	SpriteFrame(-24, -1, 48, 25, 99, 267) // Frame 10
+	SpriteFrame(-24, -24, 48, 25, 99, 292) // Frame 11
+	SpriteFrame(-24, -24, 48, 48, 148, 268) // Frame 12
+	SpriteFrame(-24, -24, 48, 48, 197, 268) // Frame 13
+	SpriteFrame(-24, -24, 48, 48, 246, 268) // Frame 14
+	SpriteFrame(-24, -24, 48, 48, 295, 268) // Frame 15
+	SpriteFrame(-24, -24, 48, 48, 246, 268) // Frame 16
+	SpriteFrame(-24, -24, 48, 48, 295, 268) // Frame 17
+	SpriteFrame(-24, -24, 48, 48, 344, 268) // Frame 18
+	SpriteFrame(-24, -24, 48, 48, 393, 268) // Frame 19
+	SpriteFrame(-24, -24, 48, 48, 442, 268) // Frame 20
+	SpriteFrame(-24, -24, 48, 48, 1, 317) // Frame 21
+	SpriteFrame(-24, -24, 48, 48, 50, 317) // Frame 22
+	SpriteFrame(-24, -24, 48, 48, 99, 317) // Frame 23
+	SpriteFrame(-24, -24, 48, 48, 148, 317) // Frame 24
+	SpriteFrame(-24, -24, 48, 48, 197, 317) // Frame 25
+	SpriteFrame(-24, -24, 48, 48, 1, 366) // Frame 26
+	SpriteFrame(-24, -24, 48, 48, 50, 366) // Frame 27
+	SpriteFrame(-24, -24, 48, 48, 1, 366) // Frame 28
+	SpriteFrame(-24, -24, 48, 48, 50, 366) // Frame 29
+	SpriteFrame(-24, -24, 48, 48, 99, 366) // Frame 30
+	SpriteFrame(-24, -24, 48, 48, 148, 366) // Frame 31
+	SpriteFrame(-24, -24, 48, 48, 99, 366) // Frame 32
+	SpriteFrame(-24, -24, 48, 48, 148, 366) // Frame 33
+	SpriteFrame(-24, -24, 48, 21, 197, 366) // Frame 34
+	SpriteFrame(-24, 3, 48, 21, 197, 388) // Frame 35
+	SpriteFrame(-24, -24, 48, 21, 197, 366) // Frame 36
+	SpriteFrame(-24, 3, 48, 21, 197, 388) // Frame 37
+
+	// Fire Attack Frames
+	SpriteFrame(-23, -21, 45, 41, 184, 415) // Frame 38
+	SpriteFrame(-61, -26, 82, 52, 246, 317) // Frame 39
+	SpriteFrame(-64, -37, 84, 75, 331, 372) // Frame 40
+	SpriteFrame(-20, -23, 41, 45, 230, 423) // Frame 41
+	SpriteFrame(-56, -29, 78, 54, 329, 317) // Frame 42
+	SpriteFrame(-62, -39, 81, 73, 416, 372) // Frame 43
+	SpriteFrame(-22, -20, 45, 41, 184, 457) // Frame 44
+	SpriteFrame(-58, -27, 81, 54, 408, 317) // Frame 45
+	SpriteFrame(-69, -36, 90, 70, 1, 415) // Frame 46
+	SpriteFrame(-21, -22, 41, 45, 451, 191) // Frame 47
+	SpriteFrame(-61, -27, 84, 53, 246, 371) // Frame 48
+	SpriteFrame(-70, -33, 90, 66, 93, 415) // Frame 49
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143)
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event
