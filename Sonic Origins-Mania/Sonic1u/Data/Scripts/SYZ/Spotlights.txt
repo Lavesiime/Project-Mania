@@ -534,9 +534,10 @@ event objectDraw
 	temp0 = 100000
 	if stage.actNum == 1
 		temp0 = 8500
-	else ; if stage.actnum == 2
+	end if
+	if stage.actnum == 2
 		temp 0 = 10000
-	end if ; end if
+	end if
 	
 	if camera[0].xpos < temp0
 		Draw3DScene()
