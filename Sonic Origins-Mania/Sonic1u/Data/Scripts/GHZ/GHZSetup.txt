@@ -532,8 +532,8 @@ event ObjectStartup
 	SpeedUpMusic = GHZSetup_SpeedUpMusic
 	SlowDownMusic = GHZSetup_SlowDownMusic
 
-	CopyPalette(0, 0, 1, 0, 256)
-	CopyPalette(0, 0, 2, 0, 256)
+	CopyPalette(0, 0, 1, 0, 255)
+	CopyPalette(0, 0, 2, 0, 255)
 
 	animalType1 = TypeName[Pocky]
 	animalType2 = TypeName[Flicky]
