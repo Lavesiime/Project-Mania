@@ -1450,32 +1450,16 @@ end function
 // This function is called in order to hurt currentPlayer, not to be confused with the actual Player State functions
 public function Player_Hit
 	if player[currentPlayer].state != Player_State_Death
-		arrayPos0 = player[currentPlayer].entityPos
+		arrayPos0 = player[currentPlayer].entityPos // So there are these lines to find the player's shield slot... but nothing's done with it
 		arrayPos0 += playerCount
 
 		if player[currentPlayer].invincibleTimer == 0
-			if player[currentPlayer].state != Player_State_GotHit
-				if player[currentPlayer].state != Player_State_Hurt
-
-					// Check for spike bug and player invulnerability
-					// Do note though, by default spike bug is disabled in this game and there's no way to turn it on (disregading the Broken Monitor dead code) so only this second blink timer check actually does anything
-					CheckEqual(options.moveset, 1)
-					Player_ScreenPosDiff = checkResult
-					CheckEqual(player[currentPlayer].blinkTimer, 0)
-					Player_ScreenPosDiff |= checkResult
-
-					if Player_ScreenPosDiff == true
-						if player[currentPlayer].blinkTimer == 0
-							player[currentPlayer].blinkTimer = 2
-						end if
-
-						player[currentPlayer].state = Player_State_GotHit
-						if player[currentPlayer].xpos > object.xpos
-							player[currentPlayer].speed = 0x20000
-						else
-							player[currentPlayer].speed = -0x20000
-						end if
-					end if
+			if player[currentPlayer].blinkTimer == 0
+				player[currentPlayer].state = Player_State_GotHit
+				if player[currentPlayer].xpos > object.xpos
+					player[currentPlayer].speed = 0x20000
+				else
+					player[currentPlayer].speed = -0x20000
 				end if
 			end if
 		end if
