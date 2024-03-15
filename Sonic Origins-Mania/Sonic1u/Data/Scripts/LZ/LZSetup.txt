@@ -21,6 +21,9 @@ private alias object.value8  : object.clrDivisor_B
 private alias object.value9  : object.waterClrDivisor_R
 private alias object.value10 : object.waterClrDivisor_G
 private alias object.value11 : object.waterClrDivisor_B
+private alias object.value12 : object.harpoonTimer
+private alias object.value13 : object.harpoonAniTimer
+private alias object.value14 : object.harpoonAniTimer2
 
 // Player Aliases
 private alias object.state : player.state
@@ -224,6 +227,9 @@ private function LZSetup_SetupRippleDeform2
 	arrayPos0++
 end function
 
+private table Harpoon_delayTable
+	64, 6, 64, 6
+end table
 
 // Wacky function to take a normal color and turn it into an underwater color
 private function LZSetup_getClrDivisor
@@ -1667,6 +1673,21 @@ end function
 // ========================
 
 event ObjectUpdate
+	if object.harpoonAniTimer == 0
+		object.harpoonTimer++
+		if object.harpoonTimer >= 4
+			object.harpoonTimer = 0
+		end if
+		GetTableValue(object.harpoonAniTimer, object.harpoonTimer, Harpoon_delayTable)
+	else
+		if object.harpoonAniTimer2 == 0
+			object.harpoonAniTimer--
+			object.harpoonAniTimer2 = 0
+		else
+			object.harpoonAniTimer2--
+		end if
+	end if
+
 	object.deformTimer++
 	if object.deformTimer > 1
 		tileLayer[0].deformationOffsetW++

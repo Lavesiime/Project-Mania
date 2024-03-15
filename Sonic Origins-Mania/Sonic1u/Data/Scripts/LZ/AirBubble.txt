@@ -232,7 +232,9 @@ end event
 
 event ObjectDraw
 	object.inkEffect = INK_ADD
-	object.alpha = 0xC0
+	if object.despawnTimer < 30
+		object.alpha = 0xC0
+	end if
 	DrawSpriteFX(object.frame, FX_INK, object.xpos, object.ypos)
 end event
 

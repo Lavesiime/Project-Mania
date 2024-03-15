@@ -95,6 +95,7 @@ event ObjectUpdate
 			object[tempObjectPos].yvel = -0x2200
 			object[tempObjectPos].value1 = object[tempObjectPos].xpos
 			object[tempObjectPos].alpha = 180
+			object[tempObjectPos].propertyValue = 0
 			temp4++
 		loop
 	end if

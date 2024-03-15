@@ -14,6 +14,11 @@ private alias object.value1 : object.hitboxL
 private alias object.value2 : object.hitboxR
 private alias object.value10 : object.smoothMovement
 
+// For LZSetup
+private alias object.value12 : object.harpoonTimer
+private alias object.value13 : object.harpoonAniTimer
+private alias object.value14 : object.harpoonAniTimer2
+
 // ========================
 // Function Declarations
 // ========================
@@ -59,25 +64,23 @@ end function
 // ========================
 
 event ObjectUpdate
+	object.timer = object[10].harpoonTimer
+	object.animationTimer = object[10].harpoonAniTimer
+	object.value6 = object[10].harpoonAniTimer2
+
 	if object.animationTimer == 0
-		if object.animationTimer == 3
-			//PlaySfx(SfxName[Spear], false) Gonna need to look into this
-		end if
-		object.timer++
-		if object.timer >= 4
-			object.timer = 0
-		end if
-		GetTableValue(object.animationTimer, object.timer, HarpoonH_delayTable)
 		GetTableValue(object.frame, object.timer, HarpoonH_frameTable)
 	else
-		if object.value6 == 0
-			object.animationTimer--
-			if object.animationTimer == 3
-				//PlaySfx(SfxName[Spear], false) Gonna need to look into this
+		if object.animationTimer == 1
+			if object.value6 == 0
+				player.score = object.timer
+				if object.timer == 0
+					PlaySfx(SfxName[Spear], false)
+				end if
+				if object.timer == 3
+					PlaySfx(SfxName[Spear], false)
+				end if
 			end if
-			object.value6 = 0
-		else
-			object.value6--
 		end if
 	end if
 
