@@ -383,6 +383,7 @@ public value Player_attractFrameCount 	= 0
 public value Player_attractDuration 	= 0
 
 public value Player_ScreenPosDiff = 0 // New to Origins Plus
+public value Player_StopDeath     = 0
 
 // All these below are declared but unused
 private value Player_unusedValue1 = 0
@@ -1627,14 +1628,14 @@ public function Player_Kill
 	// However, they used temp0 here, which causes objects that use that variable when updating its position to disappear
 	// (This bug was fixed in the initial Plus update, but now it's back, hooray!)
 	
-	temp0 = false
+	Player_StopDeath = false
 	if game.playMode == BOOT_PLAYMODE_MISSION
 		if stage.timeEnabled == false
-			temp0 = true
+			Player_StopDeath = true
 		end if
 	end if
 	
-	if temp0 == false
+	if Player_StopDeath == false
 		CallFunction(Player_CheckIfOnScreen)
 		if checkResult != false
 			PlaySfx(SfxName[Hurt], false)
@@ -2413,7 +2414,11 @@ public function Player_HandleAirMovement
 	// This results in various issues as of Origins 2.01, such as crashes, Tails losing gravity, etc.
 	// Who knew one little line could cause so much chaos?
 	
-	if player[0].disableGravity == false
+	if Player_StopDeath == true
+		if player[0].disableGravity == false
+			player.yvel += player.gravityStrength
+		end if
+	else
 		player.yvel += player.gravityStrength
 	end if
 #endplatform
