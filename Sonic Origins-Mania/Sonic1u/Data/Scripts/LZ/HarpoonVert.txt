@@ -79,7 +79,7 @@ event ObjectUpdate
 	else
 		if object.animationTimer == 1
 			if object.value6 == 0
-				player.score = object.timer
+
 				if object.timer == 0
 					PlaySfx(SfxName[Spear], false)
 				end if

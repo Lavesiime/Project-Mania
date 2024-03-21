@@ -115,6 +115,7 @@ event ObjectUpdate
 		object.timer--
 		if object.timer < 0
 			object.state++
+			PlaySfx(SfxName[Drop Bridge 2], false)
 		end if
 
 		object.collisionOffset.x = object.xpos

@@ -63,6 +63,7 @@ event ObjectUpdate
 		// [Fall-through]
 	case HORIZONTALDOOR_AWAITBUTTON
 		if pushButton[+1].stood == true
+			PlaySfx(SfxName[Open], false)
 			object.state++
 		end if
 		// [Fall-through]

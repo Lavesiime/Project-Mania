@@ -242,6 +242,7 @@ event ObjectUpdate
 		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
 			BoxCollisionTest(C_PLATFORM, object.entityPos, -40, -8, 40, 8, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
 			if checkResult == true
+				PlaySfx(SfxName[Extend], false)
 				object.state++
 				object.priority = PRIORITY_ACTIVE
 			end if
