@@ -637,9 +637,6 @@ end event
 
 event ObjectDraw
 
-	//object.state = SIGNPOST_SPINNING
-	//object.spinCount = 18
-
 	switch object.state
 	
 	case SIGNPOST_AWAITPLAYER
@@ -696,6 +693,7 @@ event ObjectDraw
 		
 		temp2 = object.iypos
 		temp2 -= camera[0].ypos
+		temp2 -= object[0].lookPosY // camera ypos does not take into account the player looking up / down
 		temp2 += screen.ycenter
 		temp2 -= 135
 		temp2 *= 640
