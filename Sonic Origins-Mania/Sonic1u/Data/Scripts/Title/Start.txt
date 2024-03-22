@@ -13,6 +13,8 @@ private alias object.value0 : object.timer
 // Not sure why it skips from 0 to 4, guess there must've been a revision or smth
 private alias object.value4 : object.attractTimer
 
+private alias object.value1 : object.selection
+
 private alias 0 : START_FLASH
 private alias 1 : START_STARTGAME
 private alias 2 : START_STARTLVLSEL
@@ -22,6 +24,8 @@ private alias 5 : START_NOTIFYCALLBACK
 private alias 6 : START_WAITFORCALLBACK
 private alias 7 : START_FADETOEXIT
 private alias 8 : START_EXIT
+
+private alias 9 : START_STARTSETTINGS
 
 
 // ========================
@@ -67,6 +71,14 @@ event ObjectUpdate
 		end if
 #endplatform
 
+		// Update selection
+		if keyPress[0].down == true
+			object.selection ^= 1
+		end if
+		if keyPress[0].up == true
+			object.selection ^= 1
+		end if
+
 		if checkResult > -1
 #platform: USE_STANDALONE
 			if options.stageSelectFlag == true
@@ -76,7 +88,12 @@ event ObjectUpdate
 					object.state = START_STARTGAME
 				end if
 			else
-				object.state = START_STARTGAME
+				// Check if the player should go to the settings
+				if object.selection == 0
+					object.state = START_STARTGAME
+				else
+					object.state = START_STARTSETTINGS
+				end if
 			end if
 
 			PlaySfx(SfxName[Menu Select], false)
@@ -95,7 +112,12 @@ event ObjectUpdate
 				if keyPress[0].buttonB == true
 					CallNativeFunction2(NotifyCallback, NOTIFY_BACK_TO_MAINMENU, 1)
 				else
-					object.state = START_NOTIFYCALLBACK
+					// Check if the player should go to the settings
+					if object.selection == 0
+						object.state = START_NOTIFYCALLBACK
+					else
+						object.state = START_STARTSETTINGS
+					end if
 				end if
 			end if
 #endplatform
@@ -249,18 +271,42 @@ event ObjectUpdate
 		break
 #endplatform
 
+	case START_STARTSETTINGS
+		object.timer += 8
+		if object.timer == 320
+			options.attractMode   = false
+			player.lives 		  = 3
+			player.continues 	  = 0
+			player.score 		  = 0
+			player.scoreBonus 	  = 50000
+			lampPostID 			  = 0
+			specialStage.listPos  = 0
+			specialStage.emeralds = 0
+			specialStage.nextZone = 0
+
+			// Level Select!!
+			stage.activeList 	  = PRESENTATION_STAGE
+			stage.listPos 		  = 6
+
+			LoadStage()
+		end if
+		SetScreenFade(0, 0, 0, object.timer)
+		break
+
 	end switch
 end event
 
 
 event ObjectDraw
-	object.animationTimer++
-	if object.animationTimer > 59
-		object.animationTimer = 0
+	temp1 = object.ypos
+	DrawSpriteScreenXY(0, object.xpos, temp1)
+	if object.selection == 0
+		DrawSpriteScreenXY(2, object.xpos, temp1)
 	end if
-
-	if object.animationTimer > 29
-		DrawSpriteScreenXY(0, object.xpos, object.ypos)
+	temp1 += 16
+	DrawSpriteScreenXY(1, object.xpos, temp1)
+	if object.selection == 1
+		DrawSpriteScreenXY(3, object.xpos, temp1)
 	end if
 end event
 
@@ -272,18 +318,11 @@ event ObjectStartup
 	
 	LoadSpriteSheet("Title/Title.gif")
 	
-	// In the original S1 releases this was instead a engine.language switch for different languages, although all cases led to the same path
-	
-	switch engine.deviceType
-	case STANDARD
-		SpriteFrame(-48, -4, 96, 8, 1, 197)
-		break
+	SpriteFrame(-52, -4, 104, 8, 287, 449)
+	SpriteFrame(-52, -4, 104, 8, 287, 458)
+	SpriteFrame(-52, -4, 104, 8, 287, 467)
+	SpriteFrame(-52, -4, 104, 8, 287, 476)
 
-	case MOBILE
-		SpriteFrame(-56, -4, 112, 8, 1, 206)
-		break
-		
-	end switch
 end event
 
 

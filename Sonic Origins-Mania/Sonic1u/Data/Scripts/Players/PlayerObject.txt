@@ -1597,7 +1597,11 @@ public function Player_SpikeHit
 			if player[currentPlayer].state != Player_State_GotHit
 				if player[currentPlayer].state != Player_State_Hurt
 					// Check for spike bug if player is invulnerable
-					temp0 = options.spikeBehavior
+					if options.moveset == 1
+						temp0 = 1 // Originally a check for options.spikeBehavior - this mod changes ties this to the moveset setting (S1 MD)
+					else
+						temp0 = 0
+					end if
 					CheckEqual(player[currentPlayer].blinkTimer, 0)
 					temp0 |= checkResult
 
@@ -2575,20 +2579,6 @@ public function Player_Action_Jump
 		// Allow the player to use midair abilities
 		player.jumpAbilityState = 1
 	end if
-	
-#platform: USE_ORIGINS
-	if game.playMode == BOOT_PLAYMODE_CLASSIC
-		temp7 = -1
-	else
-		if options.moveset > 1 // It's neat they tied the Drop Dash to the Spindash setting, they didn't have much of a reason to do that but they did it anyway
-			temp7 = -1
-		else
-			temp7 = 0
-		end if
-	end if
-	
-	CallFunction(Player_SetDropDashCharge)
-#endplatform
 end function
 
 
@@ -3726,7 +3716,9 @@ public function Player_State_Air
 
 		// Allow the player to use their jump ability if these conditions are met
 		if player.yvel >= player.jumpCap // Did the player actually jump? Rolling off of a ledge shouldn't count!
-			CallFunction(Player_HandleDropDash)
+			if options.moveset > 1 // Check if using Mania or Mania + S3 moveset
+				CallFunction(Player_HandleDropDash)
+			end if
 			if player.animation == ANI_JUMPING
 				if player.jumpAbilityState == 1
 					CallFunction(player.jumpAbility)
@@ -3883,15 +3875,8 @@ end function
 
 // Jumping while rolling leads you to here instead of the normal air function
 public function Player_State_RollJump
-#platform: USE_ORIGINS
-	// Origins Plus removed Roll Jump Lock! We should still apply it to attract demos so they don't break, though
-	if options.attractMode == true
-#endplatform
-		player.left = false
-		player.right = false
-#platform: USE_ORIGINS
-	end if
-#endplatform
+	player.left = false
+	player.right = false
 
 	CallFunction(Player_HandleAirFriction)
 
@@ -3908,7 +3893,6 @@ public function Player_State_RollJump
 
 #platform: USE_ORIGINS
 		if player.yvel >= player.jumpCap
-			CallFunction(Player_HandleDropDash)
 			if player.animation == ANI_JUMPING
 				if player.jumpAbilityState == 1
 					CallFunction(player.jumpAbility)
@@ -3926,26 +3910,32 @@ public function Player_State_RollJump
 #endplatform
 
 #platform: USE_ORIGINS
-		CheckEqual(player.releasingDropDash, false)
-		temp0 = checkResult
-		temp1 = 20
-		temp1 -= 1 // yep
-		CallFunction(Player_GetDropDashCharge)
-		CheckGreater(temp7, temp1)
-		temp0 &= checkResult
-		
-		if temp0 == true
-			switch player.character
-			case PLAYER_SONIC_A
-				CallFunction(Player_Action_Spindash) // Good ol' Sonic Team programming
-				break
+		if player.character == PLAYER_AMY_A
+			CheckEqual(player.releasingDropDash, false)
+			temp0 = checkResult
+			temp1 = 20
+			temp1 -= 1 // yep
+			CallFunction(Player_GetDropDashCharge)
+			CheckGreater(temp7, temp1)
+			temp0 &= checkResult
+			
+			if temp0 == true
+				switch player.character
+				case PLAYER_SONIC_A
+					CallFunction(Player_Action_Spindash) // Good ol' Sonic Team programming
+					break
 
-			case PLAYER_AMY_A
-				CallFunction(Player_Action_HammerDash)
-				break
-			end switch
-			if Player_superState == SUPERSTATE_SUPER
-				screen.shakeY = 6
+				case PLAYER_AMY_A
+					CallFunction(Player_Action_HammerDash)
+					break
+				end switch
+				if Player_superState == SUPERSTATE_SUPER
+					screen.shakeY = 6
+				end if
+			else
+				player.state = Player_State_Ground
+				CallFunction(Player_HandleOnGround)
+				player.skidding = 0
 			end if
 		else
 			player.state = Player_State_Ground
@@ -5218,7 +5208,7 @@ public function Player_State_GotHit
 			temp0 = 1
 			ResetObjectEntity(arrayPos0, TypeName[Blank Object], 0, 0, 0)
 			player.shield = SHIELD_NONE
-			CheckEqual(options.spikeBehavior, 0)
+			CheckEqual(options.moveset, 1) // Originally spike behaviour - this mod ties this behaviour to the moveset setting (S1 MD)
 			temp1 = checkResult
 			CheckNotEqual(player.blinkTimer, 0)
 			temp1 &= checkResult
@@ -6508,10 +6498,6 @@ event ObjectStartup
 
 		ResetObjectEntity(arrayPos0, TypeName[Blank Object], 0, 0, 0)
 	next
-
-
-	options.moveset = 3
-
 
 	goggleType = TypeName[Blank Object]
 end event
