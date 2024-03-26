@@ -623,7 +623,7 @@ event ObjectStartup
 	SpriteFrame(-28, -32, 64, 56, 180, 114) // Frame 1
 
 	// Egg Mobile Seat
-	SpriteFrame(-1, -21, 36, 13, 55, 200) // Frame 2
+	SpriteFrame(-1, -21, 36, 13, 65, 200) // Frame 2
 
 	// Eggman Idle
 	SpriteFrame(-16, -32, 36, 24, 0, 0) // Frame 3
