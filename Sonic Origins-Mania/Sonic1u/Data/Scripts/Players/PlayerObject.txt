@@ -3536,15 +3536,11 @@ public function Player_State_Ground
 			player.animationSpeed = 0
 			player.skidding--
 
-			if ringTimer == 0
-				if object.value15 == 0
-					CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos)
-					object[tempObjectPos].state = 2
-					object[tempObjectPos].iypos += player.collisionBottom
-					object[tempObjectPos].drawOrder = player.sortedDrawOrder
-					object.value15 = 3
-				end if
-				object.value15--
+			if skidTimer == 0
+				CreateTempObject(TypeName[Dust Puff], 0, player.xpos, player.ypos)
+				object[tempObjectPos].state = 2
+				object[tempObjectPos].iypos += player.collisionBottom
+				object[tempObjectPos].drawOrder = player.sortedDrawOrder
 			end if
 
 			if player.speed > 0
@@ -3552,8 +3548,6 @@ public function Player_State_Ground
 			else
 				player.direction = FACING_LEFT
 			end if
-		else
-			object.value15 = 0
 		end if
 
 		if player.collisionMode == CMODE_FLOOR

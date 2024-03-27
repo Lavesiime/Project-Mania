@@ -204,7 +204,11 @@ event ObjectUpdate
 			ringFrame++
 			ringFrame %= 16
 		end if
-
+		// Do skid timing here.
+		skidTimer++
+		if skidTimer == 4
+		    skidTimer = 0
+		end if
 		// Update monitor static
 		StageSetup_monitorOverlayFrame++
 		if StageSetup_monitorOverlayFrame > 17
