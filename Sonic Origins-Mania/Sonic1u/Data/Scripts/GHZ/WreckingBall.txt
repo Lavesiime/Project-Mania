@@ -1,0 +1,190 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: Wrecking Ball Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+private alias object.value10 : object.collided
+
+// States
+private alias 0 : WRECKINGBALL_INACTIVE
+private alias 1 : WRECKINGBALL_ACTIVE
+private alias 2 : WRECKINGBALL_EXPLODE
+private alias 3 : WRECKINGBALL_DEBRIS
+
+// Misc aliases
+private alias  0 : PATH_A
+private alias  1 : PATH_B
+
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+	switch object.state
+	case WRECKINGBALL_EXPLODE
+		if object.timer < 180
+			object.rotation *= 248
+			object.rotation >>= 8
+			object.timer++
+			temp0 = object.timer
+			temp0 &= 7
+			if temp0 == 4
+				Rand(temp0, 32)
+				temp0 -= 16
+				temp0 <<= 16
+				temp0 += object.xpos
+				Rand(temp1, 32)
+				temp1 -= 16
+				temp1 <<= 16
+				temp1 += object.ypos
+				CreateTempObject(TypeName[Explosion], 0, temp0, temp1)
+				object[tempObjectPos].drawOrder = 4
+			end if
+		else
+			CreateTempObject(TypeName[Wrecking Ball], 0, object.xpos, object.ypos)
+			object[tempObjectPos].state = WRECKINGBALL_DEBRIS
+			object[tempObjectPos].frame = 9
+			object[tempObjectPos].drawOrder = 4
+			object[tempObjectPos].xvel = -0x08000
+			object[tempObjectPos].yvel = -0x30000
+			CreateTempObject(TypeName[Wrecking Ball], 0, object.xpos, object.ypos)
+			object[tempObjectPos].state = WRECKINGBALL_DEBRIS
+			object[tempObjectPos].frame = 10
+			object[tempObjectPos].drawOrder = 4
+			object[tempObjectPos].xvel = 0x08000
+			object[tempObjectPos].yvel = -0x30000
+			CreateTempObject(TypeName[Wrecking Ball], 0, object.xpos, object.ypos)
+			object[tempObjectPos].state = WRECKINGBALL_DEBRIS
+			object[tempObjectPos].frame = 11
+			object[tempObjectPos].drawOrder = 4
+			object[tempObjectPos].xvel = -0x0B000
+			object[tempObjectPos].yvel = -0x28000
+			CreateTempObject(TypeName[Wrecking Ball], 0, object.xpos, object.ypos)
+			object[tempObjectPos].state = WRECKINGBALL_DEBRIS
+			object[tempObjectPos].frame = 12
+			object[tempObjectPos].drawOrder = 4
+			object[tempObjectPos].xvel = 0x0B000
+			object[tempObjectPos].yvel = -0x28000
+			
+			object.type = TypeName[Blank Object]
+		end if
+
+		if object.timer > 180
+			object.timer++
+			object.ypos += object.yvel
+			object.yvel += 0x03000
+			if object.collided == false
+				ObjectTileCollision(CSIDE_FLOOR, 0, 32, PATH_A)
+				if checkResult == true
+					object.yvel = -0x30000
+					object.collided = true
+				end if
+			end if
+		end if
+		break
+		
+	case WRECKINGBALL_DEBRIS
+		object.timer++
+		object.xpos += object.xvel
+		object.ypos += object.yvel
+		object.yvel += 0x03000
+		break
+		
+	end switch
+
+	foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+		if object.state == WRECKINGBALL_ACTIVE
+			BoxCollisionTest(C_TOUCH, object.entityPos, -22, -22, 22, 22, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+			if checkResult == true
+				CallFunction(Player_Hit)
+			end if
+		end if
+	next
+end event
+
+
+event ObjectDraw
+	if object.state == WRECKINGBALL_DEBRIS
+		temp0 = object.timer
+		temp0 %= 2
+		if temp0 == 0
+			temp1 = 1
+		else
+			temp1 = 0
+		end if
+		if temp1 == true
+			DrawSprite(object.frame)
+		end if
+	else
+		temp0 = object.timer
+		temp0 %= 2
+		if temp0 == 0
+			temp1 = 1
+		else
+			temp1 = 0
+		end if
+		CheckGreater(180, object.timer)
+		temp1 |= checkResult
+		if temp1 == true
+			// Draw Wrecking ball
+			DrawSpriteFX(1, FX_ROTATE, object.xpos, object.ypos)
+
+			// Draw Shine Overlay
+			object.inkEffect = INK_ADD
+			object.alpha = 160
+			DrawSpriteFX(0, FX_INK, object.xpos, object.ypos)
+		end if
+	end if
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("GHZ/Objects2.gif")
+	
+	SpriteFrame(-24, -24, 48, 48, 1, 77)    // Shine Overlay - #0
+	SpriteFrame(-24, -24, 48, 48, 50, 77) 	// Wrecking Ball - #1
+	SpriteFrame(-24, -24, 48, 48, 148, 126) // Wrecking Ball - #2
+	SpriteFrame(-24, -24, 48, 48, 99, 126) 	// Wrecking Ball - #3
+	SpriteFrame(-24, -24, 48, 48, 50, 126) 	// Wrecking Ball - #4
+	SpriteFrame(-24, -24, 48, 48, 1, 126) 	// Wrecking Ball - #5
+	SpriteFrame(-24, -24, 48, 48, 197, 77) 	// Wrecking Ball - #6
+	SpriteFrame(-24, -24, 48, 48, 148, 77) 	// Wrecking Ball - #7
+	SpriteFrame(-24, -24, 48, 48, 99, 77) 	// Wrecking Ball - #8
+	
+	// Debris
+	SpriteFrame(-24, -24, 24, 24, 50, 77)
+	SpriteFrame(0, -24, 24, 24, 74, 77)
+	SpriteFrame(-24, 0, 24, 24, 50, 101)
+	SpriteFrame(0, 0, 24, 24, 74, 101)
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(1)
+	
+	// Draw Shine Overlay
+	object.inkEffect = INK_ADD
+	object.alpha = 160
+	DrawSpriteFX(0, FX_INK, object.xpos, object.ypos)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("GHZ/Objects2.gif")
+	SpriteFrame(-24, -24, 48, 48, 1, 77)    // Shine Overlay
+	SpriteFrame(-24, -24, 48, 48, 50, 77) 	// Wrecking Ball
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

@@ -1,0 +1,199 @@
+// ----------------------------------
+// RSDK Project: Sonic 2
+// Script Description: Ring Sparkle Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+
+private alias object.value1 : object.frame1
+private alias object.value4 : object.frame2
+private alias object.value5 : object.frame3
+
+private alias object.value6 : object.sparkle1X
+private alias object.value7 : object.sparkle1Y
+
+private alias object.value8 : object.sparkle2X
+private alias object.value9 : object.sparkle2Y
+
+private alias object.value10 : object.sparkle3X
+private alias object.value11 : object.sparkle3Y
+
+// Ring Reset (Mission Object) Aliases
+private alias object.value0 : object.timeCheckpoint
+private alias object.value2 : object.missionTypeEX
+
+private alias 10 : MISSIONNO_RINGCHALLENGE50
+
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+
+	if object.timer == 0
+		if object.frame1 == 0
+			object.frame2 = 15
+			object.frame3 = 21
+			
+			temp2 = 16 // Used for pos offset randomness
+			if object.propertyValue == 1
+				temp2 = 24
+			end if
+			if object.propertyValue == 2
+				temp2 = 24
+			end if
+			temp4 = temp2
+			temp4 /= 2
+			
+			object.sparkle1X = object.xpos
+			object.sparkle1Y = object.ypos
+			Rand(temp0, temp2)
+			temp0 -= temp4
+			Rand(temp1, temp2)
+			temp1 -= temp4
+			temp0 <<= 16
+			temp1 <<= 16
+			object.sparkle1X += temp0
+			object.sparkle1Y += temp1
+			
+			if object.propertyValue != 1
+				object.sparkle2X = object.xpos
+				object.sparkle2Y = object.ypos
+				Rand(temp0, temp2)
+				temp0 -= temp4
+				Rand(temp1, temp2)
+				temp1 -= temp4
+				temp0 <<= 16
+				temp1 <<= 16
+				object.sparkle2X += temp0
+				object.sparkle2Y += temp1
+							
+				object.sparkle3X = object.xpos
+				object.sparkle3Y = object.ypos
+				Rand(temp0, temp2)
+				temp0 -= temp4
+				Rand(temp1, temp2)
+				temp1 -= temp4
+				temp0 <<= 16
+				temp1 <<= 16
+				object.sparkle3X += temp0
+				object.sparkle3Y += temp1
+			end if
+		end if
+	end if
+
+	if object.timer == 1
+		object.timer = 0
+		object.frame1++
+		
+		if object.frame2 == 20
+			object.frame2 = 29
+		end if
+		if object.frame2 != 29
+			object.frame2++
+		end if
+		
+		if object.frame3 != 29
+			object.frame3++
+		end if
+
+		if object.frame1 == 15
+			object.type = TypeName[Blank Object]
+			object.frame = 0
+			
+#platform: USE_ORIGINS
+			if game.playMode == BOOT_PLAYMODE_MISSION
+				if game.missionFunctionNo == MISSIONNO_RINGCHALLENGE50
+					// Turn the Object into a Ring Reset Object
+					// -> missionTypeEX is set by a foreach in Ring Reset's startup
+					object.type = object.missionTypeEX
+					
+					// Now, set the time the Object was collected + 20 seconds
+					object.timeCheckpoint = stage.minutes
+					object.timeCheckpoint *= 60
+					object.timeCheckpoint += stage.seconds
+					object.timeCheckpoint += 20
+					
+					object.priority = PRIORITY_ACTIVE
+				end if
+			end if
+#endplatform
+		end if
+	end if
+	object.timer++
+	
+	if object.propertyValue == 1
+		object.sparkle1Y += object.yvel
+	end if
+end event
+
+
+event ObjectDraw
+	DrawSpriteXY(object.frame1, object.sparkle1X, object.sparkle1Y)
+	DrawSpriteXY(object.frame2, object.sparkle2X, object.sparkle2Y)
+	DrawSpriteXY(object.frame3, object.sparkle3X, object.sparkle3Y)
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("Global/Items.gif")
+
+	// Sparkle frames
+	SpriteFrame(-8, -8, 17, 17, 1, 399)
+	SpriteFrame(-8, -8, 17, 17, 19, 399)
+	SpriteFrame(-8, -8, 17, 17, 37, 399)
+	SpriteFrame(-8, -8, 17, 17, 55, 399)
+	SpriteFrame(-8, -8, 17, 17, 73, 399)
+	SpriteFrame(-8, -8, 17, 17, 91, 399)
+	SpriteFrame(-8, -8, 17, 17, 109, 399)
+	SpriteFrame(-8, -8, 17, 17, 127, 399)
+	SpriteFrame(-8, -8, 17, 17, 145, 399)
+	SpriteFrame(-8, -8, 17, 17, 163, 399)
+	SpriteFrame(-8, -8, 17, 17, 181, 399)
+	SpriteFrame(-8, -8, 17, 17, 199, 399)
+	SpriteFrame(-8, -8, 17, 17, 217, 399)
+	SpriteFrame(-8, -8, 17, 17, 235, 399)
+	SpriteFrame(-8, -8, 17, 17, 253, 399) // 14 - Big Sparkle End
+	
+	SpriteFrame(-8, -8, 17, 17, 1, 417)
+	SpriteFrame(-8, -8, 17, 17, 19, 417)
+	SpriteFrame(-8, -8, 17, 17, 37, 417)
+	SpriteFrame(-8, -8, 17, 17, 55, 417)
+	SpriteFrame(-8, -8, 17, 17, 73, 417)
+	SpriteFrame(-8, -8, 17, 17, 91, 417) // 20 - Small Sparkle End
+	
+	SpriteFrame(-8, -8, 17, 17, 109, 417)
+	SpriteFrame(-8, -8, 17, 17, 127, 417)
+	SpriteFrame(-8, -8, 17, 17, 145, 417)
+	SpriteFrame(-8, -8, 17, 17, 163, 417)
+	SpriteFrame(-8, -8, 17, 17, 181, 417)
+	SpriteFrame(-8, -8, 17, 17, 199, 417)
+	SpriteFrame(-8, -8, 17, 17, 217, 417)
+	SpriteFrame(-8, -8, 17, 17, 235, 417) // 28 - Medium Sparkle End
+	
+	SpriteFrame(-8, -8, 17, 17, 253, 417) // 29 - Blank
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Items.gif")
+	SpriteFrame(-8, -8, 16, 16, 1, 202) // * Sparkle *
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

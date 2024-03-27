@@ -1,0 +1,496 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: Air Bubble Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+private alias object.value1 : object.originPos.x
+private alias object.value2 : object.targetPlayer
+private alias object.value3 : object.bubbleUsed
+private alias object.value4 : object.despawnTimer
+
+private alias 0 : AIRBUBBLE_ACTIVE
+private alias 1 : AIRBUBBLE_USED
+
+// Player values
+private alias object.state			: player.state
+private alias object.animation		: player.animation
+private alias object.animationSpeed	: player.animationSpeed
+private alias object.xvel			: player.xvel
+private alias object.yvel			: player.yvel
+private alias object.speed			: player.speed
+private alias object.value3			: player.drownTimer
+private alias object.value4			: player.drownLevel
+private alias object.value36		: player.flyCarryTimer
+private alias object.value37		: player.shield
+
+// Shield constants
+private alias 2 : SHIELD_BUBBLE
+
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+	currentPlayer = object.targetPlayer
+
+	if object.state == AIRBUBBLE_ACTIVE
+		object.timer++
+		if object.timer > 1
+			
+			switch object.propertyValue
+				case 0
+					object.despawnTimer++
+					if object.despawnTimer > 30
+						object.alpha -= 20
+						if object.alpha < 0
+							object.type = TypeName[Blank Object]
+						end if
+					end if
+					// Continue on
+				case 2
+					if object.frame < 23
+						object.frame++
+					end if
+					break
+				
+				case 4
+					if object.frame < 24
+						object.frame = 24
+					end if
+					if object.frame > 65
+						object.frame = 51
+					end if
+					object.frame++
+					break
+					
+				case 6
+					if object.frame < 83
+						object.frame = 83
+					end if
+					if object.frame > 170
+						object.frame = 132
+					end if
+					object.frame++
+					break
+					
+				case 8
+					if object.frame < 172
+						object.frame = 172
+					end if
+					if object.frame < 186
+						object.frame += 2
+					else
+						object.type = TypeName[Blank Object]
+					end if
+					break
+				
+			end switch
+				
+			object.timer = 0
+		end if
+
+		object.xpos += object.xvel
+		object.ypos += object.yvel
+		if currentPlayer != 0xFFFF
+			if player[currentPlayer].state == Player_State_Clinging
+				if object.propertyValue < 3
+					object.originPos.x += 0x40000
+				end if
+			end if
+		end if
+
+		if object.frame < 184
+			Sin(object.xpos, object.angle)
+			object.xpos <<= 9
+			object.xpos += object.originPos.x
+			object.angle += 4
+			object.angle &= 511
+		end if
+
+		if object.iypos < stage.waterLevel
+			if object.propertyValue == 6
+				object.frame = 7
+				object.propertyValue = 8
+				object.timer = 0
+				object.yvel = 0
+			else
+				if object.propertyValue < 6
+					object.type = TypeName[Blank Object]
+				end if
+			end if
+		end if
+	else
+		CheckEqual(player[currentPlayer].animation, ANI_HURT)
+		temp0 = checkResult
+		CheckEqual(player[currentPlayer].animation, ANI_DYING)
+		temp0 |= checkResult
+
+		if temp0 != false
+			object.bubbleUsed = false
+		end if
+
+		if object.frame > 131
+			object.frame = 131
+		end if
+		
+		if object.frame > 83
+			object.frame -= 2
+		else
+			object.type = TypeName[Blank Object]
+		end if
+
+		if object.timer < 20
+			object.timer++
+			if object.bubbleUsed != false
+				player[currentPlayer].animation = ANI_BREATHING
+			end if
+		else
+			if object.bubbleUsed != false
+				object.bubbleUsed = false
+				player[currentPlayer].animation = ANI_WALKING
+				player[currentPlayer].animationSpeed = 20
+			end if
+		end if
+	end if
+
+	if object.outOfBounds == true
+		object.type = TypeName[Blank Object]
+	end if
+
+	if object.propertyValue == 6
+		if object.frame >= 132
+			foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+				if player[currentPlayer].animation != ANI_DYING
+					if player[currentPlayer].shield != SHIELD_BUBBLE
+						BoxCollisionTest(C_TOUCH, object.entityPos, -2, -2, 2, 2, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+
+						if checkResult == true
+							object.propertyValue = 7
+							object.state = AIRBUBBLE_USED
+							object.timer = 0
+							object.yvel = 0
+							object.targetPlayer = currentPlayer
+							player[currentPlayer].yvel = 0
+							player[currentPlayer].xvel = 0
+							player[currentPlayer].speed = 0
+							CheckEqual(player[currentPlayer].animation, ANI_FLYING)
+							temp0 = checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_FLYINGTIRED)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_SWIM_LIFT)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_GLIDING)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_GLIDING_STOP)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_CLIMBING)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_LEDGEPULLUP)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_CLINGING)
+							temp0 |= checkResult
+							CheckEqual(player[currentPlayer].animation, ANI_FANROTATE)
+							temp0 |= checkResult
+
+							if temp0 == false
+								player[currentPlayer].animation = ANI_BREATHING
+								object.bubbleUsed = true
+	#platform: USE_ORIGINS
+								CallNativeFunction4(NotifyCallback, NOTIFY_STATS_PARAM_1, 1, 0, 0)
+	#endplatform
+							end if
+
+							player[currentPlayer].drownTimer = 0
+							player[currentPlayer].drownLevel = 0
+
+							if player[currentPlayer].state == Player_State_RollJump
+								player[currentPlayer].state = Player_State_Air
+							end if
+
+							if player[currentPlayer].state == Player_State_Carried
+								player[currentPlayer].state = Player_State_Air
+								player[1].flyCarryTimer = 30
+							end if
+
+							PlaySfx(SfxName[Breathing], false)
+						end if
+					end if
+				end if
+			next
+		end if
+	end if
+end event
+
+
+event ObjectDraw
+	object.inkEffect = INK_ADD
+	if object.despawnTimer < 30
+		object.alpha = 0xC0
+	end if
+	DrawSpriteFX(object.frame, FX_INK, object.xpos, object.ypos)
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("LZ/Objects.gif")
+
+	// Small Bubble frames
+	SpriteFrame(-1, -1, 2, 2, 94, 115) // Frame 0
+	SpriteFrame(-1, -1, 2, 2, 94, 115) // Frame 1
+
+	SpriteFrame(-2, -2, 4, 4, 97, 115) // Frame 2
+	SpriteFrame(-2, -2, 4, 4, 97, 115) // Frame 3
+
+	SpriteFrame(-3, -3, 6, 6, 94, 120) // Frame 4
+	SpriteFrame(-3, -3, 6, 6, 94, 120) // Frame 5
+
+	SpriteFrame(-4, -4, 8, 8, 102, 115) // Frame 6
+	SpriteFrame(-4, -4, 8, 8, 102, 115) // Frame 7
+	SpriteFrame(-4, -4, 8, 8, 102, 115) // Frame 8
+
+	SpriteFrame(-4, -4, 8, 8, 111, 115) // Frame 9
+	SpriteFrame(-4, -4, 8, 8, 111, 115) // Frame 10
+	SpriteFrame(-4, -4, 8, 8, 111, 115) // Frame 11
+
+	SpriteFrame(-5, -5, 10, 10, 34, 104) // Frame 12
+	SpriteFrame(-5, -5, 10, 10, 34, 104) // Frame 13
+	SpriteFrame(-5, -5, 10, 10, 34, 104) // Frame 14
+
+	SpriteFrame(-5, -5, 10, 10, 34, 114) // Frame 15
+	SpriteFrame(-5, -5, 10, 10, 34, 114) // Frame 16
+	SpriteFrame(-5, -5, 10, 10, 34, 114) // Frame 17
+
+	SpriteFrame(-5, -5, 10, 10, 34, 104) // Frame 18
+	SpriteFrame(-5, -5, 10, 10, 34, 104) // Frame 19
+	SpriteFrame(-5, -5, 10, 10, 34, 104) // Frame 20
+
+	SpriteFrame(-5, -5, 10, 10, 194, 126) // Frame 21
+	SpriteFrame(-5, -5, 10, 10, 194, 126) // Frame 22
+	SpriteFrame(-5, -5, 10, 10, 194, 126) // Frame 23
+
+	// Medium Bubble Frames
+	SpriteFrame(-1, -1, 2, 2, 94, 115) // Frame 24
+	SpriteFrame(-1, -1, 2, 2, 94, 115) // Frame 25
+
+	SpriteFrame(-2, -2, 4, 4, 97, 115) // Frame 26
+	SpriteFrame(-2, -2, 4, 4, 97, 115) // Frame 27
+
+	SpriteFrame(-3, -3, 6, 6, 94, 120) // Frame 28
+	SpriteFrame(-3, -3, 6, 6, 94, 120) // Frame 29
+
+	SpriteFrame(-4, -4, 8, 8, 102, 115) // Frame 30
+	SpriteFrame(-4, -4, 8, 8, 102, 115) // Frame 31
+	SpriteFrame(-4, -4, 8, 8, 102, 115) // Frame 32
+
+	SpriteFrame(-4, -4, 8, 8, 111, 115) // Frame 33
+	SpriteFrame(-4, -4, 8, 8, 111, 115) // Frame 34
+	SpriteFrame(-4, -4, 8, 8, 111, 115) // Frame 35
+
+	SpriteFrame(-5, -5, 10, 10, 194, 126) // Frame 36
+	SpriteFrame(-5, -5, 10, 10, 194, 126) // Frame 37
+	SpriteFrame(-5, -5, 10, 10, 194, 126) // Frame 38
+
+	SpriteFrame(-6, -6, 12, 12, 205, 126) // Frame 39
+	SpriteFrame(-6, -6, 12, 12, 205, 126) // Frame 40
+	SpriteFrame(-6, -6, 12, 12, 205, 126) // Frame 41
+	SpriteFrame(-6, -6, 12, 12, 205, 126) // Frame 42
+
+	SpriteFrame(-7, -7, 14, 14, 18, 165) // Frame 43
+	SpriteFrame(-7, -7, 14, 14, 18, 165) // Frame 44
+	SpriteFrame(-7, -7, 14, 14, 18, 165) // Frame 45
+	SpriteFrame(-7, -7, 14, 14, 18, 165) // Frame 46
+
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 47
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 48
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 49
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 50
+
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 51
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 52
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 53
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 54
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 55
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 56
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 57
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 58
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 59
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 60
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 61
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 62
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 63
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 64
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 65
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 66
+
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 67
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 68
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 69
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 70
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 71
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 72
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 73
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 74
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 75
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 76
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 77
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 78
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 79
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 80
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 81
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 82
+
+	// Large Bubble
+	SpriteFrame(-1, -1, 2, 2, 94, 115) // Frame 83
+	SpriteFrame(-1, -1, 2, 2, 94, 115) // Frame 84
+
+	SpriteFrame(-2, -2, 4, 4, 97, 115) // Frame 85
+	SpriteFrame(-2, -2, 4, 4, 97, 115) // Frame 86
+
+	SpriteFrame(-3, -3, 6, 6, 94, 120) // Frame 87
+	SpriteFrame(-3, -3, 6, 6, 94, 120) // Frame 88
+
+	SpriteFrame(-4, -4, 8, 8, 102, 115) // Frame 89
+	SpriteFrame(-4, -4, 8, 8, 102, 115) // Frame 90
+	SpriteFrame(-4, -4, 8, 8, 102, 115) // Frame 91
+
+	SpriteFrame(-4, -4, 8, 8, 111, 115) // Frame 92
+	SpriteFrame(-4, -4, 8, 8, 111, 115) // Frame 93
+	SpriteFrame(-4, -4, 8, 8, 111, 115) // Frame 94
+
+	SpriteFrame(-5, -5, 10, 10, 194, 126) // Frame 95
+	SpriteFrame(-5, -5, 10, 10, 194, 126) // Frame 96
+	SpriteFrame(-5, -5, 10, 10, 194, 126) // Frame 97
+
+	SpriteFrame(-6, -6, 12, 12, 205, 126) // Frame 98
+	SpriteFrame(-6, -6, 12, 12, 205, 126) // Frame 99
+	SpriteFrame(-6, -6, 12, 12, 205, 126) // Frame 100
+	SpriteFrame(-6, -6, 12, 12, 205, 126) // Frame 101
+
+	SpriteFrame(-7, -7, 14, 14, 18, 165) // Frame 102
+	SpriteFrame(-7, -7, 14, 14, 18, 165) // Frame 103
+	SpriteFrame(-7, -7, 14, 14, 18, 165) // Frame 104
+	SpriteFrame(-7, -7, 14, 14, 18, 165) // Frame 105
+
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 106
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 107
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 108
+	SpriteFrame(-8, -8, 16, 16, 32, 155) // Frame 109
+
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 110
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 111
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 112
+	SpriteFrame(-9, -9, 18, 18, 236, 204) // Frame 113
+
+	SpriteFrame(-11, -11, 22, 22, 212, 206) // Frame 114
+	SpriteFrame(-11, -11, 22, 22, 212, 206) // Frame 115
+	SpriteFrame(-11, -11, 22, 22, 212, 206) // Frame 116
+	SpriteFrame(-11, -11, 22, 22, 212, 206) // Frame 117
+	SpriteFrame(-11, -11, 22, 22, 212, 206) // Frame 118
+	SpriteFrame(-11, -11, 22, 22, 212, 206) // Frame 119
+
+	SpriteFrame(-12, -12, 25, 25, 213, 230) // Frame 120
+	SpriteFrame(-12, -12, 25, 25, 213, 230) // Frame 121
+	SpriteFrame(-12, -12, 25, 25, 213, 230) // Frame 122
+	SpriteFrame(-12, -12, 25, 25, 213, 230) // Frame 123
+	SpriteFrame(-12, -12, 25, 25, 213, 230) // Frame 124
+	SpriteFrame(-12, -12, 25, 25, 213, 230) // Frame 125
+
+	SpriteFrame(-14, -14, 29, 29, 31, 125) // Frame 126
+	SpriteFrame(-14, -14, 29, 29, 31, 125) // Frame 127
+	SpriteFrame(-14, -14, 29, 29, 31, 125) // Frame 128
+	SpriteFrame(-14, -14, 29, 29, 31, 125) // Frame 129
+	SpriteFrame(-14, -14, 29, 29, 31, 125) // Frame 130
+	SpriteFrame(-14, -14, 29, 29, 31, 125) // Frame 131
+
+	SpriteFrame(-15, -15, 31, 31, 60, 0) // Frame 132
+	SpriteFrame(-15, -15, 31, 31, 60, 0) // Frame 133
+	SpriteFrame(-15, -15, 31, 31, 60, 0) // Frame 134
+	SpriteFrame(-15, -15, 31, 31, 60, 0) // Frame 135
+	SpriteFrame(-15, -15, 31, 31, 60, 0) // Frame 136
+	SpriteFrame(-15, -15, 31, 31, 60, 0) // Frame 137
+	SpriteFrame(-15, -15, 31, 31, 60, 0) // Frame 138
+	SpriteFrame(-15, -15, 31, 31, 60, 0) // Frame 139
+
+	SpriteFrame(-15, -15, 31, 31, 0, 133) // Frame 140
+	SpriteFrame(-15, -15, 31, 31, 0, 133) // Frame 141
+	SpriteFrame(-15, -15, 31, 31, 0, 133) // Frame 142
+	SpriteFrame(-15, -15, 31, 31, 0, 133) // Frame 143
+	SpriteFrame(-15, -15, 31, 31, 0, 133) // Frame 144
+	SpriteFrame(-15, -15, 31, 31, 0, 133) // Frame 145
+	SpriteFrame(-15, -15, 31, 31, 0, 133) // Frame 146
+	SpriteFrame(-15, -15, 31, 31, 0, 133) // Frame 147
+
+	SpriteFrame(-16, -14, 33, 29, 60, 125) // Frame 148
+	SpriteFrame(-16, -14, 33, 29, 60, 125) // Frame 149
+	SpriteFrame(-16, -14, 33, 29, 60, 125) // Frame 150
+	SpriteFrame(-16, -14, 33, 29, 60, 125) // Frame 151
+	SpriteFrame(-16, -14, 33, 29, 60, 125) // Frame 152
+	SpriteFrame(-16, -14, 33, 29, 60, 125) // Frame 153
+	SpriteFrame(-16, -14, 33, 29, 60, 125) // Frame 154
+	SpriteFrame(-16, -14, 33, 29, 60, 125) // Frame 155
+
+	SpriteFrame(-16, -15, 33, 31, 0, 101) // Frame 156
+	SpriteFrame(-16, -15, 33, 31, 0, 101) // Frame 157
+	SpriteFrame(-16, -15, 33, 31, 0, 101) // Frame 158
+	SpriteFrame(-16, -15, 33, 31, 0, 101) // Frame 159
+	SpriteFrame(-16, -15, 33, 31, 0, 101) // Frame 160
+	SpriteFrame(-16, -15, 33, 31, 0, 101) // Frame 161
+	SpriteFrame(-16, -15, 33, 31, 0, 101) // Frame 162
+	SpriteFrame(-16, -15, 33, 31, 0, 101) // Frame 163
+
+	SpriteFrame(-15, -15, 31, 31, 225, 171) // Frame 164
+	SpriteFrame(-15, -15, 31, 31, 225, 171) // Frame 165
+	SpriteFrame(-15, -15, 31, 31, 225, 171) // Frame 166
+	SpriteFrame(-15, -15, 31, 31, 225, 171) // Frame 167
+	SpriteFrame(-15, -15, 31, 31, 225, 171) // Frame 168
+	SpriteFrame(-15, -15, 31, 31, 225, 171) // Frame 169
+	SpriteFrame(-15, -15, 31, 31, 225, 171) // Frame 170
+	SpriteFrame(-15, -15, 31, 31, 225, 171) // Frame 171
+
+	// Bubble Burst
+	SpriteFrame(-17, -15, 33, 31, 91, 20) // Frame 172
+	SpriteFrame(-17, -15, 33, 31, 91, 20) // Frame 173
+
+	SpriteFrame(-16, -16, 32, 32, 124, 1) // Frame 174
+	SpriteFrame(-16, -16, 32, 32, 124, 1) // Frame 175
+	SpriteFrame(-16, -16, 32, 32, 124, 1) // Frame 176
+	SpriteFrame(-16, -16, 32, 32, 124, 1) // Frame 177
+	SpriteFrame(-16, -16, 32, 32, 124, 1) // Frame 178
+
+	SpriteFrame(-14, -14, 30, 30, 156, 3) // Frame 179
+	SpriteFrame(-14, -14, 30, 30, 156, 3) // Frame 180
+	SpriteFrame(-14, -14, 30, 30, 156, 3) // Frame 181
+	SpriteFrame(-14, -14, 30, 30, 156, 3) // Frame 182
+	SpriteFrame(-14, -14, 30, 30, 156, 3) // Frame 183
+
+	SpriteFrame(0, 0, 0, 0, 156, 3) // Frame 184
+	SpriteFrame(0, 0, 0, 0, 156, 3) // Frame 185
+	SpriteFrame(0, 0, 0, 0, 156, 3) // Frame 186
+	SpriteFrame(0, 0, 0, 0, 156, 3) // Frame 187
+
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("LZ/Objects.gif")
+	SpriteFrame(-16, -16, 32, 32, 86, 18)
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

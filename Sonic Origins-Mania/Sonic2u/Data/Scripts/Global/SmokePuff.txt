@@ -1,0 +1,71 @@
+// ----------------------------------
+// RSDK Project: Sonic 2
+// Script Description: Smoke Puff Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value0 : object.timer
+
+// ========================
+// Tables
+// ========================
+
+private table SmokePuff_delayTable
+	4, 8, 8, 8, 8
+end table
+
+
+event ObjectUpdate
+	object.timer++
+
+	if object.timer > 1
+		object.timer = 0
+		object.frame++
+
+		if object.frame > 12
+			object.type = TypeName[Blank Object]
+			object.frame = 0
+		end if
+	end if
+end event
+
+
+event ObjectDraw
+	DrawSprite(object.frame)
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("Global/Items2.gif")
+	SpriteFrame(-16, -8, 32, 16, 141, 116)
+	SpriteFrame(-16, -8, 32, 16, 1, 1)
+	SpriteFrame(-16, -16, 32, 32, 1, 18)
+	SpriteFrame(-16, -16, 32, 32, 75, 84)
+	SpriteFrame(-16, -16, 32, 32, 108, 84)
+	SpriteFrame(-16, -16, 32, 32, 34, 124)
+	SpriteFrame(-16, -16, 32, 32, 1, 51)
+	SpriteFrame(-16, -16, 32, 32, 67, 124)
+	SpriteFrame(-20, -20, 40, 40, 75, 1)
+	SpriteFrame(-20, -20, 40, 40, 34, 1)
+	SpriteFrame(-20, -20, 40, 40, 34, 42)
+	SpriteFrame(-20, -20, 40, 40, 116, 1)
+	SpriteFrame(-20, -20, 40, 40, 34, 83)
+end event
+
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Items2.gif")
+	SpriteFrame(-8, -8, 16, 16, 230, 18)
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

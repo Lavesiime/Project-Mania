@@ -1,0 +1,481 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: EggmanSignPost Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+// Aliases (As Eggman Watcher)
+private alias object.value0 : object.eggmanID
+
+// Aliases (As Sign Post)
+private alias object.value0 : object.spinCount
+private alias object.value1 : object.spinTimer
+// value2 is unused
+private alias object.value3 : object.landingYPos
+
+// States
+private alias 0 : EGGMANSIGNPOST_AWAITEGGMAN
+private alias 1 : EGGMANSIGNPOST_AWAITDEFEAT
+private alias 2 : EGGMANSIGNPOST_FALLTOGROUND
+private alias 3 : EGGMANSIGNPOST_SPINNINGONGROUND
+private alias 4 : EGGMANSIGNPOST_MISSIONCOMPLETE
+private alias 5 : SIGNPOST_WINK
+
+// Eggman Aliases
+private alias 4 : EGGMAN_EXPLODE
+
+// Reserved Object Slot Aliases
+private alias 30 : SLOT_ACTFINISH
+
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+	switch object.state
+	case EGGMANSIGNPOST_AWAITEGGMAN
+		foreach (TypeName[Eggman], arrayPos0, ACTIVE_ENTITIES)
+			object.eggmanID = arrayPos0
+			object.state = EGGMANSIGNPOST_AWAITDEFEAT
+		next
+		break
+		
+	case EGGMANSIGNPOST_AWAITDEFEAT
+		arrayPos0 = object.eggmanID
+		if object[arrayPos0].state == EGGMAN_EXPLODE
+			stage.timeEnabled = false
+		end if
+		
+		if object[arrayPos0].type == TypeName[Blank Object]
+			object.frame = 1
+			object.spinCount = 16
+			object.priority = PRIORITY_XBOUNDS
+			object.landingYPos = object.ypos
+			object.ypos = screen.cameraY
+			object.ypos -= screen.ycenter
+			object.ypos -= 32
+			object.ypos <<= 16
+			screen.cameraEnabled = false
+			object.state = EGGMANSIGNPOST_FALLTOGROUND
+		end if
+		break
+		
+	case EGGMANSIGNPOST_FALLTOGROUND
+		object.ypos += object.yvel
+		object.yvel += 0xC00
+		if object.ypos >= object.landingYPos
+			object.ypos = object.landingYPos
+			PlaySfx(SfxName[Sliding], false)
+			object.spinCount = 4
+			object.state = EGGMANSIGNPOST_SPINNINGONGROUND
+		end if
+		
+		object.spinTimer++
+		if object.spinTimer == 1
+			object.spinTimer = 0
+			object.frame++
+			if object.frame == 10
+				Rand(temp0, 48)
+				temp0 <<= 16
+				temp0 += object.xpos
+				temp0 -= 0x180000
+				Rand(temp1, 32)
+				temp1 <<= 16
+				temp1 += object.ypos
+				temp1 -= 0x140000
+				CreateTempObject(TypeName[Ring Sparkle], 0, temp0, temp1)
+			end if
+			
+			if object.frame == 20
+				object.frame = 1
+				Rand(temp0, 48)
+				temp0 <<= 16
+				temp0 += object.xpos
+				temp0 -= 0x180000
+				Rand(temp1, 32)
+				temp1 <<= 16
+				temp1 += object.ypos
+				temp1 -= 0x140000
+				CreateTempObject(TypeName[Ring Sparkle], 0, temp0, temp1)
+			end if
+		end if
+		break
+		
+	case EGGMANSIGNPOST_SPINNINGONGROUND
+		music.volume -= 2
+		object.spinTimer++
+		if object.spinTimer == 1
+			object.spinTimer = 0
+			object.frame++
+			if object.frame == 10
+				Rand(temp0, 48)
+				temp0 <<= 16
+				temp0 += object.xpos
+				temp0 -= 0x180000
+				Rand(temp1, 32)
+				temp1 <<= 16
+				temp1 += object.ypos
+				temp1 -= 0x140000
+				CreateTempObject(TypeName[Ring Sparkle], 0, temp0, temp1)
+			end if
+			
+			if object.frame == 20
+				object.frame = 1
+				Rand(temp0, 48)
+				temp0 <<= 16
+				temp0 += object.xpos
+				temp0 -= 0x180000
+				Rand(temp1, 32)
+				temp1 <<= 16
+				temp1 += object.ypos
+				temp1 -= 0x140000
+				CreateTempObject(TypeName[Ring Sparkle], 0, temp0, temp1)
+				object.spinCount--
+				if object.spinCount == 0
+					object.state = EGGMANSIGNPOST_MISSIONCOMPLETE
+				end if
+			end if
+		end if
+		break
+		
+	case EGGMANSIGNPOST_MISSIONCOMPLETE
+		CallNativeFunction2(NotifyCallback, NOTIFY_TOUCH_SIGNPOST, 0)
+		object[SLOT_ACTFINISH].type = TypeName[Act Finish]
+		object[SLOT_ACTFINISH].drawOrder = 6
+		object[SLOT_ACTFINISH].priority = PRIORITY_ACTIVE
+		break
+		
+	end switch
+end event
+
+
+event ObjectDraw
+	if object.state > EGGMANSIGNPOST_AWAITDEFEAT
+		switch object.state
+		case EGGMANSIGNPOST_AWAITEGGMAN
+			DrawSprite(0)
+			DrawSprite(1)
+			DrawSprite(2)
+			break
+
+		case EGGMANSIGNPOST_SPINNINGONGROUND
+			CallFunction(MainCover_GetBoxCenter)
+
+			temp0 = object.spinCount
+			temp0 *= 2
+			temp0 /= 8
+			temp0 *= 8
+			if temp0 > 8
+				object.pointerZ += temp0
+			else
+				object.pointerZ += 8
+			end if
+			//object.pointerZ = 0
+			//object.pointerZ = 127
+			//object.pointerZ = 255
+			//object.pointerZ = 383
+		
+			//object.pointerX /= 8
+			//object.pointerY /= 8
+			object.pointerZ &= 0x1FF
+			CheckEqual(object.invertRot, true)
+			temp0 = checkResult
+			CheckLower(object.pointerZ, 129)
+			temp0 &= checkResult
+			CheckGreater(object.pointerZ, 120)
+			temp0 &= checkResult
+			if temp0 == true
+				object.pointerZ = 128
+				object.ZLock = true
+			end if
+
+			// Rotate the points
+			CallFunction(MainCover_GetRotation)
+
+			CallFunction(MainCover_DrawTopBotFaces)
+			CallFunction(MainCover_DrawBackFace)
+			CallFunction(MainCover_DrawFrontFace)
+			CallFunction(MainCover_DrawLeftFace)
+			CallFunction(MainCover_DrawRightFace)
+
+			// I couldn't tell you why this exact arithmetic gets the correct vertical scrolling speed for the signs, but it does.
+			temp0 = camera[0].xpos
+			temp0 -= object.ixpos
+			temp0 *= 640
+			temp0 /= 265
+			temp0 -= 3
+		
+			temp2 = object.iypos
+			temp2 -= camera[0].ypos
+			temp2 += screen.ycenter
+			temp2 -= 135
+			temp2 *= 640
+			temp2 /= 120
+		
+			MatrixTranslateXYZ(MAT_WORLD, temp0, -0xfffff, temp2)
+			MatrixRotateXYZ(MAT_VIEW, -128, 0, 256)
+
+			DrawSprite(0)
+			DrawSprite(1)
+			Draw3DScene()
+			break
+	
+		default
+			DrawSprite(0)
+			DrawSprite(1)
+			DrawSprite(3)
+			break
+		
+		end switch
+	end if
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("Global/Items.gif")
+
+	scene3D.vertexCount = 0
+	scene3D.faceCount   = 0
+	
+	// reset matrix
+	MatrixTranslateXYZ(MAT_WORLD, 0, 0, 0)
+	MatrixRotateZ(MAT_WORLD, 0)
+	ArrayPos0 = 0
+	ArrayPos1 = 0
+
+	// Face corner setup
+	while ArrayPos0 < 24
+		// Top Left
+		FaceBuffer[ArrayPos1].a  = ArrayPos0
+		// Top Right
+		FaceBuffer[ArrayPos1].b  = ArrayPos0
+		FaceBuffer[ArrayPos1].b += 2
+		// Bottom Left
+		FaceBuffer[ArrayPos1].c  = ArrayPos0
+		FaceBuffer[ArrayPos1].c += 1
+		// Bottom Right
+		FaceBuffer[ArrayPos1].d  = ArrayPos0
+		FaceBuffer[ArrayPos1].d += 3
+	
+		ArrayPos1++
+		ArrayPos0 += 4
+	loop
+
+	// Face rendering
+	FaceBuffer[0].Flag  = FACE_COLOURED_3D
+	faceBuffer[0].Color = 0x00303030
+
+	FaceBuffer[1].Flag  = FACE_COLOURED_3D
+	faceBuffer[1].Color = 0x00303030
+
+	FaceBuffer[2].Flag  = FACE_TEXTURED_3D
+	faceBuffer[2].Color = 0xFF303030
+
+	FaceBuffer[3].Flag  = FACE_TEXTURED_3D
+	faceBuffer[3].Color = 0xFF303030
+
+	FaceBuffer[4].Flag  = FACE_TEXTURED_3D
+	faceBuffer[4].Color = 0xFF303030
+
+	FaceBuffer[5].Flag  = FACE_TEXTURED_3D
+	faceBuffer[5].Color = 0xFF303030
+
+	// Back Face
+		// Starting co-ords
+		temp0 = 246
+		temp1 = 366
+		
+		// Top-left
+		VertexBuffer[20].u = temp0
+		VertexBuffer[20].v = temp1
+		
+		// Bottom-left
+		temp1 += 30
+		VertexBuffer[23].u = temp0
+		VertexBuffer[23].v = temp1
+		
+		// Bottom-right
+		temp0 += 48
+		VertexBuffer[22].u = temp0
+		VertexBuffer[22].v = temp1
+		
+		// Top-right
+		temp1 -= 30
+		VertexBuffer[21].u = temp0
+		VertexBuffer[21].v = temp1
+
+	// Side 1
+		// Starting co-ords
+		temp0 = 492
+		temp1 = 366
+		
+		// Top-left
+		VertexBuffer[13].u = temp0
+		VertexBuffer[13].v = temp1
+		
+		// Bottom-left
+		temp1 += 30
+		VertexBuffer[14].u = temp0
+		VertexBuffer[14].v = temp1
+		
+		// Bottom-right
+		temp0 += 8
+		VertexBuffer[15].u = temp0
+		VertexBuffer[15].v = temp1
+		
+		// Top-right
+		temp1 -= 30
+		VertexBuffer[12].u = temp0
+		VertexBuffer[12].v = temp1
+		
+	// Side 2
+		// Starting co-ords
+		temp0 = 492
+		temp1 = 366
+		
+		// Top-left
+		VertexBuffer[8].u = temp0
+		VertexBuffer[8].v = temp1
+		
+		// Bottom-left
+		temp1 += 30
+		VertexBuffer[9].u = temp0
+		VertexBuffer[9].v = temp1
+		
+		// Bottom-right
+		temp0 += 8
+		VertexBuffer[10].u = temp0
+		VertexBuffer[10].v = temp1
+		
+		// Top-right
+		temp1 -= 30
+		VertexBuffer[11].u = temp0
+		VertexBuffer[11].v = temp1
+
+	// account for all vertices and faces
+	scene3D.vertexCount += 24
+	scene3D.faceCount   += 6
+
+	scene3D.projectionX  = 435000
+	scene3D.projectionY  = 198000
+	
+	SpriteFrame(-24, 16, 48, 16, 246, 396)
+	SpriteFrame(-24, -16, 48, 2, 246, 364)
+	SpriteFrame(-24, -14, 48, 30, 246, 366)
+	switch stage.playerListPos
+	case PLAYER_SONIC_A
+		SpriteFrame(-24, -14, 48, 30, 296, 366)
+
+		// Wink Frames
+		SpriteFrame(-24, -14, 48, 30, 257, 1)
+		SpriteFrame(-24, -14, 48, 30, 306, 1)
+		SpriteFrame(-24, -14, 48, 30, 355, 1)
+		SpriteFrame(-24, -14, 48, 30, 404, 1)
+		SpriteFrame(-24, -14, 48, 30, 355, 1)
+		SpriteFrame(-24, -14, 48, 30, 306, 1)
+		SpriteFrame(-24, -14, 48, 30, 257, 1)
+		
+		SpriteFrame(-24, -14, 48, 30, 296, 366)
+		temp0 = 296
+		temp1 = 366
+		break
+		
+	case PLAYER_TAILS_A
+		SpriteFrame(-24, -14, 48, 30, 345, 366)
+
+		// Wink Frames
+		SpriteFrame(-24, -14, 48, 30, 453, 1)
+		SpriteFrame(-24, -14, 48, 30, 257, 32)
+		SpriteFrame(-24, -14, 48, 30, 306, 32)
+		SpriteFrame(-24, -14, 48, 30, 355, 32)
+		SpriteFrame(-24, -14, 48, 30, 306, 32)
+		SpriteFrame(-24, -14, 48, 30, 257, 32)
+		SpriteFrame(-24, -14, 48, 30, 453, 1)
+		
+		SpriteFrame(-24, -14, 48, 30, 345, 366)
+		temp0 = 345
+		temp1 = 366
+		break
+		
+	case PLAYER_KNUCKLES_A
+		SpriteFrame(-24, -14, 48, 30, 394, 366)
+
+		// Wink Frames
+		SpriteFrame(-24, -14, 48, 30, 404, 32)
+		SpriteFrame(-24, -14, 48, 30, 453, 32)
+		SpriteFrame(-24, -14, 48, 30, 355, 63)
+		SpriteFrame(-24, -14, 48, 30, 404, 63)
+		SpriteFrame(-24, -14, 48, 30, 355, 63)
+		SpriteFrame(-24, -14, 48, 30, 453, 32)
+		SpriteFrame(-24, -14, 48, 30, 404, 32)
+		
+		SpriteFrame(-24, -14, 48, 30, 394, 366)
+		temp0 = 394
+		temp1 = 366
+		break
+		
+#platform: USE_ORIGINS
+	case PLAYER_AMY_A
+		SpriteFrame(-24, -14, 48, 30, 443, 366)
+
+		// Wink Frames
+		SpriteFrame(-24, -14, 48, 30, 453, 63)
+		SpriteFrame(-24, -14, 48, 30, 355, 94)
+		SpriteFrame(-24, -14, 48, 30, 404, 94)
+		SpriteFrame(-24, -14, 48, 30, 453, 94)
+		SpriteFrame(-24, -14, 48, 30, 404, 94)
+		SpriteFrame(-24, -14, 48, 30, 355, 94)
+		SpriteFrame(-24, -14, 48, 30, 453, 63)
+		
+		SpriteFrame(-24, -14, 48, 30, 443, 366)
+		temp0 = 443
+		temp1 = 366
+		break
+#endplatform
+	end switch
+	
+	// Front face of 3D spinning model. temp0 and temp1 are set when creating the spriteframes
+		// Top-left
+		VertexBuffer[16].u = temp0
+		VertexBuffer[16].v = temp1
+		
+		// Bottom-left
+		temp1 += 30
+		VertexBuffer[17].u = temp0
+		VertexBuffer[17].v = temp1
+		
+		// Bottom-right
+		temp0 += 48
+		VertexBuffer[18].u = temp0
+		VertexBuffer[18].v = temp1
+		
+		// Top-right
+		temp1 -= 30
+		VertexBuffer[19].u = temp0
+		VertexBuffer[19].v = temp1
+	end switch
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Items2.gif")
+	SpriteFrame(-24, 16, 48, 16, 34, 214)
+	SpriteFrame(-24, -16, 48, 32, 34, 182)
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

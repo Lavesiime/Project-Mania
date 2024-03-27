@@ -1,0 +1,285 @@
+// ----------------------------------
+// RSDK Project: Sonic 1
+// Script Description: Lava Flow Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+// ========================
+// Aliases
+// ========================
+
+private alias object.value1 : object.startPos.x
+private alias object.value2 : object.spriteSprX
+private alias object.value3 : object.lavaAFrame
+private alias object.value4 : object.lavaBFrame
+private alias object.value5 : object.lavaTimer
+private alias object.value6 : object.flowTimer
+private alias object.value7 : object.lavaCFrame
+
+private alias 0 : LAVAFLOW_AWAITPLAYER
+private alias 1 : LAVAFLOW_FLOWING
+private alias 2 : LAVAFLOW_FINISHEDFLOWING
+
+// Player Aliases
+private alias object.state : player.state
+private alias object.xpos  : player.xpos
+private alias object.ixpos : player.ixpos
+private alias object.collisionLeft: player.collisionLeft
+
+// MZSetup aliases
+private alias object.value3 : mzSetup.lavaAnimTimer
+
+// Reserved object slots
+private alias 10 : SLOT_ZONESETUP
+
+
+// ========================
+// Function Declarations
+// ========================
+
+reserve function LavaFlow_DebugDraw
+reserve function LavaFlow_DebugSpawn
+
+
+// ========================
+// Function Definitions
+// ========================
+
+private function LavaFlow_DebugDraw
+	DrawSprite(0)
+end function
+
+
+private function LavaFlow_DebugSpawn
+	CreateTempObject(TypeName[Lava Flow], 0, object.xpos, object.ypos)
+end function
+
+
+// ========================
+// Events
+// ========================
+
+event ObjectUpdate
+	switch object.state
+	case LAVAFLOW_AWAITPLAYER
+		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+			BoxCollisionTest(C_TOUCH, object.entityPos, -128, -33, 160, 32, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+			if checkResult == true
+				CallFunction(Player_FireHit)
+			end if
+
+			BoxCollisionTest(C_SOLID, object.entityPos, -128, -31, 128, 32, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+
+			BoxCollisionTest(C_TOUCH, object.entityPos, 256, -32, 288, 32, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+			if checkResult == true
+				object.state++
+				object.priority = PRIORITY_ACTIVE
+			end if
+		next
+		break
+
+	case LAVAFLOW_FLOWING
+		if player[0].state != Player_State_Death
+			if player[0].state != Player_State_Hurt
+				object.xpos += 0x18000
+				if object.xpos >= 0x6480000
+					object.xpos = 0x6480000
+					object.state++
+				end if
+			end if
+		end if
+
+		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+			BoxCollisionTest(C_TOUCH, object.entityPos, -128, -32, 160, 32, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+			if checkResult == true
+				CallFunction(Player_FireHit)
+			end if
+
+			BoxCollisionTest(C_SOLID, object.entityPos, -128, -31, 128, 32, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+
+			BoxCollisionTest(C_TOUCH, object.entityPos, -128, -23, 128, 32, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+			if checkResult == true
+				player[currentPlayer].ixpos = player[currentPlayer].collisionLeft
+				FlipSign(player[currentPlayer].xpos)
+				if object.xpos < 0x5800000
+					player[currentPlayer].xpos += 0x800000
+				else
+					player[currentPlayer].xpos += 0x600000
+				end if
+
+				player[currentPlayer].xpos += object.xpos
+			end if
+		next
+		break
+
+	case LAVAFLOW_FINISHEDFLOWING
+		foreach (GROUP_PLAYERS, currentPlayer, ACTIVE_ENTITIES)
+			BoxCollisionTest(C_TOUCH, object.entityPos, -128, -32, 160, 32, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+			if checkResult == true
+				CallFunction(Player_FireHit)
+			end if
+
+			BoxCollisionTest(C_SOLID, object.entityPos, -128, -24, 160, 32, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+
+			BoxCollisionTest(C_TOUCH, object.entityPos, -128, -23, 128, 32, currentPlayer, C_BOX, C_BOX, C_BOX, C_BOX)
+			if checkResult == true
+				player[currentPlayer].ixpos = player[currentPlayer].collisionLeft
+				FlipSign(player[currentPlayer].xpos)
+				player[currentPlayer].xpos += 0x600000
+				player[currentPlayer].xpos += object.xpos
+			end if
+		next
+
+		if object.outOfBounds == true
+			temp0 = object.xpos
+			object.xpos = object.startPos.x
+			if object.outOfBounds == true
+				object.state = LAVAFLOW_AWAITPLAYER
+			else
+				object.xpos = temp0
+			end if
+		end if
+		break
+		
+	end switch
+
+	Sin(object.spriteSprX, mzSetup[SLOT_ZONESETUP].lavaAnimTimer)
+	object.spriteSprX += 512
+	object.spriteSprX >>= 2
+	object.spriteSprX &= 31
+	object.spriteSprX++
+
+	// Lava is synced across the entire stage, via the [MZ Setup] Object's frame
+	switch object[SLOT_ZONESETUP].frame
+	case 0
+		EditFrame(0, -160, -32, 32, 32, object.spriteSprX, 158)
+		EditFrame(1, -160, 0, 32, 32, object.spriteSprX, 158)
+		EditFrame(2, 128, 0, 24, 32, object.spriteSprX, 158)
+		break
+
+	case 1
+		EditFrame(0, -160, -32, 32, 32, object.spriteSprX, 191)
+		EditFrame(1, -160, 0, 32, 32, object.spriteSprX, 191)
+		EditFrame(2, 128, 0, 24, 32, object.spriteSprX, 191)
+		break
+
+	case 2
+		EditFrame(0, -160, -32, 32, 32, object.spriteSprX, 224)
+		EditFrame(1, -160, 0, 32, 32, object.spriteSprX, 224)
+		EditFrame(2, 128, 0, 24, 32, object.spriteSprX, 224)
+		break
+		
+	end switch
+end event
+
+
+event ObjectDraw
+	object.lavaTimer++
+	object.flowTimer++
+	if object.lavaCFrame < 11
+		object.lavaCFrame = 11
+	end if
+	if object.lavaAFrame < 3
+		object.lavaAFrame = 3
+	end if
+	if object.lavaBFrame < 7
+		object.lavaBFrame = 7
+	end if
+	if object.lavaTimer >= 20
+		object.lavaCFrame++
+		object.lavaTimer = 0
+	end if
+	if object.flowTimer > 8
+		object.lavaAFrame++
+		object.lavaBFrame++
+		object.flowTimer = 0
+	end if
+	if object.lavaAFrame > 6
+		object.lavaAFrame = 3
+	end if
+	if object.lavaBFrame > 10
+		object.lavaBFrame = 7
+	end if
+	if object.lavaCFrame > 13
+		object.lavaCFrame = 11
+	end if
+	temp0 = 9
+	temp2 = temp0
+	temp0 <<= 0
+	temp0 += object.xpos
+	temp1 = 0
+	while temp1 < temp2
+		DrawSpriteXY(0, temp0, object.ypos)
+		DrawSpriteXY(1, temp0, object.ypos)
+		DrawSpriteXY(2, object.xpos, object.ypos)
+		DrawSpriteXY(object.lavaCFrame, temp0, object.ypos)
+		temp0 += 0x200000
+		temp1++
+	loop
+	DrawSpriteXY(object.lavaAFrame, object.xpos, object.ypos)
+	DrawSpriteXY(object.lavaBFrame, object.xpos, object.ypos)
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("MZ/Objects.gif")
+	SpriteFrame(-160, -32, 32, 32, 1, 158)
+	SpriteFrame(-160, 0, 32, 32, 1, 158)
+	SpriteFrame(128, 0, 24, 32, 1, 158)
+
+	// Lava Ooze
+	SpriteFrame(116, -32, 40, 32, 122, 80)
+	SpriteFrame(116, -32, 40, 32, 163, 80)
+	SpriteFrame(116, -32, 40, 32, 204, 80)
+	SpriteFrame(116, -32, 40, 32, 191, 112)
+
+	SpriteFrame(144, 0, 40, 32, 204, 80)
+	SpriteFrame(144, 0, 40, 32, 191, 112)
+	SpriteFrame(144, 0, 40, 32, 122, 80)
+	SpriteFrame(144, 0, 40, 32, 163, 80)
+
+	// Lava Surface
+	SpriteFrame(-160, -40, 32, 16, 697, 240)
+	SpriteFrame(-160, -40, 32, 16, 40, 142)
+	SpriteFrame(-160, -40, 32, 16, 223, 208)
+
+	foreach (TypeName[Lava Flow], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].startPos.x = object[arrayPos0].xpos
+		object[arrayPos0].drawOrder  = 4
+	next
+
+	SetTableValue(TypeName[Lava Flow], DebugMode_ObjCount, DebugMode_TypesTable)
+	SetTableValue(LavaFlow_DebugDraw, DebugMode_ObjCount, DebugMode_DrawTable)
+	SetTableValue(LavaFlow_DebugSpawn, DebugMode_ObjCount, DebugMode_SpawnTable)
+	DebugMode_ObjCount++
+end event
+
+
+// ========================
+// Editor Events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+	DrawSprite(1)
+	DrawSprite(2)
+	DrawSprite(3)
+	DrawSprite(object.frame)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("MZ/Objects.gif")
+	SpriteFrame(-128, -32, 128, 32, 1, 405)
+	SpriteFrame(0, -32, 128, 32, 1, 405)
+
+	SpriteFrame(-128, 0, 256, 32, 1, 405)
+	SpriteFrame(0, 0, 256, 32, 1, 405)
+	SpriteFrame(124, -32, 60, 64, 1, 194)
+	SpriteFrame(124, -32, 60, 64, 62, 194)
+	SpriteFrame(124, -32, 60, 64, 1, 259)
+	SpriteFrame(124, -32, 60, 64, 62, 259)
+	
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event
